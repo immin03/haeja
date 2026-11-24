@@ -1374,7 +1374,7 @@ setTimeout(() => { if(typeof hideSplash === 'function') hideSplash(); }, 3500);
 const AL_LV = {urgent:{c:'var(--bad)', l:'긴급'}, warn:{c:'var(--warn)', l:'확인'}, good:{c:'var(--accent)', l:'기회'}, info:{c:'var(--muted)', l:'소식'}};
 /* 서비스 알림 화면에는 회원용 알림만 (2026-11-24 대표: "관리자 계정이라 운영 알림이 섞여 보인다 → 일반 회원 기준으로 밸류노트 내용만")
    운영 알림(쇼츠·렌더·업로드·감시·벤치마킹 등)은 /admin 에서만 본다. 새 회원용 알림 종류를 만들면 여기에 source 를 넣는다 */
-const AL_USER_SRC = new Set(['장 마감','개장 브리핑','종가 갱신','장부 판정','맞춤 알림','반도체 계기판','금 계기판','투자자 등급','설정','일정 알림','칼럼','주간 칼럼','경제 레이더']);
+const AL_USER_SRC = new Set(['장 마감','개장 브리핑','종가 갱신','장부 판정','맞춤 알림','반도체 계기판','금 계기판','투자자 등급','설정','일정 알림','칼럼','주간 칼럼','경제 레이더','의견 답변']);
 const alUser = a => !a.merged && AL_USER_SRC.has(String(a.source || '').trim()) && !/^\[시험\]/.test(a.title || '');
 const alUnread = () => (S.alerts||[]).filter(a => !a.read && alUser(a)).length;
 /* 중요 / 소식 나누기 (2026-11-24 대표: "반도체 계기판 변화 같은 정말 중요한 것과 별로 중요하지 않은 것을 구분해서 보게")
@@ -1382,6 +1382,7 @@ const alUnread = () => (S.alerts||[]).filter(a => !a.read && alUser(a)).length;
    소식 = 장 마감 요약, 개장 브리핑, 칼럼, 최근 본 회사 소식, 등급, 설정 */
 function alKind(a){
   const src = String(a.source || ''), t = String(a.title || '');
+  if(src === '의견 답변') return { imp: true, tag: '의견 답변', c: 'var(--ink)' };
   if(src === '반도체 계기판' || src === '금 계기판') return { imp: true, tag: '계기판', c: 'var(--accent)' };
   if(src === '장부 판정') return /초과|매도/.test(t) ? { imp: true, tag: '매도 점검', c: 'var(--warn)' } : { imp: true, tag: '매수가 도달', c: 'var(--good, #12935E)' };
   if(a.level === 'urgent' && !/장 마감 ·|브리핑/.test(t)) return { imp: true, tag: /\+/.test(t) ? '급등' : '급락', c: 'var(--bad)' };
@@ -1889,6 +1890,7 @@ function viewAccount(){
 
   ${inviteCardHtml()}
   ${newsletterBox()}
+  <div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:12px"><div style="min-width:0"><b>의견 보내기</b><div class="small muted">불편한 점이나 있었으면 하는 기능을 알려 주세요. 반영되면 알림으로 알려 드립니다.</div></div><button type="button" class="btn" onclick="window.__fbShow && window.__fbShow()">보내기</button></div>
   <h3 class="eyebrow guide-h">기본 정보</h3>
   <div class="card ac-list">
     <form class="ac-row" data-ac="name"><label class="f">이름<input name="v" value="${esc(userName())}" placeholder="예: 홍길동" autocomplete="name" maxlength="30"></label><button class="btn" type="submit">저장</button></form>
@@ -8443,7 +8445,7 @@ html.dark .gz-pop .gz-in,body.dark .gz-pop .gz-in{background:#fff;color:#111}
   function getJ(k, d){ try{ var v = JSON.parse(localStorage.getItem(k) || 'null'); return v == null ? d : v; }catch(_){ return d; } }
   function kst(iso){ var d = new Date(new Date(iso).getTime() + 9 * 3600e3); return { m: d.getUTCMonth() + 1, d: d.getUTCDate(), h: String(d.getUTCHours()).padStart(2, '0'), mi: String(d.getUTCMinutes()).padStart(2, '0') }; }
   function md(ymd){ var p = String(ymd || '').split('-'); return p.length === 3 ? (+p[1]) + '월 ' + (+p[2]) + '일' : ''; }
-  function track(k){ try{ if(window.store && store.track) store.track('view', k); }catch(_){} }
+  function track(k){ try{ if(typeof store !== 'undefined' && store.track) store.track('view', k); }catch(_){} }
   function card(it){
     var on = Math.max(0, Math.min(it.total || 5, +it.current || 0)), lamps = '';
     for(var i = 0; i < (it.total || 5); i++) lamps += '<i class="' + (i < on ? 'on' : '') + '"></i>';
@@ -8497,7 +8499,7 @@ html.dark .gz-pop .gz-in,body.dark .gz-pop .gz-in{background:#fff;color:#111}
         var busy = document.querySelector(OTHER) || document.getElementById('splash') && getComputedStyle(document.getElementById('splash')).display !== 'none' || !app || !app.children.length;
         if(busy && tries++ < 40){ setTimeout(wait, 1500); return; }
         if(busy) return;
-        try{ sessionStorage.setItem(SEEN, '1'); }catch(_){}
+        try{ sessionStorage.setItem(SEEN, '1'); localStorage.setItem('vn-gz-seen-day', JSON.stringify(new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10))); }catch(_){}
         show(items);
       })();
     }).catch(function(){});
@@ -8544,6 +8546,76 @@ nav.tabs button.gz-new .tab-dot{display:block}
 .gz-lock-ic{font-size:26px}
 .gz-lock-a{display:flex;flex-direction:column;gap:8px;width:100%;max-width:300px}
 .gz-lock .gz-hero{min-height:360px}
+</style>
+<script>
+/* 만족도·의견 팝업 (2026-11-25 대표: "몇 번 이상 방문하는 사람에게 잘 쓰고 있는지 · 원하는 기능 · 최대한 간단하게")
+   - 서로 다른 날 5번째 방문부터, 화면을 20초 이상 본 뒤 한 번 띄운다
+   - 답했거나 닫으면 60일 동안 다시 띄우지 않는다 · 다른 팝업이 떠 있거나 그날 계기판 팝업이 떴으면 띄우지 않는다
+   - 저장: app_feedback (대표에게 알림이 가고, 관리자 회원 관리 '회원 의견'에서 답하면 회원 알림함으로 돌아간다) */
+(function(){
+  var DAYS = 'vn-vd', LAST = 'vn-fb-at', NEED = 5, WAIT = 20000, GAP = 60 * 864e5;
+  var OTHER = '.gate, .intro, .ob, .qz, .ch-gate, .pn-bar, .gz-pop, .vn-modal, [role="dialog"][aria-modal="true"]';
+  function kday(){ return new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10); }
+  function getJ(k, d){ try{ var v = JSON.parse(localStorage.getItem(k) || 'null'); return v == null ? d : v; }catch(_){ return d; } }
+  function setJ(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(_){} }
+  var days = getJ(DAYS, []); if(days.indexOf(kday()) < 0){ days.push(kday()); days = days.slice(-40); setJ(DAYS, days); }
+  function ok(){
+    var st; try{ st = store; }catch(_){ st = null; } if(!st || !st.user || !st.user.id || st.isGuest || st.isDemo || !st.client) return false;
+    if(days.length < NEED) return false;
+    var last = +getJ(LAST, 0); if(last && Date.now() - last < GAP) return false;
+    if(getJ('vn-gz-seen-day', '') === kday()) return false;
+    return !document.querySelector(OTHER);
+  }
+  var FACES = [['1', '별로예요'], ['2', '아쉬워요'], ['3', '보통이에요'], ['4', '좋아요'], ['5', '아주 좋아요']];
+  function show(){
+    setJ(LAST, Date.now());
+    var page = ''; try{ page = S.tab || ''; }catch(_){}
+    document.body.insertAdjacentHTML('beforeend', '<div class="gz-pop fb-pop" role="dialog" aria-modal="true" aria-label="밸류노트 만족도"><div class="gz-in">'
+      + '<span class="gz-eb">잠깐만요</span><h2>밸류노트,<br>잘 쓰고 계신가요?</h2><p class="gz-when">눌러 주시면 더 나은 서비스를 만드는 데 바로 씁니다.</p>'
+      + '<div class="fb-sc">' + FACES.map(function(f){ return '<button type="button" data-fb="' + f[0] + '"><b>' + f[0] + '</b><span>' + f[1] + '</span></button>'; }).join('') + '</div>'
+      + '<div class="fb-more" hidden><label class="fb-q" for="fbt"></label><textarea id="fbt" rows="3" maxlength="500" placeholder="한 줄이면 충분해요 (안 쓰셔도 됩니다)"></textarea>'
+      + '<button type="button" class="gz-go fb-send" style="width:100%;border:0;cursor:pointer;font:inherit;font-size:17px;font-weight:800">보내기</button></div>'
+      + '<p class="gz-note" style="margin-top:12px">보내 주신 의견은 대표가 직접 읽고, 반영되면 알림으로 알려 드립니다.</p>'
+      + '<button type="button" class="gz-never fb-x">다음에 할게요</button></div></div>');
+    var pop = document.querySelector('.fb-pop'), score = 0;
+    function close(){ pop.remove(); }
+    pop.querySelector('.fb-x').onclick = close;
+    pop.onclick = function(e){ if(e.target === pop) close(); };
+    pop.querySelectorAll('[data-fb]').forEach(function(b){ b.onclick = function(){
+      score = +b.dataset.fb;
+      pop.querySelectorAll('[data-fb]').forEach(function(x){ x.setAttribute('aria-pressed', x === b); });
+      var m = pop.querySelector('.fb-more'); m.hidden = false;
+      pop.querySelector('.fb-q').textContent = score <= 3 ? '어떤 점이 불편하셨나요?' : '더 있었으면 하는 기능이 있나요?';
+      pop.querySelector('#fbt').focus();
+    }; });
+    pop.querySelector('.fb-send').onclick = async function(e){
+      if(!score) return; e.target.disabled = true; e.target.textContent = '보내는 중';
+      var body = pop.querySelector('#fbt').value.trim();
+      try{
+        var r = await store.client.from('app_feedback').insert({ uid: store.user.id, score: score, body: body || null, page: page, visits: days.length });
+        if(r.error) throw r.error;
+        try{ if(store.track) store.track('view', 'feedback_sent'); }catch(_){}
+        pop.querySelector('.gz-in').innerHTML = '<span class="gz-eb">고맙습니다</span><h2>소중한 의견<br>잘 받았습니다</h2><p class="gz-when">대표가 직접 읽고 검토합니다. 반영되면 알림으로 알려 드릴게요.</p><button type="button" class="gz-ok">확인</button>';
+        pop.querySelector('.gz-ok').onclick = close;
+      }catch(err){ e.target.disabled = false; e.target.textContent = '다시 보내기'; }
+    };
+  }
+  var t0 = Date.now();
+  function tick(){ if(Date.now() - t0 < WAIT) return setTimeout(tick, 4000); if(ok()) show(); else if(Date.now() - t0 < 10 * 60e3) setTimeout(tick, 15000); }
+  setTimeout(tick, WAIT);
+  window.__fbShow = show;
+})();
+</script>
+<style>
+.fb-pop .fb-sc{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:4px 0 14px}
+.fb-pop .fb-sc button{all:unset;cursor:pointer;box-sizing:border-box;border:1.5px solid #DDD;border-radius:12px;padding:10px 2px;text-align:center;display:flex;flex-direction:column;gap:4px;align-items:center}
+.fb-pop .fb-sc b{font-size:22px;font-weight:800;color:#111;font-variant-numeric:tabular-nums}
+.fb-pop .fb-sc span{font-size:12px;color:#777;white-space:nowrap}
+.fb-pop .fb-sc button[aria-pressed="true"]{border-color:#111;background:#111}
+.fb-pop .fb-sc button[aria-pressed="true"] b,.fb-pop .fb-sc button[aria-pressed="true"] span{color:#fff}
+.fb-pop .fb-q{display:block;font-size:17px;font-weight:800;margin:0 0 8px;color:#111}
+.fb-pop textarea{width:100%;box-sizing:border-box;border:1.5px solid #DDD;border-radius:12px;padding:12px;font:inherit;font-size:16px;resize:vertical;color:#111;background:#fff}
+.fb-pop textarea:focus{outline:none;border-color:#111}
 </style>
 </body>
 </html>
