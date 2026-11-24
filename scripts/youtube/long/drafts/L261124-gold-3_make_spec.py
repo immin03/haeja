@@ -256,6 +256,14 @@ spec.update({
  "scenes": sc,
 })
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
+# 2026-11-24 대표 '사진 하나로 5초 이상 내레이션만 나오면 지루' — 훅(cine) 장면은 큰 박자에서만 컷이 바뀌어 뒤 컷이 안 나왔다.
+# 사진 컷이 2장 이상인 장면은 컷마다 길이(d)를 정해 고르게 나눈다(마지막 컷은 남은 시간).
+for _s in spec['scenes']:
+    _v = _s.get('v') or {}; _cs = _v.get('cuts') or []
+    if len(_cs) < 2 or _v.get('cut_by_line') or any(str(c.get('lib', '')).endswith('.mp4') for c in _cs): continue
+    _sec = sum(len(l.replace(' ', '')) for l in _s.get('lines', []) if isinstance(l, str)) / 6.1 + 0.6 * len(_s.get('lines', []))
+    _d = round(max(2.5, _sec / len(_cs)), 2)
+    for c in _cs[:-1]: c['d'] = _d
 json.dump(spec, open(OUT, 'w'), ensure_ascii=False, indent=1)
 narr = sum(len(re.sub(r'[^가-힣0-9A-Za-z]', '', l)) for s in sc if not s.get('sot') for l in s['lines'])
 sot = sum(s['sot']['dur'] for s in sc if s.get('sot'))

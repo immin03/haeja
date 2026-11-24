@@ -271,16 +271,16 @@ def panel(im, b, p):
     elif k == "steps":
         rows = b.get("rows", []); on = b.get("on")
         # 2026-11-22 대표 SOXL 3편 검수: 5줄 목록이 아래 자막과 겹침 → 4줄 이상은 줄 간격을 좁히고 위로 올린다(자막 자리 y 880 위에서 끝나게)
-        many = len(rows) >= 4; y = 150 if many else 170; gap = 128 if many else 190   # 2026-11-24 대표 금 3편 검수: 3줄 목록 여백이 빡빡함 → 158 → 190
+        many = len(rows) >= 4; y = 150 if many else 150; gap = 128 if many else 210   # 2026-11-24 대표 금 3편 검수: 3줄 목록 여백이 빡빡함 → 158 → 190
         if b.get("title"): _head(d, x, y, b["title"], 640, a)
         for i, r in enumerate(rows):
             ra = (1.0 if i < (on or 0) else eout((p + .05) / .45)) if cont else eout((p - .15 - .25 * i) / .45)
             if ra <= 0: continue
             yy = y + 100 + i * gap; al = int((255 if (on is None or on == i) else 115) * ra)
             d.text((x, yy + 6), f"0{i + 1 + int(b.get('n0', 0))}", font=NS("Thin", 72), fill=(255, 255, 255, al))
-            d.text((x + 130, yy - 4), str(r[0]), font=NS("Medium", 36), fill=(*(PINK if on == i else (200, 200, 200)), al))   # 2026-11-24 최소 글씨: 26 → 36
-            d.text((x + 130, yy + 42), str(r[1]), font=SUIT("Bold", 48), fill=(255, 255, 255, al))
-            if len(r) > 2 and not many: d.text((x + 130, yy + 104), str(r[2]), font=NS("Regular", 32), fill=(215, 215, 215, al))
+            d.text((x + 130, yy - (4 if many else 16)), str(r[0]), font=NS("Medium", 36), fill=(*(PINK if on == i else (200, 200, 200)), al))   # 2026-11-24 최소 글씨: 26 → 36
+            d.text((x + 130, yy + (42 if many else 40)), str(r[1]), font=SUIT("Bold", 48), fill=(255, 255, 255, al))
+            if len(r) > 2 and not many: d.text((x + 130, yy + 116), str(r[2]), font=NS("Regular", 32), fill=(215, 215, 215, al))
     elif k == "icon":
         y = H - 330; t = b.get("text", "")
         d.rectangle([x, y, x + int(56 * a), y + 5], fill=(*PINK, 255))
