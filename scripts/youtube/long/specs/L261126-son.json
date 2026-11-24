@@ -193,11 +193,11 @@
     "cuts": [
      {
       "lib": "son_2000_press_v.png",
-      "d": 3.95
+      "d": 2.53
      },
      {
       "lib": "il_L261114t_dotcom_party.png",
-      "d": 3.95
+      "d": 2.53
      },
      {
       "lib": "il_L261117n_tokyo_office_90s.png"
@@ -222,8 +222,8 @@
     }
    ],
    "lines": [
-    "손정의입니다. 그 뒤 닷컴 버블이 터지며, 그는 700억 달러를 잃었습니다.",
-    "그리고 26년 뒤, 올해 6월 1일. 같은 남자가 다시 카메라 앞에 섰습니다."
+    "손정의입니다. 그 뒤 그는 700억 달러를 잃었습니다.",
+    "그리고 26년 뒤, 올해 6월 1일."
    ],
    "note": "[훅] 99%"
   },
@@ -234,7 +234,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "son_cnbc_paris_50x.mp4",
+      "lib": "son_cnbc_50x_hook.mp4",
       "start": 0.2
      }
     ],
@@ -261,7 +261,7 @@
    "note": "[훅] 원음④ 한 문장",
    "news": true,
    "sot": {
-    "clip": "son_cnbc_paris_50x.mp4",
+    "clip": "son_cnbc_50x_hook.mp4",
     "start": 0.2,
     "dur": 10.4,
     "rms": 0.085,
@@ -322,8 +322,8 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261110a_summit_hall.jpeg",
-      "d": 4.23
+      "lib": "il_L261117n_staff_meeting.png",
+      "d": 3.33
      },
      {
       "lib": "il_L261107m_dc_plains.jpeg"
@@ -338,7 +338,7 @@
    "src": "",
    "sketch": [],
    "lines": [
-    "오늘은 손정의 한 사람을 따라가며, 내 삼성전자와 SK하이닉스가 이 베팅에 얼마나 묶여 있는지까지 보겠습니다."
+    "오늘은 손정의를 따라가며, 내 반도체 주식이 이 베팅에 얼마나 묶여 있는지 보겠습니다."
    ],
    "note": "[훅] 약속"
   },
@@ -420,15 +420,6 @@
      "sub": "소프트뱅크그룹 창업자 · 2000년 당시 43세",
      "line": 0,
      "at": 0.1
-    },
-    {
-     "kind": "punch",
-     "text": "일주일에 +100억 달러",
-     "sub": "",
-     "line": 0,
-     "at": 0.75,
-     "color": "gold",
-     "hold": 2.2
     }
    ],
    "lines": [
@@ -692,7 +683,7 @@
       "d": 6.83
      },
      {
-      "lib": "il_L261117n_gpu_two_cards.png"
+      "lib": "il_L261118a_gpu_racks_gold.png"
      }
     ],
     "wash_amt": 0.85,
@@ -780,7 +771,15 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "son_portrait_v.png"
+      "lib": "son_portrait_v.png",
+      "d": 4.66
+     },
+     {
+      "lib": "il_L261126_forum_stage.png",
+      "d": 4.66
+     },
+     {
+      "lib": "il_L261117n_gpu_two_cards.png"
      }
     ],
     "wash_amt": 0.85,
@@ -1129,8 +1128,8 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "son_cnbc_correction_short.mp4",
-      "start": 20.5
+      "lib": "son_cnbc_paris_50x.mp4",
+      "start": 67.8
      }
     ],
     "wash_amt": 0.85,
@@ -1158,22 +1157,22 @@
    "note": "[꼭대기] 원음④ 전체",
    "news": true,
    "sot": {
-    "clip": "son_cnbc_correction_short.mp4",
-    "start": 20.5,
-    "dur": 23.4,
+    "clip": "son_cnbc_paris_50x.mp4",
+    "start": 67.8,
+    "dur": 21.8,
     "rms": 0.085,
     "at": [
      [
-      0.1,
-      11.4
+      0.4,
+      10.5
      ],
      [
-      11.4,
-      18.0
+      10.5,
+      13.5
      ],
      [
-      18.0,
-      23.3
+      13.5,
+      21.5
      ]
     ]
    },
@@ -1285,7 +1284,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261114t_vote_phone.png",
+      "lib": "il_L261119u_leak_paper.png",
       "d": 8.14
      },
      {
@@ -1324,7 +1323,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "chanos_ai_bigger_dotcom.mp4",
+      "lib": "chanos_ai_bigger_dotcom_w.mp4",
       "start": 0.0
      }
     ],
@@ -1352,7 +1351,7 @@
    "note": "[꼭대기] 원음⑤ 반대편",
    "news": true,
    "sot": {
-    "clip": "chanos_ai_bigger_dotcom.mp4",
+    "clip": "chanos_ai_bigger_dotcom_w.mp4",
     "start": 0.0,
     "dur": 15.4,
     "rms": 0.085,
@@ -1453,7 +1452,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261119u_chess_dark.png",
+      "lib": "il_L261126_go_corners.png",
       "d": 12.81
      },
      {
@@ -1482,11 +1481,7 @@
     "cuts": [
      {
       "lib": "il_L261107m_memory_wafer.jpeg",
-      "d": 8.21
-     },
-     {
-      "lib": "il_L261118a_gpu_racks_gold.png",
-      "d": 8.21
+      "d": 12.32
      },
      {
       "lib": "il_L261121j_kr_investor_night.png"
@@ -1705,8 +1700,8 @@
       ]
      ],
      "on": null,
-     "line": 1,
-     "at": 0.05
+     "line": 0,
+     "at": 0.7
     }
    ],
    "lines": [
@@ -1723,11 +1718,11 @@
     "cuts": [
      {
       "lib": "il_L261121j_analyst_call.png",
-      "d": 9.4
+      "d": 10.49
      },
      {
       "lib": "il_L261114t_silhouette.png",
-      "d": 9.4
+      "d": 10.49
      },
      {
       "lib": "il_L261119u_three_roads.png"
@@ -1752,7 +1747,7 @@
     }
    ],
    "lines": [
-    "이번 주 반등은 젠슨 황 한 사람이 돌아온 겁니다. 손정의의 빚은 그대로입니다.",
+    "이번 주 젠슨 황이 돌아오며 반도체는 크게 반등했습니다. 하지만 돌아온 건 젠슨 황 한 사람이고, 손정의의 빚은 그대로입니다.",
     "2000년에도 인터넷은 진짜였습니다. 다만 기술이 이긴 날과 주주가 이긴 날은 25년 차이가 났습니다. 2000년 꼭대기에서 시스코를 산 사람은 작년 12월에야 본전을 찾았습니다.",
     "그래서 밸류노트가 판단하는 최선의 대안은, 손정의처럼 한 번에 전부를 걸지 않는 것. 나눠서 사는 분할 매수입니다."
    ],
@@ -1766,14 +1761,18 @@
     "cuts": [
      {
       "lib": "il_L261118a_closing_bridge_dawn.png",
-      "d": 8.96
+      "d": 6.72
      },
      {
-      "lib": "il_L261118a_seven_towers.png",
-      "d": 8.96
+      "lib": "il_L261119u_calendar_pin.png",
+      "d": 6.72
      },
      {
-      "lib": "il_L261121i_closing.png"
+      "lib": "il_L261126_tokyo_window.png",
+      "d": 6.72
+     },
+     {
+      "lib": "il_L261118a_seven_towers.png"
      }
     ],
     "wash_amt": 0.85,
