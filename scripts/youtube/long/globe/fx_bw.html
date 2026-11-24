@@ -28,8 +28,12 @@ function bg(){ if(window.NOBG) return; const b=g.createRadialGradient(W/2,H/2,10
 function txt(s,x,y,size,col,w,align,a){ size=size*(window.FS||1); g.save(); g.globalAlpha=a==null?1:a; g.font=`${w||800} ${size}px SUIT`; g.fillStyle=col; g.textAlign=align||'left'; g.textBaseline='middle'; g.shadowColor='rgba(0,0,0,0.5)'; g.shadowBlur=8; g.fillText(s,x,y); g.restore(); }
 /* 2026-11-18 대표: 핵심(이름·결론)은 크게, 보조(연결 설명·항목·부제)는 덜 키운다 → FS2 */
 function txtS(s,x,y,size,col,w,align,a){ const f=window.FS; window.FS=window.FS2||1; txt(s,x,y,size,col,w,align,a); window.FS=f; }
+function _badge(C,t){ const a=ease(cl((t-(C.badge_at||0.3))/0.6)); if(a<=0) return; const m=String(C.badge).match(/^(.*?)(\S+)$/)||['',C.badge,'']; const ky=(C.ky||96)+66;
+  g.save(); g.font='800 36px SUIT'; const w1=g.measureText(m[1]).width; g.font='800 60px SUIT'; const w2=g.measureText(m[2]).width; g.restore();
+  const pw=w1+w2+104, px=W/2-pw/2+150; g.save(); g.globalAlpha=a; g.fillStyle='rgba(255,77,109,0.16)'; g.strokeStyle=PINK; g.lineWidth=3; g.shadowColor='rgba(255,77,109,0.45)'; g.shadowBlur=30; g.beginPath(); g.roundRect(px,ky-44,pw,88,44); g.fill(); g.shadowBlur=0; g.stroke(); g.restore();
+  const f_=window.FS; window.FS=1; txt(m[1],px+48,ky+2,36,IVORY,800,'left',a); txt(m[2],px+48+w1,ky,60,PINK,800,'left',a); window.FS=f_; }
 function kicker(C,t){ if(window.NOKICK) return; const f_=window.FS; window.FS=1; kicker0(C,t); window.FS=f_; }
-function kicker0(C,t){ const a=ease(cl(t/0.6)); g.save(); g.globalAlpha=a; g.fillStyle=PINK; const ky=C.ky||96; g.fillRect(120,ky,64,5); g.restore(); txt(C.kicker||'',200,ky+2,32,'#dcdcdc',600,'left',a); txt(C.title||'',120,ky+66,62,IVORY,800,'left',a); }   // ky: 롱폼 왼쪽 위 목차와 겹치지 않게 내림 (2026-11-17)
+function kicker0(C,t){ const a=ease(cl(t/0.6)); if(C.badge) _badge(C,t); g.save(); g.globalAlpha=a; g.fillStyle=PINK; const ky=C.ky||96; g.fillRect(120,ky,64,5); g.restore(); txt(C.kicker||'',200,ky+2,32,'#dcdcdc',600,'left',a); txt(C.title||'',120,ky+66,62,IVORY,800,'left',a); }   // ky: 롱폼 왼쪽 위 목차와 겹치지 않게 내림 (2026-11-17)
 function glow(x,y,r,col,a){ const gr=g.createRadialGradient(x,y,0,x,y,r); gr.addColorStop(0,col.replace('A',a)); gr.addColorStop(1,col.replace('A',0)); g.fillStyle=gr; g.beginPath(); g.arc(x,y,r,0,7); g.fill(); }
 
 // ① 과거 국면 겹침 차트: series [{name, pts:[...지수], color, end}] · x 개월, y 로그 지수(시작=100)
@@ -230,7 +234,53 @@ function gauge(C,t){
   if(C.answer){ const ta=0.6+R.length*st+1.0, a=ease(cl((t-ta)/0.6)); yb+=40; if(a>0) txt(C.answer,W/2,yb,44,PINK,800,'center',a); }
   if(C.foot){ const a=C.cont?1:ease(cl((t-0.6-R.length*st)/0.6)); yb+=C.answer?44:30; if(a>0) txtS(C.foot,W/2,yb,26,GRAY,600,'center',a); }
 }
-window.draw=function(mode,t){ const C0=window.CFG||{}; const C=(mode==='scale')?Object.assign({fs:1.4,ky:190,shrink:0.9,top:40,vy:870},C0):C0; /* 2026-11-18 대표: 두 번째 저울만 옛 크기(글자 작고 답답) → 저울은 새 크기를 기본값으로 */ window.FS=C.fs||1; window.FS2=C.fs2||(1+(window.FS-1)*0.4); const fn=({histchart,flow,scale,timeline,stake,race,docs,intraday,board,gauge})[mode];
+
+// ⑪ 세로 카드 계기판(gauge5) — 2026-11-24 대표 "가로 줄이 빡빡하다, 세로로 5개, 디자인 강화" (금값 3편부터)
+// cfg: {kicker,title, rows:[{name, now, goal, state:'off'|'near'|'on', p:0~1(선택)}], focus:index|null, cont:bool, answer, foot}
+function _fit(s,x,y,maxW,size,col,w,align,a){ let z=size; g.save(); for(;z>18;z-=1){ g.font=`${w||800} ${z}px SUIT`; if(g.measureText(s).width<=maxW) break; } g.restore(); txt(s,x,y,z,col,w,align,a); }
+function _wrap(s,maxW,size,w){ g.save(); g.font=`${w||600} ${size}px SUIT`; const ws=String(s).split(' '); const L=[]; let cur=''; ws.forEach(x=>{ const t=cur?cur+' '+x:x; if(g.measureText(t).width>maxW&&cur){ L.push(cur); cur=x; } else cur=t; }); if(cur) L.push(cur); g.restore(); return L; }
+function gauge5(C,t){
+  bg(); kicker(C,C.cont?99:t);
+  const R=C.rows||[], n=R.length, X0=150, X1=W-150, gap=30, cw=(X1-X0-gap*(n-1))/n, Y0=C.y0||292, ch=C.ch||528, F=(C.focus==null?null:C.focus), st=C.step||0.22;
+  R.forEach((q,i)=>{
+    const x=X0+i*(cw+gap), cx=x+cw/2;
+    const future=C.cont&&F!=null&&i>F;
+    const a0=C.cont?(i<F?1:(i===F?ease(cl((t-0.05)/0.5)):ease(cl(t/0.5)))):ease(cl((t-0.5-i*st)/0.5)); if(a0<=0) return;
+    const on=q.state==='on', near=q.state==='near', foc=(F===i), dim=future?0.5:((F!=null&&!foc)?0.38:1), a=a0*dim, lift=(1-a0)*30-(foc?10:0), y=Y0+lift;
+    // 카드
+    g.save(); g.globalAlpha=a0*(future?0.55:1);
+    const gr=g.createLinearGradient(0,y,0,y+ch); gr.addColorStop(0,(on&&!future)?'rgba(255,255,255,0.10)':'rgba(255,255,255,0.055)'); gr.addColorStop(1,'rgba(255,255,255,0.015)');
+    g.fillStyle=gr; if(foc||(on&&!future)){ g.shadowColor='rgba(255,77,109,0.5)'; g.shadowBlur=foc?44:34; }
+    g.beginPath(); g.roundRect(x,y,cw,ch,26); g.fill(); g.shadowBlur=0;
+    g.lineWidth=(foc||(on&&!future))?3:1.5; g.strokeStyle=(foc||(on&&!future))?PINK:'rgba(225,225,228,0.16)'; g.stroke();
+    if(on&&!future){ g.fillStyle=PINK; g.beginPath(); g.roundRect(x+24,y-1,cw-48,6,3); g.fill(); }
+    g.restore();
+    // 번호·이름
+    txt(String(i+1).padStart(2,'0'),x+30,y+54,30,foc?PINK:'rgba(225,225,228,0.55)',600,'left',a);
+    _fit(String(q.name||'').replace(/^[①-⑩]\s*/,''),x+30,y+104,cw-60,46,IVORY,800,'left',a);
+    if(future){ txt('?',cx,y+ch/2+40,90,'rgba(225,225,228,0.35)',800,'center',a0); return; }
+    // 원형 계기
+    const rc=Math.min(100,cw*0.33), cy=y+262, A0=Math.PI*0.75, SW=Math.PI*1.5;
+    g.save(); g.globalAlpha=a; g.lineCap='round'; g.lineWidth=14; g.strokeStyle='rgba(225,225,228,0.13)'; g.beginPath(); g.arc(cx,cy,rc,A0,A0+SW); g.stroke();
+    const pv=on?1:(q.p!=null?q.p:0), grow=C.cont?(i<F?1:ease(cl((t-0.4)/1.2))):ease(cl((t-1.0-i*st)/1.2));
+    if(pv>0){ g.strokeStyle=on?IVORY:(near?PINK:'rgba(235,235,238,0.75)'); if(on){ g.shadowColor=IVORY; g.shadowBlur=26; } g.beginPath(); g.arc(cx,cy,rc,A0,A0+SW*pv*grow); g.stroke(); }
+    // 기준 눈금(맨 끝)
+    g.shadowBlur=0; g.lineWidth=4; g.strokeStyle=PINK; const ea=A0+SW; g.beginPath(); g.moveTo(cx+Math.cos(ea)*(rc-16),cy+Math.sin(ea)*(rc-16)); g.lineTo(cx+Math.cos(ea)*(rc+16),cy+Math.sin(ea)*(rc+16)); g.stroke();
+    g.restore();
+    const pul=(Math.sin(t*3.0)+1)/2;
+    if(on){ txt('켜짐',cx,cy-6,50,IVORY,800,'center',a); g.save(); g.globalAlpha=a*(0.55+0.45*pul); g.fillStyle=IVORY; g.shadowColor=IVORY; g.shadowBlur=24; g.beginPath(); g.arc(cx,cy+40,8,0,7); g.fill(); g.restore(); }
+    else txt('대기',cx,cy,44,'rgba(225,225,228,0.55)',700,'center',a);
+    // 지금 값
+    _fit(String(q.now||''),cx,y+416,cw-36,50,on?IVORY:'#e8e8ea',800,'center',a);
+    // 기준
+    g.save(); g.globalAlpha=a; g.fillStyle='rgba(225,225,228,0.12)'; g.fillRect(x+30,y+452,cw-60,1.5); g.restore();
+    txt('기준',cx,y+478,26,PINK,700,'center',a);
+    _wrap(q.goal||'',cw-36,28,600).slice(0,2).forEach((l,k)=>txtS(l,cx,y+510+k*30,29,'rgba(225,225,228,0.75)',600,'center',a));
+  });
+  // 켜진 개수 알약은 제목 줄 가운데(kicker0 의 C.badge)로 올림 — 2026-11-24 대표 "켜진 신호 좀 더 위로, 계기판은 더 크게"
+  if(C.foot){ const a=C.cont?1:ease(cl((t-0.5-n*st)/0.6)); if(a>0) txtS(C.foot,W/2,Y0+ch+40,24,GRAY,600,'center',a); }
+}
+window.draw=function(mode,t){ const C0=window.CFG||{}; const C=(mode==='scale')?Object.assign({fs:1.4,ky:190,shrink:0.9,top:40,vy:870},C0):C0; /* 2026-11-18 대표: 두 번째 저울만 옛 크기(글자 작고 답답) → 저울은 새 크기를 기본값으로 */ window.FS=C.fs||1; window.FS2=C.fs2||(1+(window.FS-1)*0.4); const fn=({histchart,flow,scale,timeline,stake,race,docs,intraday,board,gauge,gauge5})[mode];
   if(C0.safe===false){   // 예전 배치 (r180 이전 영상 다시 뽑을 때만)
     if(C.shrink){ bg(); g.save(); g.translate(W*(1-C.shrink)/2,C.top!=null?C.top:6); g.scale(C.shrink,C.shrink); fn(C,t); g.restore(); } else fn(C,t); return; }
   safeDraw(C,fn,t); };   // 2026-11-14: fs(글자 배율)·shrink(자막 위로 축소)

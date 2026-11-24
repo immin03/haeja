@@ -13,7 +13,7 @@ LIB = os.path.join(HERE, "..", "..", "..", "blog", "media", "lib")
 TW, TH = 1280, 720; PINK = vn2.PINK; WHITE = (255, 255, 255, 255)
 
 SETS = [   # 세 안 모두 '바닥 신호 5가지' 노출, 사진 3장 서로 다르게
-    dict(file="thumb_a.jpg", photo="commons_goldbars_1.jpg", fx=.55, l1="금값 바닥 신호 5가지", l2=("지금 1개 켜졌다", "")),
+    dict(file="thumb_a.jpg", photo="il_L261124g_thumb_goldbars.png", fx=.55, l1="금값 바닥 신호 5가지", l2=("지금 1개 켜졌다", "")),
     dict(file="thumb_b.jpg", photo="il_L261113g2_gold_2015.jpeg", fx=.55, chip="고점 대비 -37% 폭락", l1=("금값 101만 → ", "66만 원"), l2=("바닥 신호 5가지", ""), ep2=True),
     dict(file="thumb_c.jpg", photo="il_L261113a_trader_gold.jpeg", fx=.55, l1="금, AI 주식처럼 팔렸다", l2=("바닥 신호 ", "5가지")),
 ]
