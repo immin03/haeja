@@ -30,7 +30,8 @@ function txt(s,x,y,size,col,w,align,a){ size=size*(window.FS||1); g.save(); g.gl
 function txtS(s,x,y,size,col,w,align,a){ const f=window.FS; window.FS=window.FS2||1; txt(s,x,y,size,col,w,align,a); window.FS=f; }
 function _badge(C,t){ const a=ease(cl((t-(C.badge_at||0.3))/0.6)); if(a<=0) return; const m=String(C.badge).match(/^(.*?)(\S+)$/)||['',C.badge,'']; const ky=(C.ky||96)+66;
   g.save(); g.font='800 36px SUIT'; const w1=g.measureText(m[1]).width; g.font='800 60px SUIT'; const w2=g.measureText(m[2]).width; g.restore();
-  const pw=w1+w2+104, px=W/2-pw/2+150; g.save(); g.globalAlpha=a; g.fillStyle='rgba(255,77,109,0.16)'; g.strokeStyle=PINK; g.lineWidth=3; g.shadowColor='rgba(255,77,109,0.45)'; g.shadowBlur=30; g.beginPath(); g.roundRect(px,ky-44,pw,88,44); g.fill(); g.shadowBlur=0; g.stroke(); g.restore();
+  const pw=w1+w2+104, px=(C.badge_r||W-150)-pw;   /* 2026-11-24 대표 '위치가 어정쩡': 제목과 같은 줄, 카드 오른쪽 끝선에 맞춤 */
+  g.save(); g.globalAlpha=a; g.fillStyle='rgba(255,77,109,0.16)'; g.strokeStyle=PINK; g.lineWidth=3; g.shadowColor='rgba(255,77,109,0.45)'; g.shadowBlur=30; g.beginPath(); g.roundRect(px,ky-44,pw,88,44); g.fill(); g.shadowBlur=0; g.stroke(); g.restore();
   const f_=window.FS; window.FS=1; txt(m[1],px+48,ky+2,36,IVORY,800,'left',a); txt(m[2],px+48+w1,ky,60,PINK,800,'left',a); window.FS=f_; }
 function kicker(C,t){ if(window.NOKICK) return; const f_=window.FS; window.FS=1; kicker0(C,t); window.FS=f_; }
 function kicker0(C,t){ const a=ease(cl(t/0.6)); if(C.badge) _badge(C,t); g.save(); g.globalAlpha=a; g.fillStyle=PINK; const ky=C.ky||96; g.fillRect(120,ky,64,5); g.restore(); txt(C.kicker||'',200,ky+2,32,'#dcdcdc',600,'left',a); txt(C.title||'',120,ky+66,62,IVORY,800,'left',a); }   // ky: 롱폼 왼쪽 위 목차와 겹치지 않게 내림 (2026-11-17)
@@ -280,7 +281,37 @@ function gauge5(C,t){
   // 켜진 개수 알약은 제목 줄 가운데(kicker0 의 C.badge)로 올림 — 2026-11-24 대표 "켜진 신호 좀 더 위로, 계기판은 더 크게"
   if(C.foot){ const a=C.cont?1:ease(cl((t-0.5-n*st)/0.6)); if(a>0) txtS(C.foot,W/2,Y0+ch+40,24,GRAY,600,'center',a); }
 }
-window.draw=function(mode,t){ const C0=window.CFG||{}; const C=(mode==='scale')?Object.assign({fs:1.4,ky:190,shrink:0.9,top:40,vy:870},C0):C0; /* 2026-11-18 대표: 두 번째 저울만 옛 크기(글자 작고 답답) → 저울은 새 크기를 기본값으로 */ window.FS=C.fs||1; window.FS2=C.fs2||(1+(window.FS-1)*0.4); const fn=({histchart,flow,scale,timeline,stake,race,docs,intraday,board,gauge,gauge5})[mode];
+
+// ⑫ 백테스트 카드(btest) — 2026-11-24 대표 "과거 금 바닥에서 신호가 몇 개 켜져 있었는지 백테스트로" (금값 3편)
+// cfg: {kicker,title,badge, eps:[{yr, date, at:[0/1 x5, null=자료없음], peak:[...], peakLbl, ret, retLbl}], foot}
+function _dots(x,y,arr,a,r){ const n=arr.length, gp=r*2+14, x0=x-(n-1)*gp/2; arr.forEach((v,i)=>{ const cx=x0+i*gp; g.save(); g.globalAlpha=a;
+  if(v==null){ g.setLineDash([5,5]); g.strokeStyle='rgba(225,225,228,0.35)'; g.lineWidth=2.5; g.beginPath(); g.arc(cx,y,r,0,7); g.stroke(); }
+  else if(v){ g.fillStyle=PINK; g.shadowColor=PINK; g.shadowBlur=18; g.beginPath(); g.arc(cx,y,r,0,7); g.fill(); }
+  else { g.strokeStyle='rgba(225,225,228,0.45)'; g.lineWidth=3; g.beginPath(); g.arc(cx,y,r,0,7); g.stroke(); }
+  g.restore(); }); }
+function btest(C,t){
+  bg(); kicker(C,t);
+  const E=C.eps||[], n=E.length, X0=150, X1=W-150, gap=32, cw=(X1-X0-gap*(n-1))/n, Y0=C.y0||292, ch=C.ch||528, st=C.step||0.35;
+  E.forEach((e,i)=>{ const x=X0+i*(cw+gap), cx=x+cw/2, a=ease(cl((t-0.4-i*st)/0.5)); if(a<=0) return; const y=Y0+(1-a)*28;
+    g.save(); g.globalAlpha=a; const gr=g.createLinearGradient(0,y,0,y+ch); gr.addColorStop(0,'rgba(255,255,255,0.06)'); gr.addColorStop(1,'rgba(255,255,255,0.015)'); g.fillStyle=gr; g.beginPath(); g.roundRect(x,y,cw,ch,26); g.fill(); g.lineWidth=1.5; g.strokeStyle='rgba(225,225,228,0.16)'; g.stroke(); g.restore();
+    txt(e.yr,x+30,y+60,52,IVORY,800,'left',a); txtS(e.date,x+30,y+108,26,GRAY,600,'left',a);
+    // 바닥 날
+    const a1=ease(cl((t-1.0-i*st)/0.5));
+    txtS('바닥이던 날',cx,y+164,26,'rgba(225,225,228,0.75)',700,'center',a1); _dots(cx,y+204,e.at,a1,13);
+    txt(e.at.filter(v=>v).length+'개',cx,y+252,40,IVORY,800,'center',a1);
+    // 가장 많이 켜졌을 때
+    const a2=ease(cl((t-2.4-i*st)/0.5));
+    g.save(); g.globalAlpha=a2; g.fillStyle='rgba(225,225,228,0.12)'; g.fillRect(x+30,y+290,cw-60,1.5); g.restore();
+    txtS(e.peakLbl,cx,y+322,26,'rgba(225,225,228,0.75)',700,'center',a2); _dots(cx,y+362,e.peak,a2,13);
+    txt(e.peak.filter(v=>v).length+'개',cx,y+410,40,IVORY,800,'center',a2);
+    // 바닥 뒤 3개월
+    const a3=ease(cl((t-3.8-i*st)/0.5));
+    g.save(); g.globalAlpha=a3; g.fillStyle='rgba(255,77,109,0.12)'; g.beginPath(); g.roundRect(x+18,y+446,cw-36,64,16); g.fill(); g.restore();
+    txtS(e.retLbl,x+36,y+478,24,'rgba(225,225,228,0.8)',700,'left',a3); txt(e.ret,x+cw-36,y+478,40,PINK,800,'right',a3);
+  });
+  if(C.foot){ const a=ease(cl((t-4.4-n*st)/0.6)); if(a>0) txtS(C.foot,W/2,Y0+ch+40,22,GRAY,600,'center',a); }
+}
+window.draw=function(mode,t){ const C0=window.CFG||{}; const C=(mode==='scale')?Object.assign({fs:1.4,ky:190,shrink:0.9,top:40,vy:870},C0):C0; /* 2026-11-18 대표: 두 번째 저울만 옛 크기(글자 작고 답답) → 저울은 새 크기를 기본값으로 */ window.FS=C.fs||1; window.FS2=C.fs2||(1+(window.FS-1)*0.4); const fn=({histchart,flow,scale,timeline,stake,race,docs,intraday,board,gauge,gauge5,btest})[mode];
   if(C0.safe===false){   // 예전 배치 (r180 이전 영상 다시 뽑을 때만)
     if(C.shrink){ bg(); g.save(); g.translate(W*(1-C.shrink)/2,C.top!=null?C.top:6); g.scale(C.shrink,C.shrink); fn(C,t); g.restore(); } else fn(C,t); return; }
   safeDraw(C,fn,t); };   // 2026-11-14: fs(글자 배율)·shrink(자막 위로 축소)
@@ -301,7 +332,7 @@ function _measure(C,fn){
 }
 function safeDraw(C,fn,t){
   const Cb=Object.assign({},C); delete Cb.note; delete Cb.shrink; delete Cb.top;
-  const key=JSON.stringify(C); if(key!==_bbKey){ _bb=_measure(Cb,fn); _bbKey=key; }
+  const key=JSON.stringify(C); if(key!==_bbKey){ _bb=C.fixed_box?{x0:C.fixed_box[0],y0:C.fixed_box[1],x1:C.fixed_box[2],y1:C.fixed_box[3]}:_measure(Cb,fn); _bbKey=key; }   // fixed_box: 클립마다 범위가 같아야 하는 화면(세로 카드 계기판)은 고정 범위로 — 클립 사이 흔들림 방지
   const top=KY+(C.title?120:40), bw=_bb.x1-_bb.x0, bh=_bb.y1-_bb.y0;
   const s=Math.min(1,(SAFE_R-SAFE_L)/bw,(SAFE_B-top)/bh);
   const cx=(_bb.x0+_bb.x1)/2, tx=W/2-cx*s, ty=top+((SAFE_B-top)-bh*s)/2-_bb.y0*s;
