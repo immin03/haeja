@@ -1568,7 +1568,7 @@ document.addEventListener('click', async e => {
 });
 /* 안드로이드·PC: 알림을 켠 직후 '앱 설치'를 한 번 권한다 (브라우저가 설치 가능하다고 알려 줄 때만) */
 function installOffer(){
-  if(!window.__installEvt || isStandalone() || document.querySelector('.gate, .intro, .pn-bar')) return;
+  if(!window.__installEvt || isStandalone() || document.querySelector('.gate, .intro, .pn-bar, .gz-pop')) return;
   try{ if(localStorage.getItem('vn-inst-ask') === today()) return; localStorage.setItem('vn-inst-ask', today()); }catch(_){}
   document.body.insertAdjacentHTML('beforeend', `<div class="pn-bar" role="dialog" aria-label="앱 설치 안내"><div class="pn-in">
     <div class="pn-t"><b>홈 화면에도 추가할까요?</b><span>${isMobile() ? '앱처럼 아이콘 한 번에 열리고, 주소를 다시 칠 필요가 없어요.' : 'PC에서도 창 하나로 바로 열리는 앱처럼 쓸 수 있어요.'}</span></div>
@@ -2587,12 +2587,12 @@ function noteInterestFromView(){
 /* 가입 직후가 아니라, 회사를 보고 점수를 확인한 그 순간에 묻는다. 앱 자체 안내로 먼저 묻고 '알림 받기'를 누른 사람에게만 브라우저 권한 창을 띄운다(차단 방지).
    아이폰 Safari는 홈 화면 추가가 먼저라 '추가 방법 보기'로 안내한다. 하루 한 번, 모두 세 번까지 */
 function interestPushNudge(name){
-  if(!S.pushChecked || document.querySelector('.gate, .intro, .pn-bar')) return;
+  if(!S.pushChecked || document.querySelector('.gate, .intro, .pn-bar, .gz-pop')) return;
   const ios = pushState === 'ios-install';
   if(pushState !== 'off' && !ios) return;
   let n = 0; try{ const v = JSON.parse(localStorage.getItem('vn-pn') || '{}'); if(v.d === today() || (v.n || 0) >= 3) return; n = v.n || 0; localStorage.setItem('vn-pn', JSON.stringify({ d: today(), n: n + 1 })); }catch(_){ return; }
   setTimeout(() => {
-    if(document.querySelector('.gate, .intro, .pn-bar')) return;
+    if(document.querySelector('.gate, .intro, .pn-bar, .gz-pop')) return;
     const sub = ios ? '아이폰은 홈 화면에 추가한 뒤 아이콘으로 열면 알림을 받을 수 있어요. 30초면 끝나요.' : '가격이 크게 바뀌거나 적정 주가에 가까워지면 바로 알려 드려요. 하루 최대 두 번만 보내요.';
     document.body.insertAdjacentHTML('beforeend', `<div class="pn-bar" role="dialog" aria-label="알림 안내"><div class="pn-in">
       <div class="pn-t"><b>${esc(jo(name, '이', '가'))} 싸지면 알려 드릴까요?</b><span>${sub}</span></div>
@@ -2676,7 +2676,7 @@ function guestNudgeArm(){
   try{ const t = +localStorage.getItem('vn-nudge') || 0; if(Date.now() - t < 864e5) return; }catch(_){}
   const fire = () => {
     if(!store.isGuest) return;
-    if(document.querySelector('.gate, .qz, .intro')){ __nudgeT = setTimeout(fire, 15000); return; }
+    if(document.querySelector('.gate, .qz, .intro, .gz-pop')){ __nudgeT = setTimeout(fire, 15000); return; }
     try{ localStorage.setItem('vn-nudge', String(Date.now())); }catch(_){}
     document.body.insertAdjacentHTML('beforeend', `<div class="gate g-nudge" role="dialog" aria-modal="true" aria-label="가입 안내"><div class="gate-card">
       <div class="eyebrow">가입하면 열려요</div><h3>이제 내 종목으로 써 보세요</h3>
@@ -8166,5 +8166,111 @@ nav.subtabs button[aria-pressed="true"]{background:#FF4D6D!important;border-colo
 header.top::after{background:rgba(255,255,255,.12)!important;opacity:1!important}
 .wordmark .wm-b{background:none!important;-webkit-text-fill-color:#fff!important;color:#fff!important}
 </style>
+<style>
+/* 계기판 소식 팝업 (2026-11-24 대표: 신호가 바뀐 날부터 이틀, 앱에 들어오자마자 · 다시 보지 않기) */
+.gz-pop{position:fixed;inset:0;z-index:121;background:rgba(12,12,12,.62);display:flex;align-items:flex-end;justify-content:center;animation:gzFade .18s ease-out}
+.gz-pop .gz-in{background:#fff;color:#111;width:100%;max-width:520px;max-height:88vh;overflow:auto;border-radius:22px 22px 0 0;padding:26px 22px calc(22px + env(safe-area-inset-bottom));word-break:keep-all;box-sizing:border-box;animation:gzUp .22s ease-out}
+@media(min-width:600px){.gz-pop{align-items:center}.gz-pop .gz-in{border-radius:22px}}
+@keyframes gzFade{from{opacity:0}to{opacity:1}}@keyframes gzUp{from{transform:translateY(24px)}to{transform:none}}
+@media (prefers-reduced-motion:reduce){.gz-pop,.gz-pop .gz-in{animation:none}}
+.gz-pop .gz-eb{display:inline-block;font-size:14px;font-weight:800;color:#fff;background:#FF4D6D;border-radius:999px;padding:4px 11px;letter-spacing:.02em}
+.gz-pop h2{font-size:24px;line-height:1.35;font-weight:800;margin:12px 0 6px;color:#111}
+.gz-pop .gz-when{font-size:15px;color:#666;margin:0 0 16px}
+.gz-pop .gz-card{border:1.5px solid #111;border-radius:16px;padding:16px;margin:0 0 12px}
+.gz-pop .gz-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.gz-pop .gz-name{font-size:18px;font-weight:800;color:#111}
+.gz-pop .gz-cnt{font-size:22px;font-weight:800;color:#111;white-space:nowrap;font-variant-numeric:tabular-nums}
+.gz-pop .gz-cnt small{font-size:15px;font-weight:600;color:#888}
+.gz-pop .gz-cnt .gz-ar{color:#FF4D6D;margin:0 4px}
+.gz-pop .gz-lamps{display:flex;gap:6px;margin:12px 0 10px}
+.gz-pop .gz-lamps i{flex:1;height:8px;border-radius:4px;background:#E6E6E6}
+.gz-pop .gz-lamps i.on{background:#FF4D6D}
+.gz-pop ul{list-style:none;margin:0;padding:0}
+.gz-pop li{font-size:16px;line-height:1.5;padding:6px 0;border-top:1px solid #EEE;color:#222}
+.gz-pop li:first-child{border-top:0}
+.gz-pop li b{font-weight:800}
+.gz-pop .gz-tag{display:inline-block;font-size:13px;font-weight:800;border-radius:6px;padding:1px 7px;margin-left:6px;vertical-align:1px}
+.gz-pop .gz-tag.on{background:#FF4D6D;color:#fff}.gz-pop .gz-tag.off{background:#E6E6E6;color:#444}
+.gz-pop .gz-now{display:block;font-size:14px;color:#777}
+.gz-pop .gz-go{display:block;text-align:center;margin-top:12px;background:#111;color:#fff;font-size:17px;font-weight:800;padding:14px;border-radius:12px;text-decoration:none}
+.gz-pop .gz-note{font-size:13px;color:#999;line-height:1.5;margin:4px 0 14px}
+.gz-pop .gz-ok{display:block;width:100%;background:#fff;color:#111;border:1.5px solid #111;font:inherit;font-size:17px;font-weight:700;padding:14px;border-radius:12px;cursor:pointer}
+.gz-pop .gz-ft{position:sticky;bottom:calc(-22px - env(safe-area-inset-bottom));margin:0 -22px calc(-22px - env(safe-area-inset-bottom));padding:12px 22px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(rgba(255,255,255,0),#fff 14px)}
+.gz-pop .gz-never{display:block;width:100%;margin-top:6px;background:none;border:0;color:#888;font:inherit;font-size:15px;padding:10px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+html.dark .gz-pop .gz-in,body.dark .gz-pop .gz-in{background:#fff;color:#111}
+</style>
+<script>
+/* 계기판 소식 팝업 (2026-11-24 대표)
+   - 반도체·금 계기판 신호가 바뀌면 그날부터 48시간 동안, 밸류노트에 들어오자마자 한 번 띄운다 (한 번 연 탭에서는 한 번만)
+   - 두 계기판이 같이 바뀌었으면 둘 다 한 팝업에 쓴다
+   - '다시 보지 않기'를 누르면 그 변화(계기판+날짜)는 다시 띄우지 않는다. 다음 변화는 새로 뜬다
+   - 데이터: supabase/functions/gauge-news (semi_gauge_event · gold_gauge_event 를 읽기만 함)
+   - 다른 안내창(가입·첫 안내·퀴즈·알림 받을 곳 고르기)이 떠 있으면 닫힐 때까지 기다렸다가 띄운다 */
+(function(){
+  var URL_ = 'https://msjbrwyzkiueqnzjeicm.supabase.co/functions/v1/gauge-news';
+  var NEVER = 'vn-gz-never', SEEN = 'vn-gz-seen';
+  var OTHER = '.gate, .intro, .ob, .qz, .ch-gate, .pn-bar, .vn-modal, [role="dialog"][aria-modal="true"]';
+  function e(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]; }); }
+  function getJ(k, d){ try{ var v = JSON.parse(localStorage.getItem(k) || 'null'); return v == null ? d : v; }catch(_){ return d; } }
+  function kst(iso){ var d = new Date(new Date(iso).getTime() + 9 * 3600e3); return { m: d.getUTCMonth() + 1, d: d.getUTCDate(), h: String(d.getUTCHours()).padStart(2, '0'), mi: String(d.getUTCMinutes()).padStart(2, '0') }; }
+  function md(ymd){ var p = String(ymd || '').split('-'); return p.length === 3 ? (+p[1]) + '월 ' + (+p[2]) + '일' : ''; }
+  function track(k){ try{ if(window.store && store.track) store.track('view', k); }catch(_){} }
+  function card(it){
+    var on = Math.max(0, Math.min(it.total || 5, +it.current || 0)), lamps = '';
+    for(var i = 0; i < (it.total || 5); i++) lamps += '<i class="' + (i < on ? 'on' : '') + '"></i>';
+    var lis = (it.changed || []).map(function(c){
+      var tag = c.on === true ? '<span class="gz-tag on">켜짐</span>' : c.on === false ? '<span class="gz-tag off">꺼짐</span>' : '';
+      return '<li><b>' + e(c.name) + '</b>' + tag + (c.now ? '<span class="gz-now">지금 ' + e(c.now) + '</span>' : '') + '</li>';
+    }).join('');
+    return '<div class="gz-card"><div class="gz-row"><span class="gz-name">' + e(it.name) + '</span>'
+      + '<span class="gz-cnt">' + e(it.from) + '<span class="gz-ar">→</span>' + e(it.to) + '<small> / ' + e(it.total || 5) + '</small></span></div>'
+      + '<div class="gz-lamps" aria-hidden="true">' + lamps + '</div><ul>' + lis + '</ul>'
+      + '<a class="gz-go" href="' + e(it.url) + '" data-gz-go="' + e(it.gauge) + '">' + e(it.name) + ' 자세히 보기 →</a></div>';
+  }
+  function show(items){
+    if(document.querySelector('.gz-pop')) return;
+    var t = kst(items[0].at), one = items.length === 1;
+    var head = one ? e(items[0].name.replace(' 계기판', '')) + ' 신호가<br>' + e(items[0].from) + '개 → ' + e(items[0].to) + '개로 바뀌었어요' : '계기판 ' + items.length + '곳의 신호가<br>바뀌었어요';
+    var asof = items.map(function(x){ return md(x.asof); }).filter(Boolean);
+    var when = t.m + '월 ' + t.d + '일 ' + t.h + ':' + t.mi + ' 기준' + (asof.length ? ' · 미국 ' + asof[0] + ' 마감' : '');
+    document.body.insertAdjacentHTML('beforeend', '<div class="gz-pop" role="dialog" aria-modal="true" aria-label="계기판 소식"><div class="gz-in">'
+      + '<span class="gz-eb">계기판 소식</span><h2>' + head + '</h2><p class="gz-when">' + e(when) + '</p>'
+      + items.map(card).join('')
+      + '<p class="gz-note">신호는 과거 바닥에서 반복된 공통점을 정리한 것으로, 매수·매도 권유가 아닙니다.</p>'
+      + '<div class="gz-ft"><button type="button" class="gz-ok">확인</button><button type="button" class="gz-never">이 소식 다시 보지 않기</button></div></div></div>');
+    var pop = document.querySelector('.gz-pop'), keys = items.map(function(x){ return x.key; });
+    function close(never){
+      if(never){ var n = getJ(NEVER, []); keys.forEach(function(k){ if(n.indexOf(k) < 0) n.push(k); }); try{ localStorage.setItem(NEVER, JSON.stringify(n.slice(-40))); }catch(_){} }
+      pop.remove(); document.removeEventListener('keydown', esc);
+    }
+    function esc(ev){ if(ev.key === 'Escape') close(false); }
+    pop.querySelector('.gz-ok').addEventListener('click', function(){ track('gz-ok'); close(false); });
+    pop.querySelector('.gz-never').addEventListener('click', function(){ track('gz-never'); close(true); });
+    pop.addEventListener('click', function(ev){ if(ev.target === pop){ close(false); } var g = ev.target.closest && ev.target.closest('[data-gz-go]'); if(g) track('gz-go-' + g.getAttribute('data-gz-go')); });
+    document.addEventListener('keydown', esc);
+    try{ pop.querySelector('.gz-ok').focus({ preventScroll: true }); }catch(_){}
+    track('gz-show');
+  }
+  function run(){
+    if(/^\/(admin|studio|semi|start|lev|go|mail)/.test(location.pathname)) return;
+    try{ if(sessionStorage.getItem(SEEN)) return; }catch(_){}
+    fetch(URL_).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
+      var never = getJ(NEVER, []);
+      var items = ((j && j.items) || []).filter(function(x){ return x && x.key && never.indexOf(x.key) < 0 && Date.now() - Date.parse(x.at) < 48 * 3600e3; });
+      if(!items.length) return;
+      var tries = 0;
+      (function wait(){
+        var app = document.getElementById('app');
+        var busy = document.querySelector(OTHER) || document.getElementById('splash') && getComputedStyle(document.getElementById('splash')).display !== 'none' || !app || !app.children.length;
+        if(busy && tries++ < 40){ setTimeout(wait, 1500); return; }
+        if(busy) return;
+        try{ sessionStorage.setItem(SEEN, '1'); }catch(_){}
+        show(items);
+      })();
+    }).catch(function(){});
+  }
+  if(document.readyState === 'complete') setTimeout(run, 1200); else addEventListener('load', function(){ setTimeout(run, 1200); });
+})();
+</script>
 </body>
 </html>
