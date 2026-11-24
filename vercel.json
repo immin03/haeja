@@ -89,6 +89,10 @@
   ],
   "rewrites": [
     {
+      "source": "/gold",
+      "destination": "/semi"
+    },
+    {
       "source": "/naver/:id/:file",
       "destination": "https://raw.githubusercontent.com/immin03/haeja/main/naver/:id/:file"
     },

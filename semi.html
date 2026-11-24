@@ -290,7 +290,7 @@ body:not(.gold) .gold-only{display:none}
 <header class="hero">
   <div class="wrap">
     <a class="wm" href="/start?utm_source=semi"><span class="e">Value<i>Note</i></span><small>밸류노트</small></a>
-    <nav class="tabs"><a href="/semi" data-tab="semi" class="on">반도체 · SOXL</a><a href="/semi?tab=gold" data-tab="gold">금</a></nav>
+    <nav class="tabs"><a href="/semi" data-tab="semi" class="on">반도체 · SOXL</a><a href="/gold" data-tab="gold">금</a></nav>
     <div class="eyebrow" id="h-eb">반도체 · SOXL 보유자를 위한</div>
     <h1 id="h-t">반도체 바닥 계기판,<br>지금 <em id="h-on">–</em>개 켜졌습니다</h1>
     <p id="h-p">반도체가 바닥일 때마다 켜졌던 <b>신호 5개</b>를<br>매일 자동으로 확인해 드립니다.</p>
@@ -453,6 +453,8 @@ if(GOLD){
   $('#s4-h').innerHTML = 'GLD·IAU·GDX<br>고점 대비 지금';
   $('#stk-t').textContent = '금 바닥 신호 알림';
   document.querySelectorAll('a[href*="alert=semi"]').forEach(function(a){ a.setAttribute('href', a.getAttribute('href').replace('alert=semi', 'alert=gold').replace('from=semi', 'from=gold').replace('utm_source=semi-', 'utm_source=gold-')); });
+  if(/[?&]tab=gold/.test(location.search)) try{ history.replaceState(null, '', '/gold' + location.search.replace(/[?&]tab=gold/, '').replace(/^&/, '?') + location.hash); }catch(_){}   /* 2026-11-24 대표: 금은 /gold 로 깔끔하게 */
+  var cl = document.querySelector('link[rel=canonical]'); if(cl) cl.href = 'https://www.valuenote.co.kr/gold';
   send('engage', '/semi:gold-tab');
 }
 /* ---------- 계기판 ---------- */
