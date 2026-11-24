@@ -142,8 +142,8 @@ const eyebrow = (t: string, c = PINK) => `<div style="font-family:${F};font-size
 const btn = (href: string, t: string, dark = true) => `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:22px 0 2px"><tr><td style="background:${dark ? DARK : "#FFFFFF"};border-radius:999px"><a href="${href}" style="display:inline-block;padding:14px 26px;font-family:${F};font-size:14.5px;font-weight:700;letter-spacing:-.01em;color:${dark ? "#FFFFFF" : DARK};text-decoration:none;word-break:keep-all">${t}</a></td></tr></table>`;
 /* 섹션 제목 아래 핑크 둥근 밑줄 (로고와 같은 모양) */
 const pinkBar = (w = 28) => `<div style="width:${w}px;height:4px;background:${PINK};border-radius:2px;line-height:4px;font-size:1px;margin-top:12px">&nbsp;</div>`;
-const h2 = (eb: string, t: string) => `<tr><td style="padding:44px 36px 14px">${eyebrow(eb, MUTED)}<div style="font-family:${F};font-size:21px;font-weight:800;letter-spacing:-.02em;line-height:1.4;color:${INK};margin-top:8px;word-break:keep-all">${t}</div>${pinkBar()}</td></tr>`;
-const p = (t: string, extra = "") => `<p style="margin:0 0 14px;font-family:${F};font-size:15px;line-height:1.8;color:${BODY};word-break:keep-all;${extra}">${t}</p>`;
+const h2 = (eb: string, t: string) => `<tr><td style="padding:44px 36px 14px">${eyebrow(eb, MUTED)}<div style="font-family:${F};font-size:22px;font-weight:800;letter-spacing:-.02em;line-height:1.4;color:${INK};margin-top:8px;word-break:keep-all">${t}</div>${pinkBar()}</td></tr>`;
+const p = (t: string, extra = "") => `<p style="margin:0 0 14px;font-family:${F};font-size:16px;line-height:1.8;color:${BODY};word-break:keep-all;${extra}">${t}</p>`;
 const tabUrl = (tab: string, src: string) => `${SITE}/?tab=${tab}&utm_source=mail&utm_medium=email&utm_campaign=${src}`;
 const colUrl = (id: string, src: string) => `${SITE}/?col=${encodeURIComponent(id)}&utm_source=mail&utm_medium=email&utm_campaign=${src}`;
 const ytUrl = (id: string, src: string) => `https://www.youtube.com/watch?v=${encodeURIComponent(id)}&utm_source=valuenote_mail&utm_campaign=${src}`;
@@ -160,19 +160,32 @@ function colRow(c: Col, src: string, last = false) {
     <td valign="top" style="padding:18px 0"><div style="font-family:${F};font-size:15.5px;font-weight:700;letter-spacing:-.015em;line-height:1.5;word-break:keep-all">${esc(c.title)}</div>
     <div style="font-family:${F};font-size:13px;line-height:1.65;color:${MUTED};margin-top:5px;word-break:keep-all">${esc(c.excerpt.slice(0, 64))}${c.excerpt.length > 64 ? "…" : ""}</div></td></tr></table></a></td></tr>`;
 }
+/* 칼럼 작은 카드 2칸 (2026-11-24 대표: "칼럼도 유튜브처럼 작게") */
+function colGrid(C: Col[], src: string) {
+  if (!C.length) return "";
+  const cell = (c: Col) => `<td width="50%" valign="top" style="padding:0 7px 20px"><a href="${colUrl(c.id, src)}" style="text-decoration:none;color:${INK}">
+    ${c.cover ? `<img src="https://images.weserv.nl/?url=${encodeURIComponent(c.cover)}&w=500&h=300&fit=cover&a=attention&output=jpg&q=82" width="250" height="150" alt="" style="display:block;width:100%;height:auto;border-radius:12px">` : `<div style="background:${DARK};border-radius:12px;padding:22px 16px;font-family:${F};font-size:13px;font-weight:700;color:${PINK};letter-spacing:.1em">COLUMN</div>`}
+    <div style="font-family:${F};font-size:15px;font-weight:700;letter-spacing:-.01em;line-height:1.5;margin-top:10px;word-break:keep-all">${esc(c.title)}</div></a></td>`;
+  let rows = "";
+  for (let i = 0; i < C.length; i += 2) rows += `<tr>${cell(C[i])}${C[i + 1] ? cell(C[i + 1]) : '<td width="50%"></td>'}</tr>`;
+  return `<tr><td style="padding:0 29px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0">${rows}</table></td></tr>`;
+}
 function vidGrid(V: Vid[], src: string) {
   if (!V.length) return "";
   const cell = (v: Vid) => `<td width="50%" valign="top" style="padding:0 7px 20px"><a href="${ytUrl(v.id, src)}" style="text-decoration:none;color:${INK}">
     <img src="https://i.ytimg.com/vi/${esc(v.id)}/hqdefault.jpg" width="250" alt="" style="display:block;width:100%;height:auto;border-radius:12px">
-    <div style="font-family:${F};font-size:13.5px;font-weight:700;letter-spacing:-.01em;line-height:1.55;margin-top:10px;word-break:keep-all">${esc(v.title)}</div></a></td>`;
+    <div style="font-family:${F};font-size:15px;font-weight:700;letter-spacing:-.01em;line-height:1.5;margin-top:10px;word-break:keep-all">${esc(v.title)}</div></a></td>`;
   let rows = "";
   for (let i = 0; i < V.length; i += 2) rows += `<tr>${cell(V[i])}${V[i + 1] ? cell(V[i + 1]) : '<td width="50%"></td>'}</tr>`;
   return `<tr><td style="padding:0 29px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0">${rows}</table></td></tr>`;
 }
+/* 푸터 채널 아이콘 (2026-11-24 대표: "푸터에 유튜브·인스타·블로그 아이콘으로 예쁘게") — 메일 앱은 SVG를 못 그려서 PNG(/brand/mail/mail-ic-*.png) */
+const VN_KAKAO = "https://pf.kakao.com/_TxcBvX/friend";
 const channels = (src: string) => {
-  const a = (href: string, t: string) => `<a href="${href}" style="font-family:${F};font-size:12.5px;font-weight:700;color:#FFFFFF;text-decoration:none;letter-spacing:.02em">${t}</a>`;
-  const dot = `<span style="color:#444444">&nbsp;&nbsp;·&nbsp;&nbsp;</span>`;
-  return `${a(`https://www.youtube.com/@valuenote_korea?utm_source=valuenote_mail&utm_campaign=${src}`, "YouTube")}${dot}${a("https://www.instagram.com/value.note.korea/", "Instagram")}${dot}${a("https://blog.naver.com/valuenote_korea", "Naver Blog")}${dot}${a(`${SITE}/?utm_source=mail&utm_campaign=${src}`, "valuenote.co.kr")}`;
+  const ic = (href: string, k: string, alt: string) => `<td style="padding:0 6px"><a href="${href}" style="text-decoration:none"><img src="${SITE}/brand/mail/mail-ic-${k}.png" width="40" height="40" alt="${alt}" style="display:block;width:40px;height:40px;border:0"></a></td>`;
+  return `<table role="presentation" cellpadding="0" cellspacing="0" align="center" style="margin:0 auto"><tr>
+    ${ic(`https://www.youtube.com/@valuenote_korea?utm_source=valuenote_mail&utm_campaign=${src}`, "yt", "YouTube")}${ic("https://www.instagram.com/value.note.korea/", "ig", "Instagram")}${ic("https://blog.naver.com/valuenote_korea", "bl", "네이버 블로그")}${ic(VN_KAKAO, "kt", "카카오톡 채널")}${ic(`${SITE}/?utm_source=mail&utm_campaign=${src}`, "web", "밸류노트")}
+  </tr></table>`;
 };
 /* 로고 (2026-11-16 확정 B안): 한 줄 'VALUE'(굵게) + 'NOTE'(얇게), 흰색 · 아래 핑크 둥근 밑줄 · 한글 '밸류노트'는 영문보다 작게 */
 const wordmark = `<table role="presentation" cellpadding="0" cellspacing="0"><tr><td align="left">
@@ -188,7 +201,7 @@ function hero(eb: string, title: string, sub: string, cta?: [string, string]) {
     <div style="height:40px;line-height:40px;font-size:1px">&nbsp;</div>
     ${eyebrow(eb, PINK)}
     <div style="font-family:${F};font-size:28px;font-weight:800;letter-spacing:-.03em;line-height:1.38;color:#FFFFFF;margin-top:12px;word-break:keep-all">${title}</div>
-    <div style="font-family:${F};font-size:15px;line-height:1.8;color:${ON_DARK};margin-top:14px;word-break:keep-all">${sub}</div>
+    <div style="font-family:${F};font-size:16px;line-height:1.8;color:${ON_DARK};margin-top:14px;word-break:keep-all">${sub}</div>
     ${cta ? btn(cta[0], cta[1], false) : ""}
   </td></tr>`;
 }
@@ -206,11 +219,15 @@ body{margin:0;padding:0;-webkit-font-smoothing:antialiased}a{text-decoration:non
 <table class="vn-card" role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;background:#FFFFFF;border-radius:20px;overflow:hidden">
 ${body.replace(/→/g, ARW)}
 <tr><td style="height:44px;line-height:44px;font-size:1px">&nbsp;</td></tr>
-<tr><td style="background:${DARK};padding:28px 36px 30px">
-  <div>${channels(src)}</div>
-  <div style="font-family:${F};font-size:11.5px;line-height:1.8;color:${ON_DARK2};margin-top:16px;word-break:keep-all">${foot}</div>
-  <div style="font-family:${F};font-size:11.5px;line-height:1.8;color:${ON_DARK2};margin-top:8px;word-break:keep-all">밸류노트의 글과 영상은 공개된 자료를 정리한 것이며 특정 종목의 매수·매도를 권하지 않습니다.</div>
-  <div style="font-family:${F};font-size:11.5px;line-height:1.8;color:${ON_DARK2};margin-top:8px">보낸 곳: 밸류노트(ValueNote) · 문의 <a href="mailto:${CONTACT}" style="color:${ON_DARK};text-decoration:underline">${CONTACT}</a></div>
+<tr><td align="center" style="background:${DARK};padding:34px 32px 32px;text-align:center">
+  <div style="font-family:${LOGO};font-size:17px;color:#FFFFFF;letter-spacing:.06em;line-height:1"><span style="font-weight:800">VALUE</span><span style="font-weight:300">NOTE</span></div>
+  <div style="width:32px;height:3px;background:${PINK};border-radius:2px;line-height:3px;font-size:1px;margin:8px auto 0">&nbsp;</div>
+  <div style="font-family:${F};font-size:13px;color:${ON_DARK};margin:12px 0 18px;word-break:keep-all">유튜브 · 인스타 · 블로그 · 카카오톡에서도 만나요</div>
+  ${channels(src)}
+  <div style="height:1px;background:#2A2A2A;line-height:1px;font-size:1px;margin:26px 0 18px">&nbsp;</div>
+  <div style="font-family:${F};font-size:12.5px;line-height:1.8;color:${ON_DARK2};word-break:keep-all">${foot}</div>
+  <div style="font-family:${F};font-size:12.5px;line-height:1.8;color:${ON_DARK2};margin-top:8px;word-break:keep-all">밸류노트의 글과 영상은 공개된 자료를 정리한 것이며 특정 종목의 매수·매도를 권하지 않습니다.</div>
+  <div style="font-family:${F};font-size:12.5px;line-height:1.8;color:${ON_DARK2};margin-top:8px">주식회사 더트러스티스 · 밸류노트(ValueNote) · <a href="mailto:${CONTACT}" style="color:${ON_DARK};text-decoration:underline">${CONTACT}</a></div>
 </td></tr>
 </table></td></tr></table></body></html>`);
 }
@@ -223,7 +240,7 @@ const unsubUrl = (w: Who) => w.token ? `${SITE}/mail?u=${w.token}` : `${SITE}/?t
 const subscribeBox = (w: Who, src: string, title: string, desc: string, pad = "32px 36px 0") => `<tr><td style="padding:${pad}"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${DARK};background-image:linear-gradient(150deg,${DARK2} 0%,${DARK} 60%);border-radius:18px"><tr><td style="padding:30px 28px">
       ${eyebrow("Weekly Note · 매주 월요일 08:30", PINK)}
       <div style="font-family:${F};font-size:21px;font-weight:800;letter-spacing:-.025em;line-height:1.45;color:#FFFFFF;margin-top:10px;word-break:keep-all">${title}</div>
-      <div style="font-family:${F};font-size:14px;line-height:1.8;color:${ON_DARK};margin-top:12px;word-break:keep-all">${desc}</div>
+      <div style="font-family:${F};font-size:15px;line-height:1.8;color:${ON_DARK};margin-top:12px;word-break:keep-all">${desc}</div>
       ${btn(w.token ? `${SITE}/mail?s=${w.token}` : tabUrl("account", src), "뉴스레터 구독하기 →", false)}
       <div style="font-family:${F};font-size:11px;line-height:1.7;color:${ON_DARK2};margin-top:12px;word-break:keep-all">버튼을 누른 뒤 열리는 화면에서 한 번 더 확인하면 구독됩니다. 선택 사항이며 언제든 해지할 수 있습니다.</div>
     </td></tr></table></td></tr>`;
@@ -245,23 +262,47 @@ async function gaugesNow(): Promise<GaugeNow[]> {
 function gaugeCard(x: GaugeNow) {
   const cells = x.sigs.map((s) => `<td width="20%" align="center" style="padding:0 3px"><div style="border:1.5px solid ${s.on ? PINK : "#3A3A3A"};border-radius:12px;padding:12px 0 10px;background:${s.on ? "#2A1418" : "#1A1A1A"}">
       <div style="width:12px;height:12px;border-radius:6px;margin:0 auto;background:${s.on ? PINK : "#4A4A4A"};line-height:12px;font-size:1px">&nbsp;</div>
-      <div style="font-family:${F};font-size:12px;font-weight:700;color:${s.on ? "#FFFFFF" : "#8A8A8A"};margin-top:8px;white-space:nowrap">${esc(s.name)}</div></div></td>`).join("");
+      <div style="font-family:${F};font-size:13px;font-weight:700;color:${s.on ? "#FFFFFF" : "#8A8A8A"};margin-top:8px;white-space:nowrap">${esc(s.name)}</div></div></td>`).join("");
   const md = x.asof ? `${+x.asof.slice(5, 7)}/${+x.asof.slice(8, 10)} 마감 기준` : "";
   return `<tr><td style="padding:0 36px 12px"><a href="${x.url}" style="display:block;text-decoration:none"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${DARK};background-image:linear-gradient(160deg,#2A2A2A 0%,${DARK} 60%);border-radius:18px"><tr><td style="padding:20px 15px 18px">
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
       <td style="padding:0 3px;font-family:${F};font-size:17px;font-weight:800;letter-spacing:-.02em;color:#FFFFFF;word-break:keep-all">${x.name} 바닥 계기판</td>
       <td align="right" style="padding:0 3px;font-family:${F};font-size:24px;font-weight:800;color:${PINK};white-space:nowrap">${x.on}<span style="font-size:14px;color:${ON_DARK}"> / 5</span></td></tr></table>
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:14px"><tr>${cells}</tr></table>
-    <div style="font-family:${F};font-size:12px;color:${ON_DARK2};margin-top:12px;padding:0 3px">${md}${md ? " · " : ""}<span style="color:#FFFFFF;font-weight:700">자세히 보기 →</span></div>
+    <div style="font-family:${F};font-size:13px;color:${ON_DARK2};margin-top:12px;padding:0 3px">${md}${md ? " · " : ""}<span style="color:#FFFFFF;font-weight:700">자세히 보기 →</span></div>
   </td></tr></table></a></td></tr>`;
 }
 /* 섹션: 번호 + 제목 + 한 줄 + (사진) + 버튼 */
 const step = (n: number, t: string, d: string) => `<tr><td style="padding:44px 36px 16px">
   <table role="presentation" cellpadding="0" cellspacing="0"><tr><td valign="middle" style="padding-right:10px"><div style="width:28px;height:28px;border-radius:14px;background:${PINK};color:#FFFFFF;font-family:${F};font-size:14px;font-weight:800;line-height:28px;text-align:center">${n}</div></td>
-  <td valign="middle" style="font-family:${F};font-size:20px;font-weight:800;letter-spacing:-.02em;color:${INK};word-break:keep-all">${t}</td></tr></table>
-  <div style="font-family:${F};font-size:14.5px;line-height:1.7;color:${BODY};margin-top:10px;word-break:keep-all">${d}</div></td></tr>`;
-const shot = (src: string, href: string, alt: string, cap = "") => `<tr><td style="padding:0 36px"><a href="${href}" style="display:block;text-decoration:none"><img src="${SITE}/brand/mail/${src}" width="528" alt="${alt}" style="display:block;width:100%;max-width:528px;height:auto;border-radius:16px;border:1px solid ${LINE}"></a>${cap ? `<div style="font-family:${F};font-size:11.5px;color:${MUTED};margin-top:8px;text-align:center">${cap}</div>` : ""}</td></tr>`;
+  <td valign="middle" style="font-family:${F};font-size:21px;font-weight:800;letter-spacing:-.02em;color:${INK};word-break:keep-all">${t}</td></tr></table>
+  <div style="font-family:${F};font-size:16px;line-height:1.75;color:${BODY};margin-top:10px;word-break:keep-all">${d}</div></td></tr>`;
+const shot = (src: string, href: string, alt: string, cap = "") => `<tr><td style="padding:0 36px"><a href="${href}" style="display:block;text-decoration:none"><img src="${SITE}/brand/mail/${src}" width="528" alt="${alt}" style="display:block;width:100%;max-width:528px;height:auto;border-radius:16px;border:1px solid ${LINE}"></a>${cap ? `<div style="font-family:${F};font-size:13px;color:${MUTED};margin-top:8px;text-align:center">${cap}</div>` : ""}</td></tr>`;
 const btnRow = (href: string, t: string) => `<tr><td style="padding:0 36px">${btn(href, t)}</td></tr>`;
+/* 점수는 이렇게 매깁니다 (2026-11-24 대표: "멍거·버핏 기준으로 어떻게 점수 매기는지 좀 더 디테일하게, 보기 쉽게")
+   앱의 계산식 그대로: 밸류노트 점수 = 숫자 65%(품질 40% + 저평가 60% − 위험 신호) + 정성 평가 20% + 트렌드 15% */
+function scoreHow() {
+  const bar = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-radius:10px;overflow:hidden"><tr>
+    <td width="65%" style="background:${DARK};padding:11px 12px;font-family:${F};font-size:14px;font-weight:800;color:#FFFFFF">숫자 65%</td>
+    <td width="20%" style="background:${PINK};padding:11px 8px;font-family:${F};font-size:14px;font-weight:800;color:#FFFFFF;text-align:center">정성 20%</td>
+    <td width="15%" style="background:#BDBDBD;padding:11px 4px;font-family:${F};font-size:14px;font-weight:800;color:#FFFFFF;text-align:center">흐름 15%</td></tr></table>`;
+  const M = [
+    ["워렌 버핏", "돈을 꾸준히 잘 버는 회사인가", "자기 돈으로 얼마나 버는지(ROE·ROIC), 번 돈이 실제 현금으로 남는지, 빚은 적은지, 적자 난 해는 없는지 등 재무 13개 지표로 품질 점수를 매깁니다."],
+    ["벤저민 그레이엄", "지금 가격이 충분히 싼가", "이익을 보수적으로 할인해 적정 주가를 계산하고, 지금 주가가 그보다 얼마나 싼지(안전마진)로 저평가 점수를 매깁니다. 25% 이상 싸면 저평가 구간입니다."],
+    ["찰리 멍거", "오래 버틸 사업인가", "경쟁자가 따라오기 어려운 해자, 값을 올려도 손님이 떠나지 않는 힘, 경영진과 지배구조를 밸류노트가 직접 조사해 정성 점수로 매깁니다."],
+  ];
+  const cards = M.map(([who, q, d], i) => `<tr><td style="padding:${i ? 10 : 0}px 0 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${BG};border-radius:14px"><tr><td style="padding:16px 18px">
+    <div style="font-family:${F};font-size:13px;font-weight:800;color:${PINK};letter-spacing:.02em">${who}</div>
+    <div style="font-family:${F};font-size:17px;font-weight:800;color:${INK};margin-top:4px;letter-spacing:-.02em;word-break:keep-all">${q}</div>
+    <div style="font-family:${F};font-size:15px;line-height:1.7;color:${BODY};margin-top:6px;word-break:keep-all">${d}</div></td></tr></table></td></tr>`).join("");
+  const band = [["75점 이상", "기준 통과 · 가격이 비싸면 '좋은 회사, 가격 대기'"], ["60~74점", "근접 · 관찰"], ["60점 미만", "기준과 거리 있음"]].map(([a, b], i) =>
+    `<tr><td style="padding:8px 0;${i ? `border-top:1px solid ${LINE};` : ""}font-family:${F};font-size:15px;font-weight:800;color:${INK};white-space:nowrap;padding-right:12px" width="92">${a}</td><td style="padding:8px 0;${i ? `border-top:1px solid ${LINE};` : ""}font-family:${F};font-size:15px;color:${BODY};word-break:keep-all">${b}</td></tr>`).join("");
+  return `${h2("How We Score", "점수는 이렇게 매깁니다")}
+  <tr><td style="padding:0 36px">${p("한 회사의 점수(100점 만점)는 세 부분을 합쳐 만듭니다. 위험 신호(적자 지속, 과도한 빚 등)가 있으면 감점합니다.", "margin:0 0 14px")}${bar}</td></tr>
+  <tr><td style="padding:18px 36px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0">${cards}</table></td></tr>
+  <tr><td style="padding:16px 36px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0">${band}</table>
+  <div style="font-family:${F};font-size:13px;line-height:1.7;color:${MUTED};margin-top:8px;word-break:keep-all">이익이 계속 줄거나 빚이 지나치게 많은 등 탈락 조건에 걸리면 점수와 상관없이 '탈락'입니다. 흐름 15%는 그 회사가 속한 큰 흐름(AI·반도체 등)이 사이클의 어디쯤인지입니다. 점수는 매일 저녁 다시 계산됩니다.</div></td></tr>`;
+}
 async function welcome(w: Who) {
   const [CA, V, N, G] = await Promise.all([columns(10, 8), videos(7, 4), scored(), gaugesNow()]);
   /* 칼럼: 사진 있는 최신 칼럼 2편 (2026-11-24 대표) — 사진 있는 글이 모자라면 나머지로 채운다 */
@@ -277,12 +318,13 @@ async function welcome(w: Who) {
   ${step(1, "내 종목, 몇 점일까", "종목 하나만 넣으면 점수·적정 주가·지금 싼지 비싼지가 바로 나옵니다.")}
   ${shot("welcome-company.jpg", tabUrl("portfolio", src), "종목 점수 화면", "예시 화면 · 특정 종목 추천이 아닙니다")}
   ${btnRow(tabUrl("portfolio", src), "내 종목 넣기 →")}
+  ${scoreHow()}
   ${G.length ? step(2, "바닥 신호, 몇 개 켜졌나", "과거 바닥마다 켜졌던 신호 5개를 매일 아침 7시에 점검합니다. 오늘 숫자입니다.") + G.map(gaugeCard).join("") : ""}
   ${step(G.length ? 3 : 2, "좋고 싼 회사 찾기", "점 하나가 회사 하나. 오른쪽 위로 갈수록 좋고 싼 회사입니다. 관심 종목에 담으면 싸질 때 알려 드립니다.")}
   ${shot("welcome-map.jpg", tabUrl("companies", src), "기업 지도")}
   ${btnRow(tabUrl("companies", src), "기업 지도 보기 →")}
-  <tr><td style="padding:28px 36px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${BG};border-radius:14px"><tr><td style="padding:14px 18px;font-family:${F};font-size:13px;line-height:1.65;color:${BODY};word-break:keep-all"><b style="color:${INK}">TIP</b>&nbsp; 홈 화면에 추가하면 앱처럼 열리고 알림을 받습니다. 아이폰 Safari 공유 → "홈 화면에 추가" · 안드로이드 메뉴 → "앱 설치"</td></tr></table></td></tr>
-  ${C.length ? h2("Column", "오늘 읽어 볼 칼럼") + C.map((c, i) => colBig(c, src) + (i < C.length - 1 ? `<tr><td style="height:26px;line-height:26px;font-size:1px">&nbsp;</td></tr>` : "")).join("") + `<tr><td style="padding:4px 36px 0">${btn(tabUrl("column", src), "칼럼 더 보기 →")}</td></tr>` : ""}
+  <tr><td style="padding:28px 36px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${BG};border-radius:14px"><tr><td style="padding:14px 18px;font-family:${F};font-size:15px;line-height:1.7;color:${BODY};word-break:keep-all"><b style="color:${INK}">TIP</b>&nbsp; 홈 화면에 추가하면 앱처럼 열리고 알림을 받습니다. 아이폰 Safari 공유 → "홈 화면에 추가" · 안드로이드 메뉴 → "앱 설치"</td></tr></table></td></tr>
+  ${C.length ? h2("Column", "이번 주 칼럼") + colGrid(C, src) : ""}
   ${sub}
   ${V.length ? h2("YouTube", "이번 주 많이 본 영상") + vidGrid(V, src) : ""}`;
   return { subject: `${nm} 님, 밸류노트 3분 사용법`, html: shell("내 종목 점수 · 바닥 계기판 · 기업 지도, 이 3가지만 써 보세요.", body, consent, src) };
