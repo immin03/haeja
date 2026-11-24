@@ -1,0 +1,33 @@
+{
+ "id": "il_L261126_forum_stage",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, deep navy blue color grade with warm amber-gold highlights, slightly bright natural exposure with clear readable detail (not too dark), shallow depth of field, fine film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Horizontal 16:9 composition. Scene: A large investment forum hall in Tokyo seen from the back of the audience, a lone speaker in a dark suit on a distant bright stage, rows of seated attendees as dark silhouettes, warm stage lights.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a20e52-a436-76ee-a12a-52a6ae728b39",
+  "status_url": "https://api.higgsfield.ai/requests/01a20e52-a436-76ee-a12a-52a6ae728b39/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a20e52-a436-76ee-a12a-52a6ae728b39/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a20e52-a436-76ee-a12a-52a6ae728b39",
+  "status_url": "https://api.higgsfield.ai/requests/01a20e52-a436-76ee-a12a-52a6ae728b39/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a20e52-a436-76ee-a12a-52a6ae728b39/cancel",
+  "expires_at": "2026-12-01T16:10:41.430387+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a20e52-a436-76ee-a12a-52a6ae728b39/193a20c9-7d11-48a3-b51f-e0db11fe6f08.png"
+   }
+  ]
+ },
+ "seconds": 19,
+ "file": "scripts/blog/media/lib/il_L261126_forum_stage.png"
+}

@@ -1,0 +1,33 @@
+{
+ "id": "il_L261126_go_corners",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, deep navy blue color grade with warm amber-gold highlights, slightly bright natural exposure with clear readable detail (not too dark), shallow depth of field, fine film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Horizontal 16:9 composition. Scene: Overhead close-up of a traditional wooden Go (baduk) board with black stones firmly placed in three of the four corners and the fourth corner completely empty, a hand in a dark suit sleeve hovering above the empty corner holding a black stone, warm lamp light.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a20e52-a468-7ba3-80db-4e6ac9c2a47a",
+  "status_url": "https://api.higgsfield.ai/requests/01a20e52-a468-7ba3-80db-4e6ac9c2a47a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a20e52-a468-7ba3-80db-4e6ac9c2a47a/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a20e52-a468-7ba3-80db-4e6ac9c2a47a",
+  "status_url": "https://api.higgsfield.ai/requests/01a20e52-a468-7ba3-80db-4e6ac9c2a47a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a20e52-a468-7ba3-80db-4e6ac9c2a47a/cancel",
+  "expires_at": "2026-12-01T16:10:36.666734+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a20e52-a468-7ba3-80db-4e6ac9c2a47a/0db24cb7-a79c-4552-b415-3f139c9d1567.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "scripts/blog/media/lib/il_L261126_go_corners.png"
+}
