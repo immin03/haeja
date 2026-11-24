@@ -1384,7 +1384,7 @@ function alKind(a){
   const src = String(a.source || ''), t = String(a.title || '');
   if(src === '반도체 계기판' || src === '금 계기판') return { imp: true, tag: '계기판', c: 'var(--accent)' };
   if(src === '장부 판정') return /초과|매도/.test(t) ? { imp: true, tag: '매도 점검', c: 'var(--warn)' } : { imp: true, tag: '매수가 도달', c: 'var(--good, #12935E)' };
-  if(a.level === 'urgent') return { imp: true, tag: /\+/.test(t) ? '급등' : '급락', c: 'var(--bad)' };
+  if(a.level === 'urgent' && !/장 마감 ·|브리핑/.test(t)) return { imp: true, tag: /\+/.test(t) ? '급등' : '급락', c: 'var(--bad)' };
   if(src === '맞춤 알림' && a.level === 'good') return { imp: true, tag: '새로 싸짐', c: 'var(--good, #12935E)' };
   return { imp: false, tag: '', c: 'var(--muted)' };
 }
