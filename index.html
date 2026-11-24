@@ -1378,14 +1378,24 @@ function bellHtml(){
   });
 })();
 function updateBell(){ const b = document.getElementById('bellSlot'); if(b) b.innerHTML = bellHtml(); }
+/* 알림 시각 읽기 (2026-11-24): 서버 작업마다 형식이 달라 "2026-11-24 06:41 KST" 같은 값이 섞여 들어온다.
+   못 읽는 값 하나 때문에 알림 화면 전체가 멈췄던 문제 → 여러 형식을 읽고, 그래도 못 읽으면 0(맨 아래 '이전') */
+function alTime(v){
+  if(v == null || v === '') return 0;
+  let t = Date.parse(v); if(isFinite(t)) return t;
+  const s = String(v).trim(), m = s.match(/^(\d{4})-(\d{2})-(\d{2})[ T](\d{1,2}):(\d{2})(?::(\d{2}))?\s*(KST|UTC|Z)?$/i);
+  if(m){ const u = Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +(m[6] || 0)); return /kst/i.test(m[7] || 'KST') ? u - 9 * 3600e3 : u; }
+  t = Date.parse(s.replace(' ', 'T')); return isFinite(t) ? t : 0;
+}
 function agoText(iso){
-  const t = Date.parse(iso); if(!t) return '';
+  const t = alTime(iso); if(!t) return '';
   const m = Math.round((Date.now() - t)/60000);
   if(m < 1) return '방금'; if(m < 60) return m + '분 전'; if(m < 1440) return Math.round(m/60) + '시간 전';
   const d = Math.round(m/1440); return d === 1 ? '어제' : d + '일 전';
 }
 function dayGroup(iso){
-  const k = new Date(Date.parse(iso) + 9*3600e3).toISOString().slice(0,10), t = today();
+  const ms = alTime(iso); if(!ms) return '이전';
+  const k = new Date(ms + 9*3600e3).toISOString().slice(0,10), t = today();
   const y = new Date(Date.now() + 9*3600e3 - 864e5).toISOString().slice(0,10);
   return k === t ? '오늘' : k === y ? '어제' : '이전';
 }
@@ -1639,7 +1649,7 @@ document.addEventListener('click', async e => {
   await loadSubs(); render();
 });
 function viewAlerts(){
-  const list = [...(S.alerts||[])].filter(a => !a.merged).sort((a,b) => (b.at||'').localeCompare(a.at||'')).slice(0, 60);
+  const list = [...(S.alerts||[])].filter(a => !a.merged).sort((a,b) => alTime(b.at) - alTime(a.at)).slice(0, 60);
   const groups = {}; list.forEach(a => (groups[dayGroup(a.at)] ||= []).push(a));
   const item = a0 => { const a = alView(a0), lv = AL_LV[a.level] || AL_LV.info;
     const to = alTarget(a0), open = S.alOpen === a.id;
@@ -3832,6 +3842,14 @@ function mailAsk(){
 }
 const BLOG_URL = 'https://blog.naver.com/valuenote_korea';
 const blogBox = () => `<a class="card blog-box" href="${BLOG_URL}" target="_blank" rel="noopener"><span class="blog-ic" aria-hidden="true">N</span><span><b>밸류노트 블로그</b><span class="small muted">기업 이야기, 거장의 투자, 밸류노트 사용법을 매일 올립니다</span></span><span class="small muted">바로가기 ›</span></a>`;
+/* 칼럼이 실제로 쓰인 날: 블로그에서 옮긴 글은 원래 글 번호(naver/b261029u → 2026-10-29), 아니면 칼럼 번호(col-YYYY-MM-DD) */
+function colRealDate(c){ const m = /^naver\/[ab](\d{2})(\d{2})(\d{2})/.exec(String(c.from || '')); return m ? `20${m[1]}-${m[2]}-${m[3]}` : String(c.id || '').slice(4, 14); }
+function colFresh(L){
+  const live = (L || []).filter(c => c && c.title && !c.hidden);
+  const cut = new Date(Date.now() + 9 * 3600e3 - 14 * 864e5).toISOString().slice(0, 10);
+  const fresh = live.filter(c => colRealDate(c) >= cut && String(c.id || '').slice(4, 14) >= cut);
+  return fresh.length >= 6 ? fresh : [...live].sort((a, b) => colRealDate(b).localeCompare(colRealDate(a))).slice(0, 6);
+}
 function viewColumn(){
   const L = S.columns || [], open = S.colOpen && L.find(c => c.id === S.colOpen);
   if(open) return `<div class="row" style="justify-content:space-between;margin-top:16px"><button class="btn" data-act="col-back">‹ 칼럼 목록</button><span class="small muted">${esc(colDate(open))}</span></div>
@@ -3848,9 +3866,10 @@ function viewColumn(){
   
   const exOf = t => { const e = String(t || '').replace(/!\[[^\]]*\]\([^)]*\)/g, '').replace(/[■>*|]/g, '').replace(/\s+/g, ' ').trim(); const x = e.slice(0, 90); return x + (e.length > 90 && !/[.!?다요]$/.test(x) ? '…' : ''); };
   const feed = [
-    /* 2026-11-17 대표님: 블로그 글을 다 가져오지 말고 관심 많은 글만 골라서(pick) 칼럼으로 */
-    ...L.filter(c => c.pick).map(c => ({ k: 'col', at: String(c.id || '').slice(4, 14), c }))
-  ].sort((a, b) => b.at.localeCompare(a.at));
+    /* 2026-11-24 대표: "왜 아직도 10월 31일 글이 맨 위냐 — 최신 것만" → pick 여부와 상관없이 내리지 않은(hidden 아닌) 칼럼 중
+       실제로 쓴 날(블로그에서 옮긴 글은 원래 글 번호 naver/bYYMMDD 의 날짜)이 14일 안인 것만, 최신순. 6편이 안 되면 최신 6편 */
+    ...colFresh(L).map(c => ({ k: 'col', at: colRealDate(c), c }))
+  ].sort((a, b) => b.at.localeCompare(a.at) || String(b.c.id).localeCompare(String(a.c.id)));
   const SRC = { col: ['칼럼', 'src-col'], blog: ['블로그', 'src-blog'], iss: ['정리본', 'src-iss'] };
   const tag = (k, sub) => `<span class="col-src-tag ${SRC[k][1]}">${SRC[k][0]}</span>${sub ? `<span class="col-ser">${esc(sub)}</span>` : ''}`;
   const md = d => d ? `${+d.slice(5, 7)}월 ${+d.slice(8, 10)}일` : '';
@@ -6201,6 +6220,17 @@ const gzSg = v => (v > 0 ? '+' : '') + (Math.round(v * 10) / 10) + '%';
 /* 신호가 가장 많이 켜졌던 때 (바닥 날 포함 · 같으면 앞선 날) */
 const gzBest = e => [['바닥 날', e.atLow], ['한 달 뒤', e.m1], ['두 달 뒤', e.m2], ['세 달 뒤', e.m3]].reduce((a, b) => (b[1] && b[1].n > (a[1] ? a[1].n : -1)) ? b : a, ['', null]);
 const gzYmd = d => { const p = String(d || '').split('-'); return p.length === 3 ? `${p[0]}년 ${+p[1]}월 ${+p[2]}일` : ''; };
+/* 신호가 2개 이상 켜져 있던 주를 그래프 배경 띠로 (2026-11-24 대표: "불 2~3개 켜진 구간도 보여 주자") — 3개 이상은 더 진하게 */
+function gzBands(e, ser, X, y0, y1){
+  const c = e.cnt || []; if(c.length < 2) return '';
+  const t0 = Date.parse(ser[0][0]), t1 = Date.parse(ser.at(-1)[0]), xa = X(0), xb = X(ser.length - 1);
+  const px = d => xa + (Date.parse(d) - t0) / ((t1 - t0) || 1) * (xb - xa);
+  let out = '';
+  for(let i = 0; i < c.length; i++){ const n = c[i][1]; if(n < 2) continue;
+    const x0 = Math.max(xa, px(c[i][0])), x1 = Math.min(xb, i + 1 < c.length ? px(c[i + 1][0]) : xb);
+    if(x1 > x0) out += `<rect x="${x0.toFixed(1)}" y="${y0}" width="${(x1 - x0 + .4).toFixed(1)}" height="${y1 - y0}" fill="rgba(255,77,109,${n >= 3 ? .34 : .16})"/>`; }
+  return out;
+}
 function gzChart(e, k){
   const ser = e.ser || []; if(ser.length < 3) return '';
   const W = 320, H = 120, pl = 4, pr = 4, pt = 16, pb = 18, v = ser.map(x => x[1]), mn = Math.min(...v), mx = Math.max(...v);
@@ -6211,7 +6241,8 @@ function gzChart(e, k){
   const bi = best[1] ? ser.findIndex(p => p[0] >= best[1].d) : -1;
   const lx = X(li), ly = Y(ser[li][1]);
   return `<svg class="gz-ch" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(e.nm)}년 바닥 전후 그래프">
-    <path d="${d}L${X(ser.length - 1).toFixed(1)},${H - pb}L${pl},${H - pb}Z" fill="rgba(255,77,109,.07)"/>
+    ${gzBands(e, ser, X, pt, H - pb)}
+    <path d="${d}L${X(ser.length - 1).toFixed(1)},${H - pb}L${pl},${H - pb}Z" fill="rgba(17,17,17,.04)"/>
     <path d="${d}" fill="none" stroke="#111" stroke-width="1.6"/>
     ${bi > 0 && best[0] !== '바닥 날' ? `<line x1="${X(bi).toFixed(1)}" x2="${X(bi).toFixed(1)}" y1="${pt - 6}" y2="${H - pb}" stroke="#FF4D6D" stroke-width="1" stroke-dasharray="3 3"/><text x="${Math.min(W - 4, X(bi) + 4).toFixed(1)}" y="${pt - 4}" font-size="10" fill="#FF4D6D" text-anchor="${X(bi) > W - 70 ? 'end' : 'start'}">신호 최다 ${best[1].n}개</text>` : ''}
     <circle cx="${lx.toFixed(1)}" cy="${ly.toFixed(1)}" r="4.5" fill="#FF4D6D" stroke="#fff" stroke-width="1.5"/>
@@ -6220,6 +6251,16 @@ function gzChart(e, k){
   </svg>`;
 }
 function gzDots(a){ return `<span class="gz-dots">${(a || []).map(x => `<i class="${x == null ? 'na' : x ? 'on' : ''}"></i>`).join('')}</span>`; }
+/* 과거 4번 요약: 바닥 날 신호 수, 2개 이상이 처음 켜진 때와 그때 가격 — 숫자만 보여 주고 사라·팔라는 말은 하지 않는다 */
+function gzSum(eps, M){
+  const f = eps.filter(e => e.first2); if(!eps.length) return '';
+  const lo = eps.map(e => e.atLow.n), avg = a => a.reduce((x, y) => x + y, 0) / (a.length || 1);
+  const pre = eps.filter(e => (e.cnt || []).some(c => c[0] < e.low[0] && Date.parse(e.low[0]) - Date.parse(c[0]) > 30 * 864e5 && c[1] >= 2)).length;
+  return `<div class="gz-sum"><div><small>바닥이던 날 켜진 신호</small><b>${Math.min(...lo)}~${Math.max(...lo)}개</b></div>
+    <div><small>2개 이상 처음 켜진 때</small><b>${f.length ? '바닥 뒤 평균 ' + Math.round(avg(f.map(e => e.first2.days))) + '일' : '-'}</b></div>
+    <div><small>그때 가격</small><b>${f.length ? '바닥보다 평균 ' + gzSg(avg(f.map(e => e.first2.fromLow))) : '-'}</b></div></div>
+    <p class="small muted" style="margin:8px 0 12px">바닥이던 날에는 ${Math.min(...lo)}~${Math.max(...lo)}개만 켜져 있었고, 2개 이상이 된 것은 바닥을 조금 지난 뒤였습니다.${pre ? ` 다만 ${pre}번은 바닥 한 달 넘게 전, 아직 떨어지는 중에도 2개 이상 켜진 적이 있습니다. 신호 수만으로 바닥을 확정할 수는 없습니다.` : ''}</p>`;
+}
 function gzBt(k){
   const o = S.gz?.[k], M = GZ_META[k];
   if(!o?.bt) return '';
@@ -6230,9 +6271,11 @@ function gzBt(k){
       ${gzChart(e, k)}
       <div class="gz-ep-r"><div><span>바닥 날 신호</span>${gzDots(e.atLow.a)}<b>${e.atLow.n}개</b></div>
       ${best[1] && best[0] !== '바닥 날' ? `<div><span>${best[0]} (가장 많을 때)</span>${gzDots(best[1].a)}<b>${best[1].n}개</b></div>` : ''}
-      <div><span>바닥에서 3개월 뒤</span><b class="${(e.ret3m || 0) >= 0 ? 'up' : 'dn'}">${e.ret3m != null ? gzSg(e.ret3m) : '-'}</b></div></div></div>`; }).join('');
+      ${e.first2 ? `<div><span>바닥 뒤 2개 이상 처음 켜진 날</span><b style="min-width:auto">${e.first2.days === 0 ? '바닥 날' : e.first2.days + '일 뒤'} · 바닥보다 ${gzSg(e.first2.fromLow)}</b></div>` : ''}
+      <div><span>바닥에서 3개월 뒤 / 1년 뒤</span><b style="min-width:auto" class="${(e.ret3m || 0) >= 0 ? 'up' : 'dn'}">${e.ret3m != null ? gzSg(e.ret3m) : '-'} / ${e.ret1y != null ? gzSg(e.ret1y) : '-'}</b></div></div></div>`; }).join('');
   return `<h3 class="eyebrow" style="margin:28px 0 4px">과거 바닥에서는 어땠나</h3>
-    <p class="small muted" style="margin:0 0 10px">지난 4번의 ${M.nm} 바닥 전후 6개월 그래프입니다. 핑크 점이 바닥, 점선이 신호가 가장 많이 켜졌던 날입니다.</p>
+    <p class="small muted" style="margin:0 0 10px">지난 4번의 ${M.nm} 바닥 전후 6개월 그래프입니다. 핑크 점이 바닥, <b style="color:#FF4D6D">분홍 띠</b>가 신호 2개 이상 켜져 있던 기간(진할수록 3개 이상)입니다.</p>
+    ${gzSum(eps, M)}
     <div class="gz-eps">${rows}</div>
     <p class="small muted" style="margin:8px 0 0">동그라미 순서: ${M.sig.join(' · ')} (빈 동그라미 = 자료 없음) · ${esc(M.btFoot)}</p>`;
 }
@@ -8444,6 +8487,7 @@ nav.tabs button.gz-new .tab-dot{display:block}
 .gz-ep-r>div{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);padding:5px 0;border-top:1px dashed var(--line)}
 .gz-ep-r>div span:first-child{flex:1}.gz-ep-r b{min-width:44px;text-align:right;color:var(--ink);font-size:14px}.gz-ep-r b.up{color:#D93654}.gz-ep-r b.dn{color:#2A6FDB}
 .gz-dots{display:inline-flex;gap:3px}.gz-dots i{width:9px;height:9px;border-radius:5px;background:#ddd}.gz-dots i.on{background:#FF4D6D}.gz-dots i.na{background:transparent;border:1px dashed #bbb;box-sizing:border-box}
+.gz-sum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.gz-sum>div{border:1.5px solid var(--ink);border-radius:14px;padding:10px 10px}.gz-sum small{display:block;font-size:12px;color:var(--muted);line-height:1.4}.gz-sum b{display:block;font-size:15px;color:var(--ink);margin-top:4px;line-height:1.35}
 .gz-lock{position:relative;border-radius:20px;overflow:hidden}
 .gz-blur{filter:blur(6px);opacity:.55;pointer-events:none;user-select:none}
 .gz-lock-in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:18px;background:rgba(255,255,255,.78)}
