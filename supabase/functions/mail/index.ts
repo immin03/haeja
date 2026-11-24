@@ -105,10 +105,20 @@ async function columns(days: number, n: number): Promise<Col[]> {
   return out.sort((a, b) => b.score - a.score);
 }
 async function videos(days: number, n: number): Promise<Vid[]> {
-  let q = sb.from("youtube_posts").select("youtube_id,title,scheduled_at,kind").not("youtube_id", "is", null).eq("kind", "long").order("scheduled_at", { ascending: false }).limit(n);
-  if (days) q = q.gte("scheduled_at", new Date(Date.now() - days * 864e5).toISOString());
-  const { data } = await q;
-  return (data || []).map((v) => ({ id: v.youtube_id, title: fixWords(v.title) }));
+  /* (2026-11-24 대표: 옛날 영상·안 올라간 영상이 걸림 → 최근 7일 롱폼 중 조회수 많은 순)
+     공개된 것만(status=uploaded, 공개 시각이 지금 이전). 조회수는 stats.api / stats.public 중 큰 값 */
+  const now = new Date().toISOString();
+  const pick = async (d: number) => {
+    let q = sb.from("youtube_posts").select("youtube_id,title,scheduled_at,stats").not("youtube_id", "is", null).eq("kind", "long").eq("status", "uploaded").lte("scheduled_at", now).order("scheduled_at", { ascending: false }).limit(30);
+    if (d) q = q.gte("scheduled_at", new Date(Date.now() - d * 864e5).toISOString());
+    const { data } = await q; return data || [];
+  };
+  let L = await pick(days || 7);
+  if (L.length < n) L = await pick(30);                                  // 일주일 안 영상이 모자라면 한 달로 넓힌다
+  const views = (v: any) => Math.max(Number(v?.stats?.api?.views) || 0, Number(v?.stats?.public?.views) || 0);
+  const seen = new Set<string>();
+  return L.sort((a, b) => views(b) - views(a)).filter((v) => { const k = String(v.title || "").slice(0, 14); if (seen.has(k)) return false; seen.add(k); return true; })
+    .slice(0, n).map((v) => ({ id: v.youtube_id, title: fixWords(v.title) }));
 }
 let scoredN: number | null = null;
 /* 계산하는 기업 수: c/scores.json 은 { date, c: { 종목: … } } 모양 */
@@ -253,13 +263,14 @@ const step = (n: number, t: string, d: string) => `<tr><td style="padding:44px 3
 const shot = (src: string, href: string, alt: string, cap = "") => `<tr><td style="padding:0 36px"><a href="${href}" style="display:block;text-decoration:none"><img src="${SITE}/brand/mail/${src}" width="528" alt="${alt}" style="display:block;width:100%;max-width:528px;height:auto;border-radius:16px;border:1px solid ${LINE}"></a>${cap ? `<div style="font-family:${F};font-size:11.5px;color:${MUTED};margin-top:8px;text-align:center">${cap}</div>` : ""}</td></tr>`;
 const btnRow = (href: string, t: string) => `<tr><td style="padding:0 36px">${btn(href, t)}</td></tr>`;
 async function welcome(w: Who) {
-  const [C, V, N, G] = await Promise.all([columns(10, 1), videos(0, 2), scored(), gaugesNow()]);
+  const [CA, V, N, G] = await Promise.all([columns(10, 8), videos(7, 4), scored(), gaugesNow()]);
+  /* 칼럼: 사진 있는 최신 칼럼 2편 (2026-11-24 대표) — 사진 있는 글이 모자라면 나머지로 채운다 */
+  const C = [...CA.filter((c) => c.cover).sort((a, b) => b.id.localeCompare(a.id)), ...CA.filter((c) => !c.cover)].slice(0, 2);
   const nm = w.name || w.email.split("@")[0], src = "welcome";
   const consent = w.ok && w.consent_at
     ? `${kDate(w.consent_at)}에 밸류노트 뉴스레터를 구독하셨습니다. 원하지 않으시면 <a href="${unsubUrl(w)}" style="color:${ON_DARK};text-decoration:underline">구독 해지</a>를 누르세요.`
     : `이 메일은 밸류노트 가입 안내 메일입니다. 뉴스레터는 위 버튼이나 앱의 <a href="${tabUrl("account", src)}" style="color:${ON_DARK};text-decoration:underline">내 계정</a>에서 구독할 수 있으며, 구독하지 않으면 첫 주 안내 말고는 보내지 않습니다.`;
   const sub = w.ok ? "" : subscribeBox(w, src, "월요일 아침,<br>한 주의 시장을 한 통으로", "칼럼 · 계기판 변화 · 새 영상을 정리해 보냅니다. 언제든 한 번에 해지할 수 있습니다.");
-  const col = C[0];
   const body = `${hero("Welcome to ValueNote", `${esc(nm)} 님,<br>환영합니다`,
       `버핏·그레이엄·멍거의 기준으로 ${companiesText(N)} 기업의 점수와 적정 주가를 매일 계산합니다. 이것 3가지만 써 보세요.`,
       [tabUrl("portfolio", src), "밸류노트 열기 →"])}
@@ -271,9 +282,9 @@ async function welcome(w: Who) {
   ${shot("welcome-map.jpg", tabUrl("companies", src), "기업 지도")}
   ${btnRow(tabUrl("companies", src), "기업 지도 보기 →")}
   <tr><td style="padding:28px 36px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${BG};border-radius:14px"><tr><td style="padding:14px 18px;font-family:${F};font-size:13px;line-height:1.65;color:${BODY};word-break:keep-all"><b style="color:${INK}">TIP</b>&nbsp; 홈 화면에 추가하면 앱처럼 열리고 알림을 받습니다. 아이폰 Safari 공유 → "홈 화면에 추가" · 안드로이드 메뉴 → "앱 설치"</td></tr></table></td></tr>
-  ${col ? h2("Column", "오늘 읽어 볼 칼럼") + colRow(col, src, true) : ""}
+  ${C.length ? h2("Column", "오늘 읽어 볼 칼럼") + C.map((c, i) => colBig(c, src) + (i < C.length - 1 ? `<tr><td style="height:26px;line-height:26px;font-size:1px">&nbsp;</td></tr>` : "")).join("") + `<tr><td style="padding:4px 36px 0">${btn(tabUrl("column", src), "칼럼 더 보기 →")}</td></tr>` : ""}
   ${sub}
-  ${V.length ? h2("YouTube", "밸류노트 최신 영상") + vidGrid(V, src) : ""}`;
+  ${V.length ? h2("YouTube", "이번 주 많이 본 영상") + vidGrid(V, src) : ""}`;
   return { subject: `${nm} 님, 밸류노트 3분 사용법`, html: shell("내 종목 점수 · 바닥 계기판 · 기업 지도, 이 3가지만 써 보세요.", body, consent, src) };
 }
 async function digest(w: Who) {
