@@ -2694,7 +2694,7 @@ document.addEventListener('click', async e => {
   if(pushState === 'on'){ saveProg({ setupPush: true }); document.querySelector('.pn-bar')?.remove(); toastMsg('알림을 켰어요. 의미 있는 날에만 알려 드릴게요.'); setTimeout(installOffer, 3200); } else b.disabled = false;
 });
 /* 알림 종류 고르기 (알림 탭) */
-const PUSH_KINDS = [['semi', '반도체 바닥 계기판', '바닥 신호 5개 중 하나라도 켜지거나 꺼지는 날 (valuenote.co.kr/semi)'], ['gold', '금 바닥 계기판', '금 바닥 신호 5개 중 하나라도 켜지거나 꺼지는 날 (valuenote.co.kr/semi?tab=gold)'], ['interest', '최근 본 회사 소식', '가격이 크게 바뀌거나 저평가 구간에 들어오면'], ['value', '새로 싸진 회사', '적정 주가보다 25% 이상 싸진 좋은 회사가 새로 생기면'], ['column', '새 칼럼', '주간 시장·거장의 투자가 올라오면']];
+const PUSH_KINDS = [['semi', '반도체 바닥 계기판', '바닥 신호 5개 중 하나라도 켜지거나 꺼지는 날 (valuenote.co.kr/semi)'], ['gold', '금 바닥 계기판', '금 바닥 신호 5개 중 하나라도 켜지거나 꺼지는 날 (valuenote.co.kr/gold)'], ['interest', '최근 본 회사 소식', '가격이 크게 바뀌거나 저평가 구간에 들어오면'], ['value', '새로 싸진 회사', '적정 주가보다 25% 이상 싸진 좋은 회사가 새로 생기면'], ['column', '새 칼럼', '주간 시장·거장의 투자가 올라오면']];
 /* 금 계기판(2026-11-24): /semi?tab=gold 의 알림 버튼(?alert=gold)으로 온 회원은 semi 대신 gold 를 켠다 */
 const GZ = () => { let k = 'semi'; try{ if(localStorage.getItem('vn-want-gauge') === 'gold') k = 'gold'; }catch(_){} return { [k]: true }; };
 const GZN = () => GZ().gold ? '금' : '반도체';
