@@ -3,6 +3,7 @@
 // - 일간: 미국 10년·2년 국채, 미국 기준금리 상단, 유로 예금금리
 // - 월간(OECD): 한국·일본·독일·프랑스·이탈리아·영국 10년 국채, 한국 기준금리
 // - 월간: 미국 소비자물가 지수(CPIAUCSL) → data.cpi (이슈 릴스용)
+// - (2026-11-24) 환율(fx/current)의 숫자·그래프도 야후 종가로 매일 새로 쓴다. 해설은 그대로
 // 주간 칼럼 작업이 쓰는 해설(headline, issues, impact, manual 최신값)은 건드리지 않고 그대로 둔다.
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
@@ -35,6 +36,42 @@ async function yahooTNX(): Promise<Pt[] | null> {
     return ts.map((t, i) => [new Date(t * 1000).toISOString().slice(0, 10), cl[i]] as [string, number | null])
       .filter((p): p is Pt => typeof p[1] === "number" && isFinite(p[1]));
   } catch (_) { return null; }
+}
+/* 환율 자동 갱신 (2026-11-24 점검: 환율 화면이 11/17 해설·10/12 그래프에 멈춰 있었다 → 매일 야후 시세로 숫자·그래프만 새로 쓴다. 해설 글은 주간 작업이 쓴 그대로 두고 analysisAt 에 그 날짜를 남긴다) */
+async function yahoo(sym: string, range = "5y"): Promise<Pt[] | null> {
+  try {
+    const r = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?range=${range}&interval=1d`, { headers: { "User-Agent": "Mozilla/5.0 (valuenote)" } });
+    const res = (await r.json())?.chart?.result?.[0];
+    const ts: number[] = res?.timestamp || [], cl: (number | null)[] = res?.indicators?.quote?.[0]?.close || [];
+    const m = new Map<string, number>();
+    ts.forEach((t, i) => { const v = cl[i]; if (typeof v === "number" && isFinite(v) && v > 0) m.set(new Date((t + 9 * 3600) * 1000).toISOString().slice(0, 10), v); });
+    const pts = [...m.entries()].sort((a, b) => a[0] < b[0] ? -1 : 1) as Pt[];
+    return pts.length > 30 ? pts : null;
+  } catch (_) { return null; }
+}
+const r3 = (v: number) => Math.round(v * 1000) / 1000;
+function pctChg(pts: Pt[], days: number) {
+  const last = pts.at(-1)!; const t = Date.parse(last[0]) - days * 864e5; let base: Pt | null = null;
+  for (const p of pts) { if (Date.parse(p[0]) <= t) base = p; else break; }
+  return base ? r2((last[1] / base[1] - 1) * 100) : null;
+}
+async function refreshFx(owner: string) {
+  const [krw, jpy, dxy] = await Promise.all([yahoo("KRW=X"), yahoo("JPY=X"), yahoo("DX-Y.NYB", "1y")]);
+  if (!krw || !jpy) return { fx: false };
+  const jm = new Map(jpy);
+  const jk: Pt[] = krw.filter((p) => jm.has(p[0])).map((p) => [p[0], r2(p[1] / jm.get(p[0])! * 100)]);
+  const pack = (pts: Pt[], f: (v: number) => number) => { const q = pts.map((p) => [p[0], f(p[1])] as Pt); return { daily: q.slice(-70), points: weekly(q).slice(-56), monthly: monthly(q).slice(-61) }; };
+  const series = { USDKRW: pack(krw, r2), USDJPY: pack(jpy, r3), JPYKRW100: pack(jk, r2) };
+  const lastOf = (pts: Pt[], f: (v: number) => number) => ({ v: f(pts.at(-1)![1]), date: pts.at(-1)![0], note: "야후 파이낸스 종가 · 매일 자동 갱신" });
+  const { data: old } = await sb.from("docs").select("data").eq("owner", owner).eq("collection", "fx").eq("id", "current").maybeSingle();
+  const o: any = old?.data || {};
+  const rates = { ...(o.rates || {}), USDKRW: lastOf(krw, r2), USDJPY: lastOf(jpy, r3), JPYKRW100: lastOf(jk, r2), ...(dxy ? { DXY: lastOf(dxy, r2) } : {}) };
+  const chg = { ...(o.chg || {}), USDKRW_1m: pctChg(krw, 30), USDKRW_1y: pctChg(krw, 365), USDJPY_1y: pctChg(jpy, 365), JPYKRW100_1y: pctChg(jk, 365) };
+  const asOf = krw.at(-1)![0];
+  const analysisAt = o.analysisAt && o.ratesAuto ? o.analysisAt : (o.asOf || null);   // 처음 한 번: 주간 해설이 쓴 날짜를 해설 날짜로 옮겨 둔다
+  const data = { ...o, rates, chg, series: { ...(o.series || {}), ...series }, asOf, analysisAt, ratesAuto: new Date().toISOString() };
+  const { error } = await sb.from("docs").upsert({ owner, collection: "fx", id: "current", data, updated_at: new Date().toISOString() }, { onConflict: "owner,collection,id" });
+  return { fx: !error, asOf, err: error?.message };
 }
 const weekly = (pts: Pt[]) => { const m = new Map<string, Pt>(); for (const p of pts) { const d = new Date(p[0]); const k = new Date(d.getTime() - ((d.getUTCDay() + 6) % 7) * 864e5).toISOString().slice(0, 10); m.set(k, p); } return [...m.values()]; };
 const monthly = (pts: Pt[]) => { const m = new Map<string, Pt>(); for (const p of pts) m.set(p[0].slice(0, 7), p); return [...m.values()]; };
@@ -83,7 +120,8 @@ Deno.serve(async (_req: Request) => {
     const data = { ...(old?.data || {}), ...(cpi ? { cpi } : {}), series: { ...((old?.data as any)?.series || {}), ...series }, auto: { ...((old?.data as any)?.auto || {}), ...auto }, autoAt: new Date().toISOString(), fails };
     const { error } = await sb.from("docs").upsert({ owner, collection: "fx", id: "rates", data, updated_at: new Date().toISOString() }, { onConflict: "owner,collection,id" });
     if (error) throw error;
-    return new Response(JSON.stringify({ ok: true, got: Object.keys(auto), fails }), { headers: { "Content-Type": "application/json" } });
+    const fx = await refreshFx(owner);
+    return new Response(JSON.stringify({ ok: true, got: Object.keys(auto), fails, fx }), { headers: { "Content-Type": "application/json" } });
   } catch (e) {
     return new Response(JSON.stringify({ error: String((e as Error)?.message || e) }), { status: 500, headers: { "Content-Type": "application/json" } });
   }

@@ -4380,7 +4380,7 @@ function viewValue(){
       <span class="vl-name"><b>${esc(r.n)}</b><small>${esc(MKT[grpOf(r.m)]?.label || '')} · ${esc(r.ind || r.s || '')}</small></span>
       <span class="vl-num"><b class="${side === 'under' ? 'vl-up' : 'vl-dn'}">${vlGap(R)}</b><small>현재 ${fmtPx(r.px, r.cur)} · 적정 ${fmtPx(r.iv, r.cur)}</small></span></button>`;
   return `<div style="margin-top:16px"><h2 style="margin:0">저평가 · 고평가 기업</h2>
-    <div class="small muted" style="margin-top:4px">600여 개 기업의 현재가를 밸류노트가 계산한 적정 주가와 비교했습니다. 매일 갱신됩니다.</div></div>
+    <div class="small muted" style="margin-top:4px">600여 개 기업의 현재가를 밸류노트가 계산한 적정 주가와 비교했습니다. 매일 저녁 갱신됩니다.${typeof DM!=="undefined" && DM.cur && DM.cur.date ? ` <span class="num">· ${esc(String(DM.cur.date).slice(0,10))} 계산</span>` : ""}</div></div>
     <div class="vl-side">${[['under','저평가', all.under],['over','고평가', all.over]].map(([k, l, c]) => `<button type="button" class="${side === k ? 'on' : ''}" data-act="vl-side" data-v="${k}">${l} <span>${c}</span></button>`).join('')}</div>
     <div class="vl-mkt">${VL_MKT.map(([k, l]) => `<button type="button" class="${mkt === k ? 'on' : ''}" data-act="vl-mkt" data-v="${k}">${l}</button>`).join('')}</div>
     <div class="small muted" style="margin:6px 2px 10px">${side === 'under' ? '현재가가 적정 주가보다 25% 이상 낮은 회사 · 재무 점수 50점 이상, 감점 신호 없는 회사만' : '현재가가 적정 주가의 1.5배 이상인 회사 중 재무 점수이 높은 순 (좋은 회사지만 비싼 경우). 10배를 넘는 회사는 이익이 일시적으로 작아 비교가 왜곡될 수 있어 뺐습니다'}</div>
@@ -6354,7 +6354,7 @@ function viewFx(){
   <h2>환율 <span class="small muted num">${esc(fx.asOf||'')} 기준</span></h2>
   <div class="card stack">
     <div class="summary">${tile('원/달러', r.USDKRW, ch.USDKRW_1y)}${tile('원/100엔', r.JPYKRW100, ch.JPYKRW100_1y)}${tile('엔/달러', r.USDJPY, ch.USDJPY_1y)}</div>
-    ${fx.headline ? `<p style="margin:0"><b>${esc(fx.headline)}</b></p>` : ''}
+    ${fx.headline ? `<p style="margin:0"><b>${esc(fx.headline)}</b>${fx.analysisAt && fx.analysisAt !== fx.asOf ? ` <span class="small muted num">· 해설 ${esc(fx.analysisAt)}</span>` : ''}</p>` : ''}
   </div>
   <h2>내 포트폴리오와 환율</h2>
   <div class="card stack">
