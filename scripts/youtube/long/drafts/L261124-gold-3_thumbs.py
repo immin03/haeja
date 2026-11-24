@@ -59,10 +59,8 @@ def render_g2(t, out):
     g = Image.new("RGBA", (TW, TH)); d = ImageDraw.Draw(g)
     for y in range(TH // 3, TH): d.line([0, y, TW, y], fill=(0, 0, 0, int(240 * ((y - TH / 3) / (TH * 2 / 3)) ** 1.1)))
     th.alpha_composite(g); D = ImageDraw.Draw(th)
-    fc = F("ExtraBold", 50); cw = D.textlength(t["chip"], font=fc) + 52
-    D.rounded_rectangle([40, 34, 40 + cw, 34 + 82], 12, fill=(*PINK, 255)); D.text((66, 44), t["chip"], font=fc, fill=(255, 255, 255))   # 17:49 대표: 왼쪽 위 배너 잘 튀게 핑크
-    x2 = 40 + cw + 16; cw2 = D.textlength("3편", font=fc) + 48
-    D.rounded_rectangle([x2, 34, x2 + cw2, 34 + 82], 12, fill=(16, 30, 56, 245)); D.text((x2 + 24, 44), "3편", font=fc, fill=(255, 255, 255))
+    fb = F("ExtraBold", 54); bw = D.textlength("금값 3편", font=fb) + 48   # 17:53 대표: 왼쪽 위는 2·3번째 안과 똑같이 핑크 '금값 3편'
+    D.rounded_rectangle([40, 32, 40 + bw, 32 + 80], 14, fill=(*PINK, 255)); D.text((64, 39), "금값 3편", font=fb, fill=(255, 255, 255))
     L = vn2.logo_layer(34); th.alpha_composite(L, (TW - 40 - L.width + 12, 34))
     COL = {"w": WHITE, "gold": (240, 214, 150, 255), "pink": (*PINK, 255)}
     LX = 64; f = F("Heavy", 128)
