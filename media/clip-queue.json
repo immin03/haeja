@@ -1,5 +1,5 @@
 {
- "note": "2026-11-17 앤트로픽 편 원음 (L261118). audio=STT로 구간 찾기용 · 2026-11-17 밴스 부통령 앨리스 황 발언(폭스뉴스 원본) 추가 · 2026-11-17 테슬라 2편 머스크 'conflicted party' 원음 (스페이스X 3분기 실적 발표 2026-10-20, PreMarket Prep 재방송) · 2026-11-17 23:35 테슬라 2편 원음 추가: 테슬라 공식 3분기 실적 Q&A 음성(머스크 '높은 문턱') · 2026-11-18 17:40 테슬라 2편: musk_conflicted_q3(54:00~56:00)는 전력 얘기 구간이라 원음 아님 → 전체 음성 au_spacex_q3_2026_call 추가 · 2026-11-21 15:50 폴 튜더 존스 편(L261121e) 원음 요청 21건 · 2026-11-22 00:25 메모리 2편(R2611212355memory) 원음 요청 12건: 젠슨 황 CNBC 10/22·마이크론 CEO 8/20·최태원 CNBC 8/13·카팔·블룸버그(하이닉스 40조 자사주, 아시아 반도체 매도)·재닛 무이·마졸라 · 2026-11-22 00:40 버핏 재조명 편 원음 10건(2026 주총 CNBC·카지노 발언·찰리 로즈 2008·1997 주총·2009 BNSF) · 2026-11-22 17:30 SOXL 3편(L261123-soxl-3) 원음 3건: 게이츠 TED 2015·잡스 2007 아이폰·젠슨 황 GTC 2023(음성 전체→STT로 구간) · 17:50 젠슨 황 GTC 전체 음성 대신 CNBC 카팔 인터뷰 374~426초 영상으로 교체 · 18:20 SOXL 3편 원음 추가 요청: 그리핀(블룸버그 2026-10)·하워드 막스(CNBC 2025-10)",
+ "note": "2026-11-17 앤트로픽 편 원음 (L261118). audio=STT로 구간 찾기용 · 2026-11-17 밴스 부통령 앨리스 황 발언(폭스뉴스 원본) 추가 · 2026-11-17 테슬라 2편 머스크 'conflicted party' 원음 (스페이스X 3분기 실적 발표 2026-10-20, PreMarket Prep 재방송) · 2026-11-17 23:35 테슬라 2편 원음 추가: 테슬라 공식 3분기 실적 Q&A 음성(머스크 '높은 문턱') · 2026-11-18 17:40 테슬라 2편: musk_conflicted_q3(54:00~56:00)는 전력 얘기 구간이라 원음 아님 → 전체 음성 au_spacex_q3_2026_call 추가 · 2026-11-21 15:50 폴 튜더 존스 편(L261121e) 원음 요청 21건 · 2026-11-22 00:25 메모리 2편(R2611212355memory) 원음 요청 12건: 젠슨 황 CNBC 10/22·마이크론 CEO 8/20·최태원 CNBC 8/13·카팔·블룸버그(하이닉스 40조 자사주, 아시아 반도체 매도)·재닛 무이·마졸라 · 2026-11-22 00:40 버핏 재조명 편 원음 10건(2026 주총 CNBC·카지노 발언·찰리 로즈 2008·1997 주총·2009 BNSF) · 2026-11-22 17:30 SOXL 3편(L261123-soxl-3) 원음 3건: 게이츠 TED 2015·잡스 2007 아이폰·젠슨 황 GTC 2023(음성 전체→STT로 구간) · 17:50 젠슨 황 GTC 전체 음성 대신 CNBC 카팔 인터뷰 374~426초 영상으로 교체 · 18:20 SOXL 3편 원음 추가 요청: 그리핀(블룸버그 2026-10)·하워드 막스(CNBC 2025-10) · 2026-11-25 08:40 손정의 편 v6 화면 영상 18개(쿠팡·위워크·알리바바·스타게이트·머스크·SK하이닉스·약력)",
  "clips": [
   {
    "name": "bbg_ant_oversub",
@@ -855,6 +855,150 @@
    "start": 960,
    "dur": 120,
    "use": "L261126-son 원음: 위 구간 예비(16~18분)"
+  },
+  {
+   "name": "son2_coupang_bell",
+   "url": "https://www.youtube.com/watch?v=dDF8-iq_wlw",
+   "start": 0,
+   "dur": 120,
+   "mode": "video",
+   "use": "L261126-son 쿠팡 NYSE 상장 타종(NYSE 공식) 화면"
+  },
+  {
+   "name": "son2_coupang_bomkim",
+   "url": "https://www.youtube.com/watch?v=TRAKBSZB0PY",
+   "start": 0,
+   "dur": 120,
+   "mode": "video",
+   "use": "L261126-son 김범석 CNBC 인터뷰 화면"
+  },
+  {
+   "name": "son2_coupang_ipo_reuters",
+   "url": "https://www.youtube.com/watch?v=lStnmbYceks",
+   "start": 0,
+   "dur": 120,
+   "mode": "video",
+   "use": "L261126-son 쿠팡 상장 로이터 화면"
+  },
+  {
+   "name": "son2_wework_sorkin",
+   "url": "https://www.youtube.com/watch?v=Upabt-Rjyvg",
+   "start": 0,
+   "dur": 120,
+   "mode": "video",
+   "use": "L261126-son 손정의 CNBC 위워크 후회 — 원음 후보"
+  },
+  {
+   "name": "son2_wework_terrible",
+   "url": "https://www.youtube.com/watch?v=IynUznuVLyQ",
+   "start": 0,
+   "dur": 120,
+   "mode": "video",
+   "use": "L261126-son 손정의 '끔찍한 투자 결정' 2020 — 원음 후보"
+  },
+  {
+   "name": "son2_wework_bbg2019",
+   "url": "https://www.youtube.com/watch?v=PueIBImaq8g",
+   "start": 0,
+   "dur": 120,
+   "mode": "video",
+   "use": "L261126-son 2019-11 소프트뱅크 첫 영업손실 블룸버그 화면"
+  },
+  {
+   "name": "son2_neumann_stage",
+   "url": "https://www.youtube.com/watch?v=KF4tEWjmZUY",
+   "start": 60,
+   "dur": 120,
+   "mode": "video",
+   "use": "L261126-son 애덤 뉴먼 무대(테크크런치 2015)"
+  },
+  {
+   "name": "son2_wework_bankrupt",
+   "url": "https://www.youtube.com/watch?v=a6YMLxFq9J8",
+   "start": 0,
+   "dur": 120,
+   "mode": "video",
+   "use": "L261126-son 위워크 파산 로이터 화면"
+  },
+  {
+   "name": "son2_alibaba_bell",
+   "url": "https://www.youtube.com/watch?v=2lfp_8Hn1UA",
+   "start": 0,
+   "dur": 120,
+   "mode": "video",
+   "use": "L261126-son 알리바바 NYSE 상장(2014) 화면"
+  },
+  {
+   "name": "son2_alibaba_floor",
+   "url": "https://www.youtube.com/watch?v=9_Jb88MaeCM",
+   "start": 0,
+   "dur": 120,
+   "mode": "video",
+   "use": "L261126-son 알리바바 상장일 거래소 화면"
+  },
+  {
+   "name": "son2_abilene_drone",
+   "url": "https://www.youtube.com/watch?v=fUiI03X6DQc",
+   "start": 0,
+   "dur": 120,
+   "mode": "video",
+   "use": "L261126-son 스타게이트 애빌린 드론(2025-04)"
+  },
+  {
+   "name": "son2_musk_stargate",
+   "url": "https://www.youtube.com/watch?v=fnBmYizeK7A",
+   "start": 0,
+   "dur": 120,
+   "mode": "video",
+   "use": "L261126-son 머스크 '돈 없다' 보도 화면"
+  },
+  {
+   "name": "son2_microchip_cry",
+   "url": "https://www.youtube.com/watch?v=nbyeyiqCk7Q",
+   "start": 0,
+   "dur": 60,
+   "mode": "video",
+   "use": "L261126-son 손정의 17세 마이크로칩 보고 울었다 — 약력 원음 후보"
+  },
+  {
+   "name": "son2_charlie_rose",
+   "url": "https://www.youtube.com/watch?v=74sgY58g_tA",
+   "start": 0,
+   "dur": 120,
+   "mode": "video",
+   "use": "L261126-son 찰리 로즈 손정의 대담 화면"
+  },
+  {
+   "name": "son2_hynix_hbm3e",
+   "url": "https://www.youtube.com/watch?v=MO72isLD2_M",
+   "start": 0,
+   "dur": 120,
+   "mode": "video",
+   "use": "L261126-son SK하이닉스 공식 HBM3E 영상"
+  },
+  {
+   "name": "son2_hynix_hbm4",
+   "url": "https://www.youtube.com/watch?v=8PrwOfBzajk",
+   "start": 0,
+   "dur": 120,
+   "mode": "video",
+   "use": "L261126-son SK하이닉스 공식 HBM 영상"
+  },
+  {
+   "name": "son2_nvda_sale_reuters",
+   "url": "https://www.youtube.com/watch?v=Cbos93smbtM",
+   "start": 0,
+   "dur": 120,
+   "mode": "video",
+   "use": "L261126-son 소프트뱅크 엔비디아 매도 로이터 화면"
+  },
+  {
+   "name": "son2_jedi_cnbc2017",
+   "url": "https://www.youtube.com/watch?v=X_fa22eLY5Y",
+   "start": 0,
+   "dur": 120,
+   "mode": "video",
+   "use": "L261126-son 손정의 CNBC 2017 화면"
   }
  ]
 }
