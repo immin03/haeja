@@ -1,0 +1,56 @@
+[
+ {
+  "id": "vn_pres5_a_still",
+  "endpoint": "bytedance/seedance-2.5/image-to-video",
+  "image": "scripts/higgsfield/in/vn_presenter_ref2.png",
+  "use": "2026-11-25 대표: 손 계속 움직여 어색 → 차분하게, 카메라 고정",
+  "max_usd": 1.0,
+  "body": {
+   "prompt": "Locked-off tripod camera: absolutely no zoom, no pan, no tilt, no drift. He sits calmly and almost still: both hands rest quietly folded on the desk the whole time, no gestures, no pen movement. Only subtle natural breathing in the chest and a very slight relaxed shift of the shoulders once. Keep the exact same man, navy two-piece suit, white shirt, dark silk tie, white pocket square, watch, microphone and library background as the reference image. Black and white, soft film grain, warm light from above. The framing never shows the chin, jaw, mouth or face. Calm, composed, documentary feel. No text, no logos.",
+   "duration": 10,
+   "resolution": "720p",
+   "aspect_ratio": "16:9",
+   "generate_audio": false
+  }
+ },
+ {
+  "id": "vn_pres5_b_still",
+  "endpoint": "bytedance/seedance-2.5/image-to-video",
+  "image": "scripts/higgsfield/in/vn_presenter_ref.png",
+  "use": "2026-11-25 대표: 차분·고정",
+  "max_usd": 1.0,
+  "body": {
+   "prompt": "Locked-off tripod camera: absolutely no zoom, no pan, no tilt, no drift. He sits calmly and almost still: both hands rest quietly folded on the desk the whole time, no gestures, no pen movement. Only subtle natural breathing in the chest and a very slight relaxed shift of the shoulders once. Keep the exact same man, navy two-piece suit, white shirt, dark silk tie, white pocket square, watch, microphone and library background as the reference image. Black and white, soft film grain, warm light from above. The framing never shows the chin, jaw, mouth or face. Calm, composed, documentary feel. No text, no logos.",
+   "duration": 10,
+   "resolution": "720p",
+   "aspect_ratio": "16:9",
+   "generate_audio": false
+  }
+ },
+ {
+  "id": "vn_pres5_c_wide",
+  "endpoint": "bytedance/seedance-2.5/text-to-video",
+  "use": "2026-11-25 대표: 클로즈업 말고 조금 더 멀리서",
+  "max_usd": 1.0,
+  "body": {
+   "prompt": "Black and white cinematic film still look, soft grain, warm light from a single lamp above. Locked-off tripod camera: absolutely no zoom, no pan, no tilt, no drift. A medium-wide shot from across a large dark wooden desk in a quiet library study with tall bookshelves and a brass desk lamp. A man in a navy two-piece suit, white shirt, dark silk tie and white pocket square, with a classic square dress watch, sits behind the desk. A black broadcast microphone on a boom arm is in front of him. The top edge of the frame cuts across his upper chest just below the collar, so his chin, mouth and face are never visible at any moment. Both hands rest calmly folded on the desk; he stays almost still, only subtle natural breathing. Composed, serious, documentary mood. No text, no logos.",
+   "duration": 10,
+   "resolution": "720p",
+   "aspect_ratio": "16:9",
+   "generate_audio": false
+  }
+ },
+ {
+  "id": "vn_pres5_d_side",
+  "endpoint": "bytedance/seedance-2.5/text-to-video",
+  "use": "2026-11-25 대표: 멀리서, 측면",
+  "max_usd": 1.0,
+  "body": {
+   "prompt": "Black and white cinematic film look, soft grain. Locked-off tripod camera: no zoom, no pan, no tilt. A wide shot from a 45-degree angle of a library study at night: a man in a navy suit sits at a dark wooden desk, a black broadcast microphone on a boom arm, a brass desk lamp casting a warm pool of light on his folded hands and the desk. His head and face are outside the top of the frame the entire time; we only see from the shoulders down. He stays almost still, hands resting calmly, subtle breathing only. Tall bookshelves in soft focus behind. No text, no logos.",
+   "duration": 10,
+   "resolution": "720p",
+   "aspect_ratio": "16:9",
+   "generate_audio": false
+  }
+ }
+]
