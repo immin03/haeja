@@ -704,8 +704,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261105-gold-doc",
-"L261105-hermes"
+"L261105-hermes",
+"L261105-gold-doc"
 ]
 },
 {
@@ -726,7 +726,8 @@
 "used": [
 "L261105-gold-doc",
 "L261123-soxl-3",
-"L261124-gold-3"
+"L261124-gold-3",
+"Y261125g"
 ]
 },
 {
@@ -947,8 +948,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261105-gold-doc",
 "L261105-hermes",
+"L261105-gold-doc",
 "Y261105g",
 "L261109-palantir-what"
 ]
@@ -970,14 +971,15 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261105-gold-doc",
 "L261105-hermes",
+"L261105-gold-doc",
 "Y261106u",
 "L261107-soxl-38",
 "L261107-midterm-ai",
 "R261110p",
 "Y261110p",
-"Y261123u"
+"Y261123u",
+"L261124-gold-3"
 ]
 },
 {
@@ -995,8 +997,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261105-gold-doc",
 "L261105-hermes",
+"L261105-gold-doc",
 "Y261105g",
 "L261110-pepero-v2",
 "L261110-pepero-day",
@@ -1018,8 +1020,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261109-nvidia-huang",
 "L261109-palantir-what",
+"L261109-nvidia-huang",
 "L261110-pepero-v2"
 ]
 },
@@ -1091,12 +1093,12 @@
 "used": [
 "L261105-hermes",
 "Y261106h",
-"L261109-nvidia-huang",
 "L261109-palantir-what",
+"L261109-nvidia-huang",
 "L261110-pepero-v2",
 "L261110-pepero-day",
-"Y261110a",
 "R261110p",
+"Y261110a",
 "Y261110p",
 "L261111-hyundai-robot"
 ]
@@ -1197,7 +1199,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261105-hermes"
+"L261105-hermes",
+"L261126-son"
 ]
 },
 {
@@ -1353,8 +1356,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"R261108k",
 "Y261108k",
+"R261108k",
 "L261111-hyundai-robot"
 ]
 },
@@ -1432,8 +1435,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"R261108k",
-"Y261108k"
+"Y261108k",
+"R261108k"
 ]
 },
 {
@@ -1574,8 +1577,8 @@
 "used": [
 "L261107-soxl-38",
 "L261107-midterm-ai",
-"Y261107a",
 "R261107a",
+"Y261107a",
 "L261111-hyundai-robot",
 "L261117r-huang-return",
 "Y261117r"
@@ -1626,8 +1629,8 @@
 "ok": true,
 "used": [
 "L261107-midterm-ai",
-"Y261107a",
 "R261107a",
+"Y261107a",
 "L261108-lev-91",
 "L261112-soxl-nvidia"
 ]
@@ -1639,13 +1642,13 @@
 "ok": true,
 "used": [
 "L261107-midterm-ai",
-"Y261107a",
 "R261107a",
+"Y261107a",
 "L261108-lev-91",
 "L261109-nvidia-huang",
 "L261112-soxl-nvidia",
-"Y261112s",
-"R261112s"
+"R261112s",
+"Y261112s"
 ]
 },
 {
@@ -1656,10 +1659,11 @@
 "used": [
 "L261107-midterm-ai",
 "L261108-lev-91",
-"L261109-nvidia-huang",
 "L261109-palantir-what",
+"L261109-nvidia-huang",
 "Y261110a",
-"L261117e-nvidia-earnings"
+"L261117e-nvidia-earnings",
+"L261126-son"
 ]
 },
 {
@@ -1706,7 +1710,8 @@
 "used": [
 "L261107-midterm-ai",
 "L261108-lev-91",
-"Y261119b"
+"Y261119b",
+"L261126-son"
 ]
 },
 {
@@ -1730,7 +1735,8 @@
 "used": [
 "L261107-midterm-ai",
 "L261108-lev-91",
-"L261112-soxl-nvidia"
+"L261112-soxl-nvidia",
+"L261126-son"
 ]
 },
 {
@@ -1743,8 +1749,8 @@
 "L261107-midterm-ai",
 "Y261107k",
 "Y261110a",
-"L261117r-huang-return",
 "L261117e-nvidia-earnings",
+"L261117r-huang-return",
 "L261118-anthropic-ipo",
 "Y261118n"
 ]
@@ -1769,8 +1775,8 @@
 "used": [
 "L261107-midterm-ai",
 "L261108-lev-91",
-"R261108k",
 "Y261108k",
+"R261108k",
 "Y261109b",
 "L261111-hyundai-robot",
 "L261117e-nvidia-earnings",
@@ -1790,7 +1796,8 @@
 "Y261109b",
 "L261111-hyundai-robot",
 "L261112-soxl-nvidia",
-"L261117e-nvidia-earnings"
+"L261117e-nvidia-earnings",
+"L261126-son"
 ]
 },
 {
@@ -1828,15 +1835,16 @@
 "used": [
 "L261107-soxl-38",
 "L261107-midterm-ai",
-"Y261107a",
 "R261107a",
+"Y261107a",
 "Y261110k",
 "L261113-apple-duo",
 "L261117e-nvidia-earnings",
 "L261118-anthropic-ipo",
 "Y261118n",
 "L261120-anthropic-day1",
-"Y261122m"
+"Y261122m",
+"L261126-son"
 ]
 },
 {
@@ -1858,8 +1866,8 @@
 "ok": true,
 "used": [
 "L261107-midterm-ai",
-"Y261107a",
 "R261107a",
+"Y261107a",
 "L261108-lev-91"
 ]
 },
@@ -1901,8 +1909,8 @@
 "used": [
 "L261107-soxl-38",
 "L261107-midterm-ai",
-"Y261107a",
 "R261107a",
+"Y261107a",
 "L261111-hyundai-robot"
 ]
 },
@@ -1951,8 +1959,8 @@
 "ok": true,
 "used": [
 "L261107-midterm-ai",
-"Y261107a",
 "R261107a",
+"Y261107a",
 "L261108-lev-91",
 "L261111-hyundai-robot",
 "Y261117r"
@@ -1966,8 +1974,8 @@
 "used": [
 "L261107-soxl-38",
 "L261107-midterm-ai",
-"Y261107a",
-"R261107a"
+"R261107a",
+"Y261107a"
 ]
 },
 {
@@ -1987,8 +1995,8 @@
 "used": [
 "L261107-soxl-38",
 "L261107-midterm-ai",
-"Y261107a",
 "R261107a",
+"Y261107a",
 "L261111-hyundai-robot",
 "L261112-soxl-nvidia",
 "L261113-apple-duo",
@@ -1999,7 +2007,8 @@
 "Y261120a",
 "Y261121n",
 "Y261123u",
-"L261124-gold-3"
+"L261124-gold-3",
+"L261126-son"
 ]
 },
 {
@@ -2011,8 +2020,7 @@
 "L261107-midterm-ai",
 "L261108-lev-91",
 "L261117e-nvidia-earnings",
-"L261118-anthropic-ipo",
-"L261124-gold-3"
+"L261118-anthropic-ipo"
 ]
 },
 {
@@ -2023,8 +2031,8 @@
 "used": [
 "L261107-soxl-38",
 "L261112-soxl-nvidia",
-"L261117r-huang-return",
-"L261117e-nvidia-earnings"
+"L261117e-nvidia-earnings",
+"L261117r-huang-return"
 ]
 },
 {
@@ -2108,8 +2116,8 @@
 "L261111-hyundai-robot",
 "L261112-soxl-nvidia",
 "Y261112n",
-"Y261112s",
 "R261112s",
+"Y261112s",
 "L261113-apple-duo",
 "L261117e-nvidia-earnings"
 ]
@@ -2719,8 +2727,7 @@
 "ok": false,
 "used": [
 "L261108-lev-91",
-"Y261109b",
-"L261124-gold-3"
+"Y261109b"
 ]
 },
 {
@@ -2741,8 +2748,8 @@
 "used": [
 "L261109-palantir-what",
 "Y261113n",
-"L261117r-huang-return",
-"L261117e-nvidia-earnings"
+"L261117e-nvidia-earnings",
+"L261117r-huang-return"
 ]
 },
 {
@@ -2792,10 +2799,10 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261109-nvidia-huang",
 "L261109-palantir-what",
-"L261117r-huang-return",
-"L261117e-nvidia-earnings"
+"L261109-nvidia-huang",
+"L261117e-nvidia-earnings",
+"L261117r-huang-return"
 ]
 },
 {
@@ -2818,8 +2825,9 @@
 "ok": true,
 "used": [
 "L261109-palantir-what",
+"L261117e-nvidia-earnings",
 "L261117r-huang-return",
-"L261117e-nvidia-earnings"
+"L261126-son"
 ]
 },
 {
@@ -2857,11 +2865,11 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261109-nvidia-huang",
 "L261109-palantir-what",
+"L261109-nvidia-huang",
 "Y261110a",
-"L261117r-huang-return",
-"L261117e-nvidia-earnings"
+"L261117e-nvidia-earnings",
+"L261117r-huang-return"
 ]
 },
 {
@@ -2920,8 +2928,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261109-nvidia-huang",
 "L261109-palantir-what",
+"L261109-nvidia-huang",
 "L261117r-huang-return"
 ]
 },
@@ -2933,8 +2941,8 @@
 "used": [
 "L261109-palantir-what",
 "L261113-gold-2",
-"L261117r-huang-return",
-"L261117e-nvidia-earnings"
+"L261117e-nvidia-earnings",
+"L261117r-huang-return"
 ]
 },
 {
@@ -3027,7 +3035,8 @@
 "used": [
 "L261108-lev-91",
 "L261109-nvidia-huang",
-"L261117r-huang-return"
+"L261117r-huang-return",
+"L261126-son"
 ]
 },
 {
@@ -3080,7 +3089,9 @@
 "scene": "A cramped 1990s Chinese university dormitory room at night, metal bunk beds, a desk lamp, instant noodle bowls, four young men seen from behind playing cards, film photo texture.",
 "ar": "16:9",
 "ok": true,
-"used": []
+"used": [
+"L261126-son"
+]
 },
 {
 "file": "il_L261110a_empty_chair.jpeg",
@@ -3090,8 +3101,8 @@
 "used": [
 "L261108-lev-91",
 "Y261113n",
-"L261117r-huang-return",
-"L261117e-nvidia-earnings"
+"L261117e-nvidia-earnings",
+"L261117r-huang-return"
 ]
 },
 {
@@ -3114,10 +3125,12 @@
 "L261108-lev-91",
 "L261109-nvidia-huang",
 "L261111-hyundai-robot",
-"L261113-apple-duo",
 "L261113-gold-2",
+"L261113-apple-duo",
 "L261122m-samsung-four-money",
-"L261123-soxl-3"
+"L261123-soxl-3",
+"L261124-gold-3",
+"L261126-son"
 ]
 },
 {
@@ -3126,8 +3139,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261117r-huang-return",
-"L261117e-nvidia-earnings"
+"L261117e-nvidia-earnings",
+"L261117r-huang-return"
 ]
 },
 {
@@ -3147,7 +3160,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261117r-huang-return"
+"L261117r-huang-return",
+"L261126-son"
 ]
 },
 {
@@ -3236,8 +3250,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261117r-huang-return",
-"L261117e-nvidia-earnings"
+"L261117e-nvidia-earnings",
+"L261117r-huang-return"
 ]
 },
 {
@@ -3249,7 +3263,8 @@
 "L261108-lev-91",
 "Y261112k",
 "L261113-apple-duo",
-"L261117r-huang-return"
+"L261117r-huang-return",
+"L261126-son"
 ]
 },
 {
@@ -3299,8 +3314,8 @@
 "L261109-nvidia-huang",
 "Y261110a",
 "L261112-soxl-nvidia",
-"Y261112s",
 "R261112s",
+"Y261112s",
 "Y261117k",
 "Y261118n",
 "L261123-soxl-3"
@@ -3360,8 +3375,8 @@
 "ok": true,
 "used": [
 "L261111-hyundai-robot",
-"R261111h",
 "Y261111h",
+"R261111h",
 "Y261118k"
 ]
 },
@@ -3372,8 +3387,8 @@
 "ok": true,
 "used": [
 "L261111-hyundai-robot",
-"R261111h",
 "Y261111h",
+"R261111h",
 "L261117e-nvidia-earnings",
 "L261121-ionq-quantum",
 "Y261121a"
@@ -3477,8 +3492,8 @@
 "ok": true,
 "used": [
 "L261111-hyundai-robot",
-"R261111h",
-"Y261111h"
+"Y261111h",
+"R261111h"
 ]
 },
 {
@@ -3507,8 +3522,8 @@
 "ok": true,
 "used": [
 "L261111-hyundai-robot",
-"R261111h",
-"Y261111h"
+"Y261111h",
+"R261111h"
 ]
 },
 {
@@ -3677,7 +3692,8 @@
 "used": [
 "L261113-apple-duo",
 "Y261115a",
-"L261124-gold-3"
+"L261124-gold-3",
+"Y261125g"
 ]
 },
 {
@@ -3765,7 +3781,7 @@
 },
 {
 "file": "il_L261113a3_s36_rivals.jpeg",
-"scene": "two plain unbranded smartphones, completely blank backs with no logo, Two smartphones lying face down side by side on a dark table, one silver one black, rivalry symbolism.",
+"scene": "Two smartphones lying face down side by side on a dark table, one silver one black, rivalry symbolism.",
 "ar": "16:9",
 "ok": true,
 "used": [
@@ -3801,7 +3817,7 @@
 },
 {
 "file": "il_L261113a3_s41_rates.jpeg",
-"scene": "blank paper with no printing, A calculator, a pen and a printed interest-rate chart without readable text on a dark desk, tense mood.",
+"scene": "A calculator, a pen and a printed interest-rate chart without readable text on a dark desk, tense mood.",
 "ar": "16:9",
 "ok": true,
 "used": [
@@ -3838,7 +3854,7 @@
 },
 {
 "file": "il_L261113a3_s45_watch.jpeg",
-"scene": "plain dark office wall behind, seen from behind, An investor at a desk seen from behind looking at three glowing monitors at night, focused.",
+"scene": "An investor at a desk seen from behind looking at three glowing monitors at night, focused.",
 "ar": "16:9",
 "ok": true,
 "used": [
@@ -3967,12 +3983,11 @@
 "ok": true,
 "used": [
 "L261113-apple-duo",
-"L261117r-huang-return",
 "L261117e-nvidia-earnings",
+"L261117r-huang-return",
 "L261119-tesla-spacex2",
 "L261120-anthropic-day1",
-"Y261121n",
-"L261124-gold-3"
+"Y261121n"
 ]
 },
 {
@@ -3984,8 +3999,7 @@
 "Y261112n",
 "L261113-apple-duo",
 "L261117r-huang-return",
-"L261120-anthropic-day1",
-"L261124-gold-3"
+"L261120-anthropic-day1"
 ]
 },
 {
@@ -3996,7 +4010,8 @@
 "used": [
 "L261113-apple-duo",
 "L261117e-nvidia-earnings",
-"Y261119b"
+"Y261119b",
+"L261126-son"
 ]
 },
 {
@@ -4006,8 +4021,8 @@
 "ok": true,
 "used": [
 "L261113-apple-duo",
-"L261117r-huang-return",
 "L261117e-nvidia-earnings",
+"L261117r-huang-return",
 "Y261117r",
 "Y261117e"
 ]
@@ -4020,8 +4035,8 @@
 "used": [
 "L261113-apple-duo",
 "Y261113n",
-"L261117r-huang-return",
 "L261117e-nvidia-earnings",
+"L261117r-huang-return",
 "Y261118n",
 "L261121-ionq-quantum"
 ]
@@ -4119,8 +4134,7 @@
 "used": [
 "L261113-apple-duo",
 "L261117r-huang-return",
-"Y261118k",
-"L261124-gold-3"
+"Y261118k"
 ]
 },
 {
@@ -4184,8 +4198,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261113-apple-duo",
 "L261113-gold-2",
+"L261113-apple-duo",
 "L261117r-huang-return",
 "L261124-gold-3"
 ]
@@ -4228,8 +4242,7 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261113-gold-2",
-"L261124-gold-3"
+"L261113-gold-2"
 ]
 },
 {
@@ -4239,7 +4252,8 @@
 "ok": true,
 "used": [
 "L261113-gold-2",
-"Y261113g"
+"Y261113g",
+"L261124-gold-3"
 ]
 },
 {
@@ -4290,8 +4304,7 @@
 "ok": true,
 "used": [
 "L261113-gold-2",
-"Y261113g",
-"L261124-gold-3"
+"Y261113g"
 ]
 },
 {
@@ -4329,7 +4342,8 @@
 "ok": true,
 "used": [
 "L261113-gold-2",
-"Y261113g"
+"Y261113g",
+"L261124-gold-3"
 ]
 },
 {
@@ -4612,7 +4626,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261113-gold-2"
+"L261113-gold-2",
+"L261124-gold-3"
 ]
 },
 {
@@ -4633,10 +4648,11 @@
 "used": [
 "L261113-gold-2",
 "L261120-anthropic-day1",
-"Y261120a",
 "Y261120g",
+"Y261120a",
 "Y261121n",
-"Y261123u"
+"Y261123u",
+"L261124-gold-3"
 ]
 },
 {
@@ -4701,7 +4717,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261113-gold-2"
+"L261113-gold-2",
+"L261124-gold-3"
 ]
 },
 {
@@ -4834,7 +4851,8 @@
 "ok": true,
 "used": [
 "L261115-semco-mlcc",
-"Y261115s"
+"Y261115s",
+"L261126-son"
 ]
 },
 {
@@ -4845,7 +4863,8 @@
 "used": [
 "L261115-semco-mlcc",
 "Y261121s",
-"Y261122m"
+"Y261122m",
+"L261126-son"
 ]
 },
 {
@@ -5022,8 +5041,8 @@
 "used": [
 "L261114-tesla-spacex",
 "Y261114t",
-"L261117r-huang-return",
 "L261117e-nvidia-earnings",
+"L261117r-huang-return",
 "Y261117r",
 "Y261117e",
 "L261119-tesla-spacex2"
@@ -5098,8 +5117,8 @@
 "ok": true,
 "used": [
 "L261114-tesla-spacex",
-"L261117r-huang-return",
 "L261117e-nvidia-earnings",
+"L261117r-huang-return",
 "L261119-tesla-spacex2"
 ]
 },
@@ -5142,7 +5161,8 @@
 "ok": true,
 "used": [
 "L261114-tesla-spacex",
-"L261119-tesla-spacex2"
+"L261119-tesla-spacex2",
+"L261126-son"
 ]
 },
 {
@@ -5151,7 +5171,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261114-tesla-spacex"
+"L261114-tesla-spacex",
+"L261126-son"
 ]
 },
 {
@@ -5174,7 +5195,8 @@
 "used": [
 "L261114-tesla-spacex",
 "L261120-anthropic-day1",
-"Y261122b"
+"Y261122b",
+"L261126-son"
 ]
 },
 {
@@ -5215,7 +5237,9 @@
 "L261114-tesla-spacex",
 "L261119u-us-war-fear",
 "L261121-ionq-quantum",
-"Y261123u"
+"Y261123u",
+"L261124-gold-3",
+"L261126-son"
 ]
 },
 {
@@ -5233,7 +5257,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261114-tesla-spacex"
+"L261114-tesla-spacex",
+"L261126-son"
 ]
 },
 {
@@ -5252,12 +5277,13 @@
 "ok": true,
 "used": [
 "L261114-tesla-spacex",
-"L261117r-huang-return",
 "L261117e-nvidia-earnings",
+"L261117r-huang-return",
 "L261118-anthropic-ipo",
 "L261120-anthropic-day1",
 "Y261122a",
-"L261123-soxl-3"
+"L261123-soxl-3",
+"L261126-son"
 ]
 },
 {
@@ -5289,8 +5315,8 @@
 "ok": true,
 "used": [
 "L261114-tesla-spacex",
-"L261117r-huang-return",
 "L261117e-nvidia-earnings",
+"L261117r-huang-return",
 "L261119-tesla-spacex2"
 ]
 },
@@ -5466,7 +5492,8 @@
 "used": [
 "L261114-tesla-spacex",
 "Y261114t",
-"L261119-tesla-spacex2"
+"L261119-tesla-spacex2",
+"L261126-son"
 ]
 },
 {
@@ -5584,7 +5611,8 @@
 "Y261117k",
 "L261119-tesla-spacex2",
 "Y261122a",
-"Y261122b"
+"Y261122b",
+"L261124-gold-3"
 ]
 },
 {
@@ -5667,7 +5695,8 @@
 "ok": true,
 "used": [
 "L261118-anthropic-ipo",
-"Y261118a"
+"Y261118a",
+"L261126-son"
 ]
 },
 {
@@ -5772,7 +5801,9 @@
 "scene": "A brand new gas-fired power plant being built next to a data center in Texas plains, giant turbine housings arriving on trucks, sunset.",
 "ar": "16:9",
 "ok": true,
-"used": []
+"used": [
+"L261126-son"
+]
 },
 {
 "file": "il_L261116p_heavy_haul.png",
@@ -5809,7 +5840,8 @@
 "ok": true,
 "used": [
 "Y261118g",
-"Y261122b"
+"Y261122b",
+"L261126-son"
 ]
 },
 {
@@ -6006,14 +6038,18 @@
 "scene": "Close-up of the polished golden-silver compressor blades of a huge gas turbine rotor, precise engineering, dramatic side light.",
 "ar": "16:9",
 "ok": true,
-"used": []
+"used": [
+"L261126-son"
+]
 },
 {
 "file": "il_L261116p_turbine_loading.png",
 "scene": "A giant gas turbine being lifted by a harbor crane onto a cargo ship at a Korean port at night, floodlights, sea mist.",
 "ar": "16:9",
 "ok": true,
-"used": []
+"used": [
+"L261126-son"
+]
 },
 {
 "file": "il_L261116p_turbine_reveal.png",
@@ -6054,7 +6090,8 @@
 "L261122b-buffett-casino",
 "Y261122b",
 "L261123-soxl-3",
-"L261124-gold-3"
+"L261124-gold-3",
+"L261126-son"
 ]
 },
 {
@@ -6079,7 +6116,9 @@
 "scene": "Tokyo electronics district street at night after rain, glowing shop lights, blurred crowds, wet reflections, no readable signs.",
 "ar": "16:9",
 "ok": true,
-"used": []
+"used": [
+"L261126-son"
+]
 },
 {
 "file": "il_L261117n_alarm_phone_dawn.png",
@@ -6142,7 +6181,9 @@
 "scene": "A gloomy 1990s computer store with beige desktop computers on display tables, very few customers.",
 "ar": "16:9",
 "ok": true,
-"used": []
+"used": [
+"L261126-son"
+]
 },
 {
 "file": "il_L261117n_console_pad.png",
@@ -6156,7 +6197,9 @@
 "scene": "Close-up of a hand holding a fountain pen above a printed contract on a 1990s office desk, warm desk lamp, tense quiet mood.",
 "ar": "16:9",
 "ok": true,
-"used": []
+"used": [
+"L261126-son"
+]
 },
 {
 "file": "il_L261117n_custom_chip.png",
@@ -6218,7 +6261,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261117e-nvidia-earnings"
+"L261117e-nvidia-earnings",
+"L261126-son"
 ]
 },
 {
@@ -6271,7 +6315,9 @@
 "scene": "Two gaming graphics cards side by side on a workbench, fans and heatsinks visible, dramatic rim light.",
 "ar": "16:9",
 "ok": true,
-"used": []
+"used": [
+"L261126-son"
+]
 },
 {
 "file": "il_L261117n_hourglass.png",
@@ -6279,7 +6325,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"Y261118g"
+"Y261118g",
+"L261126-son"
 ]
 },
 {
@@ -6385,7 +6432,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261117e-nvidia-earnings"
+"L261117e-nvidia-earnings",
+"L261126-son"
 ]
 },
 {
@@ -6424,7 +6472,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261117e-nvidia-earnings"
+"L261117e-nvidia-earnings",
+"L261126-son"
 ]
 },
 {
@@ -6432,7 +6481,9 @@
 "scene": "An all-hands company meeting seen from the back of a room, employees seated facing a speaker silhouette at the front, warm light.",
 "ar": "16:9",
 "ok": true,
-"used": []
+"used": [
+"L261126-son"
+]
 },
 {
 "file": "il_L261117n_tech_store_crowd.png",
@@ -6473,7 +6524,9 @@
 "scene": "A 1990s Japanese corporate executive office in Tokyo at dusk, a large window with city lights, an empty leather chair behind a wooden desk with neat papers.",
 "ar": "16:9",
 "ok": true,
-"used": []
+"used": [
+"L261126-son"
+]
 },
 {
 "file": "il_L261117n_toll_gate.png",
@@ -6531,7 +6584,8 @@
 "ok": true,
 "used": [
 "L261118-anthropic-ipo",
-"L261120-anthropic-day1"
+"L261120-anthropic-day1",
+"L261126-son"
 ]
 },
 {
@@ -6560,7 +6614,8 @@
 "ok": true,
 "used": [
 "Y261118a",
-"L261120-anthropic-day1"
+"L261120-anthropic-day1",
+"L261126-son"
 ]
 },
 {
@@ -6649,7 +6704,8 @@
 "used": [
 "L261118-anthropic-ipo",
 "L261120-anthropic-day1",
-"L261121-ionq-quantum"
+"L261121-ionq-quantum",
+"L261126-son"
 ]
 },
 {
@@ -6669,7 +6725,8 @@
 "ok": true,
 "used": [
 "Y261118a",
-"L261120-anthropic-day1"
+"L261120-anthropic-day1",
+"L261126-son"
 ]
 },
 {
@@ -6706,7 +6763,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261118-anthropic-ipo"
+"L261118-anthropic-ipo",
+"L261124-gold-3"
 ]
 },
 {
@@ -6765,7 +6823,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261120-anthropic-day1"
+"L261120-anthropic-day1",
+"L261126-son"
 ]
 },
 {
@@ -6795,7 +6854,8 @@
 "ok": true,
 "used": [
 "L261118-anthropic-ipo",
-"L261123-soxl-3"
+"L261123-soxl-3",
+"L261126-son"
 ]
 },
 {
@@ -6804,7 +6864,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261120-anthropic-day1"
+"L261120-anthropic-day1",
+"L261124-gold-3"
 ]
 },
 {
@@ -6855,7 +6916,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"Y261118a"
+"Y261118a",
+"L261126-son"
 ]
 },
 {
@@ -6871,7 +6933,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261120-anthropic-day1"
+"L261120-anthropic-day1",
+"L261126-son"
 ]
 },
 {
@@ -6891,7 +6954,8 @@
 "ok": true,
 "used": [
 "L261118-anthropic-ipo",
-"L261120-anthropic-day1"
+"L261120-anthropic-day1",
+"L261126-son"
 ]
 },
 {
@@ -6930,7 +6994,8 @@
 "L261118-anthropic-ipo",
 "L261120-anthropic-day1",
 "Y261120a",
-"Y261121n"
+"Y261121n",
+"L261126-son"
 ]
 },
 {
@@ -7312,7 +7377,8 @@
 "used": [
 "L261119u-us-war-fear",
 "L261120-anthropic-day1",
-"Y261122a"
+"Y261122a",
+"L261126-son"
 ]
 },
 {
@@ -7358,7 +7424,8 @@
 "ok": true,
 "used": [
 "L261119u-us-war-fear",
-"Y261119u"
+"Y261119u",
+"L261126-son"
 ]
 },
 {
@@ -7475,7 +7542,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261119u-us-war-fear"
+"L261119u-us-war-fear",
+"L261126-son"
 ]
 },
 {
@@ -7502,7 +7570,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261119u-us-war-fear"
+"L261119u-us-war-fear",
+"L261126-son"
 ]
 },
 {
@@ -7520,7 +7589,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261119u-us-war-fear"
+"L261119u-us-war-fear",
+"L261126-son"
 ]
 },
 {
@@ -7633,7 +7703,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261119u-us-war-fear"
+"L261119u-us-war-fear",
+"L261126-son"
 ]
 },
 {
@@ -7709,7 +7780,8 @@
 "ok": true,
 "used": [
 "L261119u-us-war-fear",
-"L261120-anthropic-day1"
+"L261120-anthropic-day1",
+"L261126-son"
 ]
 },
 {
@@ -7750,7 +7822,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261119u-us-war-fear"
+"L261119u-us-war-fear",
+"L261126-son"
 ]
 },
 {
@@ -7770,7 +7843,9 @@
 "ok": true,
 "used": [
 "L261119u-us-war-fear",
-"L261120-anthropic-day1"
+"L261120-anthropic-day1",
+"L261124-gold-3",
+"Y261125g"
 ]
 },
 {
@@ -7788,7 +7863,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261119u-us-war-fear"
+"L261119u-us-war-fear",
+"L261126-son"
 ]
 },
 {
@@ -7827,7 +7903,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261119u-us-war-fear"
+"L261119u-us-war-fear",
+"L261124-gold-3"
 ]
 },
 {
@@ -7863,7 +7940,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261120-anthropic-day1"
+"L261120-anthropic-day1",
+"L261126-son"
 ]
 },
 {
@@ -7891,7 +7969,8 @@
 "ok": true,
 "used": [
 "L261119u-us-war-fear",
-"Y261119u"
+"Y261119u",
+"L261126-son"
 ]
 },
 {
@@ -8017,7 +8096,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261121-ionq-quantum"
+"L261121-ionq-quantum",
+"L261126-son"
 ]
 },
 {
@@ -8068,7 +8148,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261121-ionq-quantum"
+"L261121-ionq-quantum",
+"L261126-son"
 ]
 },
 {
@@ -8076,7 +8157,9 @@
 "scene": "A grand old bank hall at night with marble columns and rows of empty teller counters, cold blue light falling from high windows.",
 "ar": "16:9",
 "ok": true,
-"used": []
+"used": [
+"L261124-gold-3"
+]
 },
 {
 "file": "il_L261121j_boston_lab.png",
@@ -8122,7 +8205,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261121-ionq-quantum"
+"L261121-ionq-quantum",
+"L261126-son"
 ]
 },
 {
@@ -8170,7 +8254,7 @@
 "L261121-ionq-quantum",
 "Y261121a",
 "Y261122e",
-"L261124-gold-3"
+"L261126-son"
 ]
 },
 {
@@ -8291,7 +8375,8 @@
 "ok": true,
 "used": [
 "L261123-soxl-3",
-"L261124-gold-3"
+"L261124-gold-3",
+"Y261125g"
 ]
 },
 {
@@ -8338,8 +8423,7 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261123-soxl-3",
-"L261124-gold-3"
+"L261123-soxl-3"
 ]
 },
 {
@@ -8386,9 +8470,7 @@
 "scene": "Two dice tumbling across a trading desk in front of blurred red monitors, motion blur, dramatic light.",
 "ar": "16:9",
 "ok": true,
-"used": [
-"L261124-gold-3"
-]
+"used": []
 },
 {
 "file": "il_L261123s_earnings_desk.png",
@@ -8416,8 +8498,7 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261123-soxl-3",
-"L261124-gold-3"
+"L261123-soxl-3"
 ]
 },
 {
@@ -8466,8 +8547,7 @@
 "ok": true,
 "used": [
 "L261123-soxl-3",
-"Y261123s",
-"L261124-gold-3"
+"Y261123s"
 ]
 },
 {
@@ -8515,7 +8595,8 @@
 "ok": true,
 "used": [
 "L261123-soxl-3",
-"Y261123s"
+"Y261123s",
+"Y261125g"
 ]
 },
 {
@@ -8560,9 +8641,7 @@
 "scene": "A glass skyscraper financial tower at night with a giant blank glowing screen wall at its base, people as silhouettes.",
 "ar": "16:9",
 "ok": true,
-"used": [
-"L261124-gold-3"
-]
+"used": []
 },
 {
 "file": "il_L261123s_trading_floor_red.png",
@@ -8594,77 +8673,105 @@
 "scene": "A deep basement vault with gold bars stacked in steel compartments, a guard silhouette walking away down the corridor, cool light with warm gold accents.",
 "ar": "16:9",
 "ok": true,
-"used": []
+"used": [
+"Y261125g"
+]
 },
 {
 "file": "il_L261124g_fed_stone_dawn.jpeg",
 "scene": "A monumental old stone central bank building with heavy arched windows at dawn in a big city, light mist, a few blurred commuters walking past.",
 "ar": "16:9",
 "ok": true,
-"used": []
+"used": [
+"L261124-gold-3",
+"Y261125g"
+]
 },
 {
 "file": "il_L261124g_gold_certificate.jpeg",
 "scene": "Old paper gold certificates and a few gold coins scattered on a dark wooden desk under a single brass desk lamp, a fountain pen beside them.",
 "ar": "16:9",
 "ok": true,
-"used": []
+"used": [
+"L261124-gold-3"
+]
 },
 {
 "file": "il_L261124g_goldbars_desk.jpeg",
 "scene": "A neat stack of gold bullion bars on a dark wooden trading desk beside a blurred trading monitor glow, late evening office, warm lamp light on the gold.",
 "ar": "16:9",
 "ok": true,
-"used": []
+"used": [
+"L261124-gold-3",
+"Y261125g"
+]
 },
 {
 "file": "il_L261124g_goldvault_wide.jpeg",
 "scene": "A vast underground gold vault, long rows of gold bars on steel shelves receding into the distance, cool navy light with warm gold reflections.",
 "ar": "16:9",
 "ok": true,
-"used": []
+"used": [
+"Y261125g"
+]
 },
 {
 "file": "il_L261124g_huang_return.png",
 "scene": "",
 "ar": "?",
 "ok": false,
-"used": []
+"used": [
+"L261124-gold-3",
+"Y261125g"
+]
 },
 {
 "file": "il_L261124g_jewelry_window.jpeg",
 "scene": "A small jewelry shop window at night on a rainy Seoul side street, gold rings and gold necklaces glowing on dark velvet stands, rain reflections on the glass, blurred pedestrians with umbrellas.",
 "ar": "16:9",
 "ok": true,
-"used": []
+"used": [
+"L261124-gold-3",
+"Y261125g"
+]
 },
 {
 "file": "il_L261124g_ring_box_macro.jpeg",
 "scene": "Macro shot of a small pure gold ring resting in an open red velvet ring box on a dark table, soft warm highlight on the gold.",
 "ar": "16:9",
 "ok": true,
-"used": []
+"used": [
+"L261124-gold-3",
+"Y261125g"
+]
 },
 {
 "file": "il_L261124g_ring_palm.jpeg",
 "scene": "Close-up of an older woman's hand holding a small pure gold baby ring in her open palm at a home kitchen table, soft warm window light.",
 "ar": "16:9",
 "ok": true,
-"used": []
+"used": [
+"L261124-gold-3"
+]
 },
 {
 "file": "il_L261124g_thumb_goldbars.jpeg",
 "scene": "A dramatic pile of shiny gold bullion bars, a few bars cracked and tumbling, strong warm key light, deep dark navy background, high contrast thumbnail style.",
 "ar": "16:9",
 "ok": true,
-"used": []
+"used": [
+"L261124-gold-3"
+]
 },
 {
 "file": "il_L261124g_vault_door_open.jpeg",
 "scene": "A massive round steel bank vault door standing half open, warm golden light spilling out from inside onto a polished stone floor.",
 "ar": "16:9",
 "ok": true,
-"used": []
+"used": [
+"L261124-gold-3",
+"Y261125g"
+]
 },
 {
 "file": "il_L2611ss_china_fab.jpeg",
@@ -9219,8 +9326,8 @@
 "ar": "9:16",
 "ok": true,
 "used": [
-"Y261101d",
-"R261101d"
+"R261101d",
+"Y261101d"
 ]
 },
 {
@@ -9229,8 +9336,8 @@
 "ar": "9:16",
 "ok": true,
 "used": [
-"Y261101d",
-"R261101d"
+"R261101d",
+"Y261101d"
 ]
 },
 {
@@ -9239,8 +9346,8 @@
 "ar": "9:16",
 "ok": true,
 "used": [
-"Y261101d",
-"R261101d"
+"R261101d",
+"Y261101d"
 ]
 },
 {
@@ -9249,8 +9356,8 @@
 "ar": "9:16",
 "ok": true,
 "used": [
-"Y261101d",
-"R261101d"
+"R261101d",
+"Y261101d"
 ]
 },
 {
@@ -9259,8 +9366,8 @@
 "ar": "9:16",
 "ok": true,
 "used": [
-"Y261101d",
-"R261101d"
+"R261101d",
+"Y261101d"
 ]
 },
 {
@@ -9269,8 +9376,8 @@
 "ar": "9:16",
 "ok": true,
 "used": [
-"Y261101d",
-"R261101d"
+"R261101d",
+"Y261101d"
 ]
 },
 {
@@ -9279,8 +9386,8 @@
 "ar": "9:16",
 "ok": true,
 "used": [
-"Y261101d",
-"R261101d"
+"R261101d",
+"Y261101d"
 ]
 },
 {
@@ -9289,8 +9396,8 @@
 "ar": "9:16",
 "ok": true,
 "used": [
-"Y261101d",
-"R261101d"
+"R261101d",
+"Y261101d"
 ]
 },
 {
@@ -9299,8 +9406,8 @@
 "ar": "9:16",
 "ok": true,
 "used": [
-"Y261101d",
-"R261101d"
+"R261101d",
+"Y261101d"
 ]
 },
 {
@@ -9414,8 +9521,8 @@
 "Y261105u",
 "L261107-midterm-ai",
 "L261108-lev-91",
-"Y261108n",
 "R261108n",
+"Y261108n",
 "L261109-nvidia-huang",
 "L261112-soxl-nvidia"
 ]
@@ -9538,8 +9645,8 @@
 "ar": "9:16",
 "ok": true,
 "used": [
-"Y261105u",
 "Y261105b",
+"Y261105u",
 "L261108-lev-91"
 ]
 },
@@ -9578,8 +9685,8 @@
 "ar": "9:16",
 "ok": true,
 "used": [
-"Y261108n",
 "R261108n",
+"Y261108n",
 "L261109-palantir-what"
 ]
 },
@@ -9589,8 +9696,8 @@
 "ar": "9:16",
 "ok": true,
 "used": [
-"Y261108n",
-"R261108n"
+"R261108n",
+"Y261108n"
 ]
 },
 {
@@ -9599,8 +9706,8 @@
 "ar": "9:16",
 "ok": true,
 "used": [
-"Y261108n",
-"R261108n"
+"R261108n",
+"Y261108n"
 ]
 },
 {
@@ -9609,8 +9716,8 @@
 "ar": "9:16",
 "ok": true,
 "used": [
-"Y261108n",
-"R261108n"
+"R261108n",
+"Y261108n"
 ]
 },
 {
@@ -9619,8 +9726,8 @@
 "ar": "9:16",
 "ok": true,
 "used": [
-"Y261108n",
-"R261108n"
+"R261108n",
+"Y261108n"
 ]
 },
 {
@@ -9629,8 +9736,8 @@
 "ar": "9:16",
 "ok": true,
 "used": [
-"Y261108n",
 "R261108n",
+"Y261108n",
 "L261111-hyundai-robot"
 ]
 },
@@ -9797,7 +9904,8 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261114-tesla-spacex"
+"L261114-tesla-spacex",
+"L261124-gold-3"
 ]
 },
 {
@@ -9842,7 +9950,9 @@
 "ar": "16:9",
 "ok": true,
 "used": [
-"L261114-tesla-spacex"
+"L261114-tesla-spacex",
+"L261124-gold-3",
+"Y261125g"
 ]
 },
 {
@@ -9972,7 +10082,9 @@
 "scene": "A worn leather wallet opened on a café table with Korean banknotes peeking out, a smartphone beside it, evening light.",
 "ar": "16:9",
 "ok": true,
-"used": []
+"used": [
+"L261124-gold-3"
+]
 },
 {
 "file": "il_base_yen_coins.jpeg",
