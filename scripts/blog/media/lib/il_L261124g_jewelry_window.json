@@ -1,0 +1,33 @@
+{
+ "id": "il_L261124g_jewelry_window",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, deep navy blue color grade with warm amber-gold highlights, slightly bright natural exposure with clear readable detail (not too dark), shallow depth of field, fine film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Horizontal 16:9 composition. Scene: A small jewelry shop window at night on a rainy Seoul side street, gold rings and gold necklaces glowing on dark velvet stands, rain reflections on the glass, blurred pedestrians with umbrellas.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a20b36-4c0d-740d-9511-32473d439002",
+  "status_url": "https://api.higgsfield.ai/requests/01a20b36-4c0d-740d-9511-32473d439002/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a20b36-4c0d-740d-9511-32473d439002/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.06,
+ "usd_hf": 0.06,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a20b36-4c0d-740d-9511-32473d439002",
+  "status_url": "https://api.higgsfield.ai/requests/01a20b36-4c0d-740d-9511-32473d439002/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a20b36-4c0d-740d-9511-32473d439002/cancel",
+  "expires_at": "2026-12-01T01:41:47.924029+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a20b36-4c0d-740d-9511-32473d439002/39f0c6ea-f17e-4561-95a6-3141edff61a0.jpeg"
+   }
+  ]
+ },
+ "seconds": 75,
+ "file": "scripts/blog/media/lib/il_L261124g_jewelry_window.jpeg"
+}

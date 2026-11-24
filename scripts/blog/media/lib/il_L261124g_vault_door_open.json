@@ -1,0 +1,33 @@
+{
+ "id": "il_L261124g_vault_door_open",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, deep navy blue color grade with warm amber-gold highlights, slightly bright natural exposure with clear readable detail (not too dark), shallow depth of field, fine film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Horizontal 16:9 composition. Scene: A massive round steel bank vault door standing half open, warm golden light spilling out from inside onto a polished stone floor.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a20b37-44da-788a-9438-f33227d45341",
+  "status_url": "https://api.higgsfield.ai/requests/01a20b37-44da-788a-9438-f33227d45341/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a20b37-44da-788a-9438-f33227d45341/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.06,
+ "usd_hf": 0.06,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a20b37-44da-788a-9438-f33227d45341",
+  "status_url": "https://api.higgsfield.ai/requests/01a20b37-44da-788a-9438-f33227d45341/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a20b37-44da-788a-9438-f33227d45341/cancel",
+  "expires_at": "2026-12-01T01:42:46.835963+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a20b37-44da-788a-9438-f33227d45341/e3a1a5a3-08b6-4e95-a6e3-591bda1778f5.jpeg"
+   }
+  ]
+ },
+ "seconds": 68,
+ "file": "scripts/blog/media/lib/il_L261124g_vault_door_open.jpeg"
+}
