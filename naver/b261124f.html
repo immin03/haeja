@@ -1,0 +1,174 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>블로그 붙여넣기 · 맥도날드는 어떻게 햄버거보다 임대료로 더 많이 버는 회사가 됐을까</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
+<style>
+:root{--navy:#0E1A2B;--gold:#C9AF7A;--line:#E7E2D8;--bg:#F6F3EC;--muted:#6B7584}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#1B2433;font:16px/1.7 "SUIT Variable",SUIT,Pretendard,-apple-system,"Malgun Gothic",sans-serif;word-break:keep-all}
+.top{background:var(--navy);color:#F3EEE3;padding:14px 16px;font-weight:800;display:flex;align-items:center;gap:12px}.top span{color:#EADBB9}.bk{color:#F3EEE3;text-decoration:none;font-size:14px;font-weight:700;border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:5px 10px}.bk:hover{border-color:#EADBB9}
+.cat{display:inline-block;background:#FBF5EA;border:1px solid #EADBB9;color:#7A6947;font-weight:800;border-radius:10px;padding:6px 12px}
+main{max-width:760px;margin:0 auto;padding:16px 16px 60px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}
+h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
+.row{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
+.btn{font:inherit;font-weight:800;font-size:15px;border:0;border-radius:12px;padding:11px 16px;background:var(--navy);color:#fff;cursor:pointer;white-space:nowrap}
+.btn.gold{background:linear-gradient(90deg,#C9AF7A,#EADBB9);color:#0A1322}
+.btn.ok{background:#2E8B62}
+.ttl{font-size:20px;font-weight:800}
+.steps{margin:0;padding-left:20px;color:#3A4352}.steps li{margin:4px 0}
+#art{border:1px dashed var(--line);border-radius:12px;padding:20px 22px;font-size:16px;line-height:1.8;color:#222}#art img{max-width:100%;height:auto;border-radius:8px;display:block}
+#art p{margin:0}
+#art blockquote{margin:0;padding:12px 16px;border-left:3px solid var(--gold);background:#FBF5EA}#art blockquote p{margin:2px 0}#art table{font-size:14px}#art th,#art td{border:1px solid var(--line);text-align:left}
+.ph{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ph a{display:block}.ph img{width:100%;border-radius:8px;display:block}
+.small{font-size:13px;color:var(--muted)}
+.fin{border:2px solid #2E8B62;text-align:center}.fin .btn{font-size:17px;padding:14px 28px;background:#2E8B62}.fin.posted{background:#F1EEE6;border-color:#E7E2D8}.fin.posted .btn{background:#fff;color:#2E8B62;border:1px solid #2E8B62}
+</style></head><body><div class="top"><a class="bk" href="/naver/">‹ 글 목록</a><b>Value<span>Note</span> · 네이버 블로그 붙여넣기</b></div><main>
+<section class="card"><h2>올리는 순서 (PC 권장)</h2><ol class="steps">
+<li>네이버 블로그 <b>글쓰기</b>를 연다.</li>
+<li>아래 <b>제목 복사</b> → 제목 칸에 붙여넣기.</li>
+<li><b>본문 복사</b> → 본문 칸을 한 번 누르고 붙여넣기 (Ctrl+V). 사진도 함께 들어간다.</li>
+<li>사진이 빠졌으면 <b>사진 모두 받기</b>로 받아서 [사진] 위치에 넣는다.</li>
+
+
+<li>발행 화면에서 <b>카테고리</b>를 아래 이름으로 고른다.</li>
+<li>발행. (태그는 본문 끝에 #으로 들어 있어 따로 붙일 필요가 없다)</li></ol></section>
+<section class="card"><h2>올릴 시각</h2><div class="ttl" style="color:#2E8B62">저녁 19:00</div></section>
+<section class="card"><h2>카테고리</h2><div class="row"><span class="cat" id="catv">기업 분석</span><button class="btn" data-copy="catv">카테고리 복사</button></div></section>
+<section class="card"><h2>제목</h2><div class="row"><div class="ttl" id="ttl">맥도날드는 어떻게 햄버거보다 임대료로 더 많이 버는 회사가 됐을까</div><button class="btn" data-copy="ttl">제목 복사</button></div></section>
+<section class="card"><div class="row" style="margin-bottom:12px"><h2 style="margin:0">본문 (사진 2장 포함)</h2><button class="btn gold" id="cpBody">본문 복사</button></div>
+<div id="art"><p><img src="https://www.valuenote.co.kr/naver/b261124f/01.jpg" alt="흰 접시에 담긴 햄버거" width="720"></p>
+<p><br></p>
+<p><b><span style="color:#000000">요약</span></b></p><p><span style="color:#000000">· 맥도날드는 햄버거 회사지만 본사 매출에서 가장 큰 덩어리는 햄버거가 아닙니다. 그 이유를 따라가면 1954년 밀크셰이크 기계 여덟 대가 나옵니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">1954년 미국 캘리포니아 샌버너디노. 밀크셰이크 기계를 팔러 다니던 쉰두 살 영업사원 레이 크록은 주문 하나가 이해되지 않았습니다. 작은 햄버거 식당 하나가 기계를 여덟 대나 샀거든요. 한 번에 밀크셰이크 마흔여덟 잔을 만들 수 있는 양이었습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">식당 주인은 딕 맥도날드와 맥 맥도날드 형제였습니다. 형제는 메뉴를 아홉 가지로 줄이고 주방 일을 단계별로 나눴어요. 대표 메뉴는 15센트짜리 햄버거였습니다. 고객이 줄을 섰고 밀크셰이크 기계가 여덟 대나 필요했던 겁니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">레이 크록은 기계 대신 이 식당의 운영 방식을 팔기로 했습니다. 형제에게서 가맹점을 모집할 권리를 얻었고 1955년 시카고 근처 데스플레인스에 자기 첫 가맹점을 열었어요. 첫날 매출은 366달러 남짓이었습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">레이 크록이 반한 건 햄버거 맛보다 속도였습니다. 주문하면 바로 나오는 이 식당을 미국 어디에나 똑같이 세울 수 있다고 봤죠. 문제는 그렇게 세운 식당이 레이 크록에게 얼마를 남겨 주느냐였습니다.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">레이 크록은 가맹점을 팔수록 돈이 모자랐다</span></b></span></p>
+
+<p><span style="color:#000000">답은 실망스러웠습니다. 레이 크록은 가맹점 매출의 1.9%를 받아 그중 0.5%를 형제에게 넘겼어요. 첫해 가맹점을 열여덟 곳이나 팔았는데 사무실 비용을 대기도 빠듯했습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">가맹점 장사가 잘돼도 레이 크록에게 떨어지는 돈은 매출의 아주 작은 조각이었습니다. 그렇다고 수수료를 올리면 가맹점을 모으기 어려웠죠.</span></p>
+<p><br></p>
+<p><span style="color:#000000">1956년 해리 손번이 합류하면서 계산이 바뀌었습니다. 해리 손번의 생각은 단순했어요. 본사가 매장 땅과 건물을 먼저 사거나 오래 빌린 다음, 웃돈을 얹어 가맹점에 다시 빌려주자는 겁니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">가맹점은 정해진 임대료와 매출의 일정 비율 가운데 큰 쪽을 내게 했습니다. 장사가 잘되면 본사 몫도 커지고, 장사가 안돼도 본사 수입에는 최소한이 생겼어요. 레이 크록은 이 일을 맡을 부동산 회사를 따로 세웠습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">이때부터 역할이 나뉘었습니다. 가맹점주는 햄버거를 굽고, 본사는 그 햄버거가 잘 팔릴 자리를 골라 소유합니다. 레이 크록의 회사는 가맹점을 모으는 회사이면서 땅을 고르는 회사가 됐어요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">1961년 레이 크록은 형제에게서 회사를 통째로 샀습니다. 값은 270만 달러였어요. 형제의 이름은 간판에 남았고 땅은 레이 크록의 회사 장부에 쌓여 갔습니다.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">맥도날드 본사는 햄버거보다 임대료를 더 받는다</span></b></span></p>
+
+<p><span style="color:#000000">그로부터 반세기가 훌쩍 지난 지금 이 방식은 훨씬 커졌습니다. 지난해 말 맥도날드 매장은 약 4만 5천 곳이고 그중 95%가 가맹점이에요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">맥도날드 본사의 지난해 매출을 나눠 보면 재미있는 장면이 나옵니다. 가맹점에서 받은 임대료, 그러니까 매장 땅과 건물을 쓰는 값이 104억 달러로 가장 큰 덩어리였어요. 맥도날드라는 이름과 조리법을 쓰는 값인 로열티는 60억 달러로 그보다 훨씬 적었습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">본사가 직접 운영하는 매장에서 햄버거를 팔아 올린 매출은 97억 달러였습니다. 햄버거를 직접 팔아 번 돈보다 땅과 건물을 빌려주고 받은 돈이 더 많았던 겁니다.</span></p>
+<p><br></p>
+<p><img src="https://www.valuenote.co.kr/naver/b261124f/02.png" alt="맥도날드 본사 2025년 매출 구성" width="720"></p><p><span style="color:#555555;font-size:14px">맥도날드 본사 2025년 매출 구성</span></p>
+<p><br></p>
+<p><span style="color:#000000">맥도날드는 주요 시장 매장의 땅 56%와 건물 80%를 직접 갖고 있다고 공시했습니다. 나머지도 대부분 본사가 오래 빌려 가맹점에 다시 빌려주는 구조예요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">저는 프랜차이즈 회사를 볼 때 본사가 무엇으로 버는지부터 나눠 봅니다. 맥도날드는 계산이 쉬워요. 임대료를 로열티로 나눠 보면 약 1.7배가 나옵니다. 이름값보다 땅값을 두 배 가까이 받는 회사라는 뜻이에요.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">한국 프랜차이즈 본사는 재료에서 번다</span></b></span></p>
+
+<p><span style="color:#000000">한국으로 오면 그림이 달라집니다. 한국 가맹 본사가 버는 방법으로 자주 이야기되는 건 재료 마진이에요. 가맹점에 소스나 고기 같은 재료를 넘기면서 적정한 도매가격보다 더 받는 몫이죠. 공정거래위원회는 이를 차액가맹금이라고 부릅니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">공정거래위원회가 올해 4월 내놓은 자료를 보면 2024년 외식 가맹점 평균 매출이 6.1% 늘 때 가맹점이 본사에 낸 차액가맹금은 13% 늘었습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">재료로 버는 본사는 가맹점이 재료를 많이 살수록 법니다. 땅으로 버는 맥도날드는 가맹점이 그 자리에서 오래, 많이 팔수록 법니다. 같은 프랜차이즈인데 본사가 가맹점에 바라는 게 다른 겁니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">재료 값을 올리면 본사는 당장 더 벌지만 가맹점은 그만큼 덜 법니다. 임대료와 로열티는 사정이 달라요. 가맹점 매출이 늘어야 본사 몫도 커집니다. 다른 프랜차이즈에도 같은 질문을 던질 수 있어요. 본사는 가맹점이 많이 팔 때 버는가, 재료를 많이 살 때 버는가.</span></p>
+<p><br></p>
+<p><span style="color:#000000">한국맥도날드는 또 다른 길로 갔습니다. 2024년 9월 미국 본사는 한국 사업을 카타르 대기업 알마나 그룹의 공동 오너 한 사람에게 넘겼어요. 이제 매장 운영과 투자는 그가 맡고 미국 본사는 로열티를 받습니다. 땅도 매장도 직접 들고 있지 않는, 본사로서는 가장 가벼운 방식이에요.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">가맹점이 버텨야 땅도 돈이 된다</span></b></span></p>
+
+<p><span style="color:#000000">맥도날드의 이 구조에도 약한 고리가 있습니다. 임대료가 매출과 함께 움직이니 가맹점 장사가 꺾이면 본사 수입도 줄어요. 올해 3분기 미국 맥도날드 매장 매출은 1년 전보다 조금 줄었습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">크리스 켐친스키 최고경영자는 저소득층 고객을 위한 싼 메뉴가 필요하다고 말했습니다. 그런데 AP 통신에 따르면 지난 8월 새 가격 메뉴를 판 가맹점은 열 곳 중 여섯 곳뿐이었어요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">본사로서는 싼 메뉴가 고객을 다시 불러오면 매출에 연동된 임대료와 로열티도 따라 늘어납니다. 가맹점은 하나 팔 때 남는 돈이 줄어드는 것부터 걱정하죠.</span></p>
+<p><br></p>
+<p><span style="color:#000000">매장을 새로 꾸미는 비용도 부담입니다. 업계지 네이션스 레스토랑 뉴스는 한 매장에 80만 달러가 드는 새 단장 계획의 상당 부분을 가맹점이 낸다고 전했어요.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">조금만 더 들어가 보면, 20년 가맹 계약</span></b></span></p>
+
+<p><span style="color:#000000">맥도날드의 일반 가맹 계약은 보통 20년입니다. 가맹점주는 그동안 매장을 운영하면서 매출에 따라 임대료와 로열티를 내고, 임대료에는 최소 금액도 정해져 있어요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">계약이 끝나도 땅과 건물은 본사가 그대로 갖고 있습니다. 가맹점주가 바뀌어도 맥도날드는 그 자리의 주인으로 남는 거죠. 한 줄로 말하면, 맥도날드 가맹점은 맥도날드의 이름과 함께 맥도날드의 부동산을 빌려 쓰는 세입자입니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">앞으로는 미국 매장 매출이 다시 늘어나는지가 먼저입니다. 맥도날드는 맥치킨과 감자튀김을 묶은 3달러 50센트짜리 세트 같은 싼 메뉴를 내년 초 전국으로 넓힐 계획이에요. 고객이 돌아오면 가맹점 이익도 나아지고 본사 임대료도 따라 늘어납니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">가맹점 비율도 볼 만합니다. 지금도 거의 모든 매장이 가맹점인데, 이 비율이 더 오를수록 맥도날드 본사의 수입은 햄버거보다 임대료 쪽으로 더 기웁니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">1954년 레이 크록이 샌버너디노에서 본 건 밀크셰이크 기계 여덟 대였습니다. 그는 기계를 팔러 갔다가 결국 땅을 사 모으는 사람이 됐어요. 저는 맥도날드 앞을 지나갈 때면 간판 아래 땅의 주인을 떠올려 봅니다. 햄버거를 굽는 사장님보다 시카고 본사일 가능성이 꽤 높거든요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">워렌 버핏 같은 투자 거장들이 쓰는 잣대로 맥도날드를 따져 보면 어떻게 보이는지도 밸류노트에 정리해 두었습니다. 참고 삼아 한번 보셔도 좋겠어요.</span></p>
+<p><br></p>
+<p><a href="https://www.valuenote.co.kr/c/mcd?utm_source=naver&amp;utm_campaign=b261124f">밸류노트에서 맥도날드 더 보기</a></p>
+<p><br></p>
+<p><span style="color:#000000">#맥도날드 #레이크록 #맥도날드부동산 #프랜차이즈 #가맹점 #임대료 #로열티 #차액가맹금 #한국맥도날드 #해리손번</span></p>
+<p><br></p>
+<p><span style="color:#444444;font-size:14px">이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 맥도날드 초기 역사는 맥도날드 회사 연혁·히스토리닷컴·앙트러프러너·하우스터프웍스, 매장 수와 임대료·로열티·땅과 건물 보유 비율은 맥도날드 2025년 연차 보고서(10-K)와 실적 발표(2026년 2월 11일), 차액가맹금은 공정거래위원회 &#39;2025년도 가맹사업 현황&#39;(뉴시스 4월 12일), 한국맥도날드 매각은 코리아타임스(2024년 9월 30일), 3분기 실적과 가맹점 이야기는 AP·네이션스 레스토랑 뉴스(11월 4일)를 참고했습니다. 이 글은 밸류노트 에디터 Luciano가 작성했습니다.</span></p></div></section>
+<section class="card"><div class="row" style="margin-bottom:10px"><h2 style="margin:0">사진</h2><a class="btn" href="/naver/b261124f/photos.zip" download>사진 모두 받기</a></div>
+<div class="ph"><a href="https://www.valuenote.co.kr/naver/b261124f/01.jpg" download="valuenote-b261124f-1.jpg"><img src="https://www.valuenote.co.kr/naver/b261124f/01.jpg" alt="사진 1" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261124f/02.png" download="valuenote-b261124f-2.png"><img src="https://www.valuenote.co.kr/naver/b261124f/02.png" alt="사진 2" loading="lazy"></a></div>
+<p class="small" style="margin:10px 0 0">휴대폰에서는 사진을 길게 눌러 저장할 수 있습니다.</p></section>
+
+<section class="card"><h2>작성·수정 기록</h2><div class="small" style="margin:4px 0"><b>2026-11-24 10:18</b> · 작성</div><div class="small" style="margin:4px 0"><b>2026-11-24 10:18</b> · 새 글 (v9)</div></section>
+<section class="card fin" id="fin"><h2>마지막 단계</h2><p style="margin:0 0 12px">블로그에 발행했다면 눌러 주세요. 글 목록에서 '올린 글'로 옮겨집니다.</p><button class="btn" id="posted" type="button">올렸어요</button><p class="small" id="pmsg" style="margin:10px 0 0"></p></section>
+</main>
+<script>
+const PLAIN = "[사진: 흰 접시에 담긴 햄버거]\n\n요약\n· 맥도날드는 햄버거 회사지만 본사 매출에서 가장 큰 덩어리는 햄버거가 아닙니다. 그 이유를 따라가면 1954년 밀크셰이크 기계 여덟 대가 나옵니다.\n\n1954년 미국 캘리포니아 샌버너디노. 밀크셰이크 기계를 팔러 다니던 쉰두 살 영업사원 레이 크록은 주문 하나가 이해되지 않았습니다. 작은 햄버거 식당 하나가 기계를 여덟 대나 샀거든요. 한 번에 밀크셰이크 마흔여덟 잔을 만들 수 있는 양이었습니다.\n\n식당 주인은 딕 맥도날드와 맥 맥도날드 형제였습니다. 형제는 메뉴를 아홉 가지로 줄이고 주방 일을 단계별로 나눴어요. 대표 메뉴는 15센트짜리 햄버거였습니다. 고객이 줄을 섰고 밀크셰이크 기계가 여덟 대나 필요했던 겁니다.\n\n레이 크록은 기계 대신 이 식당의 운영 방식을 팔기로 했습니다. 형제에게서 가맹점을 모집할 권리를 얻었고 1955년 시카고 근처 데스플레인스에 자기 첫 가맹점을 열었어요. 첫날 매출은 366달러 남짓이었습니다.\n\n레이 크록이 반한 건 햄버거 맛보다 속도였습니다. 주문하면 바로 나오는 이 식당을 미국 어디에나 똑같이 세울 수 있다고 봤죠. 문제는 그렇게 세운 식당이 레이 크록에게 얼마를 남겨 주느냐였습니다.\n\n■ 레이 크록은 가맹점을 팔수록 돈이 모자랐다\n\n답은 실망스러웠습니다. 레이 크록은 가맹점 매출의 1.9%를 받아 그중 0.5%를 형제에게 넘겼어요. 첫해 가맹점을 열여덟 곳이나 팔았는데 사무실 비용을 대기도 빠듯했습니다.\n\n가맹점 장사가 잘돼도 레이 크록에게 떨어지는 돈은 매출의 아주 작은 조각이었습니다. 그렇다고 수수료를 올리면 가맹점을 모으기 어려웠죠.\n\n1956년 해리 손번이 합류하면서 계산이 바뀌었습니다. 해리 손번의 생각은 단순했어요. 본사가 매장 땅과 건물을 먼저 사거나 오래 빌린 다음, 웃돈을 얹어 가맹점에 다시 빌려주자는 겁니다.\n\n가맹점은 정해진 임대료와 매출의 일정 비율 가운데 큰 쪽을 내게 했습니다. 장사가 잘되면 본사 몫도 커지고, 장사가 안돼도 본사 수입에는 최소한이 생겼어요. 레이 크록은 이 일을 맡을 부동산 회사를 따로 세웠습니다.\n\n이때부터 역할이 나뉘었습니다. 가맹점주는 햄버거를 굽고, 본사는 그 햄버거가 잘 팔릴 자리를 골라 소유합니다. 레이 크록의 회사는 가맹점을 모으는 회사이면서 땅을 고르는 회사가 됐어요.\n\n1961년 레이 크록은 형제에게서 회사를 통째로 샀습니다. 값은 270만 달러였어요. 형제의 이름은 간판에 남았고 땅은 레이 크록의 회사 장부에 쌓여 갔습니다.\n\n■ 맥도날드 본사는 햄버거보다 임대료를 더 받는다\n\n그로부터 반세기가 훌쩍 지난 지금 이 방식은 훨씬 커졌습니다. 지난해 말 맥도날드 매장은 약 4만 5천 곳이고 그중 95%가 가맹점이에요.\n\n맥도날드 본사의 지난해 매출을 나눠 보면 재미있는 장면이 나옵니다. 가맹점에서 받은 임대료, 그러니까 매장 땅과 건물을 쓰는 값이 104억 달러로 가장 큰 덩어리였어요. 맥도날드라는 이름과 조리법을 쓰는 값인 로열티는 60억 달러로 그보다 훨씬 적었습니다.\n\n본사가 직접 운영하는 매장에서 햄버거를 팔아 올린 매출은 97억 달러였습니다. 햄버거를 직접 팔아 번 돈보다 땅과 건물을 빌려주고 받은 돈이 더 많았던 겁니다.\n\n[사진: 맥도날드 본사 2025년 매출 구성]\n\n맥도날드는 주요 시장 매장의 땅 56%와 건물 80%를 직접 갖고 있다고 공시했습니다. 나머지도 대부분 본사가 오래 빌려 가맹점에 다시 빌려주는 구조예요.\n\n저는 프랜차이즈 회사를 볼 때 본사가 무엇으로 버는지부터 나눠 봅니다. 맥도날드는 계산이 쉬워요. 임대료를 로열티로 나눠 보면 약 1.7배가 나옵니다. 이름값보다 땅값을 두 배 가까이 받는 회사라는 뜻이에요.\n\n■ 한국 프랜차이즈 본사는 재료에서 번다\n\n한국으로 오면 그림이 달라집니다. 한국 가맹 본사가 버는 방법으로 자주 이야기되는 건 재료 마진이에요. 가맹점에 소스나 고기 같은 재료를 넘기면서 적정한 도매가격보다 더 받는 몫이죠. 공정거래위원회는 이를 차액가맹금이라고 부릅니다.\n\n공정거래위원회가 올해 4월 내놓은 자료를 보면 2024년 외식 가맹점 평균 매출이 6.1% 늘 때 가맹점이 본사에 낸 차액가맹금은 13% 늘었습니다.\n\n재료로 버는 본사는 가맹점이 재료를 많이 살수록 법니다. 땅으로 버는 맥도날드는 가맹점이 그 자리에서 오래, 많이 팔수록 법니다. 같은 프랜차이즈인데 본사가 가맹점에 바라는 게 다른 겁니다.\n\n재료 값을 올리면 본사는 당장 더 벌지만 가맹점은 그만큼 덜 법니다. 임대료와 로열티는 사정이 달라요. 가맹점 매출이 늘어야 본사 몫도 커집니다. 다른 프랜차이즈에도 같은 질문을 던질 수 있어요. 본사는 가맹점이 많이 팔 때 버는가, 재료를 많이 살 때 버는가.\n\n한국맥도날드는 또 다른 길로 갔습니다. 2024년 9월 미국 본사는 한국 사업을 카타르 대기업 알마나 그룹의 공동 오너 한 사람에게 넘겼어요. 이제 매장 운영과 투자는 그가 맡고 미국 본사는 로열티를 받습니다. 땅도 매장도 직접 들고 있지 않는, 본사로서는 가장 가벼운 방식이에요.\n\n■ 가맹점이 버텨야 땅도 돈이 된다\n\n맥도날드의 이 구조에도 약한 고리가 있습니다. 임대료가 매출과 함께 움직이니 가맹점 장사가 꺾이면 본사 수입도 줄어요. 올해 3분기 미국 맥도날드 매장 매출은 1년 전보다 조금 줄었습니다.\n\n크리스 켐친스키 최고경영자는 저소득층 고객을 위한 싼 메뉴가 필요하다고 말했습니다. 그런데 AP 통신에 따르면 지난 8월 새 가격 메뉴를 판 가맹점은 열 곳 중 여섯 곳뿐이었어요.\n\n본사로서는 싼 메뉴가 고객을 다시 불러오면 매출에 연동된 임대료와 로열티도 따라 늘어납니다. 가맹점은 하나 팔 때 남는 돈이 줄어드는 것부터 걱정하죠.\n\n매장을 새로 꾸미는 비용도 부담입니다. 업계지 네이션스 레스토랑 뉴스는 한 매장에 80만 달러가 드는 새 단장 계획의 상당 부분을 가맹점이 낸다고 전했어요.\n\n■ 조금만 더 들어가 보면, 20년 가맹 계약\n\n맥도날드의 일반 가맹 계약은 보통 20년입니다. 가맹점주는 그동안 매장을 운영하면서 매출에 따라 임대료와 로열티를 내고, 임대료에는 최소 금액도 정해져 있어요.\n\n계약이 끝나도 땅과 건물은 본사가 그대로 갖고 있습니다. 가맹점주가 바뀌어도 맥도날드는 그 자리의 주인으로 남는 거죠. 한 줄로 말하면, 맥도날드 가맹점은 맥도날드의 이름과 함께 맥도날드의 부동산을 빌려 쓰는 세입자입니다.\n\n앞으로는 미국 매장 매출이 다시 늘어나는지가 먼저입니다. 맥도날드는 맥치킨과 감자튀김을 묶은 3달러 50센트짜리 세트 같은 싼 메뉴를 내년 초 전국으로 넓힐 계획이에요. 고객이 돌아오면 가맹점 이익도 나아지고 본사 임대료도 따라 늘어납니다.\n\n가맹점 비율도 볼 만합니다. 지금도 거의 모든 매장이 가맹점인데, 이 비율이 더 오를수록 맥도날드 본사의 수입은 햄버거보다 임대료 쪽으로 더 기웁니다.\n\n1954년 레이 크록이 샌버너디노에서 본 건 밀크셰이크 기계 여덟 대였습니다. 그는 기계를 팔러 갔다가 결국 땅을 사 모으는 사람이 됐어요. 저는 맥도날드 앞을 지나갈 때면 간판 아래 땅의 주인을 떠올려 봅니다. 햄버거를 굽는 사장님보다 시카고 본사일 가능성이 꽤 높거든요.\n\n워렌 버핏 같은 투자 거장들이 쓰는 잣대로 맥도날드를 따져 보면 어떻게 보이는지도 밸류노트에 정리해 두었습니다. 참고 삼아 한번 보셔도 좋겠어요.\n\n밸류노트에서 맥도날드 더 보기 https://www.valuenote.co.kr/c/mcd?utm_source=naver&utm_campaign=b261124f\n\n이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 맥도날드 초기 역사는 맥도날드 회사 연혁·히스토리닷컴·앙트러프러너·하우스터프웍스, 매장 수와 임대료·로열티·땅과 건물 보유 비율은 맥도날드 2025년 연차 보고서(10-K)와 실적 발표(2026년 2월 11일), 차액가맹금은 공정거래위원회 '2025년도 가맹사업 현황'(뉴시스 4월 12일), 한국맥도날드 매각은 코리아타임스(2024년 9월 30일), 3분기 실적과 가맹점 이야기는 AP·네이션스 레스토랑 뉴스(11월 4일)를 참고했습니다. 이 글은 밸류노트 에디터 Luciano가 작성했습니다.\n\n#맥도날드 #레이크록 #맥도날드부동산 #프랜차이즈 #가맹점 #임대료 #로열티 #차액가맹금 #한국맥도날드 #해리손번";
+function done(b, t){ const o = b.textContent; b.textContent = t; b.classList.add('ok'); setTimeout(() => { b.textContent = o; b.classList.remove('ok'); }, 1800); }
+function selectCopy(el){ const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); const ok = document.execCommand('copy'); s.removeAllRanges(); return ok; }
+document.querySelectorAll('[data-copy]').forEach(b => b.onclick = async () => { const t = document.getElementById(b.dataset.copy).textContent; try { await navigator.clipboard.writeText(t); } catch(e) { selectCopy(document.getElementById(b.dataset.copy)); } done(b, '복사했어요'); });
+document.getElementById('cpBody').onclick = async (ev) => { const b = ev.currentTarget, art = document.getElementById('art');
+  const cl = art.cloneNode(true); cl.querySelectorAll('[data-skip]').forEach((x) => x.remove());
+  // 2026-11-01: 관리자 화면(iframe)에서는 clipboard.write 가 막혀, 화면 글꼴(SUIT)·글자색(#1B2433)이 묻은 채 복사돼 네이버에서 회색·다른 글꼴로 들어갔다.
+  // 그래서 copy 이벤트로 깨끗한 HTML(인라인 스타일만)을 직접 넣는 방식을 먼저 쓰고, 안 되면 clipboard.write 를 쓴다.
+  const html = cl.innerHTML;
+  const viaEvent = () => { let ok = false; const h = (e) => { e.preventDefault(); e.clipboardData.setData('text/html', html); e.clipboardData.setData('text/plain', PLAIN); ok = true; };
+    document.addEventListener('copy', h, true); try { document.execCommand('copy'); } finally { document.removeEventListener('copy', h, true); } return ok; };
+  let ok = false; try { ok = viaEvent(); } catch(e) {}
+  if (!ok) { try { await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([html], { type: 'text/html' }), 'text/plain': new Blob([PLAIN], { type: 'text/plain' }) })]); ok = true; } catch(e) {} }
+  if (!ok) { const box = document.createElement('div'); box.style.cssText = 'position:fixed;left:-9999px;top:0;color:#000;font:initial;background:#fff'; box.innerHTML = html; document.body.appendChild(box); selectCopy(box); box.remove(); }
+  done(b, '복사했어요 · 붙여넣기 하세요'); };
+// 올렸어요: 글 목록과 같은 표시(docs collection=naver id=posted)를 이 페이지 맨 아래에서 바로 저장한다 (2026-10-27)
+(() => {
+  const ID = "b261124f", BAKED = "";
+  const btn = document.getElementById('posted'), msg = document.getElementById('pmsg'), box = document.getElementById('fin');
+  const kst = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+  let sb = null, uid = null;
+  const show = (at) => { box.classList.toggle('posted', !!at); btn.textContent = at ? '✓ 올림 · ' + at.slice(5).replace('-', '.') + ' (다시 누르면 취소)' : '올렸어요'; };
+  const load = async () => { const { data } = await sb.from('docs').select('data').eq('collection', 'naver').eq('id', 'posted').maybeSingle(); return data?.data || {}; };
+  const stateOf = (doc) => (doc.cleared || []).includes(ID) ? '' : ((doc.posted || {})[ID] || BAKED);
+  show(BAKED);
+  (async () => {
+    try {
+      const C = window.HAEJA_CONFIG || {}; sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+      const { data: { session } } = await sb.auth.getSession(); uid = session?.user?.id || null;
+      if (!uid) { msg.textContent = '로그인하지 않은 상태입니다. 밸류노트 앱에서 관리자 계정으로 로그인한 뒤 눌러 주세요.'; return; }
+      show(stateOf(await load()));
+    } catch (e) { console.warn(e); }
+  })();
+  btn.onclick = async () => {
+    if (!uid) { alert('관리자 계정으로 로그인한 뒤 눌러 주세요. (밸류노트 앱에서 로그인 → 관리자 → 블로그 글)'); return; }
+    btn.disabled = true;
+    try {
+      const doc = await load(), P = { ...(doc.posted || {}) }; const cleared = (doc.cleared || []).filter((k) => k !== ID);
+      if (stateOf(doc)) { if (!confirm('올림 표시를 지울까요?')) return; delete P[ID]; if (BAKED) cleared.push(ID); } else P[ID] = kst();
+      const { error } = await sb.from('docs').upsert({ owner: uid, collection: 'naver', id: 'posted', data: { ...doc, posted: P, cleared, at: new Date().toISOString() }, updated_at: new Date().toISOString() }, { onConflict: 'owner,collection,id' });
+      if (error) { msg.textContent = '저장하지 못했습니다: ' + error.message; return; }
+      show(P[ID] || ''); msg.textContent = P[ID] ? '저장했습니다. 글 목록으로 돌아가도 됩니다.' : '올림 표시를 지웠습니다.';
+    } finally { btn.disabled = false; }
+  };
+})();
+</script></body></html>
