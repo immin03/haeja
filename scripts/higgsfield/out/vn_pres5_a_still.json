@@ -1,0 +1,34 @@
+{
+ "id": "vn_pres5_a_still",
+ "endpoint": "bytedance/seedance-2.5/image-to-video",
+ "body": {
+  "prompt": "Locked-off tripod camera: absolutely no zoom, no pan, no tilt, no drift. He sits calmly and almost still: both hands rest quietly folded on the desk the whole time, no gestures, no pen movement. Only subtle natural breathing in the chest and a very slight relaxed shift of the shoulders once. Keep the exact same man, navy two-piece suit, white shirt, dark silk tie, white pocket square, watch, microphone and library background as the reference image. Black and white, soft film grain, warm light from above. The framing never shows the chin, jaw, mouth or face. Calm, composed, documentary feel. No text, no logos.",
+  "duration": 10,
+  "resolution": "720p",
+  "aspect_ratio": "16:9",
+  "generate_audio": false,
+  "image_url": "https://raw.githubusercontent.com/immin03/haeja/main/scripts/higgsfield/in/vn_presenter_ref2.png"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a20ff2-7669-7bef-b8eb-201b71d76f9a",
+  "status_url": "https://api.higgsfield.ai/requests/01a20ff2-7669-7bef-b8eb-201b71d76f9a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a20ff2-7669-7bef-b8eb-201b71d76f9a/cancel",
+  "expires_after": 604800
+ },
+ "at": "2026-11-24T23:44:38Z",
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a20ff2-7669-7bef-b8eb-201b71d76f9a",
+  "status_url": "https://api.higgsfield.ai/requests/01a20ff2-7669-7bef-b8eb-201b71d76f9a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a20ff2-7669-7bef-b8eb-201b71d76f9a/cancel",
+  "expires_at": "2026-12-01T23:50:43.865282+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a20ff2-7669-7bef-b8eb-201b71d76f9a/b8870ca5-cbf3-4f31-ae36-152989b1bb75.mp4"
+  }
+ },
+ "seconds": 369,
+ "file": "scripts/higgsfield/out/vn_pres5_a_still.mp4"
+}

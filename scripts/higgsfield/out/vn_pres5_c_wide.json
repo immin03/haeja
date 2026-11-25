@@ -1,0 +1,30 @@
+{
+ "id": "vn_pres5_c_wide",
+ "endpoint": "bytedance/seedance-2.5/text-to-video",
+ "body": {
+  "prompt": "Black and white cinematic film still look, soft grain, warm light from a single lamp above. Locked-off tripod camera: absolutely no zoom, no pan, no tilt, no drift. A medium-wide shot from across a large dark wooden desk in a quiet library study with tall bookshelves and a brass desk lamp. A man in a navy two-piece suit, white shirt, dark silk tie and white pocket square, with a classic square dress watch, sits behind the desk. A black broadcast microphone on a boom arm is in front of him. The top edge of the frame cuts across his upper chest just below the collar, so his chin, mouth and face are never visible at any moment. Both hands rest calmly folded on the desk; he stays almost still, only subtle natural breathing. Composed, serious, documentary mood. No text, no logos.",
+  "duration": 10,
+  "resolution": "720p",
+  "aspect_ratio": "16:9",
+  "generate_audio": false
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a21003-1975-7199-8bde-27c832d17541",
+  "status_url": "https://api.higgsfield.ai/requests/01a21003-1975-7199-8bde-27c832d17541/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a21003-1975-7199-8bde-27c832d17541/cancel",
+  "expires_after": 604800
+ },
+ "at": "2026-11-25T00:02:48Z",
+ "status": "failed",
+ "result": {
+  "status": "failed",
+  "error": "Your credit balance is too low to complete this request. Please top up your balance and try again.",
+  "request_id": "01a21003-1975-7199-8bde-27c832d17541",
+  "status_url": "https://api.higgsfield.ai/requests/01a21003-1975-7199-8bde-27c832d17541/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a21003-1975-7199-8bde-27c832d17541/cancel",
+  "expires_at": "2026-12-02T00:02:48.447650+00:00"
+ },
+ "seconds": 11
+}
