@@ -18,7 +18,7 @@ def G(stem):
 
 import subprocess
 def V(name, start, dur):   # 2026-11-25 v6: 실제 영상(소리 없이)에서 필요한 구간만 잘라 쓴다 — 같은 원본도 구간마다 다른 파일
-    out = f"{name}__{int(start)}.mp4"
+    out = f"{name}__{int(start)}_{int(dur)}.mp4"
     if not os.path.exists(LIB + out):
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", str(start), "-i", LIB + name + ".mp4", "-t", str(dur), "-an",
                         "-vf", "scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2", "-c:v", "libx264", "-crf", "20", "-preset", "veryfast", LIB + out], check=True)
@@ -79,15 +79,15 @@ sc.append(S(["son_2000_press_v.png", "il_L261105h_parisnight"],
 st, du, at, ln = sot_cfg('cnbc_hook', 0.0, 7.0)
 sc.append(SOT("son_cnbc_50x_hook.mp4", st, du, ln,
     "손정의", "소프트뱅크그룹 회장 · CNBC 2026.6.1 파리", "CNBC 2026-06-01 파리 인터뷰(아르준 카르팔)", "[훅] 원음② 한 문장", at))
-sc.append(S([V("son2_nvda_sale_reuters", 88, 8)],
+sc.append(S([V("son2_nvda_sale_reuters", 88, 11)],
     ["다음 날 소프트뱅크 주가는 사상 최고를 찍었고, 지금은 3분의 1입니다."],
     [P("9,074엔 → 3,005엔", s="6월 2일 사상 최고에서 6개월 만에 -67%", line=0, at=0.4)],
     "도쿄증권거래소 소프트뱅크그룹(9984) 2026-06-02 장중 9,074엔 · 2026-11-20 3,005엔(investing.com)", "[훅] 반전"))
-sc.append(S([V("son2_hynix_hbm4", 62, 8), V("son2_jedi_cnbc2017", 50, 6)],
+sc.append(S([V("son2_hynix_hbm4", 62, 11), V("son2_jedi_cnbc2017", 50, 9)],
     ["지난주엔 이 남자가 SK하이닉스를 통째로 사려 했다는 보도까지 나왔죠.",
      "손정의는 이번에도 살아남을까요?"],
     [], "디인포메이션 2026-11-20", "[훅] [떡밥] SK하이닉스 + 질문", v={"cut_by_line": True}))
-sc.append(S([V("son2_abilene_drone", 8, 8)],
+sc.append(S([V("son2_abilene_drone", 8, 11)],
     ["오늘은 손정의를 따라가며, 내 반도체 주식이 이 베팅에 얼마나 묶여 있는지 보겠습니다."],
     [], "", "[훅] 약속"))
 sc.append({"v": {"type": "media", "full": True, "wash": "none", "cuts": [{"lib": "il_L261116p_wallst_red.png"}], "wash_amt": 0.85, "cine": True, "ident": True},
@@ -97,17 +97,17 @@ sc.append(PRES("pres5_a_still.mp4", "먼저, 이 남자가 어떤 사람인지�
 # ───────── 기: 손정의는 누구인가 ─────────
 sc.append(CH(S(["il_L261117n_tokyo_office_90s"],
     ["손정의는 1957년 일본 사가현, 재일 한국인 집안에서 태어났습니다. 그의 성이 '손'인 이유입니다.",
-     "17살 때, 그는 길에서 잡지 한 장을 보다가 울었습니다."],
+     "열일곱 살 때, 그는 길에서 잡지 한 장을 보다가 울었습니다."],
     [lower("손정의", "소프트뱅크그룹 창업자 · 1957년생", line=0, at=0.2)],
     "블룸버그 2017 · 소프트뱅크그룹", "[약력] 출생"), "손정의는 누구인가"))
 st, du, at, ln = sot_cfg('chip', 0.0, 33.8)
-sc.append(SOT("son2_microchip_cry.mp4", st, du, ln,
+sc.append(SOT("son2_microchip_cry_f.mp4", st, du, ln,
     "손정의", "소프트뱅크그룹 회장 · 블랙스톤 인터뷰 2026", "블랙스톤 「Inside」 인터뷰 2026", "[약력] 원음③ 마이크로칩을 보고 울었다", at))
 sc.append(S(["il_L261117n_computer_store_90s"],
-    ["16살에 혼자 미국으로 건너가 UC버클리에 다녔고, 학생 때 만든 음성 번역기를 샤프에 팔아 첫 사업 자금을 마련했습니다."],
+    ["열여섯 살에 혼자 미국으로 건너가 UC버클리에 다녔고, 학생 때 만든 음성 번역기를 샤프에 팔아 첫 사업 자금을 마련했습니다."],
     [], "블룸버그 2017-10-11 · 소프트뱅크그룹 연혁(2026-11 확인)", "[약력] 미국"))
 sc.append(S(["globe_L261126s_fx_stakes.mp4"],
-    ["24살에 소프트뱅크를 세웠고, 그 뒤 베팅은 매번 커졌습니다.",
+    ["스물네 살에 소프트뱅크를 세웠고, 그 뒤 베팅은 매번 커졌습니다.",
      "야후에 1억 달러, 보다폰 일본에 150억 달러, Arm에 320억 달러, 그리고 1,000억 달러짜리 비전펀드까지."],
     [], "소프트뱅크그룹 연혁(2026-11 확인) · 블룸버그 2016-07-18(Arm) · 로이터 2006-03-17(보다폰 일본)", "[약력] 판돈 그래프(코드)"))
 
@@ -116,7 +116,7 @@ sc.append(CH(S(["globe_L261126s_fx_globe1.mp4"],
     ["2000년 2월, 손정의의 재산은 일주일에 100억 달러씩 불어났습니다. 야후와 온라인 증권사 이트레이드에 일찍 투자한 덕분이었죠.",
      "본인 말로는, 3일 동안 세계에서 가장 부자였습니다."],
     [], "블룸버그 2017-10-11(본인 발언)", "[3일 천하] 지구본 — 투자 지도"), "3일 천하"))
-sc.append(S(["il_L261110a_hangzhou_office", V("son2_alibaba_bell", 6, 9)],
+sc.append(S(["il_L261110a_hangzhou_office", V("son2_alibaba_bell", 6, 12)],
     ["그 직전, 손정의는 중국 항저우에서 온 영어 교사 출신 창업자를 만났습니다. 몇 분 이야기를 듣더니 바로 투자하겠다고 했습니다.",
      "처음엔 5,000만 달러를 내밀었는데, 창업자가 너무 많다며 사양해 2,000만 달러로 줄였습니다. 그 창업자가 마윈, 회사가 알리바바입니다.",
      "사업 계획도 없던 회사에 왜 돈을 넣었느냐는 질문에, 손정의는 이렇게 답했습니다."],
@@ -130,7 +130,7 @@ sc.append(S(["il_L261116p_margin_call"],
 st, du, at, ln = sot_cfg('rub99', 0.0, 22.9)
 sc.append(SOT("son_rubenstein_99.mp4", st, du, ln,
     "손정의", "소프트뱅크그룹 회장 · 블룸버그 루벤스타인 쇼 2017", "블룸버그 「데이비드 루벤스타인 쇼」 2017-10", "[3일 천하] 원음⑤ 99%", at))
-sc.append(S([V("son2_alibaba_floor", 29, 9)],
+sc.append(S([V("son2_alibaba_floor", 29, 12)],
     ["그를 살린 건 알리바바 하나였습니다. 2,000만 달러는 14년 뒤 알리바바가 상장할 때 500억 달러가 넘었습니다."],
     [P("2,000만 → 500억 달러", s="14년 만에 2,500배 · 2014년 뉴욕 상장", line=0, at=0.55, color="gold")],
     "블룸버그 2017 · 포춘 2024-09-17(알리바바 상장 당시 500억 달러 이상)", "[3일 천하] 생존"))
@@ -141,38 +141,38 @@ sc.append(S(["il_L261117n_single_chair"],
     "", "[3일 천하] 열쇠 + [R1]"))
 
 # ───────── 승: 위워크와 쿠팡 — 두 번째 '하나' ─────────
-sc.append(CH(S([V("son2_wework_bankrupt", 0, 9), V("son2_neumann_stage", 48, 9)],
+sc.append(CH(S([V("son2_wework_bankrupt", 0, 12), V("son2_neumann_stage", 48, 12)],
     ["2016년 말, 손정의는 뉴욕의 공유 오피스 회사 위워크 본사를 12분 둘러보고 44억 달러 투자를 정했다고 알려져 있습니다.",
      "창업자 애덤 뉴먼의 기세에 반한 겁니다. 위워크의 몸값은 한때 470억 달러까지 올랐습니다."],
     [P("12분 → 44억 달러", s="본사를 둘러본 시간과 첫 투자금", line=0, at=0.7), lower("애덤 뉴먼", "위워크 공동 창업자", line=1, at=0.05)],
     "아시아경제 2023-11-10(12분 일화) · 로이터 2023-11-07(2017년 8월 44억 달러, 최고 470억 달러)", "[위워크] 12분", v={"cut_by_line": True}), "위워크와 쿠팡"))
-sc.append(S([V("son2_wework_bbg2019", 30, 10)],
+sc.append(S([V("son2_wework_bbg2019", 30, 13)],
     ["그런데 2019년, 위워크 상장이 무산됐습니다. 소프트뱅크는 14년 만에 처음으로 분기 영업손실을 냈고, 손정의는 직접 실수를 인정했습니다."],
     [quote(["위워크 건은 제가 실수했습니다.", "변명하지 않겠습니다. 아주 혹독한 교훈이었습니다."], "손정의 · 2019.11.6 실적 발표", line=0, at=0.55)],
     "블룸버그 2019-11-06 · 뉴욕타임스 인용(2019-11-06)", "[위워크] 실수 인정"))
-sc.append(S([V("son2_coupang_bell", 18, 10), V("son2_coupang_ipo_reuters", 19, 6)],
+sc.append(S([V("son2_coupang_bell_c", 18, 15), V("son2_coupang_ipo_reuters", 19, 9)],
     ["그를 다시 일으킨 건, 한국 회사였습니다.",
      "2021년 3월, 쿠팡이 뉴욕증권거래소에 상장했습니다. 소프트뱅크는 2015년부터 30억 달러를 넣어 지분 약 37%를 갖고 있었고, 상장 첫날 그 지분은 약 290억 달러가 됐습니다."],
-    [lower("김범석", "쿠팡 창업자 · 이사회 의장", line=1, at=0.05), P("30억 → 약 290억 달러", s="쿠팡 상장 첫날, 약 10배", line=1, at=0.75, color="gold")],
+    [lower("김범석", "쿠팡 창업자 · 이사회 의장", line=1, at=0.05) ],
     "포춘·블룸버그 2021-03-11(합계 30억 달러, 약 37%) · 테크크런치 2021-03-11(지분 가치 약 290억 달러)", "[쿠팡] 상장", v={"cut_by_line": True}))
-sc.append(S([V("son2_coupang_ipo_reuters", 60, 9)],
+sc.append(S([V("son2_coupang_ipo_reuters", 60, 12)],
     ["위워크에서 크게 잃고, 쿠팡으로 다시 일어선 셈입니다. 쿠팡 덕에 사상 최대 이익을 낸 그해 5월, 손정의는 이렇게 말했습니다."],
-    [], "소프트뱅크그룹 2020 회계연도 실적(2021-05-12)", "[쿠팡] 연결"))
+    [P("30억 → 약 290억 달러", s="쿠팡 상장 첫날, 약 10배", line=0, at=0.05, color="gold")], "소프트뱅크그룹 2020 회계연도 실적(2021-05-12)", "[쿠팡] 연결"))
 st, du, at, ln = sot_cfg('sorkin', 19.9, 27.0)
 sc.append(SOT("son2_wework_sorkin.mp4", st, du, ln,
     "손정의", "소프트뱅크그룹 회장 · CNBC 2021.5", "CNBC 「스쿼크 박스」 2021-05 (앤드루 로스 소킨)", "[쿠팡] 원음⑥ 놓친 후회가 더 크다", at))
-sc.append(S([V("son2_wework_bankrupt", 62, 7), "globe_L261126s_fx_formula.mp4"],
+sc.append(S([V("son2_wework_bankrupt", 62, 10), "globe_L261126s_fx_formula.mp4"],
     ["2023년 11월, 위워크는 파산했습니다. 그래도 손정의는 공식을 바꾸지 않았습니다.",
      "알리바바도 맞혔고, 쿠팡도 맞혔습니다. 세 번째 '하나'를 찾던 그의 눈에 들어온 게 오픈AI였습니다."],
     [], "로이터 2023-11-07(위워크 파산)", "[공식] 두 번 통했다 → 세 번째", v={"cut_by_line": True}))
 
 # ───────── 승: 울면서 판 주식 — 엔비디아 ─────────
-sc.append(CH(S(["broll_L261121_gtc_stage.mp4", V("son2_nvda_sale_reuters", 98, 8)],
+sc.append(CH(S(["broll_L261121_gtc_stage.mp4", V("son2_nvda_sale_reuters", 98, 11)],
     ["2017년 손정의는 엔비디아 지분을 약 40억 달러에 샀습니다. 그리고 2019년, 전부 팔았습니다.",
      "그대로 들고 있었다면 2024년엔 1,500억 달러가 넘었을 겁니다."],
     [tl([["2017", "약 40억 달러 매수"], ["2019", "전량 매도"], ["2020", "다시 매수"], ["2025.10", "또 전량 매도"]], line=0, at=0.2)],
     "포춘 2025-11-11 · 야후 파이낸스 2025-11(2019년 매도분, 2024년 가치 1,500억 달러 이상)", "[엔비디아] 2019 매도", v={"cut_by_line": True}), "울면서 판 주식"))
-sc.append(S([V("son2_nvda_sale_reuters", 0, 6), V("son2_nvda_sale_reuters", 28, 8)],
+sc.append(S([V("son2_nvda_sale_reuters", 0, 9), V("son2_nvda_sale_reuters", 28, 11)],
     ["2020년 다시 사들였다가, 지난해 10월 또 전부 팔았습니다. 58억 3,000만 달러 규모였습니다.",
      "한 달 뒤, 손정의는 이렇게 털어놓았습니다."],
     [P("58억 3,000만 달러", s="엔비디아 전량 매도 · 2025년 10월", line=0, at=0.6)],
@@ -180,14 +180,14 @@ sc.append(S([V("son2_nvda_sale_reuters", 0, 6), V("son2_nvda_sale_reuters", 28, 
 st, du, at, ln = sot_cfg('fii', 0.0, 14.0)
 sc.append(SOT(SOTS['fii']['clip'], st, du, ln,
     "손정의", "소프트뱅크그룹 회장 · FII 프라이어리티 아시아 2025.12.1 도쿄", "FII 연구소 「Building the Asia of Tomorrow: Masayoshi Son」 2025-12-01", "[엔비디아] 원음⑦ 울었다", at))
-sc[-1]["v"]["cuts"] = cut("son_portrait_v.png", "il_L261126_forum_stage", V("son2_nvda_sale_reuters", 60, 9))
+sc[-1]["v"]["cuts"] = cut("son_portrait_v.png", "il_L261126_forum_stage", V("son2_nvda_sale_reuters", 60, 12))
 sc.append(S(["son_altman_v.png", "il_L261118a_hook_chips_cash"],
     ["엔비디아를 판 돈은 전부 오픈AI로 갔습니다. 두 번 통한 공식, 이번엔 판돈이 달랐습니다.",
      "그런데 그 돈으로도 모자랐습니다. 여기서부터 손정의가 돈을 구하는 방식이 바뀝니다."],
     [], "", "[엔비디아] 공식 연결 + [R2]", v={"cut_by_line": True}))
 
 # ───────── 승: 전부를 걸다 — 스타게이트 ─────────
-sc.append(CH(S(["son_whitehouse_v.png", V("son2_musk_stargate_c", 48, 8)],
+sc.append(CH(S(["son_whitehouse_v.png", V("son2_musk_stargate_c", 48, 11)],
     ["2025년 1월 21일, 트럼프 대통령 취임 다음 날 백악관.",
      "손정의는 오픈AI, 오라클과 함께 5,000억 달러짜리 AI 데이터센터 계획, 스타게이트를 발표했습니다."],
     [P("5,000억 달러", s="스타게이트 · AI 데이터센터 계획", line=1, at=0.75, color="gold")],
@@ -195,7 +195,7 @@ sc.append(CH(S(["son_whitehouse_v.png", V("son2_musk_stargate_c", 48, 8)],
 st, du, at, ln = sot_cfg('stargate', 20.0, 14.0)
 sc.append(SOT("son_stargate_masa_c.mp4", st, du, ln,
     "손정의", "소프트뱅크그룹 회장 · 백악관 2025.1.21", "백악관 스타게이트 발표 2025-01-21", "[스타게이트] 원음⑧ 트럼프 흉내", at))
-sc.append(S([V("son2_musk_stargate_c", 0, 8), "globe_L261126s_fx_x_posts.mp4"],
+sc.append(S([V("son2_musk_stargate_c", 0, 11), "globe_L261126s_fx_x_posts.mp4"],
     ["그런데 몇 시간 뒤, 일론 머스크가 X에 글을 올렸습니다.",
      "샘 올트먼은 틀렸다고 받아쳤죠. 이 말, 22개월 뒤 다시 돌아옵니다."],
     [lower("일론 머스크", "테슬라·xAI 최고경영자", line=0, at=0.1)],
@@ -208,7 +208,7 @@ sc.append(CH(S(["globe_L261126s_fx_receipt.mp4"],
      "마지막은 남의 보증입니다. 오하이오 데이터센터의 임대료를 엔비디아가 최대 1,050억 달러까지 보증했습니다."],
     [], "소프트뱅크그룹 2026년 7~9월 실적(금융비용 4,619억 엔) · 엔비디아 3분기(2027 회계연도) SEC 8-K(보증 한도 1,050억 달러)",
     "[영수증] 돈을 구한 순서(코드)"), "손정의의 영수증"))
-sc.append(S(["son_ohio_v.png", V("son2_abilene_drone", 58, 9)],
+sc.append(S(["son_ohio_v.png", V("son2_abilene_drone", 58, 12)],
     ["그 데이터센터의 건물주는 소프트뱅크 자회사 SB에너지입니다.",
      "울면서 판 엔비디아 주식, 그 엔비디아의 보증은 받은 셈입니다."],
     [], "엔비디아 SEC 8-K · PORTS-Pike 4.25GW", "[영수증] 아이러니", v={"cut_by_line": True}))
@@ -232,7 +232,7 @@ sc.append(S(["il_L261116p_turbine_loading", "il_L261116p_turbine_blades"],
      "가장 큰 구멍은 미국 데이터센터에 쓸 가스 터빈을 미리 주문했다가 본 5,972억 엔 손실이었습니다."],
     [P("3개월 순손실 1조 1,200억 엔", s="시장은 흑자를 예상했다", line=0, at=0.5)],
     "CNBC 2026-11-10 · 빅고 파이낸스 2026-11-10(전력 설비 5,972억 5,000만 엔)", "[꼭대기] 청구서", v={"cut_by_line": True}))
-sc.append(S([V("son2_musk_stargate_c", 9, 7), "il_L261119u_leak_paper"],
+sc.append(S([V("son2_musk_stargate_c", 9, 10), "il_L261119u_leak_paper"],
     ["이달 초 머스크는 다시 X에 글을 올렸습니다. 소프트뱅크가 터빈 주문 대금을 못 갚고 있다는 겁니다. 근거는 내놓지 않았고, 소프트뱅크는 사실이 아니라고 했습니다.",
      "22개월 전, 돈이 없다고 했던 바로 그 사람입니다."],
     [quote(["소프트뱅크가", "터빈 주문을 못 갚고 있다"], "일론 머스크 · X 2026.11.7 (소프트뱅크는 부인)", line=0, at=0.35)],
@@ -249,12 +249,12 @@ sc.append(S(["thumbsrc_L261121e_burry_wv.jpg", "il_L261119u_two_paths"],
     "모틀리풀 2026-11-19(마이클 버리 X 게시물)", "[꼭대기] 버리 + [R4]", v={"cut_by_line": True}))
 
 # ───────── 전: 멈출 수 없는 남자 — SK하이닉스 ─────────
-sc.append(CH(S([V("son2_hynix_hbm4", 76, 9), "il_L261121j_fab_night"],
+sc.append(CH(S([V("son2_hynix_hbm4", 76, 12), "il_L261121j_fab_night"],
     ["미국 매체 디인포메이션은 11월 20일, 손정의가 SK하이닉스를 약 1조 달러에 사들이는 방안을 검토하며 월가에 자금 조달을 문의했다고 보도했습니다.",
      "소프트뱅크는 더 이상 적극적으로 검토하지 않는다고 했습니다."],
     [P("SK하이닉스 1조 달러", s="우리 돈 1,300조 원 · 검토했다는 보도", line=0, at=0.45, color="gold")],
     "디인포메이션 2026-11-20(뉴스1·연합인포맥스 인용, 소프트뱅크 '더 이상 적극 검토 대상 아님')", "[콜백] [떡밥 회수] SK하이닉스 보도", v={"cut_by_line": True}), "멈출 수 없는 남자"))
-sc.append(S(["il_L261126_go_corners", V("son2_hynix_hbm4", 95, 9)],
+sc.append(S(["il_L261126_go_corners", V("son2_hynix_hbm4", 95, 12)],
     ["왜 하필 SK하이닉스였을까요. 손정의는 AI 시대를 바둑판처럼 봅니다. 네 귀퉁이를 차지하면 판을 쥔다는 겁니다. AI 모델은 오픈AI, 반도체 설계는 Arm, 데이터센터는 스타게이트, 그리고 로봇.",
      "그런데 손정의가 갖지 못한 조각이 있습니다. AI 메모리, HBM입니다. 그 HBM을 가장 잘 만드는 회사가 SK하이닉스죠."],
     [], "아주경제 2026-11-11(네 귀퉁이 전략) · 빅고 파이낸스 2026-11", "[하이닉스] 왜 하이닉스", v={"cut_by_line": True}))
@@ -267,7 +267,7 @@ sc.append(S(["globe_L261126s_fx_globe2.mp4"],
     ["이게 내 계좌와 이어지는 지점입니다. 손정의의 돈은 오픈AI와 스타게이트로 가고, 그 돈은 엔비디아 칩 주문이 되고, 엔비디아는 SK하이닉스와 삼성전자에 HBM을 주문합니다.",
      "그래서 손정의의 돈줄이 마르면 메모리 주문이 먼저 흔들리고, 돈줄이 돌면 가장 먼저 웃습니다. 젠슨 황이 돌아온 다음 날 SK하이닉스가 6.7% 오른 것도 같은 이유입니다."],
     [], "코리아중앙데일리·애드혹뉴스 2026-11-24(SK하이닉스 +6.73%)", "[하이닉스] 내 계좌(지구본)"))
-sc.append(PRES("pres5_b_still.mp4", "여기서부터는 밸류노트가 판단하는 대목입니다.", "[진행자②] 판단 시작"))
+sc.append(PRES("pres5_a_still_2.mp4", "여기서부터는 밸류노트가 판단하는 대목입니다.", "[진행자②] 판단 시작"))
 
 # ───────── 결: 이번엔 시간 싸움 ─────────
 sc.append(CH(S(["globe_L261126s_fx_lights.mp4"],
@@ -292,10 +292,13 @@ st, du, at, ln = sot_cfg('fii_end', 893.2, 24.0)
 sc.append(SOT(SOTS['fii_end']['clip'], st, du, ln,
     "손정의", "소프트뱅크그룹 회장 · FII 프라이어리티 아시아 2025.12.1 도쿄", "FII 연구소 「Building the Asia of Tomorrow: Masayoshi Son」 2025-12-01", "[결] 원음⑪ 버블이 어디 있습니까", at))
 sc[-1]["v"]["cuts"] = cut("il_L261126_tokyo_window", "il_L261117n_staff_meeting")
-sc.append(S(["il_L261118a_seven_towers", "il_L261121i_closing"],
-    ["99%를 잃고도 살아남은 남자가, 세 번째 '하나'에 전부를 걸었습니다. 그가 이번에도 맞을지는 아직 아무도 모릅니다. 다만 다음 신호는 12월 9일에 옵니다.",
-     "손정의는 이번에도 살아남을까요? 여러분의 생각을 댓글로 남겨 주세요. 도움이 되셨다면 좋아요와 구독으로 응원해 주세요."],
-    [], "", "[마무리] 여운 + 질문 + 구독", v={"cut_by_line": True}))
+sc.append(S(["il_L261118a_seven_towers"],
+    ["99%를 잃고도 살아남은 남자가, 세 번째 '하나'에 전부를 걸었습니다. 그가 이번에도 맞을지는 아직 아무도 모릅니다. 다만 다음 신호는 12월 9일에 옵니다."],
+    [], "", "[마무리] 여운"))
+sc.append(PRES("pres5_a_still_3.mp4", "손정의는 이번에도 살아남을까요? 여러분의 생각을 댓글로 남겨 주세요.", "[진행자③] 마무리 질문"))
+sc.append(S(["il_L261121i_closing"],
+    ["도움이 되셨다면 좋아요와 구독으로 응원해 주세요."],
+    [], "", "[마무리] 구독"))
 sc.append({"v": {"type": "end", "sub": "", "btn_at": ["0:거시적", "0:거시적", "0:거시적"], "note": {"text": ""}, "dark_end": True, "end_v2": True,
                  "slogan": ["시장의 흐름 뒤", "숨은 이야기를 읽는 채널", "거시적 관점으로 시장을 이해하면, 투자가 달라집니다"]},
            "lines": ["거시적 관점으로 시장을 이해하면, 투자가 달라집니다. 감사합니다. 밸류노트였습니다."],
