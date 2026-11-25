@@ -130,7 +130,7 @@ sc.append(S(["il_L261116p_margin_call"],
 st, du, at, ln = sot_cfg('rub99', 0.0, 22.9)
 sc.append(SOT("son_rubenstein_99.mp4", st, du, ln,
     "손정의", "소프트뱅크그룹 회장 · 블룸버그 루벤스타인 쇼 2017", "블룸버그 「데이비드 루벤스타인 쇼」 2017-10", "[3일 천하] 원음⑤ 99%", at))
-sc.append(S([V("son2_alibaba_floor", 26, 9)],
+sc.append(S([V("son2_alibaba_floor", 29, 9)],
     ["그를 살린 건 알리바바 하나였습니다. 2,000만 달러는 14년 뒤 알리바바가 상장할 때 500억 달러가 넘었습니다."],
     [P("2,000만 → 500억 달러", s="14년 만에 2,500배 · 2014년 뉴욕 상장", line=0, at=0.55, color="gold")],
     "블룸버그 2017 · 포춘 2024-09-17(알리바바 상장 당시 500억 달러 이상)", "[3일 천하] 생존"))
@@ -187,15 +187,15 @@ sc.append(S(["son_altman_v.png", "il_L261118a_hook_chips_cash"],
     [], "", "[엔비디아] 공식 연결 + [R2]", v={"cut_by_line": True}))
 
 # ───────── 승: 전부를 걸다 — 스타게이트 ─────────
-sc.append(CH(S(["son_whitehouse_v.png", V("son2_musk_stargate", 48, 8)],
+sc.append(CH(S(["son_whitehouse_v.png", V("son2_musk_stargate_c", 48, 8)],
     ["2025년 1월 21일, 트럼프 대통령 취임 다음 날 백악관.",
      "손정의는 오픈AI, 오라클과 함께 5,000억 달러짜리 AI 데이터센터 계획, 스타게이트를 발표했습니다."],
     [P("5,000억 달러", s="스타게이트 · AI 데이터센터 계획", line=1, at=0.75, color="gold")],
     "백악관 2025-01-21 스타게이트 발표", "[스타게이트] 발표", v={"cut_by_line": True}), "전부를 걸다"))
 st, du, at, ln = sot_cfg('stargate', 20.0, 14.0)
-sc.append(SOT("son_stargate_masa.mp4", st, du, ln,
+sc.append(SOT("son_stargate_masa_c.mp4", st, du, ln,
     "손정의", "소프트뱅크그룹 회장 · 백악관 2025.1.21", "백악관 스타게이트 발표 2025-01-21", "[스타게이트] 원음⑧ 트럼프 흉내", at))
-sc.append(S([V("son2_musk_stargate", 0, 8), "globe_L261126s_fx_x_posts.mp4"],
+sc.append(S([V("son2_musk_stargate_c", 0, 8), "globe_L261126s_fx_x_posts.mp4"],
     ["그런데 몇 시간 뒤, 일론 머스크가 X에 글을 올렸습니다.",
      "샘 올트먼은 틀렸다고 받아쳤죠. 이 말, 22개월 뒤 다시 돌아옵니다."],
     [lower("일론 머스크", "테슬라·xAI 최고경영자", line=0, at=0.1)],
@@ -232,7 +232,7 @@ sc.append(S(["il_L261116p_turbine_loading", "il_L261116p_turbine_blades"],
      "가장 큰 구멍은 미국 데이터센터에 쓸 가스 터빈을 미리 주문했다가 본 5,972억 엔 손실이었습니다."],
     [P("3개월 순손실 1조 1,200억 엔", s="시장은 흑자를 예상했다", line=0, at=0.5)],
     "CNBC 2026-11-10 · 빅고 파이낸스 2026-11-10(전력 설비 5,972억 5,000만 엔)", "[꼭대기] 청구서", v={"cut_by_line": True}))
-sc.append(S([V("son2_musk_stargate", 9, 7), "il_L261119u_leak_paper"],
+sc.append(S([V("son2_musk_stargate_c", 9, 7), "il_L261119u_leak_paper"],
     ["이달 초 머스크는 다시 X에 글을 올렸습니다. 소프트뱅크가 터빈 주문 대금을 못 갚고 있다는 겁니다. 근거는 내놓지 않았고, 소프트뱅크는 사실이 아니라고 했습니다.",
      "22개월 전, 돈이 없다고 했던 바로 그 사람입니다."],
     [quote(["소프트뱅크가", "터빈 주문을 못 갚고 있다"], "일론 머스크 · X 2026.11.7 (소프트뱅크는 부인)", line=0, at=0.35)],
