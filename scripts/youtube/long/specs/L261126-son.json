@@ -141,8 +141,8 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "son_rubenstein_3days_c.mp4",
-      "start": 33.2
+      "lib": "son_rubenstein_3days_face.mp4",
+      "start": 0.0
      }
     ],
     "wash_amt": 0.85,
@@ -169,8 +169,8 @@
    "note": "[훅] 원음① 3일 천하",
    "news": true,
    "sot": {
-    "clip": "son_rubenstein_3days_c.mp4",
-    "start": 33.2,
+    "clip": "son_rubenstein_3days_face.mp4",
+    "start": 0.0,
     "dur": 14.9,
     "rms": 0.085,
     "at": [
@@ -384,7 +384,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "pres5_a_still.mp4"
+      "lib": "pres6_breath.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -823,7 +823,7 @@
      "text": "12분 → 44억 달러",
      "sub": "본사를 둘러본 시간과 첫 투자금",
      "line": 0,
-     "at": 0.7,
+     "at": 0.35,
      "color": "red",
      "hold": 2.6
     },
@@ -1128,13 +1128,8 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "son_portrait_v.png"
-     },
-     {
-      "lib": "il_L261126_forum_stage.png"
-     },
-     {
-      "lib": "son2_nvda_sale_reuters__60_12.mp4"
+      "lib": "son_fii2025_v_cry.mp4",
+      "start": 3.5
      }
     ],
     "wash_amt": 0.85,
@@ -1161,8 +1156,8 @@
    "note": "[엔비디아] 원음⑦ 울었다",
    "news": true,
    "sot": {
-    "clip": "son_fii2025_audio_1.mp3",
-    "start": 683.5,
+    "clip": "son_fii2025_v_cry.mp4",
+    "start": 3.5,
     "dur": 26.0,
     "rms": 0.085,
     "at": [
@@ -1824,7 +1819,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "pres5_a_still_2.mp4"
+      "lib": "pres6_breath_2.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1897,19 +1892,15 @@
     "cuts": [
      {
       "lib": "il_L261121j_analyst_call.png"
-     },
-     {
-      "lib": "il_L261119u_calendar_pin.png"
      }
     ],
     "wash_amt": 0.85,
     "cine": true,
-    "doc_cine": true,
-    "cut_by_line": true
+    "doc_cine": true
    },
    "sketch_add": [],
    "asof": false,
-   "src": "빅고 파이낸스 2026-11(부도 보험료 2022년 이후 최고) · 슬래시닷(FT 인용) 2025-12-11(시스코 2000년 고점 회복)",
+   "src": "빅고 파이낸스 2026-11(부도 보험료 2022년 이후 최고)",
    "sketch": [
     {
      "kind": "steps",
@@ -1931,22 +1922,45 @@
      "on": null,
      "line": 0,
      "at": 0.15
-    },
+    }
+   ],
+   "lines": [
+    "그래서 앞으로는 손정의를 보시면 됩니다. 가장 빠른 경보는 소프트뱅크 주가와 부도 위험 보험료, 출구는 오픈AI의 다음 투자 유치와 상장 일정, 그리고 빌린 돈의 값은 12월 9일 금리가 정합니다."
+   ],
+   "note": "[결] 배울 것: 손정의 체온계"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "il_L261119u_calendar_pin.png"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "슬래시닷(FT 인용) 2025-12-11(시스코 2000년 고점 회복)",
+   "sketch": [
     {
      "kind": "punch",
      "text": "최선의 대안 = 분할 매수",
      "sub": "한 번에 전부를 걸지 않는다",
-     "line": 1,
+     "line": 0,
      "at": 0.8,
      "color": "gold",
      "hold": 2.6
     }
    ],
    "lines": [
-    "그래서 앞으로는 손정의를 보시면 됩니다. 가장 빠른 경보는 소프트뱅크 주가와 부도 위험 보험료, 출구는 오픈AI의 다음 투자 유치와 상장 일정, 그리고 빌린 돈의 값은 12월 9일 금리가 정합니다.",
     "2000년에도 인터넷은 진짜였습니다. 다만 2000년 꼭대기에서 시스코를 산 사람은 작년 12월에야 본전을 찾았습니다. 그래서 밸류노트가 판단하는 최선의 대안은, 손정의처럼 한 번에 전부를 걸지 않는 것. 나눠서 사는 분할 매수입니다."
    ],
-   "note": "[결] 배울 것 + 판단"
+   "note": "[결] 판단"
   },
   {
    "v": {
@@ -1978,11 +1992,8 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261126_tokyo_window.png",
-      "d": 9.72
-     },
-     {
-      "lib": "il_L261117n_staff_meeting.png"
+      "lib": "son_fii2025_v_end.mp4",
+      "start": 4.4
      }
     ],
     "wash_amt": 0.85,
@@ -2011,8 +2022,8 @@
    "note": "[결] 원음⑪ 버블이 어디 있습니까",
    "news": true,
    "sot": {
-    "clip": "son_fii2025_audio_1.mp3",
-    "start": 879.4,
+    "clip": "son_fii2025_v_end.mp4",
+    "start": 4.4,
     "dur": 38.0,
     "rms": 0.085,
     "at": [
@@ -2065,7 +2076,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "pres5_a_still_3.mp4"
+      "lib": "pres6_breath_3.mp4"
      }
     ],
     "wash_amt": 0.85,

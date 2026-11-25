@@ -92,7 +92,7 @@ sc.append(S([V("son2_abilene_drone", 8, 11)],
     [], "", "[훅] 약속"))
 sc.append({"v": {"type": "media", "full": True, "wash": "none", "cuts": [{"lib": "il_L261116p_wallst_red.png"}], "wash_amt": 0.85, "cine": True, "ident": True},
            "lines": ["현명한 투자를 위한 경제 채널, 밸류노트 지금 시작합니다."], "sketch_add": [], "asof": False, "src": "", "sketch": [], "dur": 6.0, "note": "[로고 인트로] 시그니처"})
-sc.append(PRES("pres5_a_still.mp4", "먼저, 이 남자가 어떤 사람인지부터 보겠습니다.", "[진행자①] 이야기 시작"))
+sc.append(PRES("pres6_breath.mp4", "먼저, 이 남자가 어떤 사람인지부터 보겠습니다.", "[진행자①] 이야기 시작"))
 
 # ───────── 기: 손정의는 누구인가 ─────────
 sc.append(CH(S(["il_L261117n_tokyo_office_90s"],
@@ -144,7 +144,7 @@ sc.append(S(["il_L261117n_single_chair"],
 sc.append(CH(S([V("son2_wework_bankrupt", 0, 12), V("son2_neumann_stage", 48, 12)],
     ["2016년 말, 손정의는 뉴욕의 공유 오피스 회사 위워크 본사를 12분 둘러보고 44억 달러 투자를 정했다고 알려져 있습니다.",
      "창업자 애덤 뉴먼의 기세에 반한 겁니다. 위워크의 몸값은 한때 470억 달러까지 올랐습니다."],
-    [P("12분 → 44억 달러", s="본사를 둘러본 시간과 첫 투자금", line=0, at=0.7), lower("애덤 뉴먼", "위워크 공동 창업자", line=1, at=0.05)],
+    [P("12분 → 44억 달러", s="본사를 둘러본 시간과 첫 투자금", line=0, at=0.35), lower("애덤 뉴먼", "위워크 공동 창업자", line=1, at=0.05)],
     "아시아경제 2023-11-10(12분 일화) · 로이터 2023-11-07(2017년 8월 44억 달러, 최고 470억 달러)", "[위워크] 12분", v={"cut_by_line": True}), "위워크와 쿠팡"))
 sc.append(S([V("son2_wework_bbg2019", 30, 13)],
     ["그런데 2019년, 위워크 상장이 무산됐습니다. 소프트뱅크는 14년 만에 처음으로 분기 영업손실을 냈고, 손정의는 직접 실수를 인정했습니다."],
@@ -180,7 +180,6 @@ sc.append(S([V("son2_nvda_sale_reuters", 0, 9), V("son2_nvda_sale_reuters", 28, 
 st, du, at, ln = sot_cfg('fii', 0.0, 14.0)
 sc.append(SOT(SOTS['fii']['clip'], st, du, ln,
     "손정의", "소프트뱅크그룹 회장 · FII 프라이어리티 아시아 2025.12.1 도쿄", "FII 연구소 「Building the Asia of Tomorrow: Masayoshi Son」 2025-12-01", "[엔비디아] 원음⑦ 울었다", at))
-sc[-1]["v"]["cuts"] = cut("son_portrait_v.png", "il_L261126_forum_stage", V("son2_nvda_sale_reuters", 60, 12))
 sc.append(S(["son_altman_v.png", "il_L261118a_hook_chips_cash"],
     ["엔비디아를 판 돈은 전부 오픈AI로 갔습니다. 두 번 통한 공식, 이번엔 판돈이 달랐습니다.",
      "그런데 그 돈으로도 모자랐습니다. 여기서부터 손정의가 돈을 구하는 방식이 바뀝니다."],
@@ -267,7 +266,7 @@ sc.append(S(["globe_L261126s_fx_globe2.mp4"],
     ["이게 내 계좌와 이어지는 지점입니다. 손정의의 돈은 오픈AI와 스타게이트로 가고, 그 돈은 엔비디아 칩 주문이 되고, 엔비디아는 SK하이닉스와 삼성전자에 HBM을 주문합니다.",
      "그래서 손정의의 돈줄이 마르면 메모리 주문이 먼저 흔들리고, 돈줄이 돌면 가장 먼저 웃습니다. 젠슨 황이 돌아온 다음 날 SK하이닉스가 6.7% 오른 것도 같은 이유입니다."],
     [], "코리아중앙데일리·애드혹뉴스 2026-11-24(SK하이닉스 +6.73%)", "[하이닉스] 내 계좌(지구본)"))
-sc.append(PRES("pres5_a_still_2.mp4", "여기서부터는 밸류노트가 판단하는 대목입니다.", "[진행자②] 판단 시작"))
+sc.append(PRES("pres6_breath_2.mp4", "여기서부터는 밸류노트가 판단하는 대목입니다.", "[진행자②] 판단 시작"))
 
 # ───────── 결: 이번엔 시간 싸움 ─────────
 sc.append(CH(S(["globe_L261126s_fx_lights.mp4"],
@@ -279,23 +278,24 @@ sc.append(S(["globe_L261126s_fx_scale.mp4"],
     ["2000년, 손정의를 살린 건 시간이었습니다. 기다리는 동안 알리바바가 컸습니다.",
      "이번엔 기다릴수록 이자가 나갑니다. 그래서 답은 하나입니다. 오픈AI가 빚보다 먼저 돈을 버느냐."],
     [], "", "[결] 저울 — 시간 싸움"))
-sc.append(S(["il_L261121j_analyst_call", "il_L261119u_calendar_pin"],
-    ["그래서 앞으로는 손정의를 보시면 됩니다. 가장 빠른 경보는 소프트뱅크 주가와 부도 위험 보험료, 출구는 오픈AI의 다음 투자 유치와 상장 일정, 그리고 빌린 돈의 값은 12월 9일 금리가 정합니다.",
-     "2000년에도 인터넷은 진짜였습니다. 다만 2000년 꼭대기에서 시스코를 산 사람은 작년 12월에야 본전을 찾았습니다. 그래서 밸류노트가 판단하는 최선의 대안은, 손정의처럼 한 번에 전부를 걸지 않는 것. 나눠서 사는 분할 매수입니다."],
-    [steps("손정의 체온계", [["경보", "소프트뱅크 주가 · 부도 보험료"], ["출구", "오픈AI 투자 유치 · 상장 일정"], ["이자", "12월 9일 연준 금리"]], line=0, at=0.15),
-     P("최선의 대안 = 분할 매수", s="한 번에 전부를 걸지 않는다", line=1, at=0.8, color="gold")],
-    "빅고 파이낸스 2026-11(부도 보험료 2022년 이후 최고) · 슬래시닷(FT 인용) 2025-12-11(시스코 2000년 고점 회복)", "[결] 배울 것 + 판단", v={"cut_by_line": True}))
+sc.append(S(["il_L261121j_analyst_call"],
+    ["그래서 앞으로는 손정의를 보시면 됩니다. 가장 빠른 경보는 소프트뱅크 주가와 부도 위험 보험료, 출구는 오픈AI의 다음 투자 유치와 상장 일정, 그리고 빌린 돈의 값은 12월 9일 금리가 정합니다."],
+    [steps("손정의 체온계", [["경보", "소프트뱅크 주가 · 부도 보험료"], ["출구", "오픈AI 투자 유치 · 상장 일정"], ["이자", "12월 9일 연준 금리"]], line=0, at=0.15)],
+    "빅고 파이낸스 2026-11(부도 보험료 2022년 이후 최고)", "[결] 배울 것: 손정의 체온계"))
+sc.append(S(["il_L261119u_calendar_pin"],
+    ["2000년에도 인터넷은 진짜였습니다. 다만 2000년 꼭대기에서 시스코를 산 사람은 작년 12월에야 본전을 찾았습니다. 그래서 밸류노트가 판단하는 최선의 대안은, 손정의처럼 한 번에 전부를 걸지 않는 것. 나눠서 사는 분할 매수입니다."],
+    [P("최선의 대안 = 분할 매수", s="한 번에 전부를 걸지 않는다", line=0, at=0.8, color="gold")],
+    "슬래시닷(FT 인용) 2025-12-11(시스코 2000년 고점 회복)", "[결] 판단"))
 sc.append(S(["il_L261118a_closing_bridge_dawn"],
     ["손정의 본인의 생각은 분명합니다. 지난해 도쿄에서, 그는 이렇게 말했습니다."],
     [], "", "[결] 수미상관 연결"))
 st, du, at, ln = sot_cfg('fii_end', 893.2, 24.0)
 sc.append(SOT(SOTS['fii_end']['clip'], st, du, ln,
     "손정의", "소프트뱅크그룹 회장 · FII 프라이어리티 아시아 2025.12.1 도쿄", "FII 연구소 「Building the Asia of Tomorrow: Masayoshi Son」 2025-12-01", "[결] 원음⑪ 버블이 어디 있습니까", at))
-sc[-1]["v"]["cuts"] = cut("il_L261126_tokyo_window", "il_L261117n_staff_meeting")
 sc.append(S(["il_L261118a_seven_towers"],
     ["99%를 잃고도 살아남은 남자가, 세 번째 '하나'에 전부를 걸었습니다. 그가 이번에도 맞을지는 아직 아무도 모릅니다. 다만 다음 신호는 12월 9일에 옵니다."],
     [], "", "[마무리] 여운"))
-sc.append(PRES("pres5_a_still_3.mp4", "손정의는 이번에도 살아남을까요? 여러분의 생각을 댓글로 남겨 주세요.", "[진행자③] 마무리 질문"))
+sc.append(PRES("pres6_breath_3.mp4", "손정의는 이번에도 살아남을까요? 여러분의 생각을 댓글로 남겨 주세요.", "[진행자③] 마무리 질문"))
 sc.append(S(["il_L261121i_closing"],
     ["도움이 되셨다면 좋아요와 구독으로 응원해 주세요."],
     [], "", "[마무리] 구독"))
@@ -308,6 +308,18 @@ ph = [c["lib"] for x in sc for c in x["v"].get("cuts", []) if c["lib"].startswit
 dups = sorted({l for l in ph if ph.count(l) > 1})
 
 base = json.load(open(HJ + '/scripts/youtube/long/specs/L261124-gold-3.json'))
+# ── 겹침 관문(2026-11-26): 한 장면 안에서 강조 문구·이름표·인용·단계표가 동시에 뜨지 않게 ──
+for _i, _s in enumerate(sc):
+    _k = [(b.get("kind"), b.get("line", 0), b.get("at", 0)) for b in (_s.get("sketch") or []) if b.get("kind") in ("punch", "lower", "quote", "steps", "tl", "stamp")]
+    if any(k in ("steps", "tl") for k, _, _ in _k) and len(_k) > 1:
+        raise SystemExit(f"겹침: 장면 {_i} 단계표·연표는 끝까지 남으니 다른 강조와 같이 못 둠 {_k}")
+    _lines = [l for _, l, _ in _k]
+    if len(_lines) != len(set(_lines)):
+        raise SystemExit(f"겹침: 장면 {_i} 같은 줄에 강조 2개 {_k}")
+    for (k1, l1, a1), (k2, l2, a2) in zip(sorted(_k, key=lambda x: x[1]), sorted(_k, key=lambda x: x[1])[1:]):
+        if l2 == l1 + 1 and a1 > 0.5:
+            raise SystemExit(f"겹침: 장면 {_i} {k1}(줄{l1}, {a1})가 다음 줄 {k2}와 겹칠 수 있음")
+
 spec = {k: base[k] for k in ['format', 'world', 'notebook', 'overlay', 'look', 'roadmap', 'hook', 'music', 'design', 'synthetic_media'] if k in base}
 TITLE = "닷컴 버블에서 99%를 잃은 남자 | 손정의는 왜 AI 버블에 또 전부를 걸었나"
 spec.update({
