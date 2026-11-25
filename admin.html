@@ -1001,6 +1001,7 @@ const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt
 const n0 = v => (+v || 0).toLocaleString('ko-KR');
 const pct = (a, b) => b ? Math.round(a / b * 1000) / 10 + '%' : '–';
 const kst = iso => { if(!iso) return '–'; const d = new Date(Date.parse(iso) + 9*3600e3); return d.toISOString().slice(0,16).replace('T',' ').slice(2); };
+const kstMDHM = iso => { if(!iso) return '–'; const d = new Date(Date.parse(iso) + 9*3600e3).toISOString(); return `${+d.slice(5,7)}/${+d.slice(8,10)} ${d.slice(11,16)}`; };
 const kstDate = iso => { if(!iso) return '–'; return new Date(Date.parse(iso) + 9*3600e3).toISOString().slice(0,10); };
 let toastT; function toast(t, bad){ let el = $('#toast'); if(!el){ el = document.createElement('div'); el.id = 'toast'; el.className = 'toast'; document.body.appendChild(el); }
   el.textContent = t; el.classList.toggle('bad', !!bad); el.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('on'), 2600); }
@@ -1218,7 +1219,9 @@ async function crmLoad(force){
   CRM.ins = ins.error ? { error: ins.error.message, feedback: [], cohorts: [], newsletter: [] } : (ins.data || {});
   if(CRM.data){ const nl = new Set(CRM.ins.newsletter || []), fb = {};
     (CRM.ins.feedback || []).forEach(f => (fb[f.uid] ||= []).push(f));
-    (CRM.data.members || []).forEach(m => { m.nl = nl.has(m.uid); m.fbs = fb[m.uid] || []; m.fb = m.fbs[0] || null; }); }
+    const VS = CRM.ins.visits || {};
+    (CRM.data.members || []).forEach(m => { m.nl = nl.has(m.uid); m.fbs = fb[m.uid] || []; m.fb = m.fbs[0] || null;
+      const v = VS[m.uid] || {}; m.vd = +v.days || 0; m.vs = +v.sessions || 0; m.vlast = v.last_at || m.last_at; }); }
   if(['users', 'survey'].includes(page())) render();
 }
 const dayMs = 864e5;
@@ -1267,9 +1270,9 @@ const arr = v => Array.isArray(v) ? v : (v ? [v] : []);
 
 function crmFilter(L){
   const k = CRM.k.toLowerCase();
-  const R = L.filter(m => CRM.f === 'all' ? true : CRM.f === 'once' ? (+m.a30 <= 1 && daysSince(m.created_at) >= 3) : CRM.f === 'nosurvey' ? !m.surveyed : CRM.f === 'nohold' ? !(+m.holdings > 0) : CRM.f === 'nopush' ? !(+m.push > 0) : CRM.f === 'fb' ? !!m.fb : CRM.f === 'fblow' ? !!(m.fb && m.fb.score <= 3) : CRM.f === 'nl' ? !!m.nl : CRM.f.startsWith('tag:') ? (m.tags || []).includes(CRM.f.slice(4)) : stageOf(m) === CRM.f)
+  const R = L.filter(m => CRM.f === 'all' ? true : CRM.f === 'once' ? (+m.a30 <= 1 && daysSince(m.created_at) >= 3) : CRM.f === 'nosurvey' ? !m.surveyed : CRM.f === 'nohold' ? !(+m.holdings > 0) : CRM.f === 'nopush' ? !(+m.push > 0) : CRM.f === 'reg' ? m.vd >= 5 : CRM.f === 'back' ? m.vd >= 2 : CRM.f === 'fb' ? !!m.fb : CRM.f === 'fblow' ? !!(m.fb && m.fb.score <= 3) : CRM.f === 'nl' ? !!m.nl : CRM.f.startsWith('tag:') ? (m.tags || []).includes(CRM.f.slice(4)) : stageOf(m) === CRM.f)
             .filter(m => !k || JSON.stringify(m).toLowerCase().includes(k));
-  const by = { recent: m => -Date.parse(m.last_at || 0), joined: m => -Date.parse(m.created_at), days: m => -(+m.a30 || 0), views: m => -(+m.v30 || 0) }[CRM.sort];
+  const by = { visits: m => -((+m.vs || 0) * 1000 + (+m.vd || 0)), recent: m => -Date.parse(m.last_at || 0), joined: m => -Date.parse(m.created_at), days: m => -(+m.a30 || 0), views: m => -(+m.v30 || 0) }[CRM.sort];
   return R.sort((a, b) => by(a) - by(b));
 }
 
@@ -1311,9 +1314,9 @@ function vUsers(){
   ${crmInsights(L)}
   <h2>회원 목록</h2>
   <div class="tools"><input id="cq" type="search" placeholder="이메일·설문·메모·태그로 찾기" value="${esc(CRM.k)}">
-    <select id="csort" aria-label="정렬">${[['recent','최근 활동 순'],['joined','가입 순'],['days','방문일 많은 순'],['views','본 화면 많은 순']].map(([v, t]) => `<option value="${v}"${CRM.sort === v ? ' selected' : ''}>${t}</option>`).join('')}</select>
+    <select id="csort" aria-label="정렬">${[['recent','최근 활동 순'],['visits','총 방문 많은 순'],['joined','가입 순'],['days','방문일 많은 순'],['views','본 화면 많은 순']].map(([v, t]) => `<option value="${v}"${CRM.sort === v ? ' selected' : ''}>${t}</option>`).join('')}</select>
     <span class="qcount" id="ccount">${R.length === N ? '' : n0(R.length) + '명'}</span><button class="lnk" id="csv" type="button">CSV 내려받기</button></div>
-  <div class="chips">${chip('all', '전체', N)}${chip('once', '가입 날만 옴', L.filter(m => +m.a30 <= 1 && daysSince(m.created_at) >= 3).length)}${chip('nosurvey', '설문 안 함', L.filter(m => !m.surveyed).length)}${chip('nohold', '종목 없음', L.filter(m => !(+m.holdings > 0)).length)}${chip('nopush', '알림 안 켬', L.filter(m => !(+m.push > 0)).length)}${chip('fb', '의견 남김', L.filter(m => m.fb).length)}${chip('fblow', '만족도 3점 이하', L.filter(m => m.fb && m.fb.score <= 3).length)}${chip('nl', '뉴스레터 구독', L.filter(m => m.nl).length)}${(D.tags || []).map(t => chip('tag:' + t, '#' + t, L.filter(m => (m.tags || []).includes(t)).length)).join('')}</div>
+  <div class="chips">${chip('all', '전체', N)}${chip('once', '가입 날만 옴', L.filter(m => +m.a30 <= 1 && daysSince(m.created_at) >= 3).length)}${chip('nosurvey', '설문 안 함', L.filter(m => !m.surveyed).length)}${chip('nohold', '종목 없음', L.filter(m => !(+m.holdings > 0)).length)}${chip('nopush', '알림 안 켬', L.filter(m => !(+m.push > 0)).length)}${chip('reg', '단골 (5일 이상)', L.filter(m => m.vd >= 5).length)}${chip('back', '재방문 (2일 이상)', L.filter(m => m.vd >= 2).length)}${chip('fb', '의견 남김', L.filter(m => m.fb).length)}${chip('fblow', '만족도 3점 이하', L.filter(m => m.fb && m.fb.score <= 3).length)}${chip('nl', '뉴스레터 구독', L.filter(m => m.nl).length)}${(D.tags || []).map(t => chip('tag:' + t, '#' + t, L.filter(m => (m.tags || []).includes(t)).length)).join('')}</div>
   <div class="selbar" id="selbar" ${CRM.sel.size ? '' : 'hidden'}><b id="seln">${CRM.sel.size}명 선택</b><button class="go sm" type="button" data-compose="sel">선택한 회원에게 메시지</button><button class="lnk" type="button" id="selall">보이는 회원 모두 선택</button><button class="lnk" type="button" id="selclr">선택 해제</button></div>
   <div class="mlist" id="mlist">${crmRows(R)}</div>
   <div class="note">메시지는 그 회원의 앱 알림함에 남고, 알림을 켠 기기에는 휴대폰 알림으로도 갑니다. 회원을 누르면 날짜별 활동·설문·메모를 봅니다.</div>
@@ -1329,6 +1332,10 @@ function fbCard(f){
     <div class="fbb">${f.body ? esc(f.body) : '<span class="muted">의견 없이 점수만 남김</span>'}</div>
     ${f.reply ? `<div class="muted sm" style="margin-top:6px">보낸 답 (${kst(f.replied_at)}): ${esc(f.reply)}</div>` : ''}
     <div class="fbr"><input data-fbreply placeholder="회원에게 보낼 답 (비우면 상태만 바꿈)"><button class="chip" type="button" data-fbst="review">검토 중</button><button class="chip" type="button" data-fbst="done">반영함</button><button class="chip" type="button" data-fbst="skip">보류</button></div></div>`;
+}
+function regDist(L){
+  const N = L.length || 1, B = [['1일만', m => m.vd <= 1], ['2일', m => m.vd === 2], ['3~4일', m => m.vd >= 3 && m.vd <= 4], ['5~9일 (단골)', m => m.vd >= 5 && m.vd <= 9], ['10일 이상', m => m.vd >= 10]];
+  return B.map(([t, f]) => { const n = L.filter(f).length; return `<div class="fn"><span class="fnl">${t}</span><span class="fnb"><i style="width:${n / N * 100}%"></i></span><b>${n0(n)}</b><span class="muted sm">${pct(n, L.length)}</span></div>`; }).join('');
 }
 function crmInsights(L){
   const I = CRM.ins || {}, N = L.length || 0;
@@ -1348,14 +1355,15 @@ function crmInsights(L){
     <div class="card"><div class="chart-t"><b style="color:var(--ink)">가입 주차별 재방문</b><span>가입한 주의 회원 중 그 뒤 n주 차에 다시 온 비율</span></div>
       ${coh ? `<table class="ct"><thead><tr><th>가입 주</th><th class="r">회원</th><th class="r">1주 차</th><th class="r">2주 차</th><th class="r">4주 차</th></tr></thead><tbody>${coh}</tbody></table>` : '<div class="empty">기록이 없습니다.</div>'}</div>
   </div>
+  <div class="card" style="margin-top:12px"><div class="chart-t"><b style="color:var(--ink)">단골 현황</b><span>가입 후 지금까지 서로 다른 날 방문한 횟수 · 누르면 그 회원만</span></div>${regDist(L)}</div>
   <div class="grid2" style="margin-top:12px">
     <div class="card"><div class="chart-t"><b style="color:var(--ink)">유입 경로별 정착</b><span>가입 경로마다 이틀 이상 방문 · 종목 담음 · 알림 켬 비율</span></div>
       <table class="ct"><thead><tr><th>경로</th><th class="r">회원</th><th class="r">재방문</th><th class="r">종목</th><th class="r">알림</th></tr></thead><tbody>${srcRows}</tbody></table></div>
-    <div class="card"><div class="chart-t"><b style="color:var(--ink)">만족도</b><span>최근 30일 ${n0(F30.length)}명 응답 · 5번째 방문일에 팝업으로 묻습니다</span></div>
+    <div class="card"><div class="chart-t"><b style="color:var(--ink)">만족도</b><span>최근 30일 ${n0(F30.length)}명 응답 · 3번째 방문일에 팝업으로 묻습니다</span></div>
       <div style="display:flex;gap:16px;align-items:center"><div style="font-size:34px;font-weight:800;min-width:70px">${avg}<span class="muted" style="font-size:14px"> / 5</span></div><div style="flex:1">${dist}</div></div></div>
   </div>
   <h2>회원 의견 <span class="muted sm" style="font-weight:500">답을 쓰고 상태를 누르면 그 회원 알림함(중요)과 휴대폰으로 갑니다</span></h2>
-  <div class="card" id="fblist">${F.length ? (open.length ? open : F.slice(0, 5)).map(fbCard).join('') + (open.length && F.length > open.length ? `<div class="note">처리한 의견 ${n0(F.length - open.length)}건은 회원을 누르면 볼 수 있습니다.</div>` : '') : '<div class="empty">아직 들어온 의견이 없습니다. 5번째 방문한 회원에게 만족도 팝업이 뜹니다.</div>'}</div>`;
+  <div class="card" id="fblist">${F.length ? (open.length ? open : F.slice(0, 5)).map(fbCard).join('') + (open.length && F.length > open.length ? `<div class="note">처리한 의견 ${n0(F.length - open.length)}건은 회원을 누르면 볼 수 있습니다.</div>` : '') : '<div class="empty">아직 들어온 의견이 없습니다. 3번째 방문한 회원에게 만족도 팝업이 뜹니다.</div>'}</div>`;
 }
 function crmRows(R){
   if(!R.length) return '<div class="card empty">조건에 맞는 회원이 없습니다.</div>';
@@ -1363,8 +1371,8 @@ function crmRows(R){
     return `<div class="mrow${CRM.open === m.uid ? ' on' : ''}" data-open="${m.uid}" tabindex="0" role="button" aria-label="${esc(m.email)} 자세히">
       <label class="ck" data-stop><input type="checkbox" data-sel="${m.uid}"${CRM.sel.has(m.uid) ? ' checked' : ''} aria-label="선택"></label>
       <div class="who"><div class="ava" style="background:${STAGE[st].c}">${esc(nm(m).slice(0, 1).toUpperCase())}</div>
-        <div class="wt"><div class="em">${esc(m.email)}</div><div class="muted sm">${stageBadge(st)} 가입 ${kstDate(m.created_at).slice(5).replace('-', '/')} · ${esc(m.src)}${(m.tags || []).map(t => ` <span class="tg">#${esc(t)}</span>`).join('')}</div></div></div>
-      <div class="act"><div class="lt"><b>${ago(m.last_at)}</b><span class="muted sm"> · 30일 ${n0(m.a30)}일 방문 · 화면 ${n0(m.v30)}회</span></div>${dots(m)}</div>
+        <div class="wt"><div class="em">${esc(m.email)}</div><div class="muted sm">${stageBadge(st)} 가입 ${kstMDHM(m.created_at)} · ${esc(m.src)}${(m.tags || []).map(t => ` <span class="tg">#${esc(t)}</span>`).join('')}</div></div></div>
+      <div class="act"><div class="lt"><b>총 ${n0(m.vs)}회 방문</b><span class="muted sm"> (${n0(m.vd)}일) · 마지막 ${kstMDHM(m.vlast)} (${ago(m.vlast)}) · 30일 ${n0(m.a30)}일</span></div>${dots(m)}</div>
       <div class="stat"><span title="보유 종목"><em>${n0(m.holdings)}</em>보유</span><span title="관심 종목"><em>${n0(m.interests)}</em>관심</span><span title="알림 ${esc(p.t)}"><em style="color:${p.c}">${p.k === 'on' ? '켬' : p.k === 'denied' ? '차단' : '끔'}</em>알림</span>${m.fb ? `<span title="만족도 (최근)"><em style="color:${m.fb.score <= 3 ? 'var(--bad)' : 'var(--good)'}">${m.fb.score}점</em>만족도</span>` : ''}<span title="설문"><em style="color:${m.surveyed ? 'var(--good)' : 'var(--muted)'}">${m.surveyed ? '완료' : '–'}</em>설문</span></div>
       <div class="nx ${na[0]}">${esc(na[1])}${+m.msgs ? `<span class="muted sm"> · 보낸 메시지 ${n0(m.msgs)} (읽음 ${n0(m.msgs_read)})</span>` : ''}</div>
     </div>`; }).join('');
@@ -1383,7 +1391,7 @@ function crmDrawer(){
   const log = det && (det.log || []).length ? det.log.map(l => `<div class="clog"><div><b>${esc(l.title || '')}</b> <span class="muted sm">${kst(l.at)} · ${l.read ? '<span style="color:var(--good)">읽음</span>' : '안 읽음'}</span></div><div class="sm">${esc(l.body || '')}</div></div>`).join('') : '<div class="empty">보낸 메시지가 없습니다.</div>';
   return `<div class="drw-bg" data-close></div><aside class="drw" data-noswipe aria-label="회원 상세">
     <div class="dh"><div class="ava lg" style="background:${STAGE[st].c}">${esc(nm(m).slice(0, 1).toUpperCase())}</div><div style="min-width:0"><div class="em">${esc(m.email)}</div><div class="muted sm">${stageBadge(st)} 가입 ${kst(m.created_at)} · ${esc(m.src)} 유입</div></div><button class="x" type="button" data-close aria-label="닫기">✕</button></div>
-    <div class="dk"><div><em>${ago(m.last_at)}</em>마지막 활동</div><div><em>${n0(m.a30)}일</em>30일 방문</div><div><em>${n0(m.holdings)} · ${n0(m.interests)}</em>보유 · 관심</div><div><em style="color:${p.c}">${esc(p.t)}</em>알림${p.sub ? ' · ' + esc(p.sub) : ''}</div></div>
+    <div class="dk"><div><em>${kstMDHM(m.vlast)}</em>마지막 방문 · ${ago(m.vlast)}</div><div><em>${n0(m.vs)}회 · ${n0(m.vd)}일</em>총 방문</div><div><em>${kstMDHM(m.created_at)}</em>가입</div><div><em>${n0(m.a30)}일</em>30일 방문</div><div><em>${n0(m.holdings)} · ${n0(m.interests)}</em>보유 · 관심</div><div><em style="color:${p.c}">${esc(p.t)}</em>알림${p.sub ? ' · ' + esc(p.sub) : ''}</div></div>
     <div class="nx ${na[0]}" style="margin:0 0 14px">다음 할 일: ${esc(na[1])}</div>
     <div class="dbtn"><button class="go sm" type="button" data-compose="one">이 회원에게 메시지</button><button class="lnk" type="button" data-copy="${esc(m.email)}">이메일 복사</button></div>
     <h3>관리 메모</h3>
@@ -1459,9 +1467,9 @@ function bindUsers(){
   document.querySelectorAll('[data-fbreply]').forEach(x => x.onclick = e => e.stopPropagation());
   bindRows();
   const b = $('#csv'); if(b) b.onclick = () => {
-    const H = ['이메일','단계','가입','유입','마지막 활동','30일 방문일','30일 본 화면','보유 종목','일지','알림','설문','투자 유형','바꾸고 싶은 방향','기대하는 것','투자 시장','규모','바라는 점','태그','메모','보낸 메시지'];
+    const H = ['이메일','단계','가입','유입','마지막 방문','총 방문 횟수','총 방문일','30일 방문일','30일 본 화면','보유 종목','일지','알림','설문','투자 유형','바꾸고 싶은 방향','기대하는 것','투자 시장','규모','바라는 점','태그','메모','보낸 메시지'];
     const cell = v => '"' + String(Array.isArray(v) ? v.join(' / ') : (v ?? '')).replace(/"/g, '""') + '"';
-    const rows = crmFilter(L).map(m => [m.email, STAGE[stageOf(m)].t, kst(m.created_at), m.src, kst(m.last_at), m.a30, m.v30, m.holdings, m.journal, pushInfo(pushOf(m)).t, m.surveyed ? '완료' : '', m.style, m.goal, m.expect, m.markets, m.size, m.note, m.tags, m.memo, m.msgs].map(cell).join(','));
+    const rows = crmFilter(L).map(m => [m.email, STAGE[stageOf(m)].t, kst(m.created_at), m.src, kst(m.vlast), m.vs, m.vd, m.a30, m.v30, m.holdings, m.journal, pushInfo(pushOf(m)).t, m.surveyed ? '완료' : '', m.style, m.goal, m.expect, m.markets, m.size, m.note, m.tags, m.memo, m.msgs].map(cell).join(','));
     const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿' + [H.join(','), ...rows].join('\n')], {type:'text/csv'})); a.download = 'valuenote-members-' + todayK() + '.csv'; a.click();
   };
 }

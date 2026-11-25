@@ -8549,11 +8549,11 @@ nav.tabs button.gz-new .tab-dot{display:block}
 </style>
 <script>
 /* 만족도·의견 팝업 (2026-11-25 대표: "몇 번 이상 방문하는 사람에게 잘 쓰고 있는지 · 원하는 기능 · 최대한 간단하게")
-   - 서로 다른 날 5번째 방문부터, 화면을 20초 이상 본 뒤 한 번 띄운다
+   - 서로 다른 날 3번째 방문부터 (2026-11-25 대표: 5일째 → 3일째), 화면을 20초 이상 본 뒤 한 번 띄운다
    - 답했거나 닫으면 60일 동안 다시 띄우지 않는다 · 다른 팝업이 떠 있거나 그날 계기판 팝업이 떴으면 띄우지 않는다
    - 저장: app_feedback (대표에게 알림이 가고, 관리자 회원 관리 '회원 의견'에서 답하면 회원 알림함으로 돌아간다) */
 (function(){
-  var DAYS = 'vn-vd', LAST = 'vn-fb-at', NEED = 5, WAIT = 20000, GAP = 60 * 864e5;
+  var DAYS = 'vn-vd', LAST = 'vn-fb-at', NEED = 3, WAIT = 20000, GAP = 60 * 864e5;
   var OTHER = '.gate, .intro, .ob, .qz, .ch-gate, .pn-bar, .gz-pop, .vn-modal, [role="dialog"][aria-modal="true"]';
   function kday(){ return new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10); }
   function getJ(k, d){ try{ var v = JSON.parse(localStorage.getItem(k) || 'null'); return v == null ? d : v; }catch(_){ return d; } }
