@@ -63,7 +63,7 @@
  "no_data": true,
  "series": "",
  "plan": "P261126-ai-bubble",
- "scheduled_at": "2026-11-26T11:30:00+09:00",
+ "scheduled_at": "2026-11-26T19:30:00+09:00",
  "manual": true,
  "opening": "원음 3일 천하 → 99% → 6/1 '50배' → 다음 날 꼭대기 → 3분의 1 → SK하이닉스 떡밥 → 이번 주 반등, 끝났나?",
  "hook_type": "인물 원음 + 날짜 대조(두 번의 3일 천하)",
@@ -120,7 +120,7 @@
   "제로헤지 2026-11-07",
   "요미우리 2026-11-11"
  ],
- "format_note": "v5 2026-11-24 대표 — 인물(손정의) 중심, 원음 자막만, 밸류노트 연결 장 없음, 진행자 컷 2회, 재연 이미지 표기",
+ "format_note": "v6 2026-11-25 — 기승전결 재구성·실제 영상 우선·코드 그래픽. v5 2026-11-24 대표 — 인물(손정의) 중심, 원음 자막만, 밸류노트 연결 장 없음, 진행자 컷 2회, 재연 이미지 표기",
  "orig_mode": "sot_test",
  "orig_mode_note": "원음+한국어 자막(더빙 없음). 구간은 media/stt/ 받아쓰기로 확정.",
  "voice_speed": 1.03,
@@ -192,33 +192,29 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "son_2000_press_v.png",
-      "d": 2.53
+      "lib": "son_2000_press_v.png"
      },
      {
-      "lib": "il_L261114t_dotcom_party.png",
-      "d": 2.53
-     },
-     {
-      "lib": "il_L261117n_tokyo_office_90s.png"
+      "lib": "il_L261105h_parisnight.jpeg"
      }
     ],
     "wash_amt": 0.85,
     "cine": true,
-    "doc_cine": true
+    "doc_cine": true,
+    "cut_by_line": true
    },
    "sketch_add": [],
    "asof": false,
-   "src": "블룸버그 2017-10-11 · 테크크런치 2025-11-11(2000년 2월 재산 약 780억 달러)",
+   "src": "블룸버그 2017-10-11 · 테크크런치 2025-11-11",
    "sketch": [
     {
      "kind": "punch",
      "text": "-99%",
-     "sub": "",
+     "sub": "6개월 만에 재산 700억 달러 증발",
      "line": 0,
-     "at": 0.3,
+     "at": 0.45,
      "color": "red",
-     "hold": 2.2
+     "hold": 2.6
     }
    ],
    "lines": [
@@ -258,7 +254,7 @@
    "lines": [
     "AI 혁명은 닷컴보다 10배 이상, 아마 50배는 클 겁니다."
    ],
-   "note": "[훅] 원음④ 한 문장",
+   "note": "[훅] 원음② 한 문장",
    "news": true,
    "sot": {
     "clip": "son_cnbc_50x_hook.mp4",
@@ -280,15 +276,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261107m_trading_red.jpeg",
-      "d": 5.21
-     },
-     {
-      "lib": "il_L261110a_red_screens.jpeg",
-      "d": 5.21
-     },
-     {
-      "lib": "il_L261107m_earnings_drop.jpeg"
+      "lib": "son2_nvda_sale_reuters__88.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -297,23 +285,22 @@
    },
    "sketch_add": [],
    "asof": false,
-   "src": "도쿄증권거래소 소프트뱅크그룹(9984) 2026-06-02 장중 9,074엔 · 2026-11-20 3,005엔(investing.com) · 디인포메이션 2026-11-20",
+   "src": "도쿄증권거래소 소프트뱅크그룹(9984) 2026-06-02 장중 9,074엔 · 2026-11-20 3,005엔(investing.com)",
    "sketch": [
     {
      "kind": "punch",
      "text": "9,074엔 → 3,005엔",
-     "sub": "",
+     "sub": "6월 2일 사상 최고에서 6개월 만에 -67%",
      "line": 0,
-     "at": 0.45,
+     "at": 0.4,
      "color": "red",
-     "hold": 2.2
+     "hold": 2.6
     }
    ],
    "lines": [
-    "다음 날 소프트뱅크 주가는 사상 최고를 찍었고, 지금은 3분의 1입니다.",
-    "지난주엔 이 남자가 SK하이닉스를 통째로 사려 했다는 보도까지 나왔죠. AI 버블은 끝난 걸까요. 손정의는 이번에도 살아남을까요?"
+    "다음 날 소프트뱅크 주가는 사상 최고를 찍었고, 지금은 3분의 1입니다."
    ],
-   "note": "[훅] 반전 + [떡밥] SK하이닉스 + 질문"
+   "note": "[훅] 반전"
   },
   {
    "v": {
@@ -322,11 +309,35 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261117n_staff_meeting.png",
-      "d": 3.33
+      "lib": "son2_hynix_hbm4__62.mp4"
      },
      {
-      "lib": "il_L261107m_dc_plains.jpeg"
+      "lib": "son2_jedi_cnbc2017__50.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "디인포메이션 2026-11-20",
+   "sketch": [],
+   "lines": [
+    "지난주엔 이 남자가 SK하이닉스를 통째로 사려 했다는 보도까지 나왔죠.",
+    "손정의는 이번에도 살아남을까요?"
+   ],
+   "note": "[훅] [떡밥] SK하이닉스 + 질문"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "son2_abilene_drone__8.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -373,7 +384,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "pres4_a_front.mp4"
+      "lib": "pres5_a_still.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -381,10 +392,10 @@
    },
    "sketch_add": [],
    "asof": false,
-   "src": "블룸버그 2017-10-11",
+   "src": "",
    "sketch": [],
    "lines": [
-    "시작은 2000년 2월, 도쿄입니다."
+    "먼저, 이 남자가 어떤 사람인지부터 보겠습니다."
    ],
    "note": "[진행자①] 이야기 시작"
   },
@@ -395,15 +406,148 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261117n_akihabara_night.png",
-      "d": 4.99
-     },
+      "lib": "il_L261117n_tokyo_office_90s.png"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "블룸버그 2017 · 소프트뱅크그룹",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "손정의",
+     "sub": "소프트뱅크그룹 창업자 · 1957년생",
+     "line": 0,
+     "at": 0.2
+    }
+   ],
+   "lines": [
+    "손정의는 1957년 일본 사가현, 재일 한국인 집안에서 태어났습니다. 그의 성이 '손'인 이유입니다.",
+    "17살 때, 그는 길에서 잡지 한 장을 보다가 울었습니다."
+   ],
+   "note": "[약력] 출생",
+   "chapter": "손정의는 누구인가"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
      {
-      "lib": "il_L261117n_computer_store_90s.png",
-      "d": 4.99
-     },
+      "lib": "son2_microchip_cry.mp4",
+      "start": 0.0
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true,
+    "news_scale": 0.66
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "블랙스톤 「Inside」 인터뷰 2026",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "손정의",
+     "sub": "소프트뱅크그룹 회장 · 블랙스톤 인터뷰 2026",
+     "line": 0,
+     "at": 0.3
+    }
+   ],
+   "lines": [
+    "17살 때, 마이크로프로세서 사진을 처음 봤습니다.",
+    "길에서 잡지를 읽다가 울기 시작했죠. 정말로, 길에서 울었습니다.",
+    "이게 인류의 미래를 바꿀 거라고 생각했습니다.",
+    "언젠가는 사람의 뇌보다 더 똑똑해질 거라고요."
+   ],
+   "note": "[약력] 원음③ 마이크로칩을 보고 울었다",
+   "news": true,
+   "sot": {
+    "clip": "son2_microchip_cry.mp4",
+    "start": 0.0,
+    "dur": 33.8,
+    "rms": 0.085,
+    "at": [
+     [
+      0.0,
+      7.1
+     ],
+     [
+      7.1,
+      14.9
+     ],
+     [
+      14.9,
+      24.7
+     ],
+     [
+      24.7,
+      33.7
+     ]
+    ]
+   }
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
      {
-      "lib": "il_L261114t_crt_office.png"
+      "lib": "il_L261117n_computer_store_90s.png"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "블룸버그 2017-10-11 · 소프트뱅크그룹 연혁(2026-11 확인)",
+   "sketch": [],
+   "lines": [
+    "16살에 혼자 미국으로 건너가 UC버클리에 다녔고, 학생 때 만든 음성 번역기를 샤프에 팔아 첫 사업 자금을 마련했습니다."
+   ],
+   "note": "[약력] 미국"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "globe_L261126s_fx_stakes.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "소프트뱅크그룹 연혁(2026-11 확인) · 블룸버그 2016-07-18(Arm) · 로이터 2006-03-17(보다폰 일본)",
+   "sketch": [],
+   "lines": [
+    "24살에 소프트뱅크를 세웠고, 그 뒤 베팅은 매번 커졌습니다.",
+    "야후에 1억 달러, 보다폰 일본에 150억 달러, Arm에 320억 달러, 그리고 1,000억 달러짜리 비전펀드까지."
+   ],
+   "note": "[약력] 판돈 그래프(코드)"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "globe_L261126s_fx_globe1.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -413,20 +557,12 @@
    "sketch_add": [],
    "asof": false,
    "src": "블룸버그 2017-10-11(본인 발언)",
-   "sketch": [
-    {
-     "kind": "lower",
-     "text": "손정의",
-     "sub": "소프트뱅크그룹 창업자 · 2000년 당시 43세",
-     "line": 0,
-     "at": 0.1
-    }
-   ],
+   "sketch": [],
    "lines": [
-    "2000년 2월, 손정의의 재산은 일주일에 100억 달러씩 불어났습니다. 미국 야후와 온라인 증권사 이트레이드에 일찍 투자한 덕분이었죠.",
+    "2000년 2월, 손정의의 재산은 일주일에 100억 달러씩 불어났습니다. 야후와 온라인 증권사 이트레이드에 일찍 투자한 덕분이었죠.",
     "본인 말로는, 3일 동안 세계에서 가장 부자였습니다."
    ],
-   "note": "[3일 천하] 재산",
+   "note": "[3일 천하] 지구본 — 투자 지도",
    "chapter": "3일 천하"
   },
   {
@@ -436,16 +572,16 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261110a_hangzhou_office.jpeg",
-      "d": 13.44
+      "lib": "il_L261110a_hangzhou_office.jpeg"
      },
      {
-      "lib": "il_L261110a_dorm_1990s.jpeg"
+      "lib": "son2_alibaba_bell__6.mp4"
      }
     ],
     "wash_amt": 0.85,
     "cine": true,
-    "doc_cine": true
+    "doc_cine": true,
+    "cut_by_line": true
    },
    "sketch_add": [],
    "asof": false,
@@ -456,7 +592,7 @@
     "처음엔 5,000만 달러를 내밀었는데, 창업자가 너무 많다며 사양해 2,000만 달러로 줄였습니다. 그 창업자가 마윈, 회사가 알리바바입니다.",
     "사업 계획도 없던 회사에 왜 돈을 넣었느냐는 질문에, 손정의는 이렇게 답했습니다."
    ],
-   "note": "[3일 천하] 알리바바 — 재미"
+   "note": "[3일 천하] 알리바바"
   },
   {
    "v": {
@@ -491,7 +627,7 @@
     "그런데 눈빛이 아주 강했습니다. 강하게 빛나는 눈이었죠.",
     "말하는 방식, 사람을 보는 방식에서 카리스마와 리더십이 보였습니다."
    ],
-   "note": "[3일 천하] 원음 알리바바 — 왜 투자했나",
+   "note": "[3일 천하] 원음④ 왜 투자했나",
    "news": true,
    "sot": {
     "clip": "son_rubenstein_3days_a.mp4",
@@ -521,11 +657,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261116p_margin_call.png",
-      "d": 3.0
-     },
-     {
-      "lib": "il_L261118a_storm_city.png"
+      "lib": "il_L261116p_margin_call.png"
      }
     ],
     "wash_amt": 0.85,
@@ -574,7 +706,7 @@
     "6개월 만에 주가는 99% 떨어졌고, 회사는 거의 파산할 뻔했습니다.",
     "그래도 어떻게든 살아남았습니다."
    ],
-   "note": "[3일 천하] 원음 99%",
+   "note": "[3일 천하] 원음⑤ 99%",
    "news": true,
    "sot": {
     "clip": "son_rubenstein_99.mp4",
@@ -604,11 +736,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261117n_empty_office_ceo.png",
-      "d": 4.48
-     },
-     {
-      "lib": "il_L261110a_bund_night.jpeg"
+      "lib": "son2_alibaba_floor__26.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -622,11 +750,11 @@
     {
      "kind": "punch",
      "text": "2,000만 → 500억 달러",
-     "sub": "",
+     "sub": "14년 만에 2,500배 · 2014년 뉴욕 상장",
      "line": 0,
      "at": 0.55,
      "color": "gold",
-     "hold": 2.2
+     "hold": 2.6
     }
    ],
    "lines": [
@@ -641,11 +769,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261117n_single_chair.png",
-      "d": 7.9
-     },
-     {
-      "lib": "il_L261118a_lighthouse_storm.png"
+      "lib": "il_L261117n_single_chair.png"
      }
     ],
     "wash_amt": 0.85,
@@ -659,16 +783,16 @@
     {
      "kind": "punch",
      "text": "하나만 맞히면 산다",
-     "sub": "",
+     "sub": "2000년 닷컴 붕괴에서 얻은 교훈",
      "line": 0,
      "at": 0.5,
      "color": "gold",
-     "hold": 2.2
+     "hold": 2.6
     }
    ],
    "lines": [
     "손정의가 여기서 배운 건 하나였습니다. 버블에서 99개가 망해도, 하나만 제대로 맞히면 산다.",
-    "이 교훈이 26년 뒤 그를 가장 위험한 자리로 데려갑니다. 그 전에, 그가 두고두고 후회하는 결정부터 보겠습니다."
+    "그리고 이 공식은, 한 번 더 통합니다."
    ],
    "note": "[3일 천하] 열쇠 + [R1]"
   },
@@ -679,16 +803,248 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261117n_quiet_hq_dusk.png",
-      "d": 6.83
+      "lib": "son2_wework_bankrupt__0.mp4"
      },
      {
-      "lib": "il_L261118a_gpu_racks_gold.png"
+      "lib": "son2_neumann_stage__48.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "아시아경제 2023-11-10(12분 일화) · 로이터 2023-11-07(2017년 8월 44억 달러, 최고 470억 달러)",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "12분 → 44억 달러",
+     "sub": "본사를 둘러본 시간과 첫 투자금",
+     "line": 0,
+     "at": 0.7,
+     "color": "red",
+     "hold": 2.6
+    },
+    {
+     "kind": "lower",
+     "text": "애덤 뉴먼",
+     "sub": "위워크 공동 창업자",
+     "line": 1,
+     "at": 0.05
+    }
+   ],
+   "lines": [
+    "2016년 말, 손정의는 뉴욕의 공유 오피스 회사 위워크 본사를 12분 둘러보고 44억 달러 투자를 정했다고 알려져 있습니다.",
+    "창업자 애덤 뉴먼의 기세에 반한 겁니다. 위워크의 몸값은 한때 470억 달러까지 올랐습니다."
+   ],
+   "note": "[위워크] 12분",
+   "chapter": "위워크와 쿠팡"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "son2_wework_bbg2019__30.mp4"
      }
     ],
     "wash_amt": 0.85,
     "cine": true,
     "doc_cine": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "블룸버그 2019-11-06 · 뉴욕타임스 인용(2019-11-06)",
+   "sketch": [
+    {
+     "kind": "quote",
+     "rows": [
+      "위워크 건은 제가 실수했습니다.",
+      "변명하지 않겠습니다. 아주 혹독한 교훈이었습니다."
+     ],
+     "by": "손정의 · 2019.11.6 실적 발표",
+     "line": 0,
+     "at": 0.55
+    }
+   ],
+   "lines": [
+    "그런데 2019년, 위워크 상장이 무산됐습니다. 소프트뱅크는 14년 만에 처음으로 분기 영업손실을 냈고, 손정의는 직접 실수를 인정했습니다."
+   ],
+   "note": "[위워크] 실수 인정"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "son2_coupang_bell__18.mp4"
+     },
+     {
+      "lib": "son2_coupang_ipo_reuters__19.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "포춘·블룸버그 2021-03-11(합계 30억 달러, 약 37%) · 테크크런치 2021-03-11(지분 가치 약 290억 달러)",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "김범석",
+     "sub": "쿠팡 창업자 · 이사회 의장",
+     "line": 1,
+     "at": 0.05
+    },
+    {
+     "kind": "punch",
+     "text": "30억 → 약 290억 달러",
+     "sub": "쿠팡 상장 첫날, 약 10배",
+     "line": 1,
+     "at": 0.75,
+     "color": "gold",
+     "hold": 2.6
+    }
+   ],
+   "lines": [
+    "그를 다시 일으킨 건, 한국 회사였습니다.",
+    "2021년 3월, 쿠팡이 뉴욕증권거래소에 상장했습니다. 소프트뱅크는 2015년부터 30억 달러를 넣어 지분 약 37%를 갖고 있었고, 상장 첫날 그 지분은 약 290억 달러가 됐습니다."
+   ],
+   "note": "[쿠팡] 상장"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "son2_coupang_ipo_reuters__60.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "소프트뱅크그룹 2020 회계연도 실적(2021-05-12)",
+   "sketch": [],
+   "lines": [
+    "위워크에서 크게 잃고, 쿠팡으로 다시 일어선 셈입니다. 쿠팡 덕에 사상 최대 이익을 낸 그해 5월, 손정의는 이렇게 말했습니다."
+   ],
+   "note": "[쿠팡] 연결"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "son2_wework_sorkin.mp4",
+      "start": 19.9
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true,
+    "news_scale": 0.66
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "CNBC 「스쿼크 박스」 2021-05 (앤드루 로스 소킨)",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "손정의",
+     "sub": "소프트뱅크그룹 회장 · CNBC 2021.5",
+     "line": 0,
+     "at": 0.3
+    }
+   ],
+   "lines": [
+    "위워크도 이제 돌아서고 있습니다. 몇 분기 안에 이익을 내길 바랍니다.",
+    "나쁜 투자에 대한 후회는 많습니다. 하지만 사실, 위대한 회사를 놓친 후회가 더 큽니다.",
+    "그게 훨씬 큰 후회죠."
+   ],
+   "note": "[쿠팡] 원음⑥ 놓친 후회가 더 크다",
+   "news": true,
+   "sot": {
+    "clip": "son2_wework_sorkin.mp4",
+    "start": 19.9,
+    "dur": 27.0,
+    "rms": 0.085,
+    "at": [
+     [
+      0.0,
+      11.4
+     ],
+     [
+      11.8,
+      23.7
+     ],
+     [
+      24.8,
+      27.0
+     ]
+    ]
+   }
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "son2_wework_bankrupt__62.mp4"
+     },
+     {
+      "lib": "globe_L261126s_fx_formula.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "로이터 2023-11-07(위워크 파산)",
+   "sketch": [],
+   "lines": [
+    "2023년 11월, 위워크는 파산했습니다. 그래도 손정의는 공식을 바꾸지 않았습니다.",
+    "알리바바도 맞혔고, 쿠팡도 맞혔습니다. 세 번째 '하나'를 찾던 그의 눈에 들어온 게 오픈AI였습니다."
+   ],
+   "note": "[공식] 두 번 통했다 → 세 번째"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "broll_L261121_gtc_stage.mp4"
+     },
+     {
+      "lib": "son2_nvda_sale_reuters__98.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true,
+    "cut_by_line": true
    },
    "sketch_add": [],
    "asof": false,
@@ -733,16 +1089,16 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261117n_contract_hand.png",
-      "d": 5.93
+      "lib": "son2_nvda_sale_reuters__0.mp4"
      },
      {
-      "lib": "il_L261121i_signing_desk.png"
+      "lib": "son2_nvda_sale_reuters__28.mp4"
      }
     ],
     "wash_amt": 0.85,
     "cine": true,
-    "doc_cine": true
+    "doc_cine": true,
+    "cut_by_line": true
    },
    "sketch_add": [],
    "asof": false,
@@ -751,11 +1107,11 @@
     {
      "kind": "punch",
      "text": "58억 3,000만 달러",
-     "sub": "",
+     "sub": "엔비디아 전량 매도 · 2025년 10월",
      "line": 0,
-     "at": 0.5,
+     "at": 0.6,
      "color": "red",
-     "hold": 2.2
+     "hold": 2.6
     }
    ],
    "lines": [
@@ -771,15 +1127,13 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "son_portrait_v.png",
-      "d": 4.66
+      "lib": "son_portrait_v.png"
      },
      {
-      "lib": "il_L261126_forum_stage.png",
-      "d": 4.66
+      "lib": "il_L261126_forum_stage.png"
      },
      {
-      "lib": "il_L261117n_gpu_two_cards.png"
+      "lib": "son2_nvda_sale_reuters__60.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -803,7 +1157,7 @@
     "젠슨을 존경합니다. 엔비디아를 정말 존경해서, 한 주도 팔고 싶지 않았습니다.",
     "오픈AI와 다른 기회에 투자할 돈이 더 필요했을 뿐입니다. 그래서 울면서 엔비디아 주식을 팔았습니다."
    ],
-   "note": "[엔비디아] 원음② 울었다",
+   "note": "[엔비디아] 원음⑦ 울었다",
    "news": true,
    "sot": {
     "clip": "son_fii2025_audio_1.mp3",
@@ -829,26 +1183,26 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261118a_hook_chips_cash.png",
-      "d": 7.81
+      "lib": "son_altman_v.png"
      },
      {
-      "lib": "il_L261109p_contract_cash.jpeg"
+      "lib": "il_L261118a_hook_chips_cash.png"
      }
     ],
     "wash_amt": 0.85,
     "cine": true,
-    "doc_cine": true
+    "doc_cine": true,
+    "cut_by_line": true
    },
    "sketch_add": [],
    "asof": false,
    "src": "",
    "sketch": [],
    "lines": [
-    "엔비디아를 팔아 마련한 돈은 전부 오픈AI로 갔습니다. 하나만 제대로 맞히면 산다는 2000년의 교훈 그대로입니다.",
+    "엔비디아를 판 돈은 전부 오픈AI로 갔습니다. 두 번 통한 공식, 이번엔 판돈이 달랐습니다.",
     "그런데 그 돈으로도 모자랐습니다. 여기서부터 손정의가 돈을 구하는 방식이 바뀝니다."
    ],
-   "note": "[엔비디아] 교훈 연결 + [R2]"
+   "note": "[엔비디아] 공식 연결 + [R2]"
   },
   {
    "v": {
@@ -857,16 +1211,16 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "son_whitehouse_v.png",
-      "d": 6.37
+      "lib": "son_whitehouse_v.png"
      },
      {
-      "lib": "il_L261119u_wh_dusk.png"
+      "lib": "son2_musk_stargate__48.mp4"
      }
     ],
     "wash_amt": 0.85,
     "cine": true,
-    "doc_cine": true
+    "doc_cine": true,
+    "cut_by_line": true
    },
    "sketch_add": [],
    "asof": false,
@@ -875,15 +1229,16 @@
     {
      "kind": "punch",
      "text": "5,000억 달러",
-     "sub": "",
-     "line": 0,
+     "sub": "스타게이트 · AI 데이터센터 계획",
+     "line": 1,
      "at": 0.75,
      "color": "gold",
-     "hold": 2.2
+     "hold": 2.6
     }
    ],
    "lines": [
-    "2025년 1월 21일, 트럼프 대통령 취임 다음 날 백악관. 손정의는 오픈AI, 오라클과 함께 5,000억 달러짜리 AI 데이터센터 계획, 스타게이트를 발표했습니다."
+    "2025년 1월 21일, 트럼프 대통령 취임 다음 날 백악관.",
+    "손정의는 오픈AI, 오라클과 함께 5,000억 달러짜리 AI 데이터센터 계획, 스타게이트를 발표했습니다."
    ],
    "note": "[스타게이트] 발표",
    "chapter": "전부를 걸다"
@@ -921,7 +1276,7 @@
     "그러자 대통령께서 \"마사, 2,000억으로 가자!\" 하셨습니다.",
     "그래서 5,000억으로 돌아왔습니다."
    ],
-   "note": "[스타게이트] 원음③ 트럼프 흉내 — 재미",
+   "note": "[스타게이트] 원음⑧ 트럼프 흉내",
    "news": true,
    "sot": {
     "clip": "son_stargate_masa.mp4",
@@ -951,30 +1306,27 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261119u_sns_feed.png",
-      "d": 5.03
+      "lib": "son2_musk_stargate__0.mp4"
      },
      {
-      "lib": "il_L261119u_phones_crowd.png"
+      "lib": "globe_L261126s_fx_x_posts.mp4"
      }
     ],
     "wash_amt": 0.85,
     "cine": true,
-    "doc_cine": true
+    "doc_cine": true,
+    "cut_by_line": true
    },
    "sketch_add": [],
    "asof": false,
    "src": "테크크런치·포춘·NBC 2025-01-22(머스크 X 게시물, 올트먼 'Wrong' 답글)",
    "sketch": [
     {
-     "kind": "quote",
-     "rows": [
-      "그들은 그만한 돈이 없다",
-      "소프트뱅크가 확보한 돈은 100억 달러도 안 된다"
-     ],
-     "by": "일론 머스크 · X 2025.1.22",
+     "kind": "lower",
+     "text": "일론 머스크",
+     "sub": "테슬라·xAI 최고경영자",
      "line": 0,
-     "at": 0.5
+     "at": 0.1
     }
    ],
    "lines": [
@@ -990,15 +1342,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261114s_loan_papers.jpeg",
-      "d": 6.74
-     },
-     {
-      "lib": "il_L261107m_loan_desk.jpeg",
-      "d": 6.74
-     },
-     {
-      "lib": "il_L261118a_chain_links.png"
+      "lib": "globe_L261126s_fx_receipt.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1007,39 +1351,15 @@
    },
    "sketch_add": [],
    "asof": false,
-   "src": "소프트뱅크그룹 2026년 7~9월 실적(금융비용 4,619억 엔) · 빅고 파이낸스 2026-11-10",
-   "sketch": [
-    {
-     "kind": "steps",
-     "title": "손정의가 돈을 구한 순서",
-     "rows": [
-      [
-       "번 돈",
-       "알리바바"
-      ],
-      [
-       "판 돈",
-       "엔비디아 전량 매도"
-      ],
-      [
-       "빌린 돈",
-       "Arm 담보 대출 · 채권"
-      ],
-      [
-       "남의 보증",
-       "?"
-      ]
-     ],
-     "on": null,
-     "line": 0,
-     "at": 0.15
-    }
-   ],
+   "src": "소프트뱅크그룹 2026년 7~9월 실적(금융비용 4,619억 엔) · 엔비디아 3분기(2027 회계연도) SEC 8-K(보증 한도 1,050억 달러)",
+   "sketch": [],
    "lines": [
-    "실제로 손정의는 돈을 어디서 구했을까요. 처음엔 알리바바로 번 돈, 다음엔 엔비디아를 판 돈이었습니다.",
-    "그다음은 빌린 돈입니다. 반도체 설계 회사 Arm 주식을 담보로 대출을 받고, 채권을 찍었습니다. 지난 분기 금융비용만 4,619억 엔, 1년 전의 2배가 넘습니다."
+    "손정의가 돈을 구한 순서를 보면 이렇습니다. 처음엔 알리바바로 번 돈, 다음엔 엔비디아를 판 돈.",
+    "그다음은 빌린 돈입니다. Arm 주식을 담보로 대출을 받고 채권을 찍었습니다. 3개월 금융비용만 4,619억 엔, 1년 전의 2배가 넘습니다.",
+    "마지막은 남의 보증입니다. 오하이오 데이터센터의 임대료를 엔비디아가 최대 1,050억 달러까지 보증했습니다."
    ],
-   "note": "[스타게이트] 돈을 구한 순서(계단)"
+   "note": "[영수증] 돈을 구한 순서(코드)",
+   "chapter": "손정의의 영수증"
   },
   {
    "v": {
@@ -1048,40 +1368,26 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261116p_capex_cranes.png",
-      "d": 6.85
+      "lib": "son_ohio_v.png"
      },
      {
-      "lib": "il_L261114t_dc_build.png",
-      "d": 6.85
-     },
-     {
-      "lib": "il_L261116p_gas_plant_us.png"
+      "lib": "son2_abilene_drone__58.mp4"
      }
     ],
     "wash_amt": 0.85,
     "cine": true,
-    "doc_cine": true
+    "doc_cine": true,
+    "cut_by_line": true
    },
    "sketch_add": [],
    "asof": false,
-   "src": "엔비디아 3분기(2027 회계연도) CFO 코멘터리 SEC 8-K · PORTS-Pike 4.25GW, 보증 한도 1,050억 달러",
-   "sketch": [
-    {
-     "kind": "punch",
-     "text": "보증 한도 1,050억 달러",
-     "sub": "",
-     "line": 0,
-     "at": 0.55,
-     "color": "gold",
-     "hold": 2.2
-    }
-   ],
+   "src": "엔비디아 SEC 8-K · PORTS-Pike 4.25GW",
+   "sketch": [],
    "lines": [
-    "마지막은 남의 보증입니다. 오픈AI가 20년 동안 빌려 쓸 오하이오 데이터센터에 대해, 엔비디아가 최대 1,050억 달러까지 보증을 섰습니다. 그 데이터센터의 건물주가 소프트뱅크 자회사 SB에너지입니다.",
+    "그 데이터센터의 건물주는 소프트뱅크 자회사 SB에너지입니다.",
     "울면서 판 엔비디아 주식, 그 엔비디아의 보증은 받은 셈입니다."
    ],
-   "note": "[스타게이트] 아이러니"
+   "note": "[영수증] 아이러니"
   },
   {
    "v": {
@@ -1090,8 +1396,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261114t_fed.png",
-      "d": 10.27
+      "lib": "il_L261114t_fed.png"
      },
      {
       "lib": "il_L261113a_dc_aisle.jpeg"
@@ -1099,7 +1404,8 @@
     ],
     "wash_amt": 0.85,
     "cine": true,
-    "doc_cine": true
+    "doc_cine": true,
+    "cut_by_line": true
    },
    "sketch_add": [],
    "asof": false,
@@ -1108,18 +1414,18 @@
     {
      "kind": "punch",
      "text": "AI 설비 빚 6,800억 달러",
-     "sub": "",
+     "sub": "2023년 한 해엔 1,300억 달러",
      "line": 0,
-     "at": 0.55,
+     "at": 0.6,
      "color": "red",
-     "hold": 2.2
+     "hold": 2.6
     }
    ],
    "lines": [
-    "이건 손정의만의 방식이 아닙니다. 미국 연준은 이달 보고서에서, AI 데이터센터를 짓기 위한 빚이 올해 10월까지 6,800억 달러를 넘었다고 밝혔습니다. 2023년 한 해엔 1,300억 달러였습니다.",
+    "이건 손정의만의 방식이 아닙니다. 미국 연준은 이달 보고서에서, AI 데이터센터를 짓기 위한 빚이 올해 10월까지 6,800억 달러를 넘었다고 밝혔습니다.",
     "그리고 올해 6월 1일, 손정의는 카메라 앞에서 이렇게 말했습니다."
    ],
-   "note": "[스타게이트] 거시 + [R3]"
+   "note": "[영수증] 거시 + [R3]"
   },
   {
    "v": {
@@ -1154,7 +1460,7 @@
     "그런 일은 또 일어날 겁니다. 조정이 올 수도 있죠.",
     "하지만 조정이 온다면, 저한테는 최고의 투자 기회입니다."
    ],
-   "note": "[꼭대기] 원음④ 전체",
+   "note": "[꼭대기] 원음⑨ 조정은 최고의 기회",
    "news": true,
    "sot": {
     "clip": "son_cnbc_paris_50x.mp4",
@@ -1185,53 +1491,24 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "son_ohio_v.png",
-      "d": 7.89
-     },
-     {
-      "lib": "il_L261105h_parisnight.jpeg",
-      "d": 7.89
-     },
-     {
       "lib": "il_L261119u_red_board.png"
+     },
+     {
+      "lib": "globe_L261126s_fx_twice.mp4"
      }
     ],
     "wash_amt": 0.85,
     "cine": true,
-    "doc_cine": true
+    "doc_cine": true,
+    "cut_by_line": true
    },
    "sketch_add": [],
    "asof": false,
    "src": "CNBC 2026-06-01(도요타 추월) · 국내 보도 2026-11-06(6/2 장중 9,074엔) · investing.com 2026-11-20(3,005엔)",
-   "sketch": [
-    {
-     "kind": "timeline",
-     "events": [
-      [
-       "2000.2",
-       "3일간 세계 최고 부자"
-      ],
-      [
-       "2000.3~",
-       "-99%"
-      ],
-      [
-       "2026.6.2",
-       "9,074엔 최고"
-      ],
-      [
-       "2026.11.20",
-       "3,005엔"
-      ]
-     ],
-     "on": null,
-     "line": 1,
-     "at": 0.1
-    }
-   ],
+   "sketch": [],
    "lines": [
     "여기까지만 보면, 손정의는 이번에도 맞힌 것처럼 보였습니다. 같은 날 소프트뱅크 시가총액은 22년 만에 도요타를 넘어 일본 1위가 됐고, 다음 날 주가는 9,074엔, 사상 최고였습니다.",
-    "그리고 11월 20일, 3,005엔. 6개월 만에 3분의 1이 됐습니다. 2000년의 3일 천하가 26년 만에 다시 나온 겁니다."
+    "그리고 11월 20일, 3,005엔. 2000년의 3일 천하가 26년 만에 다시 나온 겁니다."
    ],
    "note": "[가짜 결말] 이번에도 맞힌 듯 → [콜백] 두 번의 3일 천하"
   },
@@ -1242,20 +1519,16 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261116p_turbine_loading.png",
-      "d": 5.65
+      "lib": "il_L261116p_turbine_loading.png"
      },
      {
-      "lib": "il_L261116p_turbine_blades.png",
-      "d": 5.65
-     },
-     {
-      "lib": "il_L261114t_gas_plant.png"
+      "lib": "il_L261116p_turbine_blades.png"
      }
     ],
     "wash_amt": 0.85,
     "cine": true,
-    "doc_cine": true
+    "doc_cine": true,
+    "cut_by_line": true
    },
    "sketch_add": [],
    "asof": false,
@@ -1264,15 +1537,15 @@
     {
      "kind": "punch",
      "text": "3개월 순손실 1조 1,200억 엔",
-     "sub": "",
+     "sub": "시장은 흑자를 예상했다",
      "line": 0,
-     "at": 0.4,
+     "at": 0.5,
      "color": "red",
-     "hold": 2.2
+     "hold": 2.6
     }
    ],
    "lines": [
-    "11월 10일 실적 발표에서 소프트뱅크는 3개월 동안 1조 1,200억 엔 순손실을 냈습니다. 시장은 흑자를 예상했었죠.",
+    "11월 10일 실적 발표에서 소프트뱅크는 3개월 동안 1조 1,200억 엔 순손실을 냈습니다.",
     "가장 큰 구멍은 미국 데이터센터에 쓸 가스 터빈을 미리 주문했다가 본 5,972억 엔 손실이었습니다."
    ],
    "note": "[꼭대기] 청구서"
@@ -1284,16 +1557,16 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261119u_leak_paper.png",
-      "d": 8.14
+      "lib": "son2_musk_stargate__9.mp4"
      },
      {
-      "lib": "il_L261118a_tightrope.png"
+      "lib": "il_L261119u_leak_paper.png"
      }
     ],
     "wash_amt": 0.85,
     "cine": true,
-    "doc_cine": true
+    "doc_cine": true,
+    "cut_by_line": true
    },
    "sketch_add": [],
    "asof": false,
@@ -1307,7 +1580,7 @@
      ],
      "by": "일론 머스크 · X 2026.11.7 (소프트뱅크는 부인)",
      "line": 0,
-     "at": 0.3
+     "at": 0.35
     }
    ],
    "lines": [
@@ -1348,7 +1621,7 @@
     "지금이 닷컴 버블 2.0이냐고요? 이건 훨씬 큽니다.",
     "AI 설비 투자는 1999~2000년 통신 설비 붐의 몇 배입니다. 경제 규모와 비교해도요."
    ],
-   "note": "[꼭대기] 원음⑤ 반대편",
+   "note": "[꼭대기] 원음⑩ 반대편",
    "news": true,
    "sot": {
     "clip": "chanos_ai_bigger_dotcom_w.mp4",
@@ -1374,8 +1647,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261118a_shadow_investor.png",
-      "d": 8.88
+      "lib": "thumbsrc_L261121e_burry_wv.jpg"
      },
      {
       "lib": "il_L261119u_two_paths.png"
@@ -1383,12 +1655,20 @@
     ],
     "wash_amt": 0.85,
     "cine": true,
-    "doc_cine": true
+    "doc_cine": true,
+    "cut_by_line": true
    },
    "sketch_add": [],
    "asof": false,
    "src": "모틀리풀 2026-11-19(마이클 버리 X 게시물)",
    "sketch": [
+    {
+     "kind": "lower",
+     "text": "마이클 버리",
+     "sub": "영화 「빅쇼트」 실제 주인공",
+     "line": 0,
+     "at": 0.1
+    },
     {
      "kind": "quote",
      "rows": [
@@ -1396,13 +1676,14 @@
       "경고했잖아"
      ],
      "by": "마이클 버리 · X 2026.11.19",
-     "line": 0,
-     "at": 0.3
+     "line": 1,
+     "at": 0.05
     }
    ],
    "lines": [
-    "영화 빅쇼트의 실제 주인공 마이클 버리도 11월 19일 짧은 글을 올렸습니다.",
-    "700억 달러를 잃어 본 남자, 그리고 엔론과 2008년을 먼저 본 사람들. 누가 맞을까요. 그 답에 한국 투자자가 빠질 수 없는 이유가, 지난주 보도에 있습니다."
+    "영화 「빅쇼트」의 실제 주인공 마이클 버리도 11월 19일 짧은 글을 올렸습니다.",
+    "700억 달러를 잃어 본 남자, 그리고 엔론과 2008년을 먼저 본 사람들. 누가 맞을까요.",
+    "그런데 손정의는, 여기서도 멈추지 않았습니다."
    ],
    "note": "[꼭대기] 버리 + [R4]"
   },
@@ -1413,8 +1694,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261114s_korea_cleanroom.jpeg",
-      "d": 9.53
+      "lib": "son2_hynix_hbm4__76.mp4"
      },
      {
       "lib": "il_L261121j_fab_night.png"
@@ -1422,7 +1702,8 @@
     ],
     "wash_amt": 0.85,
     "cine": true,
-    "doc_cine": true
+    "doc_cine": true,
+    "cut_by_line": true
    },
    "sketch_add": [],
    "asof": false,
@@ -1431,19 +1712,19 @@
     {
      "kind": "punch",
      "text": "SK하이닉스 1조 달러",
-     "sub": "",
+     "sub": "우리 돈 1,300조 원 · 검토했다는 보도",
      "line": 0,
-     "at": 0.4,
+     "at": 0.45,
      "color": "gold",
-     "hold": 2.2
+     "hold": 2.6
     }
    ],
    "lines": [
-    "미국 매체 디인포메이션은 11월 20일, 손정의가 SK하이닉스를 약 1조 달러, 우리 돈 1,300조 원이 넘는 금액에 사들이는 방안을 검토하며 월가에 자금 조달을 문의했다고 보도했습니다.",
+    "미국 매체 디인포메이션은 11월 20일, 손정의가 SK하이닉스를 약 1조 달러에 사들이는 방안을 검토하며 월가에 자금 조달을 문의했다고 보도했습니다.",
     "소프트뱅크는 더 이상 적극적으로 검토하지 않는다고 했습니다."
    ],
    "note": "[콜백] [떡밥 회수] SK하이닉스 보도",
-   "chapter": "SK하이닉스, 1조 달러"
+   "chapter": "멈출 수 없는 남자"
   },
   {
    "v": {
@@ -1452,26 +1733,26 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261126_go_corners.png",
-      "d": 12.81
+      "lib": "il_L261126_go_corners.png"
      },
      {
-      "lib": "son_altman_v.png"
+      "lib": "son2_hynix_hbm4__95.mp4"
      }
     ],
     "wash_amt": 0.85,
     "cine": true,
-    "doc_cine": true
+    "doc_cine": true,
+    "cut_by_line": true
    },
    "sketch_add": [],
    "asof": false,
-   "src": "아주경제 2026-11-11(네 귀퉁이 전략: AI 모델·데이터센터·반도체·피지컬 AI) · 빅고 파이낸스 2026-11",
+   "src": "아주경제 2026-11-11(네 귀퉁이 전략) · 빅고 파이낸스 2026-11",
    "sketch": [],
    "lines": [
     "왜 하필 SK하이닉스였을까요. 손정의는 AI 시대를 바둑판처럼 봅니다. 네 귀퉁이를 차지하면 판을 쥔다는 겁니다. AI 모델은 오픈AI, 반도체 설계는 Arm, 데이터센터는 스타게이트, 그리고 로봇.",
-    "그런데 반도체 중에서도 손정의가 갖지 못한 조각이 있습니다. AI 메모리, HBM입니다. 그 HBM을 가장 잘 만드는 회사가 SK하이닉스죠."
+    "그런데 손정의가 갖지 못한 조각이 있습니다. AI 메모리, HBM입니다. 그 HBM을 가장 잘 만드는 회사가 SK하이닉스죠."
    ],
-   "note": "[SK하이닉스] 왜 하이닉스"
+   "note": "[하이닉스] 왜 하이닉스"
   },
   {
    "v": {
@@ -1480,11 +1761,45 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261107m_memory_wafer.jpeg",
-      "d": 12.32
+      "lib": "il_L261117n_hourglass.png"
      },
      {
-      "lib": "il_L261121j_kr_investor_night.png"
+      "lib": "il_L261118a_chain_links.png"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "소프트뱅크그룹 2026년 7~9월 실적(금융비용 4,619억 엔)",
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "3개월마다 4,619억 엔",
+     "sub": "손정의가 멈출 수 없는 이유",
+     "line": 1,
+     "at": 0.35,
+     "color": "red",
+     "hold": 2.6
+    }
+   ],
+   "lines": [
+    "여기서 이 이야기의 진짜 반전이 나옵니다. 손정의는 멈추지 않는 게 아니라, 멈출 수 없습니다.",
+    "빌린 돈은 3개월마다 4,619억 엔의 이자를 냅니다. 오픈AI가 커져서 값을 올려 주기 전에 멈추면, 빚만 남습니다. 그래서 판을 더 키웁니다."
+   ],
+   "note": "[반전] 멈출 수 없다"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "globe_L261126s_fx_globe2.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1494,34 +1809,12 @@
    "sketch_add": [],
    "asof": false,
    "src": "코리아중앙데일리·애드혹뉴스 2026-11-24(SK하이닉스 +6.73%)",
-   "sketch": [
-    {
-     "kind": "steps",
-     "title": "돈이 도는 순서",
-     "rows": [
-      [
-       "소프트뱅크",
-       "오픈AI · 스타게이트에 투자"
-      ],
-      [
-       "오픈AI · 스타게이트",
-       "엔비디아 칩 주문"
-      ],
-      [
-       "엔비디아",
-       "SK하이닉스 · 삼성전자 HBM 주문"
-      ]
-     ],
-     "on": null,
-     "line": 0,
-     "at": 0.15
-    }
-   ],
+   "sketch": [],
    "lines": [
-    "이게 내 계좌와 무슨 상관일까요. SK하이닉스와 삼성전자가 만드는 HBM의 가장 큰 손님이 엔비디아이고, 엔비디아 칩의 큰 손님이 오픈AI와 스타게이트입니다.",
+    "이게 내 계좌와 이어지는 지점입니다. 손정의의 돈은 오픈AI와 스타게이트로 가고, 그 돈은 엔비디아 칩 주문이 되고, 엔비디아는 SK하이닉스와 삼성전자에 HBM을 주문합니다.",
     "그래서 손정의의 돈줄이 마르면 메모리 주문이 먼저 흔들리고, 돈줄이 돌면 가장 먼저 웃습니다. 젠슨 황이 돌아온 다음 날 SK하이닉스가 6.7% 오른 것도 같은 이유입니다."
    ],
-   "note": "[SK하이닉스] 내 계좌"
+   "note": "[하이닉스] 내 계좌(지구본)"
   },
   {
    "v": {
@@ -1530,7 +1823,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "pres4_d_hands.mp4"
+      "lib": "pres5_b_still.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1552,11 +1845,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261107m_fiber_glow.jpeg",
-      "d": 9.86
-     },
-     {
-      "lib": "il_L261110a_exchange_night.jpeg"
+      "lib": "globe_L261126s_fx_lights.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1565,24 +1854,15 @@
    },
    "sketch_add": [],
    "asof": false,
-   "src": "토마스 퉁구즈 2025-10(루슨트 81억 달러) · 모틀리풀 2026-08-11",
-   "sketch": [
-    {
-     "kind": "punch",
-     "text": "루슨트 외상 81억 달러",
-     "sub": "",
-     "line": 1,
-     "at": 0.4,
-     "color": "red",
-     "hold": 2.2
-    }
-   ],
+   "src": "rateprobability.com 2026-11-23(94%) · 토마스 퉁구즈 2025-10(루슨트 81억 달러) · 포춘 2026-11-23(PER 17.1배 vs 25.2배)",
+   "sketch": [],
    "lines": [
-    "2000년과 지금은 닮았습니다. 설비를 먼저 깔고 돈은 나중에 버는 구조, 장비를 파는 회사가 사는 회사에 돈까지 대 주는 구조도 같습니다.",
-    "2000년 통신 장비 회사 루슨트는 고객사에 81억 달러를 외상으로 깔아 줬다가, 고객사들이 쓰러지면서 함께 무너졌습니다."
+    "2000년 손정의를 무너뜨린 것은 세 가지였습니다. 금리, 외상 구조, 그리고 몸값.",
+    "금리는 그때처럼 위험합니다. 시장은 12월 9일 연준의 금리 인상을 94% 확률로 봅니다. 외상 구조도 닮았습니다. 2000년 루슨트가 고객사에 외상을 깔아 줬듯, 지금은 엔비디아가 보증을 섭니다.",
+    "다만 몸값은 그때보다 쌉니다. 그래서 이번 버블은 주가보다 빚에서 먼저 신호가 옵니다."
    ],
-   "note": "[누가 맞나] 닮은 점",
-   "chapter": "누가 맞나"
+   "note": "[결] 2000 vs 2026 신호등(코드)",
+   "chapter": "이번엔 시간 싸움"
   },
   {
    "v": {
@@ -1591,11 +1871,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261119u_investor_desk.png",
-      "d": 8.71
-     },
-     {
-      "lib": "il_L261118a_office_tower_lights.png"
+      "lib": "globe_L261126s_fx_scale.mp4"
      }
     ],
     "wash_amt": 0.85,
@@ -1604,23 +1880,13 @@
    },
    "sketch_add": [],
    "asof": false,
-   "src": "포춘 2026-11-23(JP모건 데이비드 켈리 · S&P 500 선행 PER 17.1배, 닷컴 고점 25.2배)",
-   "sketch": [
-    {
-     "kind": "punch",
-     "text": "17.1배 vs 25.2배",
-     "sub": "",
-     "line": 0,
-     "at": 0.6,
-     "color": "gold",
-     "hold": 2.2
-    }
-   ],
+   "src": "",
+   "sketch": [],
    "lines": [
-    "다른 점도 있습니다. 미국 주식 전체의 몸값은 닷컴 때보다 낮습니다. S&P 500은 내년 이익의 17.1배, 닷컴 꼭대기에선 25.2배였습니다.",
-    "대신 빚이 훨씬 많습니다. 그래서 이번 버블은 주가보다 빚에서 먼저 신호가 옵니다."
+    "2000년, 손정의를 살린 건 시간이었습니다. 기다리는 동안 알리바바가 컸습니다.",
+    "이번엔 기다릴수록 이자가 나갑니다. 그래서 답은 하나입니다. 오픈AI가 빚보다 먼저 돈을 버느냐."
    ],
-   "note": "[누가 맞나] 다른 점"
+   "note": "[결] 저울 — 시간 싸움"
   },
   {
    "v": {
@@ -1629,58 +1895,20 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261119u_dawn_capital.png",
-      "d": 9.45
+      "lib": "il_L261121j_analyst_call.png"
      },
      {
-      "lib": "il_L261119u_gov_building_rain.png"
+      "lib": "il_L261119u_calendar_pin.png"
      }
     ],
     "wash_amt": 0.85,
     "cine": true,
-    "doc_cine": true
+    "doc_cine": true,
+    "cut_by_line": true
    },
    "sketch_add": [],
    "asof": false,
-   "src": "포춘 2025-09(연준 1999년 초 4.75% → 2000년 5월 6.5%) · 나스닥 2000-03-10 5,048 → 2002-10-09 1,114 · rateprobability.com 2026-11-23(94%)",
-   "sketch": [
-    {
-     "kind": "punch",
-     "text": "12월 9일 인상 확률 94%",
-     "sub": "",
-     "line": 1,
-     "at": 0.35,
-     "color": "red",
-     "hold": 2.2
-    }
-   ],
-   "lines": [
-    "2000년 버블을 터뜨린 방아쇠는 금리였습니다. 연준이 1999년부터 금리를 계속 올리자, 나스닥은 2년 반 동안 78% 빠졌습니다.",
-    "지금 시장은 12월 9일 연준의 금리 인상을 94% 확률로 봅니다. 빚이 가장 많은 손정의에게 금리는 곧 이자입니다."
-   ],
-   "note": "[누가 맞나] 방아쇠"
-  },
-  {
-   "v": {
-    "type": "media",
-    "full": true,
-    "wash": "none",
-    "cuts": [
-     {
-      "lib": "il_L261117n_hourglass.png",
-      "d": 11.17
-     },
-     {
-      "lib": "il_L261114t_ipo_bell.png"
-     }
-    ],
-    "wash_amt": 0.85,
-    "cine": true,
-    "doc_cine": true
-   },
-   "sketch_add": [],
-   "asof": false,
-   "src": "빅고 파이낸스 2026-11(소프트뱅크 부도 보험료 2022년 이후 최고)",
+   "src": "빅고 파이낸스 2026-11(부도 보험료 2022년 이후 최고) · 슬래시닷(FT 인용) 2025-12-11(시스코 2000년 고점 회복)",
    "sketch": [
     {
      "kind": "steps",
@@ -1701,57 +1929,23 @@
      ],
      "on": null,
      "line": 0,
-     "at": 0.7
-    }
-   ],
-   "lines": [
-    "그래서 앞으로는 손정의를 보시면 됩니다. AI 버블에서 돈을 가장 많이 빌린 사람이라, 버블이 식으면 가장 먼저 열이 오르기 때문입니다.",
-    "가장 빠른 경보는 소프트뱅크 주가와 부도 위험 보험료입니다. 손정의의 출구는 오픈AI의 다음 투자 유치와 상장 일정이고, 빌린 돈의 값은 12월 9일 금리가 정합니다."
-   ],
-   "note": "[누가 맞나] 배울 것: 손정의 체온계"
-  },
-  {
-   "v": {
-    "type": "media",
-    "full": true,
-    "wash": "none",
-    "cuts": [
-     {
-      "lib": "il_L261121j_analyst_call.png",
-      "d": 10.49
-     },
-     {
-      "lib": "il_L261114t_silhouette.png",
-      "d": 10.49
-     },
-     {
-      "lib": "il_L261119u_three_roads.png"
-     }
-    ],
-    "wash_amt": 0.85,
-    "cine": true,
-    "doc_cine": true
-   },
-   "sketch_add": [],
-   "asof": false,
-   "src": "슬래시닷(FT 인용) 2025-12-11(시스코 80.25달러, 2000-03-27 고점 80.06달러 돌파)",
-   "sketch": [
+     "at": 0.15
+    },
     {
      "kind": "punch",
      "text": "최선의 대안 = 분할 매수",
-     "sub": "",
-     "line": 2,
-     "at": 0.45,
+     "sub": "한 번에 전부를 걸지 않는다",
+     "line": 1,
+     "at": 0.8,
      "color": "gold",
-     "hold": 2.2
+     "hold": 2.6
     }
    ],
    "lines": [
-    "이번 주 젠슨 황이 돌아오며 반도체는 크게 반등했습니다. 하지만 돌아온 건 젠슨 황 한 사람이고, 손정의의 빚은 그대로입니다.",
-    "2000년에도 인터넷은 진짜였습니다. 다만 기술이 이긴 날과 주주가 이긴 날은 25년 차이가 났습니다. 2000년 꼭대기에서 시스코를 산 사람은 작년 12월에야 본전을 찾았습니다.",
-    "그래서 밸류노트가 판단하는 최선의 대안은, 손정의처럼 한 번에 전부를 걸지 않는 것. 나눠서 사는 분할 매수입니다."
+    "그래서 앞으로는 손정의를 보시면 됩니다. 가장 빠른 경보는 소프트뱅크 주가와 부도 위험 보험료, 출구는 오픈AI의 다음 투자 유치와 상장 일정, 그리고 빌린 돈의 값은 12월 9일 금리가 정합니다.",
+    "2000년에도 인터넷은 진짜였습니다. 다만 2000년 꼭대기에서 시스코를 산 사람은 작년 12월에야 본전을 찾았습니다. 그래서 밸류노트가 판단하는 최선의 대안은, 손정의처럼 한 번에 전부를 걸지 않는 것. 나눠서 사는 분할 매수입니다."
    ],
-   "note": "[누가 맞나] [콜백] 반등 + 판단"
+   "note": "[결] 배울 것 + 판단"
   },
   {
    "v": {
@@ -1760,19 +1954,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261118a_closing_bridge_dawn.png",
-      "d": 6.72
-     },
-     {
-      "lib": "il_L261119u_calendar_pin.png",
-      "d": 6.72
-     },
-     {
-      "lib": "il_L261126_tokyo_window.png",
-      "d": 6.72
-     },
-     {
-      "lib": "il_L261118a_seven_towers.png"
+      "lib": "il_L261118a_closing_bridge_dawn.png"
      }
     ],
     "wash_amt": 0.85,
@@ -1784,9 +1966,99 @@
    "src": "",
    "sketch": [],
    "lines": [
-    "손정의는 2000년에 99%를 잃고도 알리바바 하나로 살아남았습니다. 이번에 그 하나는 오픈AI입니다. 답은 아직 아무도 모릅니다. 다만 다음 신호는 12월 9일 금리에서 옵니다.",
-    "손정의는 이번에도 살아남을까요? 여러분의 생각을 댓글로 남겨 주세요.",
-    "이 영상 한 편을 위해 며칠을 붙들고 만들었습니다. 도움이 되셨다면 좋아요와 구독으로 응원해 주세요."
+    "손정의 본인의 생각은 분명합니다. 지난해 도쿄에서, 그는 이렇게 말했습니다."
+   ],
+   "note": "[결] 수미상관 연결"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "il_L261126_tokyo_window.png",
+      "d": 9.72
+     },
+     {
+      "lib": "il_L261117n_staff_meeting.png"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true,
+    "news_scale": 0.66
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "FII 연구소 「Building the Asia of Tomorrow: Masayoshi Son」 2025-12-01",
+   "sketch": [
+    {
+     "kind": "lower",
+     "text": "손정의",
+     "sub": "소프트뱅크그룹 회장 · FII 프라이어리티 아시아 2025.12.1 도쿄",
+     "line": 0,
+     "at": 0.3
+    }
+   ],
+   "lines": [
+    "AI와 로봇이 해마다 20조 달러를 대신 벌어들일 겁니다.",
+    "10년 동안 쏟아부을 10조 달러를, 6개월이면 회수한다는 얘기입니다. 6개월이요.",
+    "그런데 버블이 어디 있습니까?",
+    "이런 멍청한 질문을 하는 사람들은, 충분히 똑똑하지 않은 겁니다."
+   ],
+   "note": "[결] 원음⑪ 버블이 어디 있습니까",
+   "news": true,
+   "sot": {
+    "clip": "son_fii2025_audio_1.mp3",
+    "start": 879.4,
+    "dur": 38.0,
+    "rms": 0.085,
+    "at": [
+     [
+      0.0,
+      8.2
+     ],
+     [
+      8.8,
+      26.5
+     ],
+     [
+      26.9,
+      29.0
+     ],
+     [
+      29.3,
+      37.8
+     ]
+    ]
+   }
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "il_L261118a_seven_towers.png"
+     },
+     {
+      "lib": "il_L261121i_closing.png"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "lines": [
+    "99%를 잃고도 살아남은 남자가, 세 번째 '하나'에 전부를 걸었습니다. 그가 이번에도 맞을지는 아직 아무도 모릅니다. 다만 다음 신호는 12월 9일에 옵니다.",
+    "손정의는 이번에도 살아남을까요? 여러분의 생각을 댓글로 남겨 주세요. 도움이 되셨다면 좋아요와 구독으로 응원해 주세요."
    ],
    "note": "[마무리] 여운 + 질문 + 구독"
   },
