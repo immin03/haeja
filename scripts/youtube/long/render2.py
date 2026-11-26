@@ -1164,7 +1164,18 @@ def cuts_source(v, n_frames, seed):
     edges = []; t = 0.0
     for c in cs:
         d_ = float(c.get("d") or each); edges.append((t, t + d_, c)); t += d_
-    if v.get("_lines_at") and len(v["_lines_at"]) >= 1:   # 2026-11-19 v6 대표 "6일 동안 와다다다": 말 한 줄마다 컷이 바뀐다 (줄 수 < 컷 수면 남은 컷은 마지막 줄 뒤)
+    if v.get("_lt") and any(c.get("word") for c in cs):   # 낱말 컷: 그 낱말이 든 줄의 시작 + 줄 길이 × (앞 글자 수 / 줄 글자 수)
+        def _wt(w):
+            for a_, d_, tx in v["_lt"]:
+                if w in tx:
+                    k_ = tx.index(w); nb = len(tx[:k_].replace(" ", "")); nt = max(1, len(tx.replace(" ", "")))
+                    return a_ + d_ * nb / nt - .08
+            return None
+        ts = [0.0] + [(_wt(c["word"]) if c.get("word") else None) for c in cs[1:]]
+        for i in range(1, len(ts)):
+            if ts[i] is None: ts[i] = ts[i - 1] + 1.0
+        edges = [(ts[i], ts[i + 1] if i + 1 < len(ts) else total, cs[i]) for i in range(len(cs))]
+    elif v.get("_lines_at") and len(v["_lines_at"]) >= 1:   # 2026-11-19 v6 대표 "6일 동안 와다다다": 말 한 줄마다 컷이 바뀐다 (줄 수 < 컷 수면 남은 컷은 마지막 줄 뒤)
         la = [0.0] + list(v["_lines_at"][1:len(cs)]); la += [la[-1] + (total - la[-1]) * (k_ + 1) / (len(cs) - len(la) + 1) for k_ in range(len(cs) - len(la))]
         edges = [(la[i], la[i + 1] if i + 1 < len(la) else total, cs[i]) for i in range(len(cs))]
     elif any(c.get("d") for c in cs): pass   # 2026-11-12: 길이를 정해 둔 컷(지구본 등)은 박자 컷 나누기보다 우선
@@ -2446,7 +2457,8 @@ def main():
             dur = max(dur, float(DUB.get("min", 0))); audio.append((t, dub_orig(DUB, dur, [x_ for _, x_ in audio[-len(lines):]])))
             SOT_IV.append((t, t + dur))   # 2026-11-19 대표 v5: 원음+더빙 장면도 배경음악을 낮춘다
         HITS = MUSIC.get("hits") or []
-        if sc["v"].get("cut_by_line"): sc["v"]["_lines_at"] = [l_[0] for l_ in lt]   # 2026-11-19 v6: 줄마다 컷 (박자 컷보다 우선)
+        if sc["v"].get("cut_by_line"): sc["v"]["_lines_at"] = [l_[0] for l_ in lt]
+        if any(isinstance(c_, dict) and c_.get("word") for c_ in sc["v"].get("cuts", [])): sc["v"]["_lt"] = [(l_[0], l_[1], l_[2]) for l_ in lt]   # 2026-11-27 대표 "집이란 말과 동시에 사진을 딱": 컷이 그 낱말을 말하는 순간에 바뀐다   # 2026-11-19 v6: 줄마다 컷 (박자 컷보다 우선)
         elif HITS and sc["v"].get("cine"):   # 2026-11-07 13:48 대표님: 자잘한 박자마다 흔들지 말고, 큰 베이스가 '쿵' 할 때(3~6초마다)만 사진·영상을 바꾼다
             # 14:27 대표님: 사진 전환에 맞추려고 말을 멈추지 말 것 — 장면 길이는 말 길이 그대로, 장면 안에서 큰 베이스가 오면 그때만 사진을 바꾼다
             hs = [h - t for h in HITS if t + .3 < h < t + dur - .3]; sc["v"]["_hits"] = hs or None; sc["v"]["_beat"] = BEAT or .5   # 2026-11-27 대표 "한 사진 4~5초 넘게 쓰지 말 것": 박자가 없는 장면(인트로 뒤)은 여러 장을 고르게 나눈다

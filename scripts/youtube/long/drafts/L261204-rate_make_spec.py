@@ -509,6 +509,14 @@ for s_ in sc:
             if not os.path.exists(LIB + _n): PENDING.add(_n)
             _c.append({"lib": _n})
 
+# 2026-11-27 08:46 대표 "집이란 말과 동시에, 금이란 말과 동시에, AI라는 말과 동시에 사진을 딱딱딱 — 마지막 사진으로 쭉": 훅 셋째 장면은 낱말 컷
+for s_ in sc:
+    _c = s_["v"].get("cuts") or []
+    if _c and _c[0].get("lib") == R + "trading_screens.png":
+        s_["v"]["cuts"] = [{"lib": R + "trading_screens.png"},
+                           {"lib": "il_R1204c_s03_1.png", "word": "집값"}, {"lib": "il_R1204c_s03_5.png", "word": "주식"},
+                           {"lib": "il_R1204c_s03_2.png", "word": "금값"}, {"lib": "il_R1204c_s03_3.png", "word": "AI"}]
+
 spec = {k: base[k] for k in ['format', 'world', 'notebook', 'overlay', 'look', 'roadmap', 'hook', 'music', 'design', 'synthetic_media'] if k in base}
 spec['music'] = dict(spec['music'], intro="social/music/own/intro_conspiracy.mp3", intro_offset=0.0,
     hits=[0.09, 5.85, 11.31, 16.9, 22.52, 24.26, 26.91, 29.86, 31.46, 34.09, 36.36, 38.13, 40.57, 44.93, 46.67, 49.48, 51.57, 53.17, 55.05, 58.4, 60.67, 63.99, 67.29, 70.1, 75.91, 81.2, 86.26],   # 11/27 인트로는 1.6초 간격까지 촘촘히
