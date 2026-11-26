@@ -364,7 +364,27 @@ function vs2(C,t){
   });
   if(C.foot){ const af=ease(cl((t-2.6)/0.6)); if(af>0) txtS(C.foot,W/2,Y0+ch+44,24,GRAY,600,'center',af); }
 }
-window.draw=function(mode,t){ const C0=window.CFG||{}; const C=(mode==='scale')?Object.assign({fs:1.4,ky:190,shrink:0.9,top:40,vy:870},C0):C0; /* 2026-11-18 대표: 두 번째 저울만 옛 크기(글자 작고 답답) → 저울은 새 크기를 기본값으로 */ window.FS=C.fs||1; window.FS2=C.fs2||(1+(window.FS-1)*0.4); const fn=({histchart,flow,scale,timeline,stake,race,docs,intraday,board,gauge,gauge5,btest,lchart,vs2})[mode];
+
+// ⑫ 바둑판 네 귀퉁이(corners) — 2026-11-26 대표 "네 귀퉁이를 실제 사각형 그려서 코너에 배치": 판 네 모서리에 돌이 놓이고, 가운데 빠진 조각(center)이 나중에 켜진다
+// cfg: {kicker,title, corners:[{name,sub,v}×4 (왼위·오위·왼아래·오아래)], center:{name,sub,v}|null, step, cont:bool, foot}
+function corners(C,t){
+  bg(); kicker(C,C.cont?99:t);
+  const cx=W/2, cy=C.cy||630, S=C.side||440, x0=cx-S/2, y0=cy-S/2, st=C.step||0.9, K=C.corners||[];
+  const ab=C.cont?1:ease(cl((t-0.3)/0.6));
+  g.save(); g.globalAlpha=ab; g.fillStyle='rgba(255,255,255,0.03)'; g.fillRect(x0,y0,S,S); g.strokeStyle='rgba(225,225,228,0.16)'; g.lineWidth=1.5;
+  for(let i=1;i<8;i++){ const d=S*i/8; g.beginPath(); g.moveTo(x0+d,y0); g.lineTo(x0+d,y0+S); g.stroke(); g.beginPath(); g.moveTo(x0,y0+d); g.lineTo(x0+S,y0+d); g.stroke(); }
+  g.strokeStyle='rgba(235,235,238,0.55)'; g.lineWidth=3; g.strokeRect(x0,y0,S,S); g.restore();
+  const P=[[x0,y0,-1,-1],[x0+S,y0,1,-1],[x0,y0+S,-1,1],[x0+S,y0+S,1,1]];
+  K.forEach((q,i)=>{ const a=C.cont?1:ease(cl((t-0.9-i*st)/0.45)); if(a<=0) return; const [px,py,sx,sy]=P[i], dim=C.cont?0.55:1;
+    g.save(); g.globalAlpha=a*dim; g.fillStyle=IVORY; g.shadowColor=IVORY; g.shadowBlur=24; g.beginPath(); g.arc(px,py,26,0,7); g.fill(); g.restore();
+    const lx=px+sx*60, al=sx<0?'right':'left', ly=py+sy*10;
+    txt(q.name,lx,ly-36,40,IVORY,800,al,a*dim); if(q.sub) txtS(q.sub,lx,ly+8,26,GRAY,600,al,a*dim); if(q.v) txt(q.v,lx,ly+50,32,'#e9e9ec',700,al,a*dim); });
+  if(C.center){ const q=C.center, a=ease(cl((t-(C.center_at||0.4))/0.5)); if(a>0){ const w=460,h=180, pul=(Math.sin(t*3)+1)/2;
+    g.save(); g.globalAlpha=a; g.fillStyle='rgba(20,20,24,0.92)'; g.strokeStyle=PINK; g.lineWidth=4; g.setLineDash([14,10]); g.shadowColor=PINK; g.shadowBlur=18+14*pul; g.beginPath(); g.roundRect(cx-w/2,cy-h/2,w,h,18); g.fill(); g.stroke(); g.restore();
+    txt(q.name,cx,cy-42,40,PINK,800,'center',a); if(q.sub) txtS(q.sub,cx,cy+4,26,GRAY,600,'center',a); if(q.v) txt(q.v,cx,cy+48,30,IVORY,700,'center',a); } }
+  if(C.foot) txtS(C.foot,W/2,1040,22,GRAY,600,'center',1);
+}
+window.draw=function(mode,t){ const C0=window.CFG||{}; const C=(mode==='scale')?Object.assign({fs:1.4,ky:190,shrink:0.9,top:40,vy:870},C0):C0; /* 2026-11-18 대표: 두 번째 저울만 옛 크기(글자 작고 답답) → 저울은 새 크기를 기본값으로 */ window.FS=C.fs||1; window.FS2=C.fs2||(1+(window.FS-1)*0.4); const fn=({corners,histchart,flow,scale,timeline,stake,race,docs,intraday,board,gauge,gauge5,btest,lchart,vs2})[mode];
   if(C0.safe===false){   // 예전 배치 (r180 이전 영상 다시 뽑을 때만)
     if(C.shrink){ bg(); g.save(); g.translate(W*(1-C.shrink)/2,C.top!=null?C.top:6); g.scale(C.shrink,C.shrink); fn(C,t); g.restore(); } else fn(C,t); return; }
   safeDraw(C,fn,t); };   // 2026-11-14: fs(글자 배율)·shrink(자막 위로 축소)
