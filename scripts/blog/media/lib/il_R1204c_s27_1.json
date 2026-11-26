@@ -1,6 +1,6 @@
 {
  "id": "il_R1204c_s27_1",
- "status": "queued",
+ "status": "completed",
  "submit": {
   "status": "queued",
   "request_id": "01a2190b-581b-7127-81c0-26e6efd9fc86",
@@ -8,5 +8,19 @@
   "cancel_url": "https://api.higgsfield.ai/requests/01a2190b-581b-7127-81c0-26e6efd9fc86/cancel",
   "expires_after": 604800
  },
- "note": "2026-11-27 푸시 시간 초과로 잃은 결과를 같은 요청에서 다시 받기(추가 비용 없음)"
+ "note": "2026-11-27 푸시 시간 초과로 잃은 결과를 같은 요청에서 다시 받기(추가 비용 없음)",
+ "result": {
+  "status": "completed",
+  "request_id": "01a2190b-581b-7127-81c0-26e6efd9fc86",
+  "status_url": "https://api.higgsfield.ai/requests/01a2190b-581b-7127-81c0-26e6efd9fc86/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a2190b-581b-7127-81c0-26e6efd9fc86/cancel",
+  "expires_at": "2026-12-03T18:08:47.428452+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a2190b-581b-7127-81c0-26e6efd9fc86/c8d19373-3600-4f4c-98b8-3de61463219b.png"
+   }
+  ]
+ },
+ "resumed": true,
+ "file": "scripts/blog/media/lib/il_R1204c_s27_1.png"
 }
