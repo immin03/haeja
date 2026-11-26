@@ -40,7 +40,7 @@ SETS = [
          top="AI 판을 쥔 단 한 사람", l1=[("AI의 운명,", "w")], l2=[("손정의", "pink"), (" 손에", "w")]),
     # 14:06 대표 "손정의가 설계한 AI 도박판"
     dict(file="thumb_k.jpg", photo="son_whitehouse_clean.png", face=(.45, .30), zoom=1.2, fx=.5, fpos=.80, side="right",
-         top="오픈AI·Arm·스타게이트, 하이닉스까지?", l1=[("손정의가 설계한", "w")], l2=[("AI 도박판", "pink")]),
+         top="오픈AI, Arm, 하이닉스까지?", l1=[("손정의가 설계한", "w")], l2=[("AI 도박판", "pink")]),
 
 
 
