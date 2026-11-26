@@ -33,6 +33,12 @@ SETS = [
          top="손정의가 무너지면", l1=[("내 삼성전자·", "w")], l2=[("SK하이닉스는?", "pink")]),
     dict(file="thumb_h.jpg", photo="son_2000_press_clean.png", face=(.52, .28), zoom=1.2, fx=.62, side="right",
          top="엔비디아를 울면서 팔았다", l1=[("빚까지 내서", "w")], l2=[("전부 걸었다", "pink")]),
+    # 14:06 대표: 2·3안(A·B) 유지, 1안만 — "손정의가 AI 미래를 좌지우지한다" 강하게
+    dict(file="thumb_i.jpg", photo="son_whitehouse_clean.png", face=(.45, .30), zoom=1.2, fx=.5, fpos=.80, side="right",
+         top="오픈AI·Arm·스타게이트의 주인", l1=[("AI의 미래는", "w")], l2=[("이 남자", "pink"), ("가 정한다", "w")]),
+    dict(file="thumb_j.jpg", photo="son_whitehouse_clean.png", face=(.45, .30), zoom=1.2, fx=.5, fpos=.80, side="right",
+         top="AI 판을 쥔 단 한 사람", l1=[("AI의 운명,", "w")], l2=[("손정의", "pink"), (" 손에", "w")]),
+
 
 ]
 
