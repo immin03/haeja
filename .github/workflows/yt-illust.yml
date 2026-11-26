@@ -14,7 +14,7 @@ concurrency: yt-illust
 jobs:
   gen:
     runs-on: ubuntu-24.04
-    timeout-minutes: 40
+    timeout-minutes: 90   # 2026-11-27: 75장 생성 뒤 푸시 중 40분 시간 초과로 결과를 잃음 → 넉넉히
     env:
       HF_API_KEY: ${{ secrets.HF_API_KEY }}
       HF_API_KEY_ID: ${{ secrets.HF_API_KEY_ID }}
@@ -34,6 +34,10 @@ jobs:
       - name: 생성
         if: steps.pick.outputs.files != ''
         run: python3 scripts/youtube/long/illust.py ${{ steps.pick.outputs.files }}
+      - name: 백업(푸시가 실패해도 생성 이미지를 잃지 않게)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with: { name: illust-${{ github.run_id }}, path: 'scripts/blog/media/lib/il_*', retention-days: 7, if-no-files-found: ignore }
       - name: 커밋
         run: |
           git config user.name "valuenote-bot"; git config user.email "bot@valuenote.co.kr"
