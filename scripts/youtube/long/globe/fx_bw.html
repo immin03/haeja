@@ -25,7 +25,10 @@ async function init(){
 init();
 function bg(){ if(window.NOBG) return; const b=g.createRadialGradient(W/2,H/2,100,W/2,H/2,W); b.addColorStop(0,'#1d1d21'); b.addColorStop(1,NAVY); g.fillStyle=b; g.fillRect(0,0,W,H);
   for(let i=0;i<160;i++){ const r1=Math.sin(i*12.9898)*43758.5453, r2=Math.sin(i*78.233)*12543.31; g.fillStyle=`rgba(235,235,238,${0.05+0.12*((i%7)/7)})`; g.fillRect((r1-Math.floor(r1))*W,(r2-Math.floor(r2))*H,1.6,1.6); } }
-function txt(s,x,y,size,col,w,align,a){ size=size*(window.FS||1); g.save(); g.globalAlpha=a==null?1:a; g.font=`${w||800} ${size}px SUIT`; g.fillStyle=col; g.textAlign=align||'left'; g.textBaseline='middle'; g.shadowColor='rgba(0,0,0,0.5)'; g.shadowBlur=8; g.fillText(s,x,y); g.restore(); }
+// ── 글자 크기 규칙(2026-11-27 대표 "최소로 보이는 글자 크기를 정하고, 작은 글자는 안 쓰는 게 낫다") ──
+// 1920×1080 기준. 대제목(카드 큰 글자) 76 · 중제목(카드 이름·라벨) 52 · 본문 최소 40. 30보다 작게 준 글자(출처·각주·눈금)는 아예 그리지 않는다(출처는 설명란에).
+const TYPE={big:76, mid:52, min:40, drop:30};
+function txt(s,x,y,size,col,w,align,a){ size=size*(window.FS||1); if(!window.TYPE_OFF){ if(size<TYPE.drop) return; if(size<TYPE.min) size=TYPE.min; } g.save(); g.globalAlpha=a==null?1:a; g.font=`${w||800} ${size}px SUIT`; g.fillStyle=col; g.textAlign=align||'left'; g.textBaseline='middle'; g.shadowColor='rgba(0,0,0,0.5)'; g.shadowBlur=8; g.fillText(s,x,y); g.restore(); }
 /* 2026-11-18 대표: 핵심(이름·결론)은 크게, 보조(연결 설명·항목·부제)는 덜 키운다 → FS2 */
 function txtS(s,x,y,size,col,w,align,a){ const f=window.FS; window.FS=window.FS2||1; txt(s,x,y,size,col,w,align,a); window.FS=f; }
 function _badge(C,t){ const a=ease(cl((t-(C.badge_at||0.3))/0.6)); if(a<=0) return; const m=String(C.badge).match(/^(.*?)(\S+)$/)||['',C.badge,'']; const ky=(C.ky||96)+66;
@@ -34,7 +37,7 @@ function _badge(C,t){ const a=ease(cl((t-(C.badge_at||0.3))/0.6)); if(a<=0) retu
   g.save(); g.globalAlpha=a; g.fillStyle='rgba(255,77,109,0.16)'; g.strokeStyle=PINK; g.lineWidth=3; g.shadowColor='rgba(255,77,109,0.45)'; g.shadowBlur=30; g.beginPath(); g.roundRect(px,ky-44,pw,88,44); g.fill(); g.shadowBlur=0; g.stroke(); g.restore();
   const f_=window.FS; window.FS=1; txt(m[1],px+48,ky+2,36,IVORY,800,'left',a); txt(m[2],px+48+w1,ky,60,PINK,800,'left',a); window.FS=f_; }
 function kicker(C,t){ if(window.NOKICK) return; const f_=window.FS; window.FS=1; kicker0(C,t); window.FS=f_; }
-function kicker0(C,t){ const a=ease(cl(t/0.6)); if(C.badge) _badge(C,t); g.save(); g.globalAlpha=a; g.fillStyle=PINK; const ky=C.ky||96; g.fillRect(120,ky,64,5); g.restore(); txt(C.kicker||'',200,ky+2,32,'#dcdcdc',600,'left',a); txt(C.title||'',120,ky+66,62,IVORY,800,'left',a); }   // ky: 롱폼 왼쪽 위 목차와 겹치지 않게 내림 (2026-11-17)
+function kicker0(C,t){ const a=ease(cl(t/0.6)); if(C.badge) _badge(C,t); g.save(); g.globalAlpha=a; g.fillStyle=PINK; const ky=C.ky||96; g.fillRect(120,ky,64,5); g.restore(); txt(C.kicker||'',200,ky+2,40,'#dcdcdc',600,'left',a); txt(C.title||'',120,ky+72,66,IVORY,800,'left',a); }   // ky: 롱폼 왼쪽 위 목차와 겹치지 않게 내림 (2026-11-17)
 function glow(x,y,r,col,a){ const gr=g.createRadialGradient(x,y,0,x,y,r); gr.addColorStop(0,col.replace('A',a)); gr.addColorStop(1,col.replace('A',0)); g.fillStyle=gr; g.beginPath(); g.arc(x,y,r,0,7); g.fill(); }
 
 // ① 과거 국면 겹침 차트: series [{name, pts:[...지수], color, end}] · x 개월, y 로그 지수(시작=100)
@@ -356,10 +359,12 @@ function lchart(C,t){
 function vs2(C,t){
   bg(); kicker(C,t);
   const I=C.items||[], n=I.length, X0=150, X1=W-150, gap=40, cw=(X1-X0-gap*(n-1))/n, Y0=C.y0||300, ch=C.ch||500;
-  I.forEach((it,i)=>{ const x=X0+i*(cw+gap), cx=x+cw/2, a=ease(cl((t-0.4-i*0.9)/0.5)); if(a<=0) return; const y=Y0+(1-a)*28, col=it.color==='red'?'#ff5a6e':PINK;
+  // 2026-11-27 대표 "말할 때마다 빨간 테두리가 그 칸으로 옮겨 가야": hl=[[초, 칸번호],...] 이면 그 시각부터 그 칸만 켜진다(켜지지 않은 칸 숫자는 흰색)
+  let cur=null; if(C.hl){ cur=-1; C.hl.forEach(h=>{ if(t>=h[0]) cur=h[1]; }); }
+  I.forEach((it0,i)=>{ const it=cur===null?it0:Object.assign({},it0,{hi:i===cur}); const x=X0+i*(cw+gap), cx=x+cw/2, a=ease(cl((t-0.4-i*0.9)/0.5)); if(a<=0) return; const y=Y0+(1-a)*28, col=(cur!==null&&!it.hi)?IVORY:(it.color==='red'?'#ff5a6e':PINK);
     g.save(); g.globalAlpha=a; const gr=g.createLinearGradient(0,y,0,y+ch); gr.addColorStop(0,'rgba(255,255,255,0.07)'); gr.addColorStop(1,'rgba(255,255,255,0.015)'); g.fillStyle=gr; g.beginPath(); g.roundRect(x,y,cw,ch,28); g.fill(); g.lineWidth=it.hi?3:1.5; g.strokeStyle=it.hi?PINK:'rgba(225,225,228,0.16)'; if(it.hi){ g.shadowColor='rgba(255,77,109,0.45)'; g.shadowBlur=36; } g.stroke(); g.restore();
-    txt(it.k,cx,y+90,48,IVORY,800,'center',a);
-    const an=ease(cl((t-1.0-i*0.9)/0.6)); txt(it.big,cx,y+(it.unit?250:280),it.bs||130,col,800,'center',an); if(it.unit) txt(it.unit,cx,y+340,44,col,800,'center',an);
+    txt(it.k,cx,y+90,52,IVORY,800,'center',a);
+    const an=ease(cl((t-1.0-i*0.9)/0.6)); txt(it.big,cx,y+(it.unit?250:280),Math.max(TYPE.big,it.bs||130),col,800,'center',an); if(it.unit) txt(it.unit,cx,y+345,52,col,800,'center',an);
     (it.sub?String(it.sub).split('\n'):[]).forEach((l,k)=>txtS(l,cx,y+420+k*44,34,'#e8e8ea',700,'center',an));
   });
   if(C.foot){ const af=ease(cl((t-2.6)/0.6)); if(af>0) txtS(C.foot,W/2,Y0+ch+44,24,GRAY,600,'center',af); }
@@ -422,17 +427,17 @@ function chain(C,t){
 // cfg: {kicker,title, base:{k,v0,v1}, bars:[{k,sub,spread}], rise_at, rise_label, foot}
 function floor(C,t){
   bg(); kicker(C,t);
-  const B=C.bars||[], n=B.length, X0=470, X1=W-140, gy=C.gy||960, sc=C.sc||74, bw=Math.min(300,(X1-X0)/n-80), base=C.base||{k:'국채 금리',v0:4,v1:5};
+  const B=C.bars||[], n=B.length, X0=520, X1=W-140, gy=C.gy||930, sc=C.sc||70, bw=Math.min(300,(X1-X0)/n-80), base=C.base||{k:'국채 금리',v0:4,v1:5};
   const ra=C.rise_at||(1.4+n*0.6), r=ease(cl((t-ra)/1.1)), bv=base.v0+(base.v1-base.v0)*r, by=gy-bv*sc;
   const a0=ease(cl((t-0.3)/0.5)); g.save(); g.globalAlpha=a0; g.strokeStyle='rgba(225,225,228,0.5)'; g.lineWidth=2; g.beginPath(); g.moveTo(X0-60,gy); g.lineTo(X1,gy); g.stroke(); g.restore();
   // 바닥선
   g.save(); g.globalAlpha=a0; g.setLineDash([14,10]); g.strokeStyle=PINK; g.lineWidth=3; g.beginPath(); g.moveTo(X0-60,by); g.lineTo(X1,by); g.stroke(); g.restore();
-  txt(base.k,X0-80,by-10,44,PINK,800,'right',a0); txtS('모든 금리의 바닥',X0-80,by+36,30,GRAY,600,'right',a0);
+  txt(base.k,X0-40,by-16,52,PINK,800,'right',a0); txtS('모든 금리의',X0-40,by+34,40,GRAY,700,'right',a0); txtS('바닥',X0-40,by+80,40,GRAY,700,'right',a0);
   g.save(); g.globalAlpha=a0*0.9; const gb=g.createLinearGradient(0,by,0,gy); gb.addColorStop(0,'rgba(255,77,109,0.20)'); gb.addColorStop(1,'rgba(255,77,109,0.04)'); g.fillStyle=gb; g.fillRect(X0-60,by,X1-X0+60,gy-by); g.restore();
   B.forEach((q,i)=>{ const a=ease(cl((t-0.9-i*0.6)/0.5)); if(a<=0) return; const cx=X0+((X1-X0)/n)*(i+0.5), top=by-(q.spread||0)*sc*a;
-    if(q.spread){ g.save(); g.globalAlpha=a; g.fillStyle='rgba(242,242,242,0.85)'; g.beginPath(); g.roundRect(cx-bw/2,top,bw,by-top,[14,14,0,0]); g.fill(); g.restore(); txt('+ 위험 값',cx,(top+by)/2,34,'#18181b',800,'center',a); }
-    txt(q.k,cx,top-(q.sub?66:34),44,IVORY,800,'center',a); if(q.sub) txtS(q.sub,cx,top-24,24,GRAY,600,'center',a); });
-  if(r>0){ const al=Math.min(1,r*2); txt(C.rise_label||'바닥이 오르면, 전부 같이 오른다',W/2,C.ry||975,46,PINK,800,'center',al); }
+    if(q.spread){ g.save(); g.globalAlpha=a; g.fillStyle='rgba(242,242,242,0.85)'; g.beginPath(); g.roundRect(cx-bw/2,top,bw,by-top,[14,14,0,0]); g.fill(); g.restore(); txt('+ 위험 값',cx,(top+by)/2,44,'#18181b',800,'center',a); }
+    txt(q.k,cx,top-(q.sub?70:40),52,IVORY,800,'center',a); if(q.sub) txtS(q.sub,cx,top-24,24,GRAY,600,'center',a); });
+  if(r>0){ const al=Math.min(1,r*2); txt(C.rise_label||'바닥이 오르면, 전부 같이 오른다',W/2,C.ry||1010,56,PINK,800,'center',al); }
   if(C.foot) txtS(C.foot,W/2,1048,22,GRAY,600,'center',1);
 }
 window.draw=function(mode,t){ const C0=window.CFG||{}; const C=(mode==='scale')?Object.assign({fs:1.4,ky:190,shrink:0.9,top:40,vy:870},C0):C0; /* 2026-11-18 대표: 두 번째 저울만 옛 크기(글자 작고 답답) → 저울은 새 크기를 기본값으로 */ window.FS=C.fs||1; window.FS2=C.fs2||(1+(window.FS-1)*0.4); const fn=({floor,ripple,chain,corners,histchart,flow,scale,timeline,stake,race,docs,intraday,board,gauge,gauge5,btest,lchart,vs2})[mode];

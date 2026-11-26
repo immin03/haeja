@@ -1194,7 +1194,7 @@ def cuts_source(v, n_frames, seed):
             if z > 1.002:
                 cw, ch = int(W / z), int(H / z); x0, y0 = (W - cw) // 2, (H - ch) // 2
                 im = im.crop((x0, y0, x0 + cw, y0 + ch)).resize((W, H), Image.BILINEAR)
-        if v.get("_beat") and st["j"] > 0 and u - st["a"] < .1:   # 컷 순간 아주 짧게 밝아진다 (레퍼런스 도입부처럼)
+        if v.get("_beat") and v.get("_hits", 0) is not None and st["j"] > 0 and u - st["a"] < .1:   # 컷 순간 아주 짧게 밝아진다 (레퍼런스 도입부처럼)
             im = Image.blend(im, Image.new("RGB", (W, H), (255, 248, 236)), .32 * (1 - (u - st["a"]) / .1))
         return im
 
@@ -2449,8 +2449,8 @@ def main():
         if sc["v"].get("cut_by_line"): sc["v"]["_lines_at"] = [l_[0] for l_ in lt]   # 2026-11-19 v6: 줄마다 컷 (박자 컷보다 우선)
         elif HITS and sc["v"].get("cine"):   # 2026-11-07 13:48 대표님: 자잘한 박자마다 흔들지 말고, 큰 베이스가 '쿵' 할 때(3~6초마다)만 사진·영상을 바꾼다
             # 14:27 대표님: 사진 전환에 맞추려고 말을 멈추지 말 것 — 장면 길이는 말 길이 그대로, 장면 안에서 큰 베이스가 오면 그때만 사진을 바꾼다
-            hs = [h - t for h in HITS if t + .3 < h < t + dur - .3]; sc["v"]["_hits"] = hs; sc["v"]["_beat"] = BEAT or .5
-            if len(sc["v"].get("cuts", [])) > len(hs) + 1 and not any(isinstance(c_, dict) and c_.get("d") for c_ in sc["v"]["cuts"]): sc["v"] = dict(sc["v"], cuts=sc["v"]["cuts"][:len(hs) + 1])   # 2026-11-12: 길이를 정한 컷(지구본 3.6초 → 무대 사진)은 남긴다
+            hs = [h - t for h in HITS if t + .3 < h < t + dur - .3]; sc["v"]["_hits"] = hs or None; sc["v"]["_beat"] = BEAT or .5   # 2026-11-27 대표 "한 사진 4~5초 넘게 쓰지 말 것": 박자가 없는 장면(인트로 뒤)은 여러 장을 고르게 나눈다
+            if hs and len(sc["v"].get("cuts", [])) > len(hs) + 1 and not any(isinstance(c_, dict) and c_.get("d") for c_ in sc["v"]["cuts"]): sc["v"] = dict(sc["v"], cuts=sc["v"]["cuts"][:len(hs) + 1])   # 2026-11-12: 길이를 정한 컷(지구본 3.6초 → 무대 사진)은 남긴다
         elif BEAT and sc["v"].get("cine"):   # 장면 끝을 다음 박자에 맞춘다 → 장면이 바뀌는 순간이 늘 박자 위
             unit = BEAT * (4 if (spec.get("hook") or {}).get("cut", "bar" if HOOK_STYLE[0] == "basstaiko" else "beat") == "bar" else 1)
             # 2026-11-04 19:01 대표님 "다(★)다다다 다다다다 — 별 친 박자(마디 첫 박, 베이스가 제일 센 곳)에 사진을 바꾸면 제일 자연스럽다"
