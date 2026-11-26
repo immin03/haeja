@@ -1,0 +1,33 @@
+{
+ "id": "il_R1204_stone_ocean",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, deep navy blue color grade with warm amber-gold highlights, slightly bright natural exposure with clear readable detail (not too dark), shallow depth of field, fine film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Horizontal 16:9 composition. Scene: A single stone falling into a vast dark ocean that rises into an enormous wave reaching the horizon, stormy dramatic light, epic scale.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a2160b-70cb-731d-aa3e-a24c52ca0daa",
+  "status_url": "https://api.higgsfield.ai/requests/01a2160b-70cb-731d-aa3e-a24c52ca0daa/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a2160b-70cb-731d-aa3e-a24c52ca0daa/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a2160b-70cb-731d-aa3e-a24c52ca0daa",
+  "status_url": "https://api.higgsfield.ai/requests/01a2160b-70cb-731d-aa3e-a24c52ca0daa/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a2160b-70cb-731d-aa3e-a24c52ca0daa/cancel",
+  "expires_at": "2026-12-03T04:09:46.726306+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a2160b-70cb-731d-aa3e-a24c52ca0daa/2d67de2b-dc2a-405d-812a-599a4ba33626.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "scripts/blog/media/lib/il_R1204_stone_ocean.png"
+}
