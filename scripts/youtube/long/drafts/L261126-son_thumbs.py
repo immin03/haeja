@@ -23,6 +23,9 @@ SETS = [
     dict(file="thumb_d.jpg", photo="son_whitehouse_clean.png", face=(.45, .30), zoom=1.2, fx=.5, fpos=.80, side="right", kind="chips",   # 2026-11-26 01:52 대표: 알리바바·쿠팡·위워크·오픈AI 나열형 1안
          top="손정의가 베팅한 회사들", chips=[("알리바바", "2,500배", "up"), ("위워크", "파산", "down"), ("쿠팡", "10배", "up"), ("????", "?", "q")],   # 12:01 대표: 오픈AI 가리기
          l1=[("다음은 ", "w"), ("OOOO", "pink")], l2=[]),
+    dict(file="thumb_e.jpg", photo="son_whitehouse_clean.png", face=(.45, .30), zoom=1.2, fx=.5, fpos=.80, side="right", kind="chips",   # 2026-11-26 01:52 대표: 알리바바·쿠팡·위워크·오픈AI 나열형 1안
+         top="손정의의 베팅 성적표", chips=[("알리바바", "2,500배", "up"), ("위워크", "파산", "down"), ("오픈AI", "?", "q")],   # 12:01 대표: 오픈AI 가리기
+         l1=[("대박? ", "w"), ("파산?", "pink")], l2=[]),   # 14:03 대표 "D는 궁금하지 않다" → 결과를 묻는 안
 ]
 
 
