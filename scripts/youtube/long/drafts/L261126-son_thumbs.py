@@ -26,6 +26,14 @@ SETS = [
     dict(file="thumb_e.jpg", photo="son_whitehouse_clean.png", face=(.45, .30), zoom=1.2, fx=.5, fpos=.80, side="right", kind="chips",   # 2026-11-26 01:52 대표: 알리바바·쿠팡·위워크·오픈AI 나열형 1안
          top="손정의의 베팅 성적표", chips=[("알리바바", "2,500배", "up"), ("위워크", "파산", "down"), ("오픈AI", "?", "q")],   # 12:01 대표: 오픈AI 가리기
          l1=[("대박? ", "w"), ("파산?", "pink")], l2=[]),   # 14:03 대표 "D는 궁금하지 않다" → 결과를 묻는 안
+    # 14:04 대표 "D·E 둘 다 안 궁금하다" → 인물 한마디(큰따옴표) · 내 계좌 · 이야기 반전 3안
+    dict(file="thumb_f.jpg", photo="son_whitehouse_clean.png", face=(.47, .30), zoom=1.35, fx=.42, side="right",
+         top="AI 버블을 묻자 손정의가 한 말", l1=[("“멍청한", "w")], l2=[("질문입니다”", "pink")]),
+    dict(file="thumb_g.jpg", photo="son_whitehouse_clean.png", face=(.47, .30), zoom=1.35, fx=.42, side="right",
+         top="손정의가 무너지면", l1=[("내 삼성전자·", "w")], l2=[("SK하이닉스는?", "pink")]),
+    dict(file="thumb_h.jpg", photo="son_2000_press_clean.png", face=(.52, .28), zoom=1.2, fx=.62, side="right",
+         top="엔비디아를 울면서 팔았다", l1=[("빚까지 내서", "w")], l2=[("전부 걸었다", "pink")]),
+
 ]
 
 
