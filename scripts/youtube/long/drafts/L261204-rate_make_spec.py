@@ -168,7 +168,7 @@ sc.append(S(["commons_eccles_building_1"],
 # ───────── 전: 금리가 무기가 되다 ─────────
 sc.append(CH(S([G("commons_volcker_1") if os.path.exists(LIB + "commons_volcker_1.jpg") else "commons_eccles_2"],
     ["1979년 미국, 물가가 1년에 10% 넘게 뛰던 때입니다. 마트 물건값이 해마다 10%씩 오른다고 생각해 보세요.",
-     "이때 키가 2미터 넘는 사람이 미국 중앙은행, 연준의 의장이 됩니다. 폴 볼커입니다."],
+     "이때 키가 2미터 넘는 사람이 미국 중앙은행, 연준의 의장이 됩니다. 폴 볼커입니다. 훗날 그는 그때를 이렇게 기억합니다."],
     [lower("폴 볼커", "미국 연방준비제도 의장 · 1979~1987", line=1, at=0.3)], "연준 역사(federalreservehistory.org)", "[전] 볼커 등장"), "금리가 무기가 되다"))
 if 'volcker' in SOTS:
     st, du, at, ln = sot_cfg('volcker', 0.0, 20.0)
