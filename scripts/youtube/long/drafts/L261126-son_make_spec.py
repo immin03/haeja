@@ -329,7 +329,7 @@ for _m in sorted(set(_re.findall(r'"([^"/]+\.mp4)"', json.dumps(sc, ensure_ascii
     except ValueError: _ok = False
     if not _ok: raise SystemExit(f"영상 파일이 없거나 깨짐: {_m}")
 spec = {k: base[k] for k in ['format', 'world', 'notebook', 'overlay', 'look', 'roadmap', 'hook', 'music', 'design', 'synthetic_media'] if k in base}
-TITLE = "닷컴 버블에서 99%를 잃은 남자 | 손정의는 왜 AI 버블에 또 전부를 걸었나"
+TITLE = "AI 버블의 모든 것, 그 뒤엔 손정의가 있다 | 99%를 잃고도 또 전부를 건 남자"
 spec.update({
  "id": "L261126-son", "company": "SOFTBANK", "no_data": True, "series": "", "plan": "P261126-ai-bubble",
  "scheduled_at": "2026-11-26T17:00:00+09:00", "manual": True,
