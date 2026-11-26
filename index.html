@@ -3854,7 +3854,8 @@ const COLST = { m: null, busy: false };
 async function colStatsLoad(){ if(COLST.busy || COLST.m || !store.client) return; COLST.busy = true; try{ const { data } = await store.client.rpc('column_stats_all'); COLST.m = data || {}; }catch(_){ COLST.m = {}; } COLST.busy = false; if(S.tab === 'column') render(); }
 const colLikedKey = id => 'vn-like-' + id;
 const colLiked = id => { try{ return localStorage.getItem(colLikedKey(id)) === '1'; }catch(_){ return false; } };
-function colStatHtml(c){ return ''; }   /* 2026-11-17 대표님: 조회·추천 숫자는 보이지 않게 */
+/* 2026-11-26 대표: 칼럼을 본 사람이 있으면 조회수·추천 수를 보이게 (11/17 '숨김' 대체). 0이면 그 항목은 쓰지 않는다 */
+function colStatHtml(c){ const st = c && COLST.m && COLST.m[c.id]; if(!st) return ''; const v = +st.v || 0, l = +st.l || 0; if(!v && !l) return ''; return `<span class="col-stat">${v ? `조회 ${v.toLocaleString('ko-KR')}` : ''}${v && l ? ' · ' : ''}${l ? `추천 ${l.toLocaleString('ko-KR')}` : ''}</span>`; }
 async function colView(id){
   try{ const k = 'vn-view-' + id + '-' + today(); if(localStorage.getItem(k)) return; localStorage.setItem(k, '1'); }catch(_){}
   try{ await store.client.rpc('column_view', { p_id: id }); if(COLST.m){ const st = COLST.m[id] ||= { v: 0, l: 0 }; st.v++; if(S.tab === 'column') render(); } }catch(_){}
@@ -3902,12 +3903,13 @@ function colFresh(L){
   return fresh.length >= 6 ? fresh : [...live].sort((a, b) => colRealDate(b).localeCompare(colRealDate(a))).slice(0, 6);
 }
 function viewColumn(){
+  colStatsLoad();
   const L = S.columns || [], open = S.colOpen && L.find(c => c.id === S.colOpen);
   if(open) return `<div class="row" style="justify-content:space-between;margin-top:16px"><button class="btn" data-act="col-back">‹ 칼럼 목록</button><span class="small muted">${esc(colDate(open))}</span></div>
-    <article class="card col-art"><div class="eyebrow">${colSeries(open) === 'weekly' ? '밸류노트 주간 칼럼' : '밸류노트 칼럼 · ' + COL_SERIES[colSeries(open)]}</div><h1>${esc(open.title)}</h1><div class="small muted">${esc(colDate(open))}${open.sub ? ' · ' + esc(open.sub) : ''}</div>${colByline(open) ? `<div class="col-by">${esc(colByline(open))}</div>` : ''}
+    <article class="card col-art"><div class="eyebrow">${colSeries(open) === 'weekly' ? '밸류노트 주간 칼럼' : '밸류노트 칼럼 · ' + COL_SERIES[colSeries(open)]}</div><h1>${esc(open.title)}</h1><div class="small muted">${esc(colDate(open))}${open.sub ? ' · ' + esc(open.sub) : ''}${colStatHtml(open)}</div>${colByline(open) ? `<div class="col-by">${esc(colByline(open))}</div>` : ''}
       ${open.cover ? `<figure class="col-fig col-cover"><img src="${esc(open.cover)}" alt=""></figure>` : ''}
       <div class="prose col-body">${colBodyHtml(open.body)}</div>
-      <div class="col-like"><button type="button" class="btn ${colLiked(open.id) ? 'primary' : ''}" data-act="col-like" data-v="${esc(open.id)}">${colLiked(open.id) ? '♥ 추천했어요' : '♡ 추천'}</button><span class="small muted">도움이 됐다면 눌러 주세요</span></div>
+      <div class="col-like"><button type="button" class="btn ${colLiked(open.id) ? 'primary' : ''}" data-act="col-like" data-v="${esc(open.id)}">${colLiked(open.id) ? '♥ 추천했어요' : '♡ 추천'}${(COLST.m && COLST.m[open.id] && +COLST.m[open.id].l) ? ' ' + COLST.m[open.id].l : ''}</button><span class="small muted">도움이 됐다면 눌러 주세요</span></div>
       ${(open.sources || []).length ? `<div class="small muted col-src">출처 ${open.sources.slice(0, 6).map((u, i) => { try{ return `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(new URL(u).hostname.replace(/^www\./, ''))}</a>`; }catch(_){ return ''; } }).filter(Boolean).join(' · ')}</div>` : ''}
       <a class="col-blog small" href="${BLOG_URL}" target="_blank" rel="noopener">더 많은 글은 밸류노트 네이버 블로그에서 읽을 수 있습니다 ›</a>
       <div data-yt="channel" data-yt-src="app-col-art"></div>
@@ -3928,7 +3930,7 @@ function viewColumn(){
     if(f.k === 'iss'){ const x = f.x; return `<a class="card col-item${i === 0 ? ' first' : ''}" href="/blog/${esc(x.slug)}?utm_source=app-column"><span class="small muted col-meta">${tag('iss', '')}${esc(md(f.at))}</span><b>${esc(x.title)}</b><span class="small col-ex">${esc(exOf(x.desc))}</span></a>`; }
     const c = f.c;
     return `<button type="button" class="card col-item${i === 0 ? ' first' : ''}${c.cover ? ' has-cover' : ''}" data-act="col-open" data-v="${esc(c.id)}">
-      ${c.cover ? `<img class="col-thumb" src="${esc(c.cover)}" alt="" loading="lazy">` : ''}<span class="small muted col-meta">${tag('col', COL_SERIES[colSeries(c)])}${esc(colDate(c))}</span><b>${esc(c.title)}</b><span class="small col-ex">${esc(exOf(c.body))}</span></button>`;
+      ${c.cover ? `<img class="col-thumb" src="${esc(c.cover)}" alt="" loading="lazy">` : ''}<span class="small muted col-meta">${tag('col', COL_SERIES[colSeries(c)])}${esc(colDate(c))}${colStatHtml(c)}</span><b>${esc(c.title)}</b><span class="small col-ex">${esc(exOf(c.body))}</span></button>`;
   };
   return `<div style="margin-top:16px"><h2 style="margin:0">칼럼</h2><div class="small muted">많이 묻는 질문에 밸류노트가 숫자로 답한 글</div></div>
     ${feed.length ? `<div class="col-list">${feed.map(item).join('')}</div>` : `<div class="card empty" style="margin-top:12px">첫 칼럼을 준비하고 있어요.</div>`}
@@ -7636,6 +7638,7 @@ input,select,textarea{border-radius:10px}
 .col-item{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:5px;padding:16px;border-radius:16px;background:var(--surface);border:1px solid var(--line)}
 .col-item b{font-size:16.5px;line-height:1.45;letter-spacing:-.02em}
 .col-item.first{border-color:rgba(255,77,109,.6)}
+.col-stat{margin-left:8px;white-space:nowrap}.col-stat::before{content:'·';margin-right:8px}
 .col-ex{color:var(--muted);line-height:1.55}
 .col-art{margin-top:12px;padding:22px 20px}
 .col-art h1{font-size:23px;line-height:1.4;margin:6px 0 6px;letter-spacing:-.03em}
