@@ -321,7 +321,7 @@ for _m in sorted(set(_re.findall(r'"([^"/]+\.mp4)"', json.dumps(sc, ensure_ascii
     if _sp.run(['git', '-C', HJ, 'ls-files', '--error-unmatch', _p], capture_output=True).returncode != 0:   # 2026-11-26: 만든 잘라 쓴 영상을 커밋 안 해 렌더 관문에서 막힘 → 커밋할 목록을 알려 준다
         print(f"⚠ 커밋 안 된 화면 파일(같이 커밋할 것): {_m}")
 spec = {k: base[k] for k in ['format', 'world', 'notebook', 'overlay', 'look', 'roadmap', 'hook', 'music', 'design', 'synthetic_media'] if k in base}
-TITLE = "이자는 원래 죄였다 | 4,000년 금리의 역사, 금리는 어떻게 세상을 지배하게 됐나"
+TITLE = "이자는 원래 “죄”였다 | 4,000년 금리의 역사, 금리는 어떻게 세상을 지배하게 됐나"
 spec.update({
  "id": "L261204-rate", "company": "RATE", "no_data": True, "series": "", "plan": "P261204-rate",
  "scheduled_at": "2026-12-04T19:30:00+09:00", "manual": True,
