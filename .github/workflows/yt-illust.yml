@@ -37,7 +37,11 @@ jobs:
       - name: 백업(푸시가 실패해도 생성 이미지를 잃지 않게)
         if: always()
         uses: actions/upload-artifact@v4
-        with: { name: illust-${{ github.run_id }}, path: 'scripts/blog/media/lib/il_*', retention-days: 7, if-no-files-found: ignore }
+        with:
+          name: illust-${{ github.run_id }}
+          path: scripts/blog/media/lib/il_*
+          retention-days: 7
+          if-no-files-found: ignore
       - name: 커밋
         run: |
           git config user.name "valuenote-bot"; git config user.email "bot@valuenote.co.kr"
