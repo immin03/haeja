@@ -2694,10 +2694,12 @@ def finish(spec, V, timeline, total, enc, tmp, wav, out, data):
         if s["sc"].get("chapter"):
             m_, sec = divmod(int(s["start"]), 60); chapters.append(f"{m_}:{sec:02d} {s['sc']['chapter']}")
     if not chapters or not chapters[0].startswith("0:00"): chapters.insert(0, "0:00 시작")
-    desc = "\n".join([fill(spec["description_head"], V), "", f"※ 영상의 주가·적정 주가·점수는 {V['asof']} 기준입니다.", "", *chapters, "",
+    # 2026-11-26 대표 "적정 주가 내용이 영상에 없으면 설명란에 올리지 말 것": no_data(적정 주가·점수를 안 다루는) 편은 그 문구를 뺀다
+    VAL = not spec.get("no_data") and not spec.get("no_valuation")
+    desc = "\n".join([fill(spec["description_head"], V), "", *([f"※ 영상의 주가·적정 주가·점수는 {V['asof']} 기준입니다.", ""] if VAL else []), *chapters, "",
                       "참고 자료", *[fill(x, V) for x in spec.get("sources", [])], "",
-                      "내 종목의 적정 주가와 점수 확인: https://valuenote.co.kr/yt", "",
-                      "*본 영상은 투자 교육용 정보이며, 특정 종목의 매수·매도 권유가 아닙니다. 적정 주가는 워렌 버핏·그레이엄·찰리 멍거의 방식으로 계산한 결과이며, 이 방식이 늘 맞지는 않습니다."])
+                      ("내 종목의 적정 주가와 점수 확인: https://valuenote.co.kr/yt" if VAL else "밸류노트: https://valuenote.co.kr/yt"), "",
+                      "*본 영상은 투자 교육용 정보이며, 특정 종목의 매수·매도 권유가 아닙니다." + (" 적정 주가는 워렌 버핏·그레이엄·찰리 멍거의 방식으로 계산한 결과이며, 이 방식이 늘 맞지는 않습니다." if VAL else "")])
     meta = {"id": spec["id"], "kind": "long", "title": fill(spec["title"], V)[:100], "description": desc, "tags": spec.get("tags", []),
             "scheduled_at": spec["scheduled_at"], "duration": round(total, 1), "data": data["raw"], "data_asof": data["raw"]["asof_iso"],
             "events": spec.get("events", []), "pinned_comment": _vn_comment(fill(spec.get("pinned_comment", ""), V)), "rendered_at": dt.datetime.now(dt.timezone.utc).isoformat(), "company": spec.get("company"),
