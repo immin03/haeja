@@ -80,7 +80,7 @@ def render_chips(t, out):
     fn = F("Heavy", 46); fv = F("Heavy", 54)
     for i, (n, v, k) in enumerate(t["chips"]):
         x = LX + i * (cw + gap)
-        col = {"up": (70, 220, 150), "down": (*PINK,), "q": (255, 255, 255)}[k]
+        col = {"up": (150, 150, 158), "down": (150, 150, 158), "q": (*PINK,)}[k]   # 12:02 대표 "색이 너무 많아 헷갈린다": 흑백 + 핑크(마지막 칸)만
         box = Image.new("RGBA", (TW, TH), (0, 0, 0, 0)); bd = ImageDraw.Draw(box)
         bd.rounded_rectangle([x, y0, x + cw, y0 + ch], 18, fill=(14, 14, 18, 215), outline=(*col, 255), width=5)
         th.alpha_composite(box); D = ImageDraw.Draw(th)
@@ -89,7 +89,7 @@ def render_chips(t, out):
         D.text((x + (cw - D.textlength(n, font=F("Heavy", z))) / 2, y0 + 26), n, font=F("Heavy", z), fill=(255, 255, 255))
         zv = 54
         while D.textlength(v, font=F("Heavy", zv)) > cw - 24: zv -= 2
-        D.text((x + (cw - D.textlength(v, font=F("Heavy", zv))) / 2, y0 + 104 + (54 - zv) // 2), v, font=F("Heavy", zv), fill=(*col, 255))
+        D.text((x + (cw - D.textlength(v, font=F("Heavy", zv))) / 2, y0 + 104 + (54 - zv) // 2), v, font=F("Heavy", zv), fill=(*(col if k == "q" else (255, 255, 255)), 255))
         if k != "q" and i < 3: pass
     fb = F("Heavy", 136); y1 = TH - 70 - fb.size; x = LX
     for txt, c in t["l1"]:
