@@ -1,0 +1,33 @@
+{
+ "id": "il_R1204b_subscribe",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, deep navy blue color grade with warm amber-gold highlights, slightly bright natural exposure with clear readable detail (not too dark), shallow depth of field, fine film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Horizontal 16:9 composition. Scene: A warm cozy reading desk at golden sunrise: an open notebook, a cup of coffee and reading glasses, large window with a soft-focus city skyline glowing in morning light, hopeful calm mood.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a21694-1ee1-7d9a-b234-035ea9ce1b55",
+  "status_url": "https://api.higgsfield.ai/requests/01a21694-1ee1-7d9a-b234-035ea9ce1b55/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a21694-1ee1-7d9a-b234-035ea9ce1b55/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a21694-1ee1-7d9a-b234-035ea9ce1b55",
+  "status_url": "https://api.higgsfield.ai/requests/01a21694-1ee1-7d9a-b234-035ea9ce1b55/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a21694-1ee1-7d9a-b234-035ea9ce1b55/cancel",
+  "expires_at": "2026-12-03T06:39:02.944540+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a21694-1ee1-7d9a-b234-035ea9ce1b55/31a4d1a8-fadb-4ab7-8f07-d410af06932e.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "scripts/blog/media/lib/il_R1204b_subscribe.png"
+}

@@ -1,0 +1,33 @@
+{
+ "id": "il_R1204b_fomc_room",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, deep navy blue color grade with warm amber-gold highlights, slightly bright natural exposure with clear readable detail (not too dark), shallow depth of field, fine film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Horizontal 16:9 composition. Scene: An empty long polished wooden boardroom table with twelve leather chairs in a grand marble-walled room with tall windows, cool morning light falling across the table, serious solemn mood.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a21693-eef4-71a4-b819-858ffd816014",
+  "status_url": "https://api.higgsfield.ai/requests/01a21693-eef4-71a4-b819-858ffd816014/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a21693-eef4-71a4-b819-858ffd816014/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a21693-eef4-71a4-b819-858ffd816014",
+  "status_url": "https://api.higgsfield.ai/requests/01a21693-eef4-71a4-b819-858ffd816014/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a21693-eef4-71a4-b819-858ffd816014/cancel",
+  "expires_at": "2026-12-03T06:38:53.894573+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a21693-eef4-71a4-b819-858ffd816014/8ba98788-97fb-4452-bc30-756ed0507bbf.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "scripts/blog/media/lib/il_R1204b_fomc_room.png"
+}

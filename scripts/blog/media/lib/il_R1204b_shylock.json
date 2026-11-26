@@ -1,0 +1,33 @@
+{
+ "id": "il_R1204b_shylock",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, deep navy blue color grade with warm amber-gold highlights, slightly bright natural exposure with clear readable detail (not too dark), shallow depth of field, fine film grain, rich detail. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable signs or screens, no watermark, no recognizable faces, no flags. Horizontal 16:9 composition. Scene: A Renaissance Venetian moneylender in dark robes, face hidden in shadow, standing at a candlelit stone table with brass balance scales, gold coins and a small knife, tense dramatic mood.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a21693-8354-7df6-b27c-4897b3071159",
+  "status_url": "https://api.higgsfield.ai/requests/01a21693-8354-7df6-b27c-4897b3071159/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a21693-8354-7df6-b27c-4897b3071159/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a21693-8354-7df6-b27c-4897b3071159",
+  "status_url": "https://api.higgsfield.ai/requests/01a21693-8354-7df6-b27c-4897b3071159/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a21693-8354-7df6-b27c-4897b3071159/cancel",
+  "expires_at": "2026-12-03T06:38:26.535735+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a21693-8354-7df6-b27c-4897b3071159/6a9a7fa8-4d06-49ab-b4d2-e1e4335f72a0.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "scripts/blog/media/lib/il_R1204b_shylock.png"
+}
