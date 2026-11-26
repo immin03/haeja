@@ -282,9 +282,9 @@ sc.append(FX("read3", "vs2", {"kicker": "금리 뉴스를 볼 때", "title": "�
      "첫째, 중앙은행이 정하는 기준금리보다, 시장이 매기는 10년 국채 금리가 내 주식에 더 가깝습니다. 둘째, 결정 그 자체보다 예상과 얼마나 달랐는지가 시장을 움직입니다. 셋째, 파도는 국채, 달러, 주식 순서로 옵니다."],
     "", "[결] 읽는 법(코드)"))
 sc.append(CH(S(["il_R1204b_fomc_room"],
-    ["그럼 이 금리는 누가 정할까요? 미국에서는 중앙은행인 연준의 위원 12명이 1년에 여덟 번 모여 투표로 정합니다. 한국에서는 한국은행 금융통화위원 7명이 정하죠."],
+    ["그럼 이 금리는 누가 정할까요? 미국에서는 중앙은행인 연준의 위원 12명이 1년에 8번 모여 투표로 정합니다. 한국에서는 한국은행 금융통화위원 7명이 정하죠."],
     [], "연준 FOMC(투표권 12명 · 연 8회) · 한국은행 금융통화위원회(7명)", "[다음 파도] 누가 정하나"), "다음 파도"))
-sc.append(FX("who", "vs2", {"kicker": "1년에 여덟 번", "title": "금리를 정하는 사람들", "items": [
+sc.append(FX("who", "vs2", {"kicker": "1년에 8번", "title": "금리를 정하는 사람들", "items": [
         {"k": "미국 연준", "big": "12명"},
         {"k": "한국은행", "big": "7명", "hi": True}],
         "foot": "연준 FOMC 투표권 · 한국은행 금융통화위원회"},
@@ -355,6 +355,7 @@ for _m in sorted(set(_re.findall(r'"([^"/]+\.mp4)"', json.dumps(sc, ensure_ascii
 spec = {k: base[k] for k in ['format', 'world', 'notebook', 'overlay', 'look', 'roadmap', 'hook', 'music', 'design', 'synthetic_media'] if k in base}
 spec['music'] = dict(spec['music'], intro="social/music/own/intro_conspiracy.mp3", intro_offset=0.0,
     hits=[0.09, 11.31, 16.9, 23.75, 26.91, 31.46, 34.97, 38.13, 41.1, 44.93, 49.48, 55.05, 58.4, 63.99, 67.29, 70.1, 75.91, 81.2, 86.26],
+    intro_by_owner="2026-11-26 15:24 대표: 우리가 만든 인트로 음악 중에서 약간 음모론 같은 그런 인트로 음악 있지 않았어? 그거 한번 써줄래?",
     note="2026-11-26 대표 '음모론 같은 인트로' → 자체 제작 intro_conspiracy(Suno) · 큰 베이스 시각(150Hz 아래 세기 봉우리, 2.8초 간격) · 본편은 M4·M5 그대로")
 TITLE = "이자는 원래 “죄”였다 | 4,000년 금리의 역사, 금리는 어떻게 세상을 지배하게 됐나"
 spec.update({
