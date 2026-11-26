@@ -2435,10 +2435,11 @@ def main():
             timeline.append({"sc": sc, "start": t, "dur": dur, "lines": lt}); t += dur; continue
         DUB = sc.get("dub")   # 2026-11-16 대표님: 인터뷰 원음 2~3초 → 원음은 작게 깔고 다른 성우가 한국어 더빙
         if DUB: u = max(u, float(DUB.get("orig", 2.5)) + .15)
-        for l in lines:
+        _pa = sc.get("pause_after") or {}   # 2026-11-26 대표 "인용 뒤 한 템포 쉬고": 줄 번호 → 그 줄 뒤에 더 쉬는 초
+        for _li, l in enumerate(lines):
             if DUB and not fake: a = dub_voice(l, DUB.get("voice", "seongho"), DUB.get("person") or next((b_.get("text") for b_ in sc.get("sketch", []) if b_.get("kind") == "lower"), None))
             else: a = np.zeros(int(len(l) / 9.2 * SR), np.float32) if fake else clean_voice(l, speak)
-            lt.append((u, len(a) / SR, l)); audio.append((t + u, a)); u += len(a) / SR + R.GAP
+            lt.append((u, len(a) / SR, l)); audio.append((t + u, a)); u += len(a) / SR + R.GAP + float(_pa.get(str(_li), 0))
         dur = u + sc.get("hold", .35)
         if sc.get("dur"): dur = max(dur, float(sc["dur"]))   # 2026-11-17: 인트로 로고에 한 마디를 넣어도 로고 길이(5초)는 지킨다
         if DUB:

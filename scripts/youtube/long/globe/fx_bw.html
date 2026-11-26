@@ -359,7 +359,7 @@ function vs2(C,t){
   I.forEach((it,i)=>{ const x=X0+i*(cw+gap), cx=x+cw/2, a=ease(cl((t-0.4-i*0.9)/0.5)); if(a<=0) return; const y=Y0+(1-a)*28, col=it.color==='red'?'#ff5a6e':PINK;
     g.save(); g.globalAlpha=a; const gr=g.createLinearGradient(0,y,0,y+ch); gr.addColorStop(0,'rgba(255,255,255,0.07)'); gr.addColorStop(1,'rgba(255,255,255,0.015)'); g.fillStyle=gr; g.beginPath(); g.roundRect(x,y,cw,ch,28); g.fill(); g.lineWidth=it.hi?3:1.5; g.strokeStyle=it.hi?PINK:'rgba(225,225,228,0.16)'; if(it.hi){ g.shadowColor='rgba(255,77,109,0.45)'; g.shadowBlur=36; } g.stroke(); g.restore();
     txt(it.k,cx,y+90,48,IVORY,800,'center',a);
-    const an=ease(cl((t-1.0-i*0.9)/0.6)); txt(it.big,cx,y+250,130,col,800,'center',an); txt(it.unit||'',cx,y+340,44,col,800,'center',an);
+    const an=ease(cl((t-1.0-i*0.9)/0.6)); txt(it.big,cx,y+(it.unit?250:280),it.bs||130,col,800,'center',an); if(it.unit) txt(it.unit,cx,y+340,44,col,800,'center',an);
     (it.sub?String(it.sub).split('\n'):[]).forEach((l,k)=>txtS(l,cx,y+420+k*44,34,'#e8e8ea',700,'center',an));
   });
   if(C.foot){ const af=ease(cl((t-2.6)/0.6)); if(af>0) txtS(C.foot,W/2,Y0+ch+44,24,GRAY,600,'center',af); }
@@ -399,19 +399,43 @@ function ripple(C,t){
     txt(p.k,cx,cy-R*0.42-130,40,IVORY,800,'center',a); const av=ease(cl((t-td-0.3)/0.6)); txt(p.v,cx,cy+R*0.42+70,56,(p.r||0)>0.5?PINK:IVORY,800,'center',av); if(p.sub) txtS(p.sub,cx,cy+R*0.42+124,28,GRAY,600,'center',av); });
   if(C.foot) txtS(C.foot,W/2,1040,22,GRAY,600,'center',1);
 }
-// ⑮ 파도 사슬(chain) — 발표 → 국채 → 달러 → 성장주 순서로 빛이 번진다
-// cfg: {kicker,title, nodes:[{k,sub}], step, foot}
+// ⑮ 파도 사슬(chain) — 2026-11-26 대표 "1, 2, 3, 4 숫자가 왜 붙지? 어색해" → 번호 원 대신 이름 카드 + 카드 사이를 달려가는 빛(파도), wave:true면 아래로 물결이 번진다
+// cfg: {kicker,title, nodes:[{k,sub,hi}], step, wave, foot}
 function chain(C,t){
   bg(); kicker(C,t);
-  const N=C.nodes||[], n=N.length, X0=220, X1=W-220, cy=C.cy||560, st=C.step||1.1, dx=(X1-X0)/(n-1);
-  for(let i=0;i<n-1;i++){ const a=ease(cl((t-0.8-i*st-0.4)/0.6)); g.save(); g.strokeStyle='rgba(225,225,228,0.18)'; g.lineWidth=3; g.beginPath(); g.moveTo(X0+i*dx+70,cy); g.lineTo(X0+(i+1)*dx-70,cy); g.stroke();
-    g.strokeStyle=PINK; g.globalAlpha=1; g.lineWidth=4; g.beginPath(); g.moveTo(X0+i*dx+70,cy); g.lineTo(X0+i*dx+70+(dx-140)*a,cy); g.stroke(); g.restore(); }
-  N.forEach((q,i)=>{ const a=ease(cl((t-0.6-i*st)/0.45)); const x=X0+i*dx; const on=a>0.99, pul=(Math.sin((t-i*st)*4)+1)/2;
-    g.save(); g.globalAlpha=0.35+0.65*a; g.strokeStyle=a>0?PINK:'rgba(225,225,228,0.4)'; g.lineWidth=4; g.fillStyle='rgba(20,20,24,0.9)'; if(a>0){ g.shadowColor=PINK; g.shadowBlur=14+12*pul*a; } g.beginPath(); g.arc(x,cy,62,0,7); g.fill(); g.stroke(); g.restore();
-    txt(String(i+1),x,cy,44,a>0?PINK:GRAY,800,'center',0.4+0.6*a); txt(q.k,x,cy+120,40,IVORY,800,'center',0.3+0.7*a); if(q.sub) txtS(q.sub,x,cy+170,28,GRAY,600,'center',0.3+0.7*a); });
+  const N=C.nodes||[], n=N.length, X0=W*0.5-(n-1)*(C.dx||380)/2, cy=C.cy||560, st=C.step||1.1, dx=C.dx||380, cw=Math.min(320,dx-60), chh=150;
+  if(C.wave){ const aw=ease(cl((t-0.6)/0.6)); const head=X0-cw/2+(cl((t-0.6)/(st*(n-1)+0.6)))*((n-1)*dx+cw);
+    g.save(); g.globalAlpha=aw; for(let L=0;L<3;L++){ g.beginPath(); for(let x=X0-cw/2;x<=head;x+=6){ const k=(head-x)/220, amp=(18+L*10)*Math.exp(-k*0.35); const y=cy+150+L*34+Math.sin(x/38-t*5+L)*amp; x===X0-cw/2?g.moveTo(x,y):g.lineTo(x,y); }
+      g.strokeStyle=L?'rgba(225,225,228,'+(0.22-L*0.06)+')':PINK; g.lineWidth=L?2:3.5; g.stroke(); } g.restore(); }
+  for(let i=0;i<n-1;i++){ const x1=X0+i*dx+cw/2+14, x2=X0+(i+1)*dx-cw/2-14, a=ease(cl((t-0.8-i*st-0.3)/0.6));
+    g.save(); g.strokeStyle='rgba(225,225,228,0.18)'; g.lineWidth=3; g.beginPath(); g.moveTo(x1,cy); g.lineTo(x2,cy); g.stroke();
+    if(a>0){ const xe=x1+(x2-x1)*a; g.strokeStyle=PINK; g.lineWidth=4; g.beginPath(); g.moveTo(x1,cy); g.lineTo(xe,cy); g.stroke();
+      g.fillStyle=PINK; g.beginPath(); g.moveTo(xe+4,cy); g.lineTo(xe-14,cy-11); g.lineTo(xe-14,cy+11); g.closePath(); g.fill();
+      if(a<1){ g.shadowColor=PINK; g.shadowBlur=26; g.beginPath(); g.arc(xe,cy,9,0,7); g.fill(); } }
+    g.restore(); }
+  N.forEach((q,i)=>{ const a=ease(cl((t-0.6-i*st)/0.45)), x=X0+i*dx, pul=(Math.sin((t-i*st)*4)+1)/2, hi=q.hi||i===n-1;
+    g.save(); g.globalAlpha=0.35+0.65*a; g.fillStyle='rgba(20,20,24,0.92)'; g.strokeStyle=a>0?(hi?PINK:'rgba(235,235,238,0.7)'):'rgba(225,225,228,0.25)'; g.lineWidth=hi&&a>0?4:2.5; if(a>0&&hi){ g.shadowColor=PINK; g.shadowBlur=14+12*pul*a; } g.beginPath(); g.roundRect(x-cw/2,cy-chh/2,cw,chh,22); g.fill(); g.stroke(); g.restore();
+    txt(q.k,x,cy-(q.sub?18:0),q.k.length>6?40:48,a>0&&hi?PINK:IVORY,800,'center',0.3+0.7*a); if(q.sub) txtS(q.sub,x,cy+36,26,GRAY,600,'center',0.3+0.7*a); });
   if(C.foot) txtS(C.foot,W/2,1040,22,GRAY,600,'center',1);
 }
-window.draw=function(mode,t){ const C0=window.CFG||{}; const C=(mode==='scale')?Object.assign({fs:1.4,ky:190,shrink:0.9,top:40,vy:870},C0):C0; /* 2026-11-18 대표: 두 번째 저울만 옛 크기(글자 작고 답답) → 저울은 새 크기를 기본값으로 */ window.FS=C.fs||1; window.FS2=C.fs2||(1+(window.FS-1)*0.4); const fn=({ripple,chain,corners,histchart,flow,scale,timeline,stake,race,docs,intraday,board,gauge,gauge5,btest,lchart,vs2})[mode];
+// ⑯ 금리의 바닥(floor) — 2026-11-26 대표 "왜 국채에서부터 파동이 시작되는지 코드로": 모든 금리는 국채 금리(바닥) 위에 위험 값을 얹은 것 → 바닥이 오르면 전부 같이 오른다
+// cfg: {kicker,title, base:{k,v0,v1}, bars:[{k,sub,spread}], rise_at, rise_label, foot}
+function floor(C,t){
+  bg(); kicker(C,t);
+  const B=C.bars||[], n=B.length, X0=470, X1=W-140, gy=C.gy||960, sc=C.sc||74, bw=Math.min(300,(X1-X0)/n-80), base=C.base||{k:'국채 금리',v0:4,v1:5};
+  const ra=C.rise_at||(1.4+n*0.6), r=ease(cl((t-ra)/1.1)), bv=base.v0+(base.v1-base.v0)*r, by=gy-bv*sc;
+  const a0=ease(cl((t-0.3)/0.5)); g.save(); g.globalAlpha=a0; g.strokeStyle='rgba(225,225,228,0.5)'; g.lineWidth=2; g.beginPath(); g.moveTo(X0-60,gy); g.lineTo(X1,gy); g.stroke(); g.restore();
+  // 바닥선
+  g.save(); g.globalAlpha=a0; g.setLineDash([14,10]); g.strokeStyle=PINK; g.lineWidth=3; g.beginPath(); g.moveTo(X0-60,by); g.lineTo(X1,by); g.stroke(); g.restore();
+  txt(base.k,X0-80,by-10,44,PINK,800,'right',a0); txtS('모든 금리의 바닥',X0-80,by+36,30,GRAY,600,'right',a0);
+  g.save(); g.globalAlpha=a0*0.9; const gb=g.createLinearGradient(0,by,0,gy); gb.addColorStop(0,'rgba(255,77,109,0.20)'); gb.addColorStop(1,'rgba(255,77,109,0.04)'); g.fillStyle=gb; g.fillRect(X0-60,by,X1-X0+60,gy-by); g.restore();
+  B.forEach((q,i)=>{ const a=ease(cl((t-0.9-i*0.6)/0.5)); if(a<=0) return; const cx=X0+((X1-X0)/n)*(i+0.5), top=by-(q.spread||0)*sc*a;
+    if(q.spread){ g.save(); g.globalAlpha=a; g.fillStyle='rgba(242,242,242,0.85)'; g.beginPath(); g.roundRect(cx-bw/2,top,bw,by-top,[14,14,0,0]); g.fill(); g.restore(); txt('+ 위험 값',cx,(top+by)/2,34,'#18181b',800,'center',a); }
+    txt(q.k,cx,top-(q.sub?66:34),44,IVORY,800,'center',a); if(q.sub) txtS(q.sub,cx,top-24,24,GRAY,600,'center',a); });
+  if(r>0){ const al=Math.min(1,r*2); txt(C.rise_label||'바닥이 오르면, 전부 같이 오른다',W/2,C.ry||975,46,PINK,800,'center',al); }
+  if(C.foot) txtS(C.foot,W/2,1048,22,GRAY,600,'center',1);
+}
+window.draw=function(mode,t){ const C0=window.CFG||{}; const C=(mode==='scale')?Object.assign({fs:1.4,ky:190,shrink:0.9,top:40,vy:870},C0):C0; /* 2026-11-18 대표: 두 번째 저울만 옛 크기(글자 작고 답답) → 저울은 새 크기를 기본값으로 */ window.FS=C.fs||1; window.FS2=C.fs2||(1+(window.FS-1)*0.4); const fn=({floor,ripple,chain,corners,histchart,flow,scale,timeline,stake,race,docs,intraday,board,gauge,gauge5,btest,lchart,vs2})[mode];
   if(C0.safe===false){   // 예전 배치 (r180 이전 영상 다시 뽑을 때만)
     if(C.shrink){ bg(); g.save(); g.translate(W*(1-C.shrink)/2,C.top!=null?C.top:6); g.scale(C.shrink,C.shrink); fn(C,t); g.restore(); } else fn(C,t); return; }
   safeDraw(C,fn,t); };   // 2026-11-14: fs(글자 배율)·shrink(자막 위로 축소)
