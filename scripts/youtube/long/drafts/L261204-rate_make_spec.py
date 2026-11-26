@@ -367,9 +367,151 @@ for _m in sorted(set(_re.findall(r'"([^"/]+\.mp4)"', json.dumps(sc, ensure_ascii
     if not _ok: raise SystemExit(f"영상 파일이 없거나 깨짐: {_m}")
     if _sp.run(['git', '-C', HJ, 'ls-files', '--error-unmatch', _p], capture_output=True).returncode != 0:   # 2026-11-26: 만든 잘라 쓴 영상을 커밋 안 해 렌더 관문에서 막힘 → 커밋할 목록을 알려 준다
         print(f"⚠ 커밋 안 된 화면 파일(같이 커밋할 것): {_m}")
+# 2026-11-27 대표 "한 사진 4~5초 넘게 쓰지 말고, 사진을 과감하게 더 생성해 더 많이 — 인트로는 더": 장면마다 추가 생성 사진(인트로는 큰 베이스마다, 뒤는 약 3.5초마다 고르게)
+# 11/27 검수: 글자·숫자가 읽히는 사진(sold 표지판·달력 2장·글자 새겨진 비석)은 뺌
+EXTRA = {
+ "il_R1204_stone_tablet.png": [
+  "il_R1204c_s01_1.png",
+  "il_R1204c_s01_2.png"
+ ],
+ "il_R1204_church_burial.png": [
+  "il_R1204c_s02_1.png"
+ ],
+ "il_R1204_trading_screens.png": [
+  "il_R1204c_s03_1.png",
+  "il_R1204c_s03_2.png",
+  "il_R1204c_s03_3.png",
+    "il_R1204c_s03_5.png",
+  "il_R1204c_s03_6.png",
+  "il_R1204c_s03_7.png"
+ ],
+ "il_R1204_friend_loan.png": [
+  "il_R1204c_s05_1.png",
+  "il_R1204c_s05_2.png",
+    "il_R1204c_s05_4.png"
+ ],
+ "il_R1204b_hammurabi.png": [
+  "il_R1204c_s07_1.png",
+  "il_R1204c_s07_2.png"
+ ],
+ "il_R1204_babylon_market.png": [
+  "il_R1204c_s09_1.png"
+ ],
+ "il_R1204_moneylender_candle.png": [
+  "il_R1204c_s10_1.png",
+  "il_R1204c_s10_2.png",
+  "il_R1204c_s10_3.png",
+  "il_R1204c_s10_4.png"
+ ],
+ "il_R1204b_dante_hell.png": [
+  "il_R1204c_s11_1.png",
+  "il_R1204c_s11_2.png",
+  "il_R1204c_s11_3.png"
+ ],
+ "il_R1204_venice_court.png": [
+  "il_R1204c_s12_1.png",
+  "il_R1204c_s12_2.png"
+ ],
+ "il_R1204_islamic_bank.png": [
+  "il_R1204c_s13_1.png",
+  "il_R1204c_s13_2.png"
+ ],
+ "il_R1204b_medici_palazzo.png": [
+  "il_R1204c_s14_1.png"
+ ],
+ "il_R1204_florence_bench.png": [
+  "il_R1204c_s15_1.png",
+  "il_R1204c_s15_2.png",
+  "il_R1204c_s15_3.png"
+ ],
+ "il_R1204b_cosimo.png": [
+  "il_R1204c_s17_1.png",
+  "il_R1204c_s17_2.png",
+  "il_R1204c_s17_3.png"
+ ],
+ "il_R1204_broken_bench.png": [
+  "il_R1204c_s18_1.png",
+  "il_R1204c_s18_2.png",
+  "il_R1204c_s18_3.png"
+ ],
+ "il_R1204_london_1694.png": [
+  "il_R1204c_s19_1.png",
+  "il_R1204c_s19_2.png",
+  "il_R1204c_s19_3.png"
+ ],
+ "commons_volcker_1.jpg": [
+  "il_R1204c_s21_1.png",
+  "il_R1204c_s21_2.png",
+  "il_R1204c_s21_3.png",
+  "il_R1204c_s21_4.png"
+ ],
+ "il_R1204_tractors_dc.png": [
+  "il_R1204c_s24_1.png"
+ ],
+ "il_R1204_lumber_mail.png": [
+  "il_R1204c_s25_1.png",
+  "il_R1204c_s25_2.png"
+ ],
+ "il_L261113g2_volcker_pit.jpeg": [
+  "il_R1204c_s26_1.png",
+  "il_R1204c_s26_2.png",
+  "il_R1204c_s26_3.png"
+ ],
+ "il_R1204_lehman_2008.png": [
+  "il_R1204c_s27_1.png",
+  "il_R1204c_s27_2.png"
+ ],
+ "il_R1204_copenhagen_home.png": [
+  "il_R1204c_s28_1.png",
+  "il_R1204c_s28_2.png",
+  "il_R1204c_s28_3.png",
+  "il_R1204c_s28_4.png"
+ ],
+ "il_L261113g2_fed_winter.jpeg": [
+  "il_R1204c_s30_1.png"
+ ],
+ "il_R1204_stone_pond.png": [
+  "il_R1204c_s31_1.png",
+  "il_R1204c_s31_2.png"
+ ],
+ "il_L261113g_fed_dusk.jpeg": [
+  "il_R1204c_s39_1.png",
+  "il_R1204c_s39_2.png"
+ ],
+ "il_R1204b_crash1929.png": [
+  "il_R1204c_s40_1.png"
+ ],
+ "il_R1204b_fomc_room.png": [
+  "il_R1204c_s44_1.png",
+  "il_R1204c_s44_2.png"
+ ],
+ "il_R1204b_markets_wait.png": [
+  "il_R1204c_s48_1.png",
+  "il_R1204c_s48_2.png",
+  "il_R1204c_s48_3.png"
+ ],
+ "il_R1204_closing_dawn.png": [
+  "il_R1204c_s49_1.png",
+    "il_R1204c_s49_3.png"
+ ],
+ "il_L261123s_fed_dawn.png": [
+  "il_R1204c_s50_1.png",
+  "il_R1204c_s50_2.png"
+ ],
+ "il_R1204b_subscribe.png": [
+  "il_R1204c_s51_1.png"
+ ]
+}
+for s_ in sc:
+    _c = s_["v"].get("cuts") or []
+    if _c and _c[0].get("lib") in EXTRA:
+        for _n in EXTRA[_c[0]["lib"]]:
+            if not os.path.exists(LIB + _n): PENDING.add(_n)
+            _c.append({"lib": _n})
+
 spec = {k: base[k] for k in ['format', 'world', 'notebook', 'overlay', 'look', 'roadmap', 'hook', 'music', 'design', 'synthetic_media'] if k in base}
 spec['music'] = dict(spec['music'], intro="social/music/own/intro_conspiracy.mp3", intro_offset=0.0,
-    hits=[0.09, 11.31, 16.9, 23.75, 26.91, 31.46, 34.97, 38.13, 41.1, 44.93, 49.48, 55.05, 58.4, 63.99, 67.29, 70.1, 75.91, 81.2, 86.26],
+    hits=[0.09, 5.85, 11.31, 16.9, 22.52, 24.26, 26.91, 29.86, 31.46, 34.09, 36.36, 38.13, 40.57, 44.93, 46.67, 49.48, 51.57, 53.17, 55.05, 58.4, 60.67, 63.99, 67.29, 70.1, 75.91, 81.2, 86.26],   # 11/27 인트로는 1.6초 간격까지 촘촘히
     intro_by_owner="2026-11-26 15:24 대표: 우리가 만든 인트로 음악 중에서 약간 음모론 같은 그런 인트로 음악 있지 않았어? 그거 한번 써줄래?",
     note="2026-11-26 대표 '음모론 같은 인트로' → 자체 제작 intro_conspiracy(Suno) · 큰 베이스 시각(150Hz 아래 세기 봉우리, 2.8초 간격) · 본편은 M4·M5 그대로")
 TITLE = "이자는 원래 “죄”였다 | 4,000년 금리의 역사, 금리는 어떻게 세상을 지배하게 됐나"
