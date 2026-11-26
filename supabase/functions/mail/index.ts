@@ -1,9 +1,10 @@
-// 회원 메일 (2026-11-05, 2026-11-23 개편)
+// 회원 메일 (2026-11-05, 2026-11-23 개편, 2026-11-26 개편)
 // - {action:"drain"}   : (5분마다) 대기열(mail_queue)의 메일을 만들어 Resend로 보낸다. RESEND_API_KEY가 없으면 보내지 않고 기다린다.
-// - 가입 뒤 D+1·D+3·D+7 안내 메일(kind d1/d3/d7, 서비스 안내): 가입 트리거가 not_before(아침 8:30 KST)와 함께 대기열에 넣고 drain이 시각이 되면 보낸다 (2026-11-10)
+// - (2026-11-26 중단) 가입 뒤 D+1·D+3·D+7 안내 메일(kind d1/d3/d7, 서비스 안내): 가입 트리거가 not_before(아침 8:30 KST)와 함께 대기열에 넣고 drain이 시각이 되면 보낸다 (2026-11-10)
 // - {action:"digest"}  : (매주 월 08:30 KST) 구독한 회원마다 주간 뉴스레터(Weekly Note)를 대기열에 넣고 바로 보낸다. 2년 지난 동의는 재확인 안내도 넣는다.
 // - {action:"preview", kind} : (관리자) 메일 미리보기 HTML
 // - {action:"test", kind}    : (관리자) 관리자 본인 메일로 한 통 보내기
+// - 대기열 ref 가 "test-" 로 시작하면 제목에 [테스트]를 붙여 그 주소로 보낸다 (2026-11-26)
 // 대표 검수 스위치(app_config.mail_live)가 켜져야 대기열 메일이 나간다 (2026-11-05)
 // - POST ?unsub=토큰           : 메일 앱의 '수신 거부' 버튼(List-Unsubscribe 원클릭)
 // verify_jwt = false (메일 앱이 원클릭 수신거부를 직접 호출하므로). 관리자 기능은 함수 안에서 확인한다.
@@ -11,7 +12,7 @@
 //   대신 구독 해지 링크·보낸 곳·연락처는 그대로 두고, 아침~저녁에만 보낸다.
 //   ※ 나중에 돈을 받고 싣는 광고·협찬, 유료 상품 판매 안내가 들어가면 그 메일은 광고성 정보라 (광고) 표기가 다시 필요하다.
 // (2026-11-23 대표) 디자인은 현행 흑백 + 핑크(#FF4D6D) 밑줄 톤, 로고는 VALUE(굵게)+NOTE(얇게).
-// (2026-11-23 대표) 오래된 내용(본문 속 날짜가 2주보다 오래된 칼럼)은 메일에 넣지 않는다.
+// (2026-11-26 대표) 메일은 가입 환영 1통 + 월요일 위클리만. 위클리는 지난 7일 블로그 글 전부 + 롱폼 전부 + 계기판 + 일정. D+1·3·7 안내는 중단.
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
 
@@ -47,79 +48,7 @@ const weekLabel = (d = kst()) => `${d.getUTCMonth() + 1}월 ${Math.ceil(d.getUTC
 const daytime = () => { const h = kst().getUTCHours(); return h >= 8 && h < 21; };
 
 /* ---------- 콘텐츠 ---------- */
-type Col = { id: string; title: string; cover?: string; excerpt: string; views: number; series?: string; score: number; wrap?: boolean };
 type Vid = { id: string; title: string };
-/* 본문에 나온 날짜 중 가장 최근 날짜 (예: "10월 29일", "2025년 3월 2일"). 연도가 없으면 올해로 보고, 올해로 치면 미래가 되는 달은 작년으로 본다 */
-function lastMention(body: string, now: Date): number | null {
-  const re = /(?:(\d{4})년\s?)?(\d{1,2})월\s?(\d{1,2})일/g;
-  const ny = now.getUTCFullYear(), nm = now.getUTCMonth() + 1;
-  let best: number | null = null, m: RegExpExecArray | null;
-  while ((m = re.exec(body))) {
-    const mo = +m[2], da = +m[3];
-    if (mo < 1 || mo > 12 || da < 1 || da > 31) continue;
-    const yr = m[1] ? +m[1] : (mo > nm + 1 ? ny - 1 : ny);
-    const t = Date.UTC(yr, mo - 1, da);
-    if (t > now.getTime()) continue;                                    // "12월 28일까지" 같은 앞으로의 날짜는 최신 근거가 아니다
-    if (best === null || t > best) best = t;
-  }
-  return best;
-}
-/* 주간 정리 칼럼(예: "11월 넷째 주 · 좋은 실적에 무너진 주")인지 */
-const isWrap = (id: string, title: string) => /^col-\d{4}-\d{2}-\d{2}$/.test(id) && /\d+월\s?\S+\s?주/.test(title);
-/* 칼럼 고르기 (2026-11-05 대표: 최신 내용 중 중요한 칼럼 위주 / 2026-11-23 대표: 오래된 내용은 절대 넣지 않는다)
-   1) 칼럼 게시일이 기간 안이어도, 본문 속 가장 최근 날짜가 14일보다 오래됐으면 뺀다 (예전 블로그 글을 늦게 옮긴 칼럼)
-   2) 그 주의 주간 정리 칼럼이 있으면 맨 앞(Top Story)
-   3) 나머지 점수 = 최신일수록 높게(3일마다 절반) + 시장 이슈·기업 분석 가산 + 출처 많은 글 가산 + 조회수(조금) + pick 조금
-   같은 연재(시리즈)가 몰리지 않게 연재별로 한 편씩 먼저 고른다 */
-const SERIES_W: Record<string, number> = { weekly: 3, company: 3, giants: 2, guide: 1.5 };
-const STALE_DAYS = 14, FROM_DAYS = 10;
-async function columns(days: number, n: number): Promise<Col[]> {
-  const from = ymd(new Date(kst().getTime() - days * 864e5));
-  const { data } = await sb.from("docs").select("id,data").eq("collection", "trends").like("id", "col-%").gte("id", "col-" + from).order("id", { ascending: false }).limit(40);
-  const now = kst(), today = Date.parse(ymd(now));
-  const L = (data || []).filter((d) => {
-    if (!d.data?.title || !d.data?.body || d.data?.hidden) return false;   // 내린 칼럼(hidden)은 넣지 않는다
-    if (isWrap(d.id, String(d.data.title))) return true;                 // 주간 정리는 그 주의 글이므로 통과
-    // 블로그에서 옮긴 칼럼은 원래 글 번호(naver/bYYMMDD)의 날짜가 진짜 작성일이다 (예: b261029u → 10월 29일 글)
-    const fm = /^naver\/[ab](\d{2})(\d{2})(\d{2})/.exec(String(d.data.from || ""));
-    if (fm && (today - Date.UTC(2000 + +fm[1], +fm[2] - 1, +fm[3])) / 864e5 > FROM_DAYS) return false;
-    const last = lastMention(String(d.data.body), now);
-    return last === null || (today - last) / 864e5 <= STALE_DAYS;
-  });
-  const { data: st } = await sb.from("column_stats").select("id,views").in("id", L.map((d) => d.id));
-  const V: Record<string, number> = Object.fromEntries((st || []).map((x) => [x.id, x.views || 0]));
-  const all: Col[] = L.map((d) => {
-    const quote = String(d.data.body).split("\n").filter((l: string) => l.startsWith(">")).map((l: string) => l.replace(/^>\s?/, "")).join(" ");
-    const raw = fixWords((quote || String(d.data.body)).replace(/!\[[^\]]*\]\([^)]*\)/g, "").replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/[*_#>|■]/g, "").replace(/\s+/g, " ").trim());
-    const cut = raw.length > 120 ? raw.slice(0, 120).replace(/\s\S*$/, "") + "…" : raw;
-    const age = Math.max(0, (today - Date.parse(d.id.slice(4, 14))) / 864e5) || 0;
-    const views = V[d.id] || 0, series = String(d.data.series || "");
-    const nsrc = Array.isArray(d.data.sources) ? d.data.sources.length : 0;
-    const wrap = isWrap(d.id, String(d.data.title));
-    const score = (wrap && age <= 2 ? 1000 : 0) + (d.data.pick ? 2 : 0) + 10 * Math.pow(0.5, age / 3) + (SERIES_W[series] ?? 1) + 0.25 * Math.min(nsrc, 8) + 1.5 * Math.log1p(views);
-    return { id: d.id, title: fixWords(d.data.title), cover: d.data.cover, excerpt: cut, views, series: wrap ? "wrap" : series, score, wrap };
-  }).sort((a, b) => b.score - a.score || b.id.localeCompare(a.id));
-  const out: Col[] = [], seen = new Set<string>();
-  for (const c of all) if (out.length < n && !seen.has(c.series || c.id)) { out.push(c); seen.add(c.series || c.id); }
-  for (const c of all) if (out.length < n && !out.includes(c)) out.push(c);
-  return out.sort((a, b) => b.score - a.score);
-}
-async function videos(days: number, n: number): Promise<Vid[]> {
-  /* (2026-11-24 대표: 옛날 영상·안 올라간 영상이 걸림 → 최근 7일 롱폼 중 조회수 많은 순)
-     공개된 것만(status=uploaded, 공개 시각이 지금 이전). 조회수는 stats.api / stats.public 중 큰 값 */
-  const now = new Date().toISOString();
-  const pick = async (d: number) => {
-    let q = sb.from("youtube_posts").select("youtube_id,title,scheduled_at,stats").not("youtube_id", "is", null).eq("kind", "long").eq("status", "uploaded").lte("scheduled_at", now).order("scheduled_at", { ascending: false }).limit(30);
-    if (d) q = q.gte("scheduled_at", new Date(Date.now() - d * 864e5).toISOString());
-    const { data } = await q; return data || [];
-  };
-  let L = await pick(days || 7);
-  if (L.length < n) L = await pick(30);                                  // 일주일 안 영상이 모자라면 한 달로 넓힌다
-  const views = (v: any) => Math.max(Number(v?.stats?.api?.views) || 0, Number(v?.stats?.public?.views) || 0);
-  const seen = new Set<string>();
-  return L.sort((a, b) => views(b) - views(a)).filter((v) => { const k = String(v.title || "").slice(0, 14); if (seen.has(k)) return false; seen.add(k); return true; })
-    .slice(0, n).map((v) => ({ id: v.youtube_id, title: fixWords(v.title) }));
-}
 let scoredN: number | null = null;
 /* 계산하는 기업 수: c/scores.json 은 { date, c: { 종목: … } } 모양 */
 async function scored() {
@@ -147,29 +76,6 @@ const p = (t: string, extra = "") => `<p style="margin:0 0 14px;font-family:${F}
 const tabUrl = (tab: string, src: string) => `${SITE}/?tab=${tab}&utm_source=mail&utm_medium=email&utm_campaign=${src}`;
 const colUrl = (id: string, src: string) => `${SITE}/?col=${encodeURIComponent(id)}&utm_source=mail&utm_medium=email&utm_campaign=${src}`;
 const ytUrl = (id: string, src: string) => `https://www.youtube.com/watch?v=${encodeURIComponent(id)}&utm_source=valuenote_mail&utm_campaign=${src}`;
-function colBig(c: Col, src: string) {
-  return `<tr><td style="padding:0 36px 8px"><a href="${colUrl(c.id, src)}" style="text-decoration:none;color:${INK}">
-    ${c.cover ? `<img src="${esc(c.cover)}" width="528" alt="" style="display:block;width:100%;max-width:528px;height:auto;border-radius:14px">` : ""}
-    <div style="font-family:${F};font-size:20px;font-weight:800;letter-spacing:-.02em;line-height:1.45;margin:${c.cover ? 18 : 4}px 0 8px;word-break:keep-all">${esc(c.title)}</div>
-    <div style="font-family:${F};font-size:14.5px;line-height:1.8;color:${BODY};word-break:keep-all">${esc(c.excerpt)}</div>
-    <div style="font-family:${F};font-size:13.5px;font-weight:700;color:${INK};margin-top:12px;letter-spacing:.02em"><span style="border-bottom:3px solid ${PINK};padding-bottom:2px">칼럼 읽기</span> →</div></a></td></tr>`;
-}
-function colRow(c: Col, src: string, last = false) {
-  return `<tr><td style="padding:0 36px"><a href="${colUrl(c.id, src)}" style="text-decoration:none;color:${INK}"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="${last ? "" : `border-bottom:1px solid ${LINE};`}"><tr>
-    ${c.cover ? `<td width="104" valign="top" style="padding:18px 16px 18px 0"><img src="${esc(c.cover)}" width="104" alt="" style="display:block;width:104px;height:auto;border-radius:10px"></td>` : ""}
-    <td valign="top" style="padding:18px 0"><div style="font-family:${F};font-size:15.5px;font-weight:700;letter-spacing:-.015em;line-height:1.5;word-break:keep-all">${esc(c.title)}</div>
-    <div style="font-family:${F};font-size:13px;line-height:1.65;color:${MUTED};margin-top:5px;word-break:keep-all">${esc(c.excerpt.slice(0, 64))}${c.excerpt.length > 64 ? "…" : ""}</div></td></tr></table></a></td></tr>`;
-}
-/* 칼럼 작은 카드 2칸 (2026-11-24 대표: "칼럼도 유튜브처럼 작게") */
-function colGrid(C: Col[], src: string) {
-  if (!C.length) return "";
-  const cell = (c: Col) => `<td width="50%" valign="top" style="padding:0 7px 20px"><a href="${colUrl(c.id, src)}" style="text-decoration:none;color:${INK}">
-    ${c.cover ? `<img src="https://images.weserv.nl/?url=${encodeURIComponent(c.cover)}&w=500&h=300&fit=cover&a=attention&output=jpg&q=82" width="250" height="150" alt="" style="display:block;width:100%;height:auto;border-radius:12px">` : `<div style="background:${DARK};border-radius:12px;padding:22px 16px;font-family:${F};font-size:13px;font-weight:700;color:${PINK};letter-spacing:.1em">COLUMN</div>`}
-    <div style="font-family:${F};font-size:15px;font-weight:700;letter-spacing:-.01em;line-height:1.5;margin-top:10px;word-break:keep-all">${esc(c.title)}</div></a></td>`;
-  let rows = "";
-  for (let i = 0; i < C.length; i += 2) rows += `<tr>${cell(C[i])}${C[i + 1] ? cell(C[i + 1]) : '<td width="50%"></td>'}</tr>`;
-  return `<tr><td style="padding:0 29px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0">${rows}</table></td></tr>`;
-}
 function vidGrid(V: Vid[], src: string) {
   if (!V.length) return "";
   const cell = (v: Vid) => `<td width="50%" valign="top" style="padding:0 7px 20px"><a href="${ytUrl(v.id, src)}" style="text-decoration:none;color:${INK}">
@@ -279,72 +185,117 @@ const step = (n: number, t: string, d: string) => `<tr><td style="padding:44px 3
   <div style="font-family:${F};font-size:16px;line-height:1.75;color:${BODY};margin-top:10px;word-break:keep-all">${d}</div></td></tr>`;
 const shot = (src: string, href: string, alt: string, cap = "") => `<tr><td style="padding:0 36px"><a href="${href}" style="display:block;text-decoration:none"><img src="${SITE}/brand/mail/${src}" width="528" alt="${alt}" style="display:block;width:100%;max-width:528px;height:auto;border-radius:16px;border:1px solid ${LINE}"></a>${cap ? `<div style="font-family:${F};font-size:13px;color:${MUTED};margin-top:8px;text-align:center">${cap}</div>` : ""}</td></tr>`;
 const btnRow = (href: string, t: string) => `<tr><td style="padding:0 36px">${btn(href, t)}</td></tr>`;
-/* 점수는 이렇게 매깁니다 (2026-11-24 대표: "멍거·버핏 기준으로 어떻게 점수 매기는지 좀 더 디테일하게, 보기 쉽게")
-   앱의 계산식 그대로: 밸류노트 점수 = 숫자 65%(품질 40% + 저평가 60% − 위험 신호) + 정성 평가 20% + 트렌드 15% */
-function scoreHow() {
-  const bar = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-radius:10px;overflow:hidden"><tr>
-    <td width="65%" style="background:${DARK};padding:11px 12px;font-family:${F};font-size:14px;font-weight:800;color:#FFFFFF">숫자 65%</td>
-    <td width="20%" style="background:${PINK};padding:11px 8px;font-family:${F};font-size:14px;font-weight:800;color:#FFFFFF;text-align:center">정성 20%</td>
-    <td width="15%" style="background:#BDBDBD;padding:11px 4px;font-family:${F};font-size:14px;font-weight:800;color:#FFFFFF;text-align:center">흐름 15%</td></tr></table>`;
-  const M = [
-    ["워렌 버핏", "돈을 꾸준히 잘 버는 회사인가", "자기 돈으로 얼마나 버는지(ROE·ROIC), 번 돈이 실제 현금으로 남는지, 빚은 적은지, 적자 난 해는 없는지 등 재무 13개 지표로 품질 점수를 매깁니다."],
-    ["벤저민 그레이엄", "지금 가격이 충분히 싼가", "이익을 보수적으로 할인해 적정 주가를 계산하고, 지금 주가가 그보다 얼마나 싼지(안전마진)로 저평가 점수를 매깁니다. 25% 이상 싸면 저평가 구간입니다."],
-    ["찰리 멍거", "오래 버틸 사업인가", "경쟁자가 따라오기 어려운 해자, 값을 올려도 손님이 떠나지 않는 힘, 경영진과 지배구조를 밸류노트가 직접 조사해 정성 점수로 매깁니다."],
-  ];
-  const cards = M.map(([who, q, d], i) => `<tr><td style="padding:${i ? 10 : 0}px 0 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${BG};border-radius:14px"><tr><td style="padding:16px 18px">
-    <div style="font-family:${F};font-size:13px;font-weight:800;color:${PINK};letter-spacing:.02em">${who}</div>
-    <div style="font-family:${F};font-size:17px;font-weight:800;color:${INK};margin-top:4px;letter-spacing:-.02em;word-break:keep-all">${q}</div>
-    <div style="font-family:${F};font-size:15px;line-height:1.7;color:${BODY};margin-top:6px;word-break:keep-all">${d}</div></td></tr></table></td></tr>`).join("");
-  const band = [["75점 이상", "기준 통과 · 가격이 비싸면 '좋은 회사, 가격 대기'"], ["60~74점", "근접 · 관찰"], ["60점 미만", "기준과 거리 있음"]].map(([a, b], i) =>
-    `<tr><td style="padding:8px 0;${i ? `border-top:1px solid ${LINE};` : ""}font-family:${F};font-size:15px;font-weight:800;color:${INK};white-space:nowrap;padding-right:12px" width="92">${a}</td><td style="padding:8px 0;${i ? `border-top:1px solid ${LINE};` : ""}font-family:${F};font-size:15px;color:${BODY};word-break:keep-all">${b}</td></tr>`).join("");
-  return `${h2("How We Score", "점수는 이렇게 매깁니다")}
-  <tr><td style="padding:0 36px">${p("한 회사의 점수(100점 만점)는 세 부분을 합쳐 만듭니다. 위험 신호(적자 지속, 과도한 빚 등)가 있으면 감점합니다.", "margin:0 0 14px")}${bar}</td></tr>
-  <tr><td style="padding:18px 36px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0">${cards}</table></td></tr>
-  <tr><td style="padding:16px 36px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0">${band}</table>
-  <div style="font-family:${F};font-size:13px;line-height:1.7;color:${MUTED};margin-top:8px;word-break:keep-all">이익이 계속 줄거나 빚이 지나치게 많은 등 탈락 조건에 걸리면 점수와 상관없이 '탈락'입니다. 흐름 15%는 그 회사가 속한 큰 흐름(AI·반도체 등)이 사이클의 어디쯤인지입니다. 점수는 매일 저녁 다시 계산됩니다.</div></td></tr>`;
-}
 async function welcome(w: Who) {
-  const [CA, V, N, G] = await Promise.all([columns(10, 8), videos(7, 4), scored(), gaugesNow()]);
-  /* 칼럼: 사진 있는 최신 칼럼 2편 (2026-11-24 대표) — 사진 있는 글이 모자라면 나머지로 채운다 */
-  const C = [...CA.filter((c) => c.cover).sort((a, b) => b.id.localeCompare(a.id)), ...CA.filter((c) => !c.cover)].slice(0, 2);
+  /* 2026-11-26 대표: 메일이 너무 많고 길다 → 한 번만, 짧게. 점수 설명·칼럼·영상 목록은 뺀다 (D+1·3·7 안내 메일도 중단) */
+  const [N, G] = await Promise.all([scored(), gaugesNow()]);
   const nm = w.name || w.email.split("@")[0], src = "welcome";
-  const consent = w.ok && w.consent_at
-    ? `${kDate(w.consent_at)}에 밸류노트 뉴스레터를 구독하셨습니다. 원하지 않으시면 <a href="${unsubUrl(w)}" style="color:${ON_DARK};text-decoration:underline">구독 해지</a>를 누르세요.`
-    : `이 메일은 밸류노트 가입 안내 메일입니다. 뉴스레터는 위 버튼이나 앱의 <a href="${tabUrl("account", src)}" style="color:${ON_DARK};text-decoration:underline">내 계정</a>에서 구독할 수 있으며, 구독하지 않으면 첫 주 안내 말고는 보내지 않습니다.`;
-  const sub = w.ok ? "" : subscribeBox(w, src, "월요일 아침,<br>한 주의 시장을 한 통으로", "칼럼 · 계기판 변화 · 새 영상을 정리해 보냅니다. 언제든 한 번에 해지할 수 있습니다.");
   const body = `${hero("Welcome to ValueNote", `${esc(nm)} 님,<br>환영합니다`,
-      `버핏·그레이엄·멍거의 기준으로 ${companiesText(N)} 기업의 점수와 적정 주가를 매일 계산합니다. 이것 3가지만 써 보세요.`,
-      [tabUrl("portfolio", src), "밸류노트 열기 →"])}
-  ${step(1, "내 종목, 몇 점일까", "종목 하나만 넣으면 점수·적정 주가·지금 싼지 비싼지가 바로 나옵니다.")}
+      `버핏·그레이엄·멍거의 기준으로 ${companiesText(N)} 기업의 점수와 적정 주가를 매일 계산합니다.`, [tabUrl("portfolio", src), "밸류노트 열기 →"])}
+  ${step(1, "내 종목, 몇 점일까", "종목 하나만 넣으면 버핏·그레이엄·멍거 기준 점수와 적정 주가가 바로 나옵니다.")}
   ${shot("welcome-company.jpg", tabUrl("portfolio", src), "종목 점수 화면", "예시 화면 · 특정 종목 추천이 아닙니다")}
   ${btnRow(tabUrl("portfolio", src), "내 종목 넣기 →")}
-  ${scoreHow()}
-  ${G.length ? step(2, "바닥 신호, 몇 개 켜졌나", "과거 바닥마다 켜졌던 신호 5개를 매일 아침 7시에 점검합니다. 오늘 숫자입니다.") + G.map(gaugeCard).join("") : ""}
-  ${step(G.length ? 3 : 2, "좋고 싼 회사 찾기", "점 하나가 회사 하나. 오른쪽 위로 갈수록 좋고 싼 회사입니다. 관심 종목에 담으면 싸질 때 알려 드립니다.")}
+  ${step(2, "좋고 싼 회사 찾기", "점 하나가 회사 하나. 오른쪽 위로 갈수록 좋고 싼 회사입니다.")}
   ${shot("welcome-map.jpg", tabUrl("companies", src), "기업 지도")}
   ${btnRow(tabUrl("companies", src), "기업 지도 보기 →")}
-  <tr><td style="padding:28px 36px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${BG};border-radius:14px"><tr><td style="padding:14px 18px;font-family:${F};font-size:15px;line-height:1.7;color:${BODY};word-break:keep-all"><b style="color:${INK}">TIP</b>&nbsp; 홈 화면에 추가하면 앱처럼 열리고 알림을 받습니다. 아이폰 Safari 공유 → "홈 화면에 추가" · 안드로이드 메뉴 → "앱 설치"</td></tr></table></td></tr>
-  ${C.length ? h2("Column", "이번 주 칼럼") + colGrid(C, src) : ""}
-  ${sub}
-  ${V.length ? h2("YouTube", "이번 주 많이 본 영상") + vidGrid(V, src) : ""}`;
-  return { subject: `${nm} 님, 밸류노트 3분 사용법`, html: shell("내 종목 점수 · 바닥 계기판 · 기업 지도, 이 3가지만 써 보세요.", body, consent, src) };
+  ${G.length ? step(3, "바닥 신호, 몇 개 켜졌나", "신호가 바뀌면 카카오톡·앱 알림으로 바로 알려 드립니다.") + G.map(gaugeCard).join("") : ""}
+  ${w.ok ? "" : subscribeBox(w, src, "월요일 아침,<br>지난주를 한 통으로", "지난주 새 글과 영상, 계기판 변화를 정리해 매주 월요일 한 번 보냅니다. 언제든 해지할 수 있습니다.")}`;
+  const consent = w.ok && w.consent_at
+    ? `${kDate(w.consent_at)}에 밸류노트 뉴스레터를 구독하셨습니다. 매주 월요일 한 번 보내 드립니다. 원하지 않으시면 <a href="${unsubUrl(w)}" style="color:${ON_DARK};text-decoration:underline">구독 해지</a>를 누르세요.`
+    : `이 메일은 밸류노트 가입 안내 메일이며 한 번만 보냅니다. 뉴스레터는 구독하신 분께만 매주 월요일 보냅니다.`;
+  return { subject: `${nm} 님, 밸류노트 3분 사용법`, html: shell("내 종목 점수 · 기업 지도 · 바닥 계기판", body, consent, src) };
+}
+/* ===== 월요일 위클리 노트 (2026-11-26 대표 개편) =====
+   "매주 월요일 정기 뉴스레터는 정말 좋은 내용, 저번 주 내용들이 촘촘하게 다 정리되고 유튜브까지 같이 소개하는 레터"
+   지난 7일 블로그 글 전부(칼럼으로 옮겨졌으면 칼럼 링크) + 롱폼 전부(많이 본 순) + 바닥 계기판 + 다가오는 일정 */
+type Post = { id: string; title: string; cat: string; sum: string; cover: string; col?: string };
+const CAT_ORDER: [string, string, string][] = [["기업 분석", "기업 이야기", "Company Stories"], ["거장의 투자", "거장의 투자", "Great Investors"], ["투자 상식", "투자 상식", "Basics"], ["주간 시장 정리", "시장 정리", "Market"], ["밸류노트 사용법", "사용법", "Guide"]];
+async function blogWeek(days = 7): Promise<Post[]> {
+  const { data } = await sb.from("docs").select("data").eq("collection", "naver").eq("id", "posted").maybeSingle();
+  const posted: Record<string, string> = (data?.data as any)?.posted || {}, cleared: string[] = (data?.data as any)?.cleared || [];
+  const today = Date.parse(ymd(kst()));
+  const ids = Object.keys(posted).filter((k) => /^[ab]\d{6}/.test(k) && !cleared.includes(k) && k !== "b261020x").filter((k) => {
+    const t = Date.UTC(2000 + +k.slice(1, 3), +k.slice(3, 5) - 1, +k.slice(5, 7)); const age = (today - t) / 864e5; return age >= 1 && age <= days;
+  }).sort();
+  const out: Post[] = [];
+  for (const id of ids) {
+    try {
+      const r = await fetch(`${SITE}/naver/${id}/post.json`); if (!r.ok) continue; const j = await r.json();
+      const bl = (j.blocks || []) as any[];
+      const sum = fixWords(((bl.find((x) => x.summary)?.summary || []) as string[]).join(" ") || String(bl.find((x) => x.p)?.p || "")).replace(/\*\*/g, "").replace(/\s+/g, " ").trim();
+      const cv = bl.find((x) => x.kind === "cover" && x.img)?.img;
+      out.push({ id, title: fixWords(j.title || ""), cat: j.category || "기업 분석", sum: sum.length > 150 ? sum.slice(0, 150).replace(/\s\S*$/, "") + "…" : sum, cover: cv ? `${SITE}/naver/${id}/${cv}` : "" });
+    } catch (_) { /* 글 하나 못 읽어도 나머지는 보낸다 */ }
+  }
+  if (out.length) {   // 칼럼으로 옮겨진 글은 앱 칼럼으로 연결 (사이트 유입)
+    const { data: C } = await sb.from("docs").select("id,data").eq("collection", "trends").like("id", "col-%").in("data->>from", out.map((b) => "naver/" + b.id));
+    for (const c of C || []) { const b = out.find((x) => "naver/" + x.id === (c.data as any)?.from); if (b && !(c.data as any)?.hidden) b.col = c.id; }
+  }
+  return out;
+}
+async function upcoming(days = 14) {
+  const d0 = ymd(kst()), d1 = ymd(new Date(kst().getTime() + days * 864e5));
+  const { data } = await sb.from("issue_events").select("day,title").gte("day", d0).lte("day", d1).order("day").limit(6);
+  return (data || []) as { day: string; title: string }[];
+}
+const postHref = (b: Post, src: string) => b.col ? colUrl(b.col, src) : `${SITE}/naver/${b.id}.html?utm_source=mail&utm_medium=email&utm_campaign=${src}`;
+function postBig(b: Post, src: string) {
+  return `<tr><td style="padding:0 36px 8px"><a href="${postHref(b, src)}" style="text-decoration:none;color:${INK}">
+    ${b.cover ? `<img src="${esc(b.cover)}" width="528" alt="" style="display:block;width:100%;max-width:528px;height:auto;border-radius:14px">` : ""}
+    <div style="font-family:${F};font-size:20px;font-weight:800;letter-spacing:-.02em;line-height:1.45;margin:16px 0 8px;word-break:keep-all">${esc(b.title)}</div>
+    <div style="font-family:${F};font-size:15px;line-height:1.75;color:${BODY};word-break:keep-all">${esc(b.sum)}</div>
+    <div style="font-family:${F};font-size:13.5px;font-weight:700;color:${INK};margin-top:12px"><span style="border-bottom:3px solid ${PINK};padding-bottom:2px">이어서 읽기</span> →</div></a></td></tr>`;
+}
+function postLine(b: Post, src: string, last: boolean) {
+  return `<tr><td style="padding:0 36px"><a href="${postHref(b, src)}" style="text-decoration:none;color:${INK}"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="${last ? "" : `border-bottom:1px solid ${LINE};`}"><tr>
+    ${b.cover ? `<td width="88" valign="top" style="padding:16px 14px 16px 0"><img src="${esc(b.cover)}" width="88" alt="" style="display:block;width:88px;height:auto;border-radius:10px"></td>` : ""}
+    <td valign="top" style="padding:16px 0"><div style="font-family:${F};font-size:16px;font-weight:700;letter-spacing:-.015em;line-height:1.5;word-break:keep-all">${esc(b.title)}</div>
+    <div style="font-family:${F};font-size:13.5px;line-height:1.65;color:${MUTED};margin-top:4px;word-break:keep-all">${esc(b.sum.slice(0, 70))}${b.sum.length > 70 ? "…" : ""}</div></td></tr></table></a></td></tr>`;
+}
+type VidV = Vid & { views: number };
+async function videosV(days: number, n: number): Promise<VidV[]> {
+  const now = new Date().toISOString();
+  const { data } = await sb.from("youtube_posts").select("youtube_id,title,scheduled_at,stats").not("youtube_id", "is", null).eq("kind", "long").eq("status", "uploaded").lte("scheduled_at", now).gte("scheduled_at", new Date(Date.now() - days * 864e5).toISOString()).limit(30);
+  const views = (v: any) => Math.max(Number(v?.stats?.api?.views) || 0, Number(v?.stats?.public?.views) || 0);
+  return (data || []).map((v) => ({ id: v.youtube_id, title: fixWords(v.title), views: views(v) })).sort((a, b) => b.views - a.views).slice(0, n);
+}
+function vidBig(v: VidV, src: string) {
+  return `<tr><td style="padding:0 36px 6px"><a href="${ytUrl(v.id, src)}" style="text-decoration:none;color:${INK}">
+    <img src="https://i.ytimg.com/vi/${esc(v.id)}/hqdefault.jpg" width="528" alt="" style="display:block;width:100%;max-width:528px;height:auto;border-radius:14px">
+    <div style="font-family:${F};font-size:19px;font-weight:800;letter-spacing:-.02em;line-height:1.45;margin-top:14px;word-break:keep-all">${esc(v.title)}</div>
+    <div style="font-family:${F};font-size:13.5px;color:${MUTED};margin-top:6px">조회수 ${v.views.toLocaleString("ko-KR")}회 · 지난주 가장 많이 본 영상</div></a></td></tr>`;
+}
+function calendar(E: { day: string; title: string }[]) {
+  if (!E.length) return "";
+  const rows = E.map((e, i) => `<tr><td width="74" style="padding:12px 0;${i ? `border-top:1px solid ${LINE};` : ""}font-family:${F};font-size:15px;font-weight:800;color:${PINK};white-space:nowrap">${+e.day.slice(5, 7)}/${+e.day.slice(8, 10)}</td><td style="padding:12px 0;${i ? `border-top:1px solid ${LINE};` : ""}font-family:${F};font-size:15.5px;color:${INK};word-break:keep-all">${esc(e.title)}</td></tr>`).join("");
+  return h2("Coming Up", "다음에 볼 일정") + `<tr><td style="padding:0 36px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0">${rows}</table></td></tr>`;
 }
 async function digest(w: Who) {
-  const [C, V] = await Promise.all([columns(7, 4), videos(7, 4)]);
-  if (!C.length && !V.length) return null;
-  const top = C[0];
-  const body = `${hero(`Weekly Note · ${weekLabel()}`, "이번 주,<br>꼭 짚어야 할 밸류노트", "지난 한 주 시장에서 놓치면 아쉬운 이야기를 칼럼과 영상으로 정리했습니다.")}
-  ${top ? h2("Top Story", top.wrap ? "이번 주 시장 정리" : "이번 주 가장 중요한 칼럼") + colBig(top, "digest") : ""}
-  ${C.length > 1 ? h2("More Columns", "함께 읽으면 좋은 칼럼") + C.slice(1).map((c, i, a) => colRow(c, "digest", i === a.length - 1)).join("") : ""}
-  ${V.length ? h2("On YouTube", "이번 주 새 영상") + vidGrid(V, "digest") : ""}
-  <tr><td style="padding:12px 36px 0">${btn(tabUrl("column", "digest"), "칼럼 전체 보기 →")}</td></tr>`;
-  const foot = `이 메일은 ${w.consent_at ? kDate(w.consent_at) + "에 " : ""}밸류노트 뉴스레터를 구독하신 분께 매주 월요일 보내 드립니다. 더 받지 않으시려면 <a href="${unsubUrl(w)}" style="color:${ON_DARK};text-decoration:underline;font-weight:700">구독 해지</a>를 누르세요. 한 번 누르면 바로 처리됩니다.`;
-  /* 제목: (광고) 없이 뉴스레터 이름 + 이번 주 대표 글 */
-  return { subject: `[밸류노트 위클리] ${top ? top.title : "이번 주 새 영상"}`, html: shell(top ? top.excerpt : "이번 주 밸류노트 새 영상", body, foot, "digest") };
+  const [B, V, G, E] = await Promise.all([blogWeek(7), videosV(7, 8), gaugesNow(), upcoming(14)]);
+  if (!B.length && !V.length) return null;
+  const src = "weekly", top = B.find((b) => b.cover) || B[0];
+  const totalV = V.reduce((s, v) => s + v.views, 0);
+  const groups = CAT_ORDER.map(([k, t, en]) => [t, en, B.filter((b) => b.cat === k && b !== top)] as [string, string, Post[]]);
+  const etc = B.filter((b) => b !== top && !CAT_ORDER.some(([k]) => k === b.cat));
+  if (etc.length) groups.push(["그 밖의 글", "More", etc]);
+  const body = `${hero(`Weekly Note · ${weekLabel()}`, "지난주 밸류노트,<br>한 통으로 정리했습니다",
+      `글 ${B.length}편 · 영상 ${V.length}편 · 바닥 계기판까지. 월요일 아침 5분이면 지난주를 따라잡습니다.`)}
+  <tr><td style="padding:28px 36px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${BG};border-radius:14px"><tr>
+    ${[[B.length + "편", "새 글"], [V.length + "편", "새 영상"], [(totalV >= 10000 ? Math.round(totalV / 10000) + "만" : totalV.toLocaleString("ko-KR")) + " 회", "영상 조회수"]].map(([n, t]) => `<td align="center" width="33%" style="padding:16px 4px"><div style="font-family:${F};font-size:22px;font-weight:800;color:${INK}">${n}</div><div style="font-family:${F};font-size:12.5px;color:${MUTED};margin-top:2px">${t}</div></td>`).join("")}
+  </tr></table></td></tr>
+  ${G.length ? h2("Gauges", "바닥 계기판, 지금 몇 개 켜졌나") + G.map(gaugeCard).join("") : ""}
+  ${V.length ? h2("On YouTube", "지난주 영상") + vidBig(V[0], src) + (V.length > 1 ? `<tr><td style="height:18px;line-height:18px;font-size:1px">&nbsp;</td></tr>` + vidGrid(V.slice(1, 7), src) : "") : ""}
+  ${top ? h2("Top Story", "지난주 가장 읽어 볼 만한 글") + postBig(top, src) : ""}
+  ${groups.filter(([, , L]) => L.length).map(([t, en, L]) => h2(en, `${t} ${L.length}편`) + L.map((b, i) => postLine(b, src, i === L.length - 1)).join("")).join("")}
+  ${calendar(E)}
+  <tr><td style="padding:24px 36px 0">${btn(tabUrl("column", src), "밸류노트에서 더 보기 →")}</td></tr>`;
+  const foot = `이 메일은 ${w.consent_at ? kDate(w.consent_at) + "에 " : ""}밸류노트 뉴스레터를 구독하신 분께 매주 월요일 아침에 보내 드립니다. 더 받지 않으시려면 <a href="${unsubUrl(w)}" style="color:${ON_DARK};text-decoration:underline;font-weight:700">구독 해지</a>를 누르세요. 한 번 누르면 바로 처리됩니다.`;
+  /* 제목: (광고) 없이 뉴스레터 이름 + 지난주 가장 많이 본 영상(없으면 대표 글) */
+  const head = V[0] ? V[0].title.split("|")[0].trim() : top.title;
+  return { subject: `[밸류노트 위클리] ${head}`, html: shell(`${top ? top.title + " 외 " : ""}글 ${B.length}편 · 영상 ${V.length}편`, body, foot, src) };
 }
 function consentMail(w: Who, on: boolean, at: string) {
   const body = `${hero("Notice", `뉴스레터 ${on ? "구독" : "구독 해지"}가<br>처리됐습니다`, `${esc(w.email)} 주소로 요청하신 밸류노트 뉴스레터 ${on ? "구독" : "구독 해지"}를 ${kDateTime(at)}에 처리했습니다.`)}
-  <tr><td style="padding:36px 36px 0">${p(on ? "매주 월요일 아침 8시 30분, 한 주의 시장에서 꼭 짚어야 할 칼럼과 새 영상을 보내 드립니다. 언제든 메일 아래 구독 해지 링크나 앱의 내 계정에서 끌 수 있습니다." : "앞으로 뉴스레터는 보내지 않습니다. 가입·계정 관련 안내처럼 꼭 필요한 메일만 보냅니다. 다시 받고 싶으시면 앱의 내 계정에서 켤 수 있습니다.")}
+  <tr><td style="padding:36px 36px 0">${p(on ? "매주 월요일 아침 8시 30분, 지난주 밸류노트의 글과 새 영상, 바닥 계기판을 한 통에 정리해 보내 드립니다. 언제든 메일 아래 구독 해지 링크나 앱의 내 계정에서 끌 수 있습니다." : "앞으로 뉴스레터는 보내지 않습니다. 가입·계정 관련 안내처럼 꼭 필요한 메일만 보냅니다. 다시 받고 싶으시면 앱의 내 계정에서 켤 수 있습니다.")}
   ${on ? "" : btn(tabUrl("account", "consent"), "내 계정 열기 →")}</td></tr>`;
   return { subject: `[밸류노트] 뉴스레터 ${on ? "구독" : "구독 해지"} 처리 안내`, html: shell(`뉴스레터 ${on ? "구독" : "구독 해지"}를 처리했습니다.`, body, "구독·해지 처리 결과를 알려 드리는 메일입니다.", "consent") };
 }
@@ -354,125 +305,6 @@ function reconfirmMail(w: Who) {
   return { subject: "[밸류노트] 뉴스레터 구독 확인 안내", html: shell("2년마다 구독 여부를 알려 드립니다.", body, "2년마다 구독 여부를 알려 드리는 메일입니다.", "reconfirm") };
 }
 
-
-/* ---------- 가입 뒤 D+1·D+3·D+7 안내 메일 (2026-11-10) ----------
-   D+1 어제 보신 종목은 왜 그 점수인지 / D+3 회원님 유형에 맞는 고득점 회사 3곳 / D+7 이번 주 점수가 크게 움직인 회사 + 내 종목 지금 상태 */
-type SRow = [string, number | null, number | null, number | null, string, number | null, string];
-let SCORES: { date: string; c: Record<string, SRow> } | null = null;
-async function scoresAll() {
-  if (SCORES) return SCORES;
-  try { const r = await fetch(SITE + "/c/scores.json", { headers: { "cache-control": "no-cache" } }); const j = await r.json(); if (j?.c && Object.keys(j.c).length > 100) SCORES = j; } catch (_) { /* 없으면 빈 표 */ }
-  return SCORES || { date: ymd(kst()), c: {} };
-}
-const slugOf = (t: unknown) => String(t || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-const nkey = (s: unknown) => String(s || "").toUpperCase().replace(/\.(KS|KQ|T|HK|SS|SZ)$/, "").replace(/^0+(?=\d{4}$)/, "");
-const joK = (w: string, a: string, b: string) => { const c = w.charCodeAt(w.length - 1); if (c < 0xac00 || c > 0xd7a3) return w + b; return w + ((c - 0xac00) % 28 ? a : b); };
-const MKT_KO: Record<string, string> = { KR: "국내", US: "미국", JP: "일본", HK: "홍콩", CN: "중국" };
-const coLink = (slug: string, r: SRow, src: string) => `${SITE}/?co=${encodeURIComponent(slug.split("-")[0].toUpperCase())}&q=${encodeURIComponent(r[0])}&utm_source=mail&utm_medium=email&utm_campaign=${src}`;
-function gapKo(m: number | null) {
-  if (m === null) return "적정 주가의 두 배가 넘는 가격에 거래되고 있습니다";
-  if (m >= 25) return `적정 주가보다 ${Math.round(m)}% 쌉니다. 밸류노트가 보는 저평가 구간입니다`;
-  if (m >= 0) return `적정 주가보다 ${Math.round(m)}% 쌉니다`;
-  return `적정 주가보다 ${Math.round(-m)}% 높은 가격에 거래되고 있습니다`;
-}
-function gapShort(m: number | null) {
-  if (m === null) return `<b style="color:#D93654">2배 이상 고평가</b>`;
-  if (m >= 5) return `<b style="color:#12935E">${Math.round(m)}% 저평가</b>`;
-  if (m > -5) return `<b style="color:${BODY}">적정 주가 수준</b>`;
-  return `<b style="color:#D93654">${Math.round(-m)}% 고평가</b>`;
-}
-async function userDocs(uid: string, col: string) {
-  const { data } = await sb.from("docs").select("id,data,updated_at").eq("collection", col).eq("owner", uid);
-  return (data || []) as { id: string; data: any; updated_at: string }[];
-}
-async function myStocks(uid: string, S: Record<string, SRow>) {
-  const [ints, holds] = await Promise.all([userDocs(uid, "interests"), userDocs(uid, "holdings")]);
-  const out: { slug: string; r: SRow; held: boolean; last: string }[] = [];
-  for (const h of holds) { const k = Object.keys(S).find((k) => nkey(k.split("-")[0]) === nkey(h.data?.ticker) || S[k][0] === h.data?.name); if (k && !out.some((o) => o.slug === k)) out.push({ slug: k, r: S[k], held: true, last: h.updated_at }); }
-  for (const x of ints.sort((a, b) => String(b.data?.last || "").localeCompare(String(a.data?.last || "")))) { const k = x.data?.slug || slugOf(x.data?.t || x.data?.code); if (S[k] && !out.some((o) => o.slug === k)) out.push({ slug: k, r: S[k], held: false, last: x.data?.last || x.updated_at }); }
-  return out;
-}
-function picksFor(type: string, S: Record<string, SRow>, exclude: Set<string>, n = 3) {
-  const L = Object.entries(S).filter(([k, r]) => !exclude.has(k) && r[1] !== null && r[2] !== null && r[5] !== null && !/ETF|ETN|레버리지|인버스|X[23]$/i.test(r[0]));
-  const pick = type === "income"
-    ? L.filter(([, r]) => (r[2] as number) >= 70 && (r[5] as number) >= 0 && (r[1] as number) >= 65).sort((a, b) => (b[1][2] as number) - (a[1][2] as number) || (b[1][5] as number) - (a[1][5] as number))
-    : L.filter(([, r]) => (r[5] as number) >= 25 && (r[2] as number) >= 60 && (r[1] as number) >= 65).sort((a, b) => (b[1][1] as number) - (a[1][1] as number) || (b[1][5] as number) - (a[1][5] as number));
-  const out: [string, SRow][] = [], seen = new Set<string>();
-  for (const e of pick) if (out.length < n && !seen.has(e[1][4])) { out.push(e); seen.add(e[1][4]); }
-  for (const e of pick) if (out.length < n && !out.includes(e)) out.push(e);
-  return out;
-}
-const TYPE_KO: Record<string, [string, string]> = { value: ["가치 성장형", "적정 주가보다 30% 이상 싼 가격에서만 사고, 잘 아는 3~5개 회사에 모아 오래 들고 가는 투자"], income: ["안전 배당형", "배당을 오래 꾸준히 늘려 온 회사를 사고, 받은 배당은 다시 사는 데 쓰는 투자"], bold: ["공격 도전형", "큰 수익을 노리는 베팅은 전체의 10% 안에서만 하고, 나머지 90%는 기준을 통과한 회사로 버팀목을 만드는 투자"] };
-function stockRow(slug: string, r: SRow, src: string, sub: string, last = false) {
-  return `<tr><td style="padding:0 36px"><a href="${coLink(slug, r, src)}" style="text-decoration:none;color:${INK}"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="${last ? "" : `border-bottom:1px solid ${LINE};`}"><tr>
-    <td valign="top" style="padding:16px 0"><div style="font-family:${F};font-size:16px;font-weight:800;letter-spacing:-.015em;line-height:1.4;word-break:keep-all">${esc(r[0])} <span style="font-size:12px;font-weight:600;color:${MUTED}">${MKT_KO[r[4]] || r[4]}${r[6] ? " · " + esc(r[6]) : ""}</span></div>
-    <div style="font-family:${F};font-size:13.5px;line-height:1.65;color:${MUTED};margin-top:4px;word-break:keep-all">${sub}</div></td>
-    <td width="96" valign="top" align="right" style="padding:16px 0"><div style="font-family:${F};font-size:22px;font-weight:800;color:${INK};line-height:1">${r[1] ?? "–"}<span style="font-size:11px;color:${MUTED};font-weight:600">/100</span></div><div style="font-family:${F};font-size:12.5px;margin-top:5px">${gapShort(r[5])}</div></td></tr></table></a></td></tr>`;
-}
-const scoreLegend = `<tr><td style="padding:22px 36px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${BG};border-radius:16px"><tr><td style="padding:18px 22px">
-  ${[["종합 점수", "워렌 버핏·벤저민 그레이엄·찰리 멍거가 기업을 고르던 기준을 하나로 합친 점수입니다. 70점이 넘으면 세 사람의 기준을 대체로 통과한 회사입니다."], ["품질 점수", "이익이 꾸준히 늘었는지, 빚은 적은지, 번 돈이 실제 현금으로 남는지 등 재무 13개 지표로 매깁니다."], ["저평가 폭", "보수적으로 계산한 적정 주가와 지금 주가의 차이입니다. 25% 이상이면 밸류노트가 보는 저평가 구간입니다."]]
-    .map(([t, d], i) => `<div style="padding:${i ? 12 : 0}px 0 0"><div style="font-family:${F};font-size:13.5px;font-weight:800;color:${INK}">${t}</div><div style="font-family:${F};font-size:13px;line-height:1.7;color:${BODY};margin-top:3px;word-break:keep-all">${d}</div></div>`).join("")}
-</td></tr></table></td></tr>`;
-const tipHome = (src: string) => `<tr><td style="padding:28px 36px 0"><div style="border:1px solid ${LINE};border-radius:16px;padding:18px 22px">${eyebrow("Tip", MUTED)}<div style="font-family:${F};font-size:14.5px;font-weight:700;color:${INK};margin-top:8px;line-height:1.6;word-break:keep-all">점수는 매일 저녁 다시 계산됩니다</div>
-  <div style="font-family:${F};font-size:13.5px;line-height:1.75;color:${BODY};margin-top:6px;word-break:keep-all">밸류노트를 홈 화면에 추가해 두면 주소를 다시 치지 않아도 아이콘 한 번으로 열리고, 관심 회사가 싸졌을 때 알림도 받을 수 있습니다. 아이폰은 Safari 공유 버튼 → "홈 화면에 추가", 안드로이드는 메뉴 → "앱 설치"입니다.</div>
-  ${btn(tabUrl("alerts", src), "알림·홈 화면 설정 →")}</div></td></tr>`;
-async function onboardMail(kind: "d1" | "d3" | "d7", w: Who) {
-  const nm = w.name || w.email.split("@")[0], src = kind;
-  const SJ = await scoresAll(), S = SJ.c;
-  if (!Object.keys(S).length) return null;
-  const mine = w.uid ? await myStocks(w.uid, S) : [];
-  const settings = w.uid ? (await userDocs(w.uid, "settings")).find((d) => d.id === "main")?.data : null;
-  const type: string = settings?.investor?.type || "value", [typeNm, typeDesc] = TYPE_KO[type] || TYPE_KO.value;
-  const foot = `이 메일은 밸류노트 가입 회원께 첫 주에 세 번(가입 다음 날·3일째·7일째)만 보내는 서비스 안내입니다. 이후에는 보내지 않습니다. 받지 않으시려면 <a href="${unsubUrl(w)}" style="color:${ON_DARK};text-decoration:underline">수신 거부</a>를 누르세요.`;
-  let body = "", subject = "", pre = "";
-
-  if (kind === "d1") {
-    const x = mine[0];
-    if (x) {
-      const [name, total] = [x.r[0], x.r[1]];
-      subject = `${nm} 님, ${joK(name, "은", "는")} 왜 ${total ?? "이"}점일까요`;
-      pre = `${name} 점수의 근거와 적정 주가를 확인해 보세요.`;
-      body = `${hero("Day 1 · 첫 번째 안내", `${esc(nm)} 님,<br>${total !== null ? `${esc(joK(name, "은", "는"))} 왜<br>${total}점일까요` : `${esc(name)}의 점수를<br>확인해 보세요`}`,
-          `${x.held ? "보유 종목으로 넣으신" : "가입 때 보신"} ${esc(joK(name, "은", "는"))} 지금 ${gapKo(x.r[5])}. 점수가 어떻게 나왔는지 세 가지만 보면 됩니다.`, [coLink(x.slug, x.r, src), `${esc(name)} 근거 전체 보기 →`])}
-        ${h2("Your Stock", "지금 이 회사의 숫자")}${stockRow(x.slug, x.r, src, `품질 ${x.r[2] ?? "–"}점 · 저평가 ${x.r[3] ?? "–"}점 · ${gapKo(x.r[5])}`, true)}
-        ${scoreLegend}
-        ${mine.length > 1 ? h2("Also", "함께 보신 회사") + mine.slice(1, 4).map((y, i, a) => stockRow(y.slug, y.r, src, gapKo(y.r[5]), i === a.length - 1)).join("") : ""}
-        ${tipHome(src)}`;
-    } else {
-      const P = picksFor(type, S, new Set(), 1)[0];
-      subject = `${nm} 님, 어제 가입하신 밸류노트는 이렇게 쓰면 됩니다`;
-      pre = "종목 하나만 넣으면 점수와 적정 주가를 바로 계산합니다.";
-      body = `${hero("Day 1 · 첫 번째 안내", `${esc(nm)} 님,<br>종목 하나만 넣어 보세요`, `지금 갖고 있거나 보고 있는 회사 하나를 넣으면, 워렌 버핏·벤저민 그레이엄 기준으로 몇 점인지와 적정 주가를 바로 계산해 드립니다. 그 회사가 싸질 때 알려 드릴 수도 있습니다.`, [tabUrl("portfolio", src), "내 종목 넣기 →"])}
-        ${P ? h2("Example", `오늘 ${typeNm} 기준 1위 회사`) + stockRow(P[0], P[1], src, gapKo(P[1][5]), true) : ""}
-        ${scoreLegend}
-        ${tipHome(src)}`;
-    }
-  }
-  if (kind === "d3") {
-    const ex = new Set(mine.map((m) => m.slug)), P = picksFor(type, S, ex, 3);
-    if (!P.length) return null;
-    subject = `${nm} 님, ${typeNm} 기준으로 지금 점수가 가장 높은 회사 3곳`;
-    pre = `${P.map((p) => p[1][0]).join(" · ")} — ${SJ.date} 기준`;
-    body = `${hero("Day 3 · 두 번째 안내", `${esc(nm)} 님의 유형,<br>${esc(typeNm)}에 맞는<br>회사 3곳입니다`, `${esc(typeDesc)}. 이 기준으로 ${Object.keys(S).length}개 회사 중 지금 점수가 가장 높은 곳을 골랐습니다(${SJ.date} 계산).`, [tabUrl("myguide", src), "나의 가이드에서 전체 보기 →"])}
-      ${h2("Top 3", `${typeNm} 기준 · 종합 점수 순`)}${P.map(([k, r], i) => stockRow(k, r, src, gapKo(r[5]) + (type === "bold" && i === 0 ? " · 도전 칸이 아니라 90% 버팀목에 둘 회사입니다" : ""), i === P.length - 1)).join("")}
-      <tr><td style="padding:22px 36px 0">${p("점수가 높다는 것은 세 사람의 기준을 통과했다는 뜻이지, 지금 사라는 신호가 아닙니다. 회사 화면에서 점수의 근거와 위험 표시를 먼저 확인하세요. 관심 회사로 담아 두면 적정 주가보다 더 싸졌을 때 알려 드립니다.", `font-size:14px;color:${MUTED}`)}</td></tr>
-      ${mine.length ? h2("Your Stocks", "내 종목은 지금") + mine.slice(0, 3).map((y, i, a) => stockRow(y.slug, y.r, src, gapKo(y.r[5]), i === a.length - 1)).join("") : ""}`;
-  }
-  if (kind === "d7") {
-    const { data: snap } = await sb.from("app_config").select("value").eq("key", "pd_scores").maybeSingle();
-    const prev: Record<string, number | null> = (snap?.value as any)?.prev || {};
-    const moved = Object.entries(S).filter(([k, r]) => r[5] !== null && prev[k] != null && (r[1] ?? 0) >= 60 && Math.abs((r[5] as number) - (prev[k] as number)) >= 8)
-      .map(([k, r]) => ({ k, r, d: (r[5] as number) - (prev[k] as number) })).sort((a, b) => Math.abs(b.d) - Math.abs(a.d)).slice(0, 4);
-    const fresh = Object.entries(S).filter(([, r]) => r[5] !== null && (r[5] as number) >= 25 && (r[1] ?? 0) >= 70).sort((a, b) => (b[1][1] ?? 0) - (a[1][1] ?? 0)).slice(0, 3);
-    subject = moved.length ? `${nm} 님, 최근 저평가 폭이 크게 바뀐 회사 ${moved.length}곳` : `${nm} 님, 밸류노트 일주일 — 지금 저평가 구간에 있는 회사`;
-    pre = moved.length ? moved.map((m) => `${m.r[0]} ${m.d > 0 ? "+" : ""}${Math.round(m.d)}%p`).join(" · ") : fresh.map((f) => f[1][0]).join(" · ");
-    body = `${hero("Day 7 · 마지막 안내", `${esc(nm)} 님,<br>일주일 동안<br>점수는 이렇게 움직였습니다`, `밸류노트는 매일 저녁 ${Object.keys(S).length}개 회사의 적정 주가를 다시 계산합니다. 주가가 움직이면 저평가 폭이 바뀌고, 실적이 나오면 점수가 바뀝니다. 최근 계산에서 가장 크게 움직인 곳입니다.`, [tabUrl("value", src), "저평가 순위 전체 보기 →"])}
-      ${moved.length ? h2("Movers", "최근 저평가 폭이 크게 바뀐 회사") + moved.map((m, i) => stockRow(m.k, m.r, src, `지난 계산 대비 ${m.d > 0 ? "+" : ""}${Math.round(m.d)}%p · ${gapKo(m.r[5])}`, i === moved.length - 1)).join("") : h2("Undervalued", "지금 저평가 구간 · 종합 70점 이상") + fresh.map(([k, r], i) => stockRow(k, r, src, gapKo(r[5]), i === fresh.length - 1)).join("")}
-      ${mine.length ? h2("Your Stocks", "내 종목은 지금") + mine.slice(0, 4).map((y, i, a) => stockRow(y.slug, y.r, src, gapKo(y.r[5]), i === a.length - 1)).join("") : `<tr><td style="padding:22px 36px 0">${p("아직 넣어 두신 종목이 없습니다. 보유 종목이나 관심 회사를 하나만 넣어 두면 다음부터는 그 회사의 변화를 먼저 알려 드립니다.")}${btn(tabUrl("portfolio", src), "내 종목 넣기 →")}</td></tr>`}
-      ${w.ok ? "" : subscribeBox(w, src, "안내 메일은 여기까지입니다.<br>계속 받으시려면 뉴스레터를 구독해 주세요", "매주 월요일 아침, 한 주의 시장에서 꼭 짚어야 할 칼럼과 새 영상을 한 통에 담아 보냅니다. 일주일에 한 번, 언제든 한 번의 클릭으로 그만 받을 수 있습니다.")}`;
-  }
-  return { subject, html: shell(pre, body, foot, src) };
-}
 
 /* ---------- 보내기 ---------- */
 async function send(to: string, m: { subject: string; html: string }, w?: Who, kind = "service") {
@@ -500,7 +332,6 @@ async function build(q: { kind: string; ref: string }, w: Who) {
   if (q.kind === "digest") return await digest(w);
   if (q.kind === "consent") return consentMail(w, q.ref.startsWith("on:"), new Date().toISOString());
   if (q.kind === "reconfirm") return reconfirmMail(w);
-  if (q.kind === "d1" || q.kind === "d3" || q.kind === "d7") return await onboardMail(q.kind, w);
   return null;
 }
 async function drain() {
@@ -515,16 +346,16 @@ async function drain() {
     const news = q.kind === "digest";
     if (news && !daytime()) { held++; continue; }                     // 뉴스레터도 21~08시에는 보내지 않는다
     const w = await who(q.uid, q.email);
+    const isTest = String(q.ref || "").startsWith("test-");
+    if (isTest) { w.ok = true; if (!w.consent_at) w.consent_at = new Date().toISOString(); if (!w.token) w.token = "00000000-0000-0000-0000-000000000000"; }
     if (news && !w.ok) { await sb.from("mail_queue").update({ status: "skipped", error: "구독 해지됨" }).eq("id", q.id); continue; }
+    if (isTest && q.kind === "welcome") w.ok = false;
     if (q.kind === "welcome" && Date.now() - Date.parse(q.created_at) > 8 * 864e5) { await sb.from("mail_queue").update({ status: "skipped", error: "가입 8일이 지나 보내지 않음" }).eq("id", q.id); continue; }
-    const onb = q.kind === "d1" || q.kind === "d3" || q.kind === "d7";
-    if (onb && !daytime()) { held++; continue; }
-    if (onb && w.source === "unsub") { await sb.from("mail_queue").update({ status: "skipped", error: "수신 거부한 회원" }).eq("id", q.id); continue; }
-    if (onb && Date.now() - Date.parse(q.not_before || q.created_at) > 3 * 864e5) { await sb.from("mail_queue").update({ status: "skipped", error: "예정일에서 3일이 지나 보내지 않음" }).eq("id", q.id); continue; }
+    if (q.kind === "d1" || q.kind === "d3" || q.kind === "d7") { await sb.from("mail_queue").update({ status: "skipped", error: "2026-11-26 대표: 첫 주 안내 메일(D+1·3·7) 중단" }).eq("id", q.id); continue; }
     try {
       const m = await build(q, w);
       if (!m) { await sb.from("mail_queue").update({ status: "skipped", error: "보낼 내용 없음" }).eq("id", q.id); continue; }
-      const id = await send(q.email, m, w, news ? "newsletter" : "service");
+      const id = await send(q.email, isTest ? { ...m, subject: "[테스트] " + m.subject } : m, w, news ? "newsletter" : "service");
       await sb.from("mail_queue").update({ status: "sent", sent_at: new Date().toISOString(), provider_id: id, subject: m.subject, tries: q.tries + 1, error: null }).eq("id", q.id);
       sent++;
     } catch (e) {
@@ -572,11 +403,11 @@ Deno.serve(async (req: Request) => {
       if (!admin) return json({ ok: false, error: "관리자만 쓸 수 있습니다" }, 403);
       const w = await who(admin.id, admin.email!);
       if (!w.token) w.token = "00000000-0000-0000-0000-000000000000";
-      const kind = ["welcome", "digest", "consent", "reconfirm", "d1", "d3", "d7"].includes(body.kind) ? body.kind : "welcome";
+      const kind = ["welcome", "digest", "consent", "reconfirm"].includes(body.kind) ? body.kind : "welcome";
       if (kind === "welcome" && body.as !== "sub") { w.ok = false; w.consent_at = null; }
       else { w.ok = true; if (!w.consent_at) w.consent_at = new Date().toISOString(); }
       const m = await build({ kind, ref: "on:preview" }, w);
-      if (!m) return json({ ok: false, error: "이번 주에 보낼 칼럼·영상이 없습니다" });
+      if (!m) return json({ ok: false, error: "지난주에 보낼 글·영상이 없습니다" });
       if (body.action === "preview") return json({ ok: true, subject: m.subject, html: m.html });
       await loadKey();
       if (!KEY) return json({ ok: false, error: "RESEND_API_KEY가 아직 없습니다" });
