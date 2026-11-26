@@ -17,7 +17,7 @@ SETS = [
     dict(file="thumb_a.jpg", photo="son_portrait_clean.png", face=(.50, .30), zoom=1.15, fx=.5, side="right",
          top="AI 버블의 모든 것", l1=[("그 뒤엔", "w")], l2=[("손정의", "pink"), ("가 있다", "w")]),
     dict(file="thumb_b.jpg", photo="son_whitehouse_clean.png", face=(.47, .30), zoom=1.35, fx=.42, side="right",
-         top="99% 잃은 남자의 마지막 베팅", l1=[("AI 버블의", "w")], l2=[("주범", "pink"), ("?", "w")]),
+         top="99% 잃은 남자의 마지막 베팅", l1=[("AI 버블의 주범?", "w")], l2=[("손정의", "pink")]),   # 12:03 대표: 이름을 적어줘
     dict(file="thumb_c.jpg", photo="son_2000_press_clean.png", face=(.52, .28), zoom=1.2, fx=.62, side="right",
          top="역사상 가장 많은 돈을 잃은 남자", l1=[("AI 버블을", "w")], l2=[("설계한 ", "w"), ("남자", "pink")]),
     dict(file="thumb_d.jpg", photo="son_whitehouse_clean.png", face=(.45, .30), zoom=1.2, fx=.5, fpos=.80, side="right", kind="chips",   # 2026-11-26 01:52 대표: 알리바바·쿠팡·위워크·오픈AI 나열형 1안
