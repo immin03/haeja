@@ -101,7 +101,7 @@ sc.append(CH(S(["il_L261117n_tokyo_office_90s"],
     [lower("손정의", "소프트뱅크그룹 창업자 · 1957년생", line=0, at=0.2)],
     "블룸버그 2017 · 소프트뱅크그룹", "[약력] 출생"), "손정의는 누구인가"))
 st, du, at, ln = sot_cfg('chip', 0.0, 33.8)
-sc.append(SOT("son2_microchip_cry_f.mp4", st, du, ln,
+sc.append(SOT("son2_microchip_cry_fx.mp4", st, du, ln,
     "손정의", "소프트뱅크그룹 회장 · 블랙스톤 인터뷰 2026", "블랙스톤 「Inside」 인터뷰 2026", "[약력] 원음③ 마이크로칩을 보고 울었다", at))
 sc.append(S(["il_L261117n_computer_store_90s"],
     ["열여섯 살에 혼자 미국으로 건너가 UC버클리에 다녔고, 학생 때 만든 음성 번역기를 샤프에 팔아 첫 사업 자금을 마련했습니다."],
@@ -266,7 +266,7 @@ sc.append(S(["globe_L261126s_fx_globe2.mp4"],
     ["이게 내 계좌와 이어지는 지점입니다. 손정의의 돈은 오픈AI와 스타게이트로 가고, 그 돈은 엔비디아 칩 주문이 되고, 엔비디아는 SK하이닉스와 삼성전자에 HBM을 주문합니다.",
      "그래서 손정의의 돈줄이 마르면 메모리 주문이 먼저 흔들리고, 돈줄이 돌면 가장 먼저 웃습니다. 젠슨 황이 돌아온 다음 날 SK하이닉스가 6.7% 오른 것도 같은 이유입니다."],
     [], "코리아중앙데일리·애드혹뉴스 2026-11-24(SK하이닉스 +6.73%)", "[하이닉스] 내 계좌(지구본)"))
-sc.append(S(["il_L261117n_staff_meeting"], ["여기서부터는 밸류노트가 판단하는 대목입니다."], [], "", "[전환] 판단 시작"))
+sc.append(S(["il_L261117n_staff_meeting"], ["그렇다면 이번엔 어떻게 될까요."], [], "", "[전환] 이번엔 (2026-11-26 대표: AI 판단은 하지 않는다)"))
 
 # ───────── 결: 이번엔 시간 싸움 ─────────
 sc.append(CH(S(["globe_L261126s_fx_lights.mp4"],
@@ -283,9 +283,9 @@ sc.append(S(["il_L261121j_analyst_call"],
     [steps("손정의 체온계", [["경보", "소프트뱅크 주가 · 부도 보험료"], ["출구", "오픈AI 투자 유치 · 상장 일정"], ["이자", "12월 9일 연준 금리"]], line=0, at=0.15)],
     "빅고 파이낸스 2026-11(부도 보험료 2022년 이후 최고)", "[결] 배울 것: 손정의 체온계"))
 sc.append(S(["il_L261119u_calendar_pin"],
-    ["2000년에도 인터넷은 진짜였습니다. 다만 2000년 꼭대기에서 시스코를 산 사람은 작년 12월에야 본전을 찾았습니다. 그래서 밸류노트가 판단하는 최선의 대안은, 손정의처럼 한 번에 전부를 걸지 않는 것. 나눠서 사는 분할 매수입니다."],
-    [P("최선의 대안 = 분할 매수", s="한 번에 전부를 걸지 않는다", line=0, at=0.8, color="gold")],
-    "슬래시닷(FT 인용) 2025-12-11(시스코 2000년 고점 회복)", "[결] 판단"))
+    ["2000년에도 인터넷은 진짜였습니다. 그리고 그때도, 판을 가장 크게 키운 사람은 손정의였습니다.",
+     "이번 AI 판도, 가장 크게 키우고 있는 사람은 손정의입니다."],
+    [], "", "[결] 판을 키운 사람 (2026-11-26 대표: 분할 매수 결론 뺌 — 열린 질문으로)"))
 sc.append(S(["il_L261118a_closing_bridge_dawn"],
     ["손정의 본인의 생각은 분명합니다. 지난해 도쿄에서, 그는 이렇게 말했습니다."],
     [], "", "[결] 수미상관 연결"))
@@ -293,7 +293,7 @@ st, du, at, ln = sot_cfg('fii_end', 893.2, 24.0)
 sc.append(SOT(SOTS['fii_end']['clip'], st, du, ln,
     "손정의", "소프트뱅크그룹 회장 · FII 프라이어리티 아시아 2025.12.1 도쿄", "FII 연구소 「Building the Asia of Tomorrow: Masayoshi Son」 2025-12-01", "[결] 원음⑪ 버블이 어디 있습니까", at))
 sc.append(S(["il_L261118a_seven_towers"],
-    ["99%를 잃고도 살아남은 남자가, 세 번째 '하나'에 전부를 걸었습니다. 그가 이번에도 맞을지는 아직 아무도 모릅니다. 다만 다음 신호는 12월 9일에 옵니다."],
+    ["99%를 잃고도 살아남은 남자가, 세 번째 '하나'에 전부를 걸었습니다. 이번에도 그가 맞을지, 아니면 이번엔 판 전체를 끌고 무너질지, 아직 아무도 모릅니다. 다만 다음 신호는 12월 9일에 옵니다."],
     [], "", "[마무리] 여운"))
 sc.append(S([V("son2_jedi_cnbc2017", 60, 10)], ["손정의는 이번에도 살아남을까요? 여러분의 생각을 댓글로 남겨 주세요."], [], "", "[마무리] 질문"))
 sc.append(S(["il_L261121i_closing"],
@@ -320,6 +320,14 @@ for _i, _s in enumerate(sc):
         if l2 == l1 + 1 and a1 > 0.5:
             raise SystemExit(f"겹침: 장면 {_i} {k1}(줄{l1}, {a1})가 다음 줄 {k2}와 겹칠 수 있음")
 
+# 2026-11-26 대표 "2분경 그래프가 날아갔다": 깨진 영상 파일(렌더 중단으로 반쯤 쓰인 mp4)이 그대로 들어가 화면이 비었음 → 쓰는 영상은 전부 열어 보고 길이를 확인한다
+import re as _re, subprocess as _sp
+for _m in sorted(set(_re.findall(r'"([^"/]+\.mp4)"', json.dumps(sc, ensure_ascii=False)))):
+    _p = LIB + _m
+    _d = _sp.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', _p], capture_output=True, text=True).stdout.strip() if os.path.exists(_p) else ''
+    try: _ok = float(_d) > 0.5
+    except ValueError: _ok = False
+    if not _ok: raise SystemExit(f"영상 파일이 없거나 깨짐: {_m}")
 spec = {k: base[k] for k in ['format', 'world', 'notebook', 'overlay', 'look', 'roadmap', 'hook', 'music', 'design', 'synthetic_media'] if k in base}
 TITLE = "닷컴 버블에서 99%를 잃은 남자 | 손정의는 왜 AI 버블에 또 전부를 걸었나"
 spec.update({
