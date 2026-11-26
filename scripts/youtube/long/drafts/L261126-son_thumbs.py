@@ -21,8 +21,8 @@ SETS = [
     dict(file="thumb_c.jpg", photo="son_2000_press_clean.png", face=(.52, .28), zoom=1.2, fx=.62, side="right",
          top="역사상 가장 많은 돈을 잃은 남자", l1=[("AI 버블을", "w")], l2=[("설계한 ", "w"), ("남자", "pink")]),
     dict(file="thumb_d.jpg", photo="son_whitehouse_clean.png", face=(.45, .30), zoom=1.2, fx=.5, fpos=.80, side="right", kind="chips",   # 2026-11-26 01:52 대표: 알리바바·쿠팡·위워크·오픈AI 나열형 1안
-         top="손정의가 건 회사들", chips=[("알리바바", "2,500배", "up"), ("위워크", "파산", "down"), ("쿠팡", "10배", "up"), ("오픈AI", "?", "q")],
-         l1=[("다음은 ", "w"), ("오픈AI", "pink")], l2=[]),
+         top="손정의가 베팅한 회사들", chips=[("알리바바", "2,500배", "up"), ("위워크", "파산", "down"), ("쿠팡", "10배", "up"), ("????", "?", "q")],   # 12:01 대표: 오픈AI 가리기
+         l1=[("다음은 ", "w"), ("OOOO", "pink")], l2=[]),
 ]
 
 
