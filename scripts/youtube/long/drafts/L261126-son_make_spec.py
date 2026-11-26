@@ -332,7 +332,7 @@ spec = {k: base[k] for k in ['format', 'world', 'notebook', 'overlay', 'look', '
 TITLE = "닷컴 버블에서 99%를 잃은 남자 | 손정의는 왜 AI 버블에 또 전부를 걸었나"
 spec.update({
  "id": "L261126-son", "company": "SOFTBANK", "no_data": True, "series": "", "plan": "P261126-ai-bubble",
- "scheduled_at": "2026-11-26T19:30:00+09:00", "manual": True,
+ "scheduled_at": "2026-11-26T17:00:00+09:00", "manual": True,
  "opening": "원음 3일 천하 → 99% → 6/1 '50배' → 다음 날 꼭대기 → 3분의 1 → SK하이닉스 떡밥 → 이번 주 반등, 끝났나?",
  "hook_type": "인물 원음 + 날짜 대조(두 번의 3일 천하)",
  "endscreen_target": "L261123-soxl-3", "endscreen_also": "L261124-gold-3",
