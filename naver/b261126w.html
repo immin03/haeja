@@ -1,0 +1,180 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>블로그 붙여넣기 · 월마트는 왜 직원이 밟혀 숨진 뒤에도 블랙프라이데이 문을 더 일찍 열었을까</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/config.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
+<style>
+:root{--navy:#0E1A2B;--gold:#C9AF7A;--line:#E7E2D8;--bg:#F6F3EC;--muted:#6B7584}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#1B2433;font:16px/1.7 "SUIT Variable",SUIT,Pretendard,-apple-system,"Malgun Gothic",sans-serif;word-break:keep-all}
+.top{background:var(--navy);color:#F3EEE3;padding:14px 16px;font-weight:800;display:flex;align-items:center;gap:12px}.top span{color:#EADBB9}.bk{color:#F3EEE3;text-decoration:none;font-size:14px;font-weight:700;border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:5px 10px}.bk:hover{border-color:#EADBB9}
+.cat{display:inline-block;background:#FBF5EA;border:1px solid #EADBB9;color:#7A6947;font-weight:800;border-radius:10px;padding:6px 12px}
+main{max-width:760px;margin:0 auto;padding:16px 16px 60px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}
+h2{font-size:15px;color:var(--muted);margin:0 0 8px;font-weight:700}
+.row{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
+.btn{font:inherit;font-weight:800;font-size:15px;border:0;border-radius:12px;padding:11px 16px;background:var(--navy);color:#fff;cursor:pointer;white-space:nowrap}
+.btn.gold{background:linear-gradient(90deg,#C9AF7A,#EADBB9);color:#0A1322}
+.btn.ok{background:#2E8B62}
+.ttl{font-size:20px;font-weight:800}
+.steps{margin:0;padding-left:20px;color:#3A4352}.steps li{margin:4px 0}
+#art{border:1px dashed var(--line);border-radius:12px;padding:20px 22px;font-size:16px;line-height:1.8;color:#222}#art img{max-width:100%;height:auto;border-radius:8px;display:block}
+#art p{margin:0}
+#art blockquote{margin:0;padding:12px 16px;border-left:3px solid var(--gold);background:#FBF5EA}#art blockquote p{margin:2px 0}#art table{font-size:14px}#art th,#art td{border:1px solid var(--line);text-align:left}
+.ph{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ph a{display:block}.ph img{width:100%;border-radius:8px;display:block}
+.small{font-size:13px;color:var(--muted)}
+.fin{border:2px solid #2E8B62;text-align:center}.fin .btn{font-size:17px;padding:14px 28px;background:#2E8B62}.fin.posted{background:#F1EEE6;border-color:#E7E2D8}.fin.posted .btn{background:#fff;color:#2E8B62;border:1px solid #2E8B62}
+</style></head><body><div class="top"><a class="bk" href="/naver/">‹ 글 목록</a><b>Value<span>Note</span> · 네이버 블로그 붙여넣기</b></div><main>
+<section class="card"><h2>올리는 순서 (PC 권장)</h2><ol class="steps">
+<li>네이버 블로그 <b>글쓰기</b>를 연다.</li>
+<li>아래 <b>제목 복사</b> → 제목 칸에 붙여넣기.</li>
+<li><b>본문 복사</b> → 본문 칸을 한 번 누르고 붙여넣기 (Ctrl+V). 사진도 함께 들어간다.</li>
+<li>사진이 빠졌으면 <b>사진 모두 받기</b>로 받아서 [사진] 위치에 넣는다.</li>
+
+
+<li>발행 화면에서 <b>카테고리</b>를 아래 이름으로 고른다.</li>
+<li>발행. (태그는 본문 끝에 #으로 들어 있어 따로 붙일 필요가 없다)</li></ol></section>
+<section class="card"><h2>올릴 시각</h2><div class="ttl" style="color:#2E8B62">점심 12:00</div></section>
+<section class="card"><h2>카테고리</h2><div class="row"><span class="cat" id="catv">기업 분석</span><button class="btn" data-copy="catv">카테고리 복사</button></div></section>
+<section class="card"><h2>제목</h2><div class="row"><div class="ttl" id="ttl">월마트는 왜 직원이 밟혀 숨진 뒤에도 블랙프라이데이 문을 더 일찍 열었을까</div><button class="btn" data-copy="ttl">제목 복사</button></div></section>
+<section class="card"><div class="row" style="margin-bottom:12px"><h2 style="margin:0">본문 (사진 2장 포함)</h2><button class="btn gold" id="cpBody">본문 복사</button></div>
+<div id="art"><p><img src="https://www.valuenote.co.kr/naver/b261126w/01.jpg" alt="쇼핑백을 든 사람들이 거리를 걷는 모습" width="720"></p>
+<p><br></p>
+<p><b><span style="color:#000000">요약</span></b></p><p><span style="color:#000000">· 2008년 블랙프라이데이 새벽, 월마트 매장 앞에서 한 직원이 밟혀 숨졌습니다. 그런데 월마트는 그 뒤 문을 더 일찍 열었고, 몇 해 뒤에는 아예 추수감사절에 문을 닫았어요. 그사이 미국 쇼핑이 어디로 옮겨 갔는지 따라가 봅니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">2008년 11월 28일 새벽, 미국 뉴욕주 롱아일랜드의 밸리스트림. 월마트 매장 앞에서 밤을 새운 사람들이 문이 열리자 한꺼번에 밀려 들어갔습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">문 안쪽에 있던 임시 직원 지디마이타이 다무르가 쓰러졌어요. 서른네 살이었습니다. 경찰은 그가 수백 명에게 밟혔다고 밝혔습니다. 그날은 미국에서 한 해 가장 큰 할인이 시작되는 블랙프라이데이였어요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">이상한 건 그다음입니다. 월마트는 문을 더 늦게 연 게 아니라 더 일찍 열었어요. 2011년에는 추수감사절 밤 10시, 이듬해에는 저녁 8시였습니다. 가족이 칠면조를 자르던 시간에 계산대가 돌아가기 시작한 거죠.</span></p>
+<p><br></p>
+<p><span style="color:#000000">그리고 2020년, 월마트는 30년 만에 추수감사절에 매장 문을 닫았습니다. 오늘은 2026년 추수감사절이에요. 월마트가 왜 문을 당겼다가 다시 닫았는지, 그사이 쇼핑은 어디로 갔는지 따라가 보겠습니다.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">블랙프라이데이는 경찰이 붙인 별명이었다</span></b></span></p>
+
+<p><span style="color:#000000">블랙프라이데이라는 말이 처음 기록된 날은 쇼핑과 상관이 없었습니다. 1869년 9월 24일, 금값이 무너져 미국 금융시장이 흔들린 금요일이에요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">지금의 뜻을 붙인 사람들은 필라델피아 경찰이었습니다. 1950년대 추수감사절 다음 날이면 쇼핑객과 토요일 육군·해군 미식축구 경기를 보러 온 사람들이 한꺼번에 시내로 몰렸어요. 쉬지도 못하고 길을 막아야 했던 경찰은 이날을 검은 금요일이라고 불렀습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">상인들은 이 이름이 싫었습니다. &#39;빅 프라이데이&#39;로 바꿔 보려 했지만 아무도 따라 부르지 않았어요. 1980년대 들어 상인들은 새 풀이를 내놓았습니다. 장부의 빨간 적자가 이날 검은 흑자로 바뀐다는 이야기였죠.</span></p>
+<p><br></p>
+<p><span style="color:#000000">역사 채널 히스토리는 이 흑자 이야기가 널리 퍼졌지만 사실과는 다르다고 설명합니다. 교통 경찰의 투덜거림이 광고 문구로 바뀐 겁니다.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">대통령이 추수감사절을 1주일 앞당긴 해</span></b></span></p>
+
+<p><span style="color:#000000">쇼핑 날짜를 두고 미국이 다툰 건 처음이 아니었습니다. 1939년 8월 프랭클린 루스벨트 대통령은 추수감사절을 1주일 앞당긴다고 발표했어요. 그해 11월은 목요일이 다섯 번이라 마지막 목요일로 하면 크리스마스까지 쇼핑할 날이 짧다는 상인들의 걱정 때문이었습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">나라가 둘로 갈렸습니다. 22개 주는 대통령을 따라 11월 23일에, 23개 주는 원래대로 30일에 칠면조를 먹었어요. 텍사스처럼 두 날 다 쉰 주도 있었습니다. 사람들은 대통령 이름을 붙여 이 명절을 프랭크스기빙이라고 불렀죠.</span></p>
+<p><br></p>
+<p><span style="color:#000000">결국 의회가 1941년 법으로 11월 넷째 목요일을 추수감사절로 정했습니다. 올해 넷째 목요일이 바로 오늘이에요. 미국 명절 달력에는 처음부터 매장 계산대가 들어 있었던 겁니다.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">문 여는 시간을 당기는 경쟁</span></b></span></p>
+
+<p><span style="color:#000000">2000년대 미국 대형 마트들은 누가 먼저 문을 여느냐로 경쟁했습니다. 새벽 다섯 시가 자정이 됐고, 자정은 추수감사절 밤이 됐어요. 신용평가사 무디스의 한 분석가는 이를 군비 경쟁에 빗댔습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">사람이 몰리는 만큼 사고도 났습니다. 히스토리 집계로는 2006년 이후 블랙프라이데이 소동으로 10명이 숨지고 111명이 다쳤어요. 밸리스트림의 새벽은 그중 가장 많이 알려진 장면입니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">그래도 경쟁은 멈추지 않았습니다. 2011년 월마트가 추수감사절 밤으로 문을 당기자 경쟁사 타깃은 자정에 열었다가 이듬해 밤 9시로 따라왔어요. 월마트는 같은 해 저녁 8시로 다시 앞당겼습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">이 줄 서기는 한국으로도 건너왔습니다. 2015년 10월 정부가 &#39;코리아 블랙프라이데이&#39;를 열었고, 첫날 롯데백화점 본점 앞에는 문 열기 전부터 300명쯤이 줄을 섰어요. 미국에서 사고가 난 지 일곱 해 뒤의 일입니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">이 경쟁을 멈춘 건 뜻밖에도 전염병이었습니다. 2020년 7월 월마트는 추수감사절에 문을 닫겠다고 발표했어요. 월마트 미국 대표 존 퍼너는 힘든 한 해를 보낸 직원들에게 쉬는 날을 주겠다고 했습니다. 그 뒤로 월마트는 지난해까지 여섯 해 연속 추수감사절에 문을 닫았어요.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">새벽 줄은 휴대폰 속으로 옮겨 갔다</span></b></span></p>
+
+<p><span style="color:#000000">줄이 사라진 건 사람들이 덜 사서가 아닙니다. 사는 곳이 바뀌었어요. 어도비는 올해 11월과 12월 미국 온라인 쇼핑이 2,751억 달러로 또 한 번 기록을 세울 것으로 내다봤습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">날짜별로 보면 더 또렷합니다. 내일 블랙프라이데이의 온라인 매출은 오늘 추수감사절의 두 배 가까이로 예상됐어요. 그런데 가장 큰 날은 따로 있습니다. 다음 주 월요일, 사이버먼데이예요.</span></p>
+<p><br></p>
+<p><img src="https://www.valuenote.co.kr/naver/b261126w/02.png" alt="2026년 미국 온라인 쇼핑 하루 매출 예상" width="720"></p><p><span style="color:#555555;font-size:14px">2026년 미국 온라인 쇼핑 하루 매출 예상</span></p>
+<p><br></p>
+<p><span style="color:#000000">사는 손도 바뀌었습니다. 오늘 미국 온라인 쇼핑 열 건 중 여섯 건 넘게가 휴대폰에서 나올 것으로 예상돼요. 어도비는 AI 챗봇에게 물어보고 쇼핑몰에 들어오는 방문이 지난해보다 두 배 넘게 늘 거라고 봤습니다. 2008년에는 사람이 밤새 줄을 섰는데 올해는 AI가 대신 가격을 비교해 주는 거죠.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">문 닫은 월마트는 매장을 창고로 쓴다</span></b></span></p>
+
+<p><span style="color:#000000">그렇다면 문을 닫은 월마트는 손해를 봤을까요. 11월 19일 나온 3분기 실적을 보면 반대입니다. 월마트 미국의 온라인 매출은 23% 늘었어요. 이렇게 빠른 성장이 세 해 가까이 이어지고 있습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">비결은 매장 그 자체입니다. 월마트는 미국 곳곳의 매장 선반에서 물건을 꺼내 곧장 집으로 보내요. 매장에서 출발한 배달은 40% 넘게 늘었습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">그중 상당수는 주문하고 세 시간도 안 돼 도착합니다. 2008년에는 사람이 매장으로 달려왔다면 지금은 월마트가 매장에서 사람들 집으로 물건을 보내는 거예요. 매장 문은 닫아도 창고 일은 쉬지 않습니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">덤으로 생긴 돈줄도 있습니다. 월마트 앱과 사이트에 붙는 광고예요. 사람이 많이 드나드는 곳에 광고가 붙는 건 길가 간판이나 쇼핑 앱이나 다르지 않습니다. 이 광고 매출이 미국에서 37% 늘었어요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">물론 반대로 볼 대목도 있습니다. 매장에서 바로 배달하려면 직원이 선반 사이를 돌며 물건을 하나하나 골라 담아야 해요. 배달이 늘수록 한 건에 남는 돈은 얇아질 수 있습니다. 온라인에는 아마존이라는 만만치 않은 상대도 있고요.</span></p>
+<p><br></p><p><br></p>
+<p><span style="font-size:19px"><b><span style="color:#C9AF7A">■</span> <span style="color:#000000">조금만 더 들어가 보면, 같은 매장 매출</span></b></span></p>
+
+<p><span style="color:#000000">마트 회사를 볼 때 제가 먼저 보는 숫자는 같은 매장 매출입니다. 1년 넘게 문을 연 매장끼리만 견준 매출 증가율이에요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">월마트 미국의 같은 매장 매출은 이번 분기 2.9% 늘었습니다. 그런데 그중 온라인이 보탠 몫만 5.3%포인트예요. 늘어난 전체보다 온라인 몫이 더 크니, 온라인을 빼고 계산하면 매장 계산대 매출은 오히려 줄었다는 답이 나옵니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">매장에 오는 고객은 덜 사는데 회사는 커졌다는 뜻이에요. 제가 보기에 이 뺄셈이 이번 실적에서 가장 중요한 숫자입니다. 오늘 문을 닫고도 월마트가 버틸 수 있는 이유가 여기 들어 있으니까요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">이 뺄셈은 다른 유통 회사에도 그대로 써먹을 수 있습니다. 매출이 늘었다는 소식을 들으면 그중 온라인이 보탠 몫이 얼마인지부터 물어보면 돼요. 한 줄로 말하면, 같은 매장 매출은 매장 수가 아니라 원래 있던 매장의 실력을 보여 주는 숫자입니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">앞으로 월마트에서 지켜볼 숫자는 두 개입니다. 먼저 이번 연말 쇼핑이 담길 4분기 실적에서 온라인 성장률이 20% 위를 지키는지예요. 오늘 문을 닫은 선택이 맞았는지는 여기서 드러납니다.</span></p>
+<p><br></p>
+<p><span style="color:#000000">다음은 세 시간 안에 도착하는 배달의 비중입니다. 이 비중이 커질수록 월마트 매장은 물건을 파는 곳이자 동네 창고가 됩니다. 사람들이 매장에 오지 않아도 월마트가 돈을 버는 구조죠.</span></p>
+<p><br></p>
+<p><span style="color:#000000">2008년 밸리스트림의 새벽, 사람들은 문이 열리기를 기다리며 밤을 새웠습니다. 18년 뒤 추수감사절인 오늘, 월마트 문은 닫혀 있어요. 그래도 사람들은 지금 이 순간에도 월마트에서 물건을 사고 있습니다. 경쟁은 문을 여는 시간에서 물건이 도착하는 시간으로 옮겨 갔어요.</span></p>
+<p><br></p>
+<p><span style="color:#000000">월마트를 워렌 버핏 같은 투자 거장들이 기업을 볼 때 쓰는 잣대로 재 보면 어떻게 보이는지 밸류노트에 정리해 두었습니다. 시간 날 때 한번 비교해 보셔도 재미있을 거예요.</span></p>
+<p><br></p>
+<p><a href="https://www.valuenote.co.kr/c/wmt?utm_source=naver&amp;utm_campaign=b261126w">밸류노트에서 월마트 더 보기</a></p>
+<p><br></p>
+<p><span style="color:#000000">#월마트 #블랙프라이데이 #추수감사절 #사이버먼데이 #프랭크스기빙 #루스벨트 #필라델피아 #어도비 #타깃 #같은매장매출</span></p>
+<p><br></p>
+<p><span style="color:#444444;font-size:14px">이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 블랙프라이데이와 프랭크스기빙의 역사는 히스토리(History.com), 2008년 밸리스트림 사고는 CNN, 월마트의 개점 시간은 CNN(2011·2012년), 추수감사절 휴무는 NBC뉴스(2020년)와 AOL(2025년), 2026년 온라인 쇼핑 전망은 어도비(9월 28일), 코리아 블랙프라이데이는 서울신문(2015년 10월), 월마트 실적은 3분기 실적 발표(11월 19일)를 참고했습니다. 이 글은 밸류노트 에디터 Luciano가 작성했습니다.</span></p></div></section>
+<section class="card"><div class="row" style="margin-bottom:10px"><h2 style="margin:0">사진</h2><a class="btn" href="/naver/b261126w/photos.zip" download>사진 모두 받기</a></div>
+<div class="ph"><a href="https://www.valuenote.co.kr/naver/b261126w/01.jpg" download="valuenote-b261126w-1.jpg"><img src="https://www.valuenote.co.kr/naver/b261126w/01.jpg" alt="사진 1" loading="lazy"></a><a href="https://www.valuenote.co.kr/naver/b261126w/02.png" download="valuenote-b261126w-2.png"><img src="https://www.valuenote.co.kr/naver/b261126w/02.png" alt="사진 2" loading="lazy"></a></div>
+<p class="small" style="margin:10px 0 0">휴대폰에서는 사진을 길게 눌러 저장할 수 있습니다.</p></section>
+
+<section class="card"><h2>작성·수정 기록</h2><div class="small" style="margin:4px 0"><b>2026-11-26 11:00</b> · 작성</div><div class="small" style="margin:4px 0"><b>2026-11-26 11:30</b> · 독립 검토 1회차 반영(제목·숫자 덜기·흐름)</div><div class="small" style="margin:4px 0"><b>2026-11-26 11:50</b> · 독립 검토 2회차 반영(설명 반복 정리·계산 대목 단순화)</div><div class="small" style="margin:4px 0"><b>2026-11-26 10:37</b> · 새 글 (v9)</div></section>
+<section class="card fin" id="fin"><h2>마지막 단계</h2><p style="margin:0 0 12px">블로그에 발행했다면 눌러 주세요. 글 목록에서 '올린 글'로 옮겨집니다.</p><button class="btn" id="posted" type="button">올렸어요</button><p class="small" id="pmsg" style="margin:10px 0 0"></p></section>
+</main>
+<script>
+const PLAIN = "[사진: 쇼핑백을 든 사람들이 거리를 걷는 모습]\n\n요약\n· 2008년 블랙프라이데이 새벽, 월마트 매장 앞에서 한 직원이 밟혀 숨졌습니다. 그런데 월마트는 그 뒤 문을 더 일찍 열었고, 몇 해 뒤에는 아예 추수감사절에 문을 닫았어요. 그사이 미국 쇼핑이 어디로 옮겨 갔는지 따라가 봅니다.\n\n2008년 11월 28일 새벽, 미국 뉴욕주 롱아일랜드의 밸리스트림. 월마트 매장 앞에서 밤을 새운 사람들이 문이 열리자 한꺼번에 밀려 들어갔습니다.\n\n문 안쪽에 있던 임시 직원 지디마이타이 다무르가 쓰러졌어요. 서른네 살이었습니다. 경찰은 그가 수백 명에게 밟혔다고 밝혔습니다. 그날은 미국에서 한 해 가장 큰 할인이 시작되는 블랙프라이데이였어요.\n\n이상한 건 그다음입니다. 월마트는 문을 더 늦게 연 게 아니라 더 일찍 열었어요. 2011년에는 추수감사절 밤 10시, 이듬해에는 저녁 8시였습니다. 가족이 칠면조를 자르던 시간에 계산대가 돌아가기 시작한 거죠.\n\n그리고 2020년, 월마트는 30년 만에 추수감사절에 매장 문을 닫았습니다. 오늘은 2026년 추수감사절이에요. 월마트가 왜 문을 당겼다가 다시 닫았는지, 그사이 쇼핑은 어디로 갔는지 따라가 보겠습니다.\n\n■ 블랙프라이데이는 경찰이 붙인 별명이었다\n\n블랙프라이데이라는 말이 처음 기록된 날은 쇼핑과 상관이 없었습니다. 1869년 9월 24일, 금값이 무너져 미국 금융시장이 흔들린 금요일이에요.\n\n지금의 뜻을 붙인 사람들은 필라델피아 경찰이었습니다. 1950년대 추수감사절 다음 날이면 쇼핑객과 토요일 육군·해군 미식축구 경기를 보러 온 사람들이 한꺼번에 시내로 몰렸어요. 쉬지도 못하고 길을 막아야 했던 경찰은 이날을 검은 금요일이라고 불렀습니다.\n\n상인들은 이 이름이 싫었습니다. '빅 프라이데이'로 바꿔 보려 했지만 아무도 따라 부르지 않았어요. 1980년대 들어 상인들은 새 풀이를 내놓았습니다. 장부의 빨간 적자가 이날 검은 흑자로 바뀐다는 이야기였죠.\n\n역사 채널 히스토리는 이 흑자 이야기가 널리 퍼졌지만 사실과는 다르다고 설명합니다. 교통 경찰의 투덜거림이 광고 문구로 바뀐 겁니다.\n\n■ 대통령이 추수감사절을 1주일 앞당긴 해\n\n쇼핑 날짜를 두고 미국이 다툰 건 처음이 아니었습니다. 1939년 8월 프랭클린 루스벨트 대통령은 추수감사절을 1주일 앞당긴다고 발표했어요. 그해 11월은 목요일이 다섯 번이라 마지막 목요일로 하면 크리스마스까지 쇼핑할 날이 짧다는 상인들의 걱정 때문이었습니다.\n\n나라가 둘로 갈렸습니다. 22개 주는 대통령을 따라 11월 23일에, 23개 주는 원래대로 30일에 칠면조를 먹었어요. 텍사스처럼 두 날 다 쉰 주도 있었습니다. 사람들은 대통령 이름을 붙여 이 명절을 프랭크스기빙이라고 불렀죠.\n\n결국 의회가 1941년 법으로 11월 넷째 목요일을 추수감사절로 정했습니다. 올해 넷째 목요일이 바로 오늘이에요. 미국 명절 달력에는 처음부터 매장 계산대가 들어 있었던 겁니다.\n\n■ 문 여는 시간을 당기는 경쟁\n\n2000년대 미국 대형 마트들은 누가 먼저 문을 여느냐로 경쟁했습니다. 새벽 다섯 시가 자정이 됐고, 자정은 추수감사절 밤이 됐어요. 신용평가사 무디스의 한 분석가는 이를 군비 경쟁에 빗댔습니다.\n\n사람이 몰리는 만큼 사고도 났습니다. 히스토리 집계로는 2006년 이후 블랙프라이데이 소동으로 10명이 숨지고 111명이 다쳤어요. 밸리스트림의 새벽은 그중 가장 많이 알려진 장면입니다.\n\n그래도 경쟁은 멈추지 않았습니다. 2011년 월마트가 추수감사절 밤으로 문을 당기자 경쟁사 타깃은 자정에 열었다가 이듬해 밤 9시로 따라왔어요. 월마트는 같은 해 저녁 8시로 다시 앞당겼습니다.\n\n이 줄 서기는 한국으로도 건너왔습니다. 2015년 10월 정부가 '코리아 블랙프라이데이'를 열었고, 첫날 롯데백화점 본점 앞에는 문 열기 전부터 300명쯤이 줄을 섰어요. 미국에서 사고가 난 지 일곱 해 뒤의 일입니다.\n\n이 경쟁을 멈춘 건 뜻밖에도 전염병이었습니다. 2020년 7월 월마트는 추수감사절에 문을 닫겠다고 발표했어요. 월마트 미국 대표 존 퍼너는 힘든 한 해를 보낸 직원들에게 쉬는 날을 주겠다고 했습니다. 그 뒤로 월마트는 지난해까지 여섯 해 연속 추수감사절에 문을 닫았어요.\n\n■ 새벽 줄은 휴대폰 속으로 옮겨 갔다\n\n줄이 사라진 건 사람들이 덜 사서가 아닙니다. 사는 곳이 바뀌었어요. 어도비는 올해 11월과 12월 미국 온라인 쇼핑이 2,751억 달러로 또 한 번 기록을 세울 것으로 내다봤습니다.\n\n날짜별로 보면 더 또렷합니다. 내일 블랙프라이데이의 온라인 매출은 오늘 추수감사절의 두 배 가까이로 예상됐어요. 그런데 가장 큰 날은 따로 있습니다. 다음 주 월요일, 사이버먼데이예요.\n\n[사진: 2026년 미국 온라인 쇼핑 하루 매출 예상]\n\n사는 손도 바뀌었습니다. 오늘 미국 온라인 쇼핑 열 건 중 여섯 건 넘게가 휴대폰에서 나올 것으로 예상돼요. 어도비는 AI 챗봇에게 물어보고 쇼핑몰에 들어오는 방문이 지난해보다 두 배 넘게 늘 거라고 봤습니다. 2008년에는 사람이 밤새 줄을 섰는데 올해는 AI가 대신 가격을 비교해 주는 거죠.\n\n■ 문 닫은 월마트는 매장을 창고로 쓴다\n\n그렇다면 문을 닫은 월마트는 손해를 봤을까요. 11월 19일 나온 3분기 실적을 보면 반대입니다. 월마트 미국의 온라인 매출은 23% 늘었어요. 이렇게 빠른 성장이 세 해 가까이 이어지고 있습니다.\n\n비결은 매장 그 자체입니다. 월마트는 미국 곳곳의 매장 선반에서 물건을 꺼내 곧장 집으로 보내요. 매장에서 출발한 배달은 40% 넘게 늘었습니다.\n\n그중 상당수는 주문하고 세 시간도 안 돼 도착합니다. 2008년에는 사람이 매장으로 달려왔다면 지금은 월마트가 매장에서 사람들 집으로 물건을 보내는 거예요. 매장 문은 닫아도 창고 일은 쉬지 않습니다.\n\n덤으로 생긴 돈줄도 있습니다. 월마트 앱과 사이트에 붙는 광고예요. 사람이 많이 드나드는 곳에 광고가 붙는 건 길가 간판이나 쇼핑 앱이나 다르지 않습니다. 이 광고 매출이 미국에서 37% 늘었어요.\n\n물론 반대로 볼 대목도 있습니다. 매장에서 바로 배달하려면 직원이 선반 사이를 돌며 물건을 하나하나 골라 담아야 해요. 배달이 늘수록 한 건에 남는 돈은 얇아질 수 있습니다. 온라인에는 아마존이라는 만만치 않은 상대도 있고요.\n\n■ 조금만 더 들어가 보면, 같은 매장 매출\n\n마트 회사를 볼 때 제가 먼저 보는 숫자는 같은 매장 매출입니다. 1년 넘게 문을 연 매장끼리만 견준 매출 증가율이에요.\n\n월마트 미국의 같은 매장 매출은 이번 분기 2.9% 늘었습니다. 그런데 그중 온라인이 보탠 몫만 5.3%포인트예요. 늘어난 전체보다 온라인 몫이 더 크니, 온라인을 빼고 계산하면 매장 계산대 매출은 오히려 줄었다는 답이 나옵니다.\n\n매장에 오는 고객은 덜 사는데 회사는 커졌다는 뜻이에요. 제가 보기에 이 뺄셈이 이번 실적에서 가장 중요한 숫자입니다. 오늘 문을 닫고도 월마트가 버틸 수 있는 이유가 여기 들어 있으니까요.\n\n이 뺄셈은 다른 유통 회사에도 그대로 써먹을 수 있습니다. 매출이 늘었다는 소식을 들으면 그중 온라인이 보탠 몫이 얼마인지부터 물어보면 돼요. 한 줄로 말하면, 같은 매장 매출은 매장 수가 아니라 원래 있던 매장의 실력을 보여 주는 숫자입니다.\n\n앞으로 월마트에서 지켜볼 숫자는 두 개입니다. 먼저 이번 연말 쇼핑이 담길 4분기 실적에서 온라인 성장률이 20% 위를 지키는지예요. 오늘 문을 닫은 선택이 맞았는지는 여기서 드러납니다.\n\n다음은 세 시간 안에 도착하는 배달의 비중입니다. 이 비중이 커질수록 월마트 매장은 물건을 파는 곳이자 동네 창고가 됩니다. 사람들이 매장에 오지 않아도 월마트가 돈을 버는 구조죠.\n\n2008년 밸리스트림의 새벽, 사람들은 문이 열리기를 기다리며 밤을 새웠습니다. 18년 뒤 추수감사절인 오늘, 월마트 문은 닫혀 있어요. 그래도 사람들은 지금 이 순간에도 월마트에서 물건을 사고 있습니다. 경쟁은 문을 여는 시간에서 물건이 도착하는 시간으로 옮겨 갔어요.\n\n월마트를 워렌 버핏 같은 투자 거장들이 기업을 볼 때 쓰는 잣대로 재 보면 어떻게 보이는지 밸류노트에 정리해 두었습니다. 시간 날 때 한번 비교해 보셔도 재미있을 거예요.\n\n밸류노트에서 월마트 더 보기 https://www.valuenote.co.kr/c/wmt?utm_source=naver&utm_campaign=b261126w\n\n이 글은 투자 교육용 정보이며 특정 종목의 매수·매도 권유가 아닙니다. 블랙프라이데이와 프랭크스기빙의 역사는 히스토리(History.com), 2008년 밸리스트림 사고는 CNN, 월마트의 개점 시간은 CNN(2011·2012년), 추수감사절 휴무는 NBC뉴스(2020년)와 AOL(2025년), 2026년 온라인 쇼핑 전망은 어도비(9월 28일), 코리아 블랙프라이데이는 서울신문(2015년 10월), 월마트 실적은 3분기 실적 발표(11월 19일)를 참고했습니다. 이 글은 밸류노트 에디터 Luciano가 작성했습니다.\n\n#월마트 #블랙프라이데이 #추수감사절 #사이버먼데이 #프랭크스기빙 #루스벨트 #필라델피아 #어도비 #타깃 #같은매장매출";
+function done(b, t){ const o = b.textContent; b.textContent = t; b.classList.add('ok'); setTimeout(() => { b.textContent = o; b.classList.remove('ok'); }, 1800); }
+function selectCopy(el){ const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); const ok = document.execCommand('copy'); s.removeAllRanges(); return ok; }
+document.querySelectorAll('[data-copy]').forEach(b => b.onclick = async () => { const t = document.getElementById(b.dataset.copy).textContent; try { await navigator.clipboard.writeText(t); } catch(e) { selectCopy(document.getElementById(b.dataset.copy)); } done(b, '복사했어요'); });
+document.getElementById('cpBody').onclick = async (ev) => { const b = ev.currentTarget, art = document.getElementById('art');
+  const cl = art.cloneNode(true); cl.querySelectorAll('[data-skip]').forEach((x) => x.remove());
+  // 2026-11-01: 관리자 화면(iframe)에서는 clipboard.write 가 막혀, 화면 글꼴(SUIT)·글자색(#1B2433)이 묻은 채 복사돼 네이버에서 회색·다른 글꼴로 들어갔다.
+  // 그래서 copy 이벤트로 깨끗한 HTML(인라인 스타일만)을 직접 넣는 방식을 먼저 쓰고, 안 되면 clipboard.write 를 쓴다.
+  const html = cl.innerHTML;
+  const viaEvent = () => { let ok = false; const h = (e) => { e.preventDefault(); e.clipboardData.setData('text/html', html); e.clipboardData.setData('text/plain', PLAIN); ok = true; };
+    document.addEventListener('copy', h, true); try { document.execCommand('copy'); } finally { document.removeEventListener('copy', h, true); } return ok; };
+  let ok = false; try { ok = viaEvent(); } catch(e) {}
+  if (!ok) { try { await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([html], { type: 'text/html' }), 'text/plain': new Blob([PLAIN], { type: 'text/plain' }) })]); ok = true; } catch(e) {} }
+  if (!ok) { const box = document.createElement('div'); box.style.cssText = 'position:fixed;left:-9999px;top:0;color:#000;font:initial;background:#fff'; box.innerHTML = html; document.body.appendChild(box); selectCopy(box); box.remove(); }
+  done(b, '복사했어요 · 붙여넣기 하세요'); };
+// 올렸어요: 글 목록과 같은 표시(docs collection=naver id=posted)를 이 페이지 맨 아래에서 바로 저장한다 (2026-10-27)
+(() => {
+  const ID = "b261126w", BAKED = "";
+  const btn = document.getElementById('posted'), msg = document.getElementById('pmsg'), box = document.getElementById('fin');
+  const kst = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+  let sb = null, uid = null;
+  const show = (at) => { box.classList.toggle('posted', !!at); btn.textContent = at ? '✓ 올림 · ' + at.slice(5).replace('-', '.') + ' (다시 누르면 취소)' : '올렸어요'; };
+  const load = async () => { const { data } = await sb.from('docs').select('data').eq('collection', 'naver').eq('id', 'posted').maybeSingle(); return data?.data || {}; };
+  const stateOf = (doc) => (doc.cleared || []).includes(ID) ? '' : ((doc.posted || {})[ID] || BAKED);
+  show(BAKED);
+  (async () => {
+    try {
+      const C = window.HAEJA_CONFIG || {}; sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+      const { data: { session } } = await sb.auth.getSession(); uid = session?.user?.id || null;
+      if (!uid) { msg.textContent = '로그인하지 않은 상태입니다. 밸류노트 앱에서 관리자 계정으로 로그인한 뒤 눌러 주세요.'; return; }
+      show(stateOf(await load()));
+    } catch (e) { console.warn(e); }
+  })();
+  btn.onclick = async () => {
+    if (!uid) { alert('관리자 계정으로 로그인한 뒤 눌러 주세요. (밸류노트 앱에서 로그인 → 관리자 → 블로그 글)'); return; }
+    btn.disabled = true;
+    try {
+      const doc = await load(), P = { ...(doc.posted || {}) }; const cleared = (doc.cleared || []).filter((k) => k !== ID);
+      if (stateOf(doc)) { if (!confirm('올림 표시를 지울까요?')) return; delete P[ID]; if (BAKED) cleared.push(ID); } else P[ID] = kst();
+      const { error } = await sb.from('docs').upsert({ owner: uid, collection: 'naver', id: 'posted', data: { ...doc, posted: P, cleared, at: new Date().toISOString() }, updated_at: new Date().toISOString() }, { onConflict: 'owner,collection,id' });
+      if (error) { msg.textContent = '저장하지 못했습니다: ' + error.message; return; }
+      show(P[ID] || ''); msg.textContent = P[ID] ? '저장했습니다. 글 목록으로 돌아가도 됩니다.' : '올림 표시를 지웠습니다.';
+    } finally { btn.disabled = false; }
+  };
+})();
+</script></body></html>
