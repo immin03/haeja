@@ -330,6 +330,8 @@ for _m in sorted(set(_re.findall(r'"([^"/]+\.mp4)"', json.dumps(sc, ensure_ascii
     try: _ok = float(_d) > 0.5
     except ValueError: _ok = False
     if not _ok: raise SystemExit(f"영상 파일이 없거나 깨짐: {_m}")
+    if _sp.run(['git', '-C', HJ, 'ls-files', '--error-unmatch', _p], capture_output=True).returncode != 0:   # 2026-11-26: 만든 잘라 쓴 영상을 커밋 안 해 렌더 관문에서 막힘 → 커밋할 목록을 알려 준다
+        print(f"⚠ 커밋 안 된 화면 파일(같이 커밋할 것): {_m}")
 spec = {k: base[k] for k in ['format', 'world', 'notebook', 'overlay', 'look', 'roadmap', 'hook', 'music', 'design', 'synthetic_media'] if k in base}
 TITLE = "AI 버블의 모든 것, 그 뒤엔 손정의가 있다 | 99%를 잃고도 또 전부를 건 남자"
 spec.update({
