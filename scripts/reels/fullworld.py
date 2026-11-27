@@ -109,6 +109,9 @@ def picture(E, s, u):
         n = len(fr); i = int(u * 30); i = i % (2 * n - 2) if n > 1 else 0
         if i >= n: i = 2 * n - 2 - i
         im = Image.fromarray(fr[i]).resize((W, H), Image.BICUBIC)
+        if f.get("video_shift"):   # 2026-11-27 대표 "인물을 잘 보여줘야": 얼굴이 위 제목·숫자에 가리지 않게 영상을 아래로 내리고, 빈 위쪽은 같은 화면을 흐리게 깐다
+            sy = int(f["video_shift"]); bgi = im.resize((W // 12, H // 12), Image.BILINEAR).resize((W, H), Image.BILINEAR)
+            bgi = Image.blend(bgi, Image.new("RGB", (W, H), (8, 8, 10)), .55); bgi.paste(im.crop((0, 0, W, H - sy)), (0, sy)); im = bgi
         z = 1.0 + .025 * p   # 영상은 이미 움직이므로 아주 느린 확대만
         if z > 1.001:
             big = im.resize((int(W * z), int(H * z)), Image.BILINEAR); x0 = (big.width - W) // 2; y0 = (big.height - H) // 2
