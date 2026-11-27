@@ -122,7 +122,6 @@
    "photo": "son_altman_v.png",
    "full": {
     "img": "son_altman_v.png",
-    "video": "son2_nvda_sale_reuters.mp4",
     "label": "손정의가 쥔 AI의 핵심 자리",
     "num": "오픈AI 646억 달러",
     "tone": "gold",
@@ -134,8 +133,7 @@
       "color": "gold"
      }
     ],
-    "video_start": 35.5,
-    "video_x": 0.42
+    "motion": "in"
    },
    "lines": [
     {
@@ -163,7 +161,8 @@
     "label": "그 돈은 어디서 났을까",
     "num": "빌린 돈",
     "tone": "loss",
-    "motion": "in"
+    "motion": "in",
+    "focus_y": 0.0
    },
    "lines": [
     {
@@ -219,7 +218,7 @@
    "photo": "son_ohio_v.png",
    "full": {
     "img": "son_ohio_v.png",
-    "video": "son_fii2025_v_end.mp4",
+    "video": "son2_abilene_drone.mp4",
     "label": "1년 이자 약 16조 원",
     "num": "1년 16조 원",
     "tone": "loss",
@@ -237,8 +236,8 @@
       "color": "loss"
      }
     ],
-    "video_start": 9.0,
-    "video_x": 0.45
+    "video_start": 8.0,
+    "video_x": 0.5
    },
    "lines": [
     {
@@ -313,5 +312,6 @@
     }
    ]
   }
- ]
+ ],
+ "thumb_file": "scripts/reels/thumbs/Y261126s_cover.jpg"
 }
