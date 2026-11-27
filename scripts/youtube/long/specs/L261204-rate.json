@@ -114,7 +114,7 @@
  "format_note": "2026-11-26 대표 — 청소년도 재밌고 쉽게, 시의성 없이 오래 볼 금리 입문, 썰 중심·숫자는 파동 장에서만, 열린 결말, 국내 방송사·영화 장면 금지",
  "orig_mode": "sot_test",
  "orig_mode_note": "원음+한국어 자막(더빙 없음).",
- "voice_speed": 1.03,
+ "voice_speed": 1.0,
  "photo_lift": 1.25,
  "thumb_fixed": "2026-11-26 — 썸네일은 따로 만든다",
  "thumb": {
@@ -848,7 +848,7 @@
       "d": 4.48
      },
      {
-      "lib": "commons_volcker_1_wide.jpg",
+      "lib": "commons_volcker_1.jpg",
       "word": "이때 키가 2미터",
       "d": 4.48
      },
@@ -1211,17 +1211,12 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_R1204d_lake_ripple.png",
+      "lib": "il_R1204d_lake_wide.png",
       "d": 3.01
      },
      {
       "lib": "il_R1204d_lake_ripple.png",
       "word": "작은 호수에선",
-      "crop": [
-       0.5,
-       0.6,
-       1.35
-      ],
       "d": 3.01
      },
      {
@@ -1230,32 +1225,27 @@
       "d": 3.01
      },
      {
-      "lib": "il_R1204d_sea_wind.png",
+      "lib": "il_R1204d_big_wave.png",
       "word": "집채만 한",
-      "crop": [
-       0.55,
-       0.5,
-       1.4
-      ],
       "d": 3.01
      },
      {
-      "lib": "il_R1204d_lake_ripple.png",
+      "lib": "il_R1204d_lake_wide.png",
       "word": "1980년 미국의",
       "crop": [
-       0.35,
        0.5,
-       1.2
+       0.55,
+       1.3
       ],
       "d": 3.01
      },
      {
-      "lib": "il_R1204d_sea_wind.png",
+      "lib": "il_R1204d_big_wave.png",
       "word": "지금은 바다",
       "crop": [
-       0.4,
+       0.5,
        0.45,
-       1.2
+       1.25
       ]
      }
     ],
@@ -1276,7 +1266,7 @@
      "color": "red",
      "hold": 2.6,
      "t0": 0.25,
-     "until": 4.84,
+     "until": 4.59,
      "sync": false
     }
    ],
@@ -1994,12 +1984,11 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_L261123s_fed_dawn.png",
-      "d": 5.22
+      "lib": "app_rates_L261204_a.mp4"
      },
      {
-      "lib": "il_R1204c_s50_1.png",
-      "word": "다음 결"
+      "lib": "app_rates_L261204_b.mp4",
+      "word": "금리가 바뀌면 내"
      }
     ],
     "wash_amt": 0.85,
@@ -2008,12 +1997,13 @@
    },
    "sketch_add": [],
    "asof": false,
-   "src": "",
+   "src": "밸류노트 금리 페이지(valuenote.co.kr/rate, 2026-11-28 화면)",
    "sketch": [],
    "lines": [
-    "12월 9일 결정이 어떻게 나왔는지, 지금 금리가 어디 있는지, 다음 결정은 언제인지는 밸류노트 금리 페이지에서 매일 확인하실 수 있습니다."
+    "지금 금리가 어디 있는지는 밸류노트 금리 페이지에 정리해 두었습니다. 나라별 국채 금리와 기준금리, 다음 결정일까지 매일 갱신됩니다.",
+    "금리가 바뀌면 내 종목의 적정 주가가 어떻게 달라지는지도 직접 움직여 볼 수 있습니다. 주소는 설명란에 있습니다."
    ],
-   "note": "[마무리] 금리 페이지 안내"
+   "note": "[마무리] 금리 페이지 소개(앱 화면)"
   },
   {
    "v": {
