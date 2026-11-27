@@ -152,12 +152,12 @@ function race(C,t){
   bg(); kicker(C,t);
   const F=C.frames||[], dur=C.step||2.2, k=cl((t-0.6)/dur,0,F.length-1), i=Math.floor(k), f=k-i, j=Math.min(i+1,F.length-1), e=ease(f);
   const names=Object.keys(F[0].vals), val=n=>F[i].vals[n]+(F[j].vals[n]-F[i].vals[n])*e;
-  const rank=fr=>[...names].sort((a,b)=>F[fr].vals[b]-F[fr].vals[a]); const ri=rank(i), rj=rank(j), mx=Math.max(...names.map(val))*(C.room||1.08);
+  const rank=fr=>[...names].sort((a,b)=>F[fr].vals[b]-F[fr].vals[a]); const ri=rank(i), rj=rank(j), mx=(C.fixmax?Math.max(...F.flatMap(fr=>names.map(n=>fr.vals[n]))):Math.max(...names.map(val)))*(C.room||1.08);   /* 2026-11-27 대표 '꽉 채운 그래프로 시작하지 말고 0에서' → fixmax */
   const X0=C.x0||360, X1=1640, Y0=C.y0||280, BH=C.bh||110, GAP=40;
   txt(F[f<0.5?i:j].label,1780,1000,64,'rgba(225,225,228,0.55)',800,'right',1);
   names.forEach(n=>{ const y=Y0+(ri.indexOf(n)+(rj.indexOf(n)-ri.indexOf(n))*e)*(BH+GAP), v=val(n), w=(X1-X0)*v/mx, col=(C.colors||{})[n]||GOLD;
     g.save(); const gr=g.createLinearGradient(X0,0,X0+w,0); gr.addColorStop(0,col.replace(')',',0.35)').replace('rgb','rgba')); gr.addColorStop(1,col); g.fillStyle=gr; g.shadowColor=col; g.shadowBlur=18; g.beginPath(); g.roundRect(X0,y,w,BH,14); g.fill(); g.restore();
-    txt(n,X0-24,y+BH/2,40,IVORY,800,'right',1); txt((C.fmt||'{v}').replace('{v}',v.toFixed(C.dec||1)).replace('{k}',Math.round(v*(C.fx||0)).toLocaleString()),X0+w+20,y+BH/2,40,IVORY,800,'left',1); });
+    txt(n,X0-24,y+BH/2,40,IVORY,800,'right',1); if(C.fixmax&&v<mx*0.004) return; txt((C.fmt||'{v}').replace('{v}',v.toFixed(C.dec||1)).replace('{k}',Math.round(v*(C.fx||0)).toLocaleString()),X0+w+20,y+BH/2,40,IVORY,800,'left',1); });
   if(C.note) txt(C.note,120,1046,22,GRAY,600,'left',1);
 }
 
@@ -335,14 +335,25 @@ function lchart(C,t){
   const X0=150, X1=W-150, Y0=C.y0||300, ch=C.ch||520, S=C.ser||[]; if(!S.length) return;
   const a=ease(cl((t-0.3)/0.5)); g.save(); g.globalAlpha=a; const gr=g.createLinearGradient(0,Y0,0,Y0+ch); gr.addColorStop(0,'rgba(255,255,255,0.06)'); gr.addColorStop(1,'rgba(255,255,255,0.015)'); g.fillStyle=gr; g.beginPath(); g.roundRect(X0,Y0,X1-X0,ch,28); g.fill(); g.lineWidth=1.5; g.strokeStyle='rgba(225,225,228,0.16)'; g.stroke(); g.restore();
   const gx0=X0+70, gx1=X1-70, gy0=Y0+110, gy1=Y0+ch-80, d0=Date.parse(S[0][0]), d1=Date.parse(S[S.length-1][0]);
+  const S2=C.ser2||null; const gyT=S2?gy0+40:gy0;
   const vs=S.map(q=>q[1]).concat((C.hl||[]).map(h=>h.v)), lo=Math.min(...vs)*0.97, hi=Math.max(...vs)*1.02;
-  const px=d=>gx0+(Date.parse(d)-d0)/(d1-d0)*(gx1-gx0), py=v=>gy1-(v-lo)/(hi-lo)*(gy1-gy0);
+  const px=d=>gx0+(Date.parse(d)-d0)/(d1-d0)*(gx1-gx0), py=v=>gy1-(v-lo)/(hi-lo)*(gy1-gyT);
   g.save(); g.globalAlpha=a; g.strokeStyle='rgba(225,225,228,0.10)'; g.lineWidth=1; for(let k=0;k<=3;k++){ const yy=gy0+(gy1-gy0)*k/3; g.beginPath(); g.moveTo(gx0,yy); g.lineTo(gx1,yy); g.stroke(); } g.restore();
   (C.xl||[]).forEach(x=>txtS(x[1],px(x[0]),gy1+44,28,GRAY,700,'center',a));
   const pr=ease(cl((t-(C.t0||0.9))/(C.dur||2.4))), m=Math.max(2,Math.round(S.length*pr));
   g.save(); g.globalAlpha=a; const ar=g.createLinearGradient(0,gy0,0,gy1); ar.addColorStop(0,'rgba(242,242,242,0.20)'); ar.addColorStop(1,'rgba(242,242,242,0)');
   g.beginPath(); S.slice(0,m).forEach((q,k)=>{ const X=px(q[0]),Y=py(q[1]); k?g.lineTo(X,Y):g.moveTo(X,Y); }); g.lineTo(px(S[m-1][0]),gy1); g.lineTo(px(S[0][0]),gy1); g.closePath(); g.fillStyle=ar; g.fill();
-  g.beginPath(); S.slice(0,m).forEach((q,k)=>{ const X=px(q[0]),Y=py(q[1]); k?g.lineTo(X,Y):g.moveTo(X,Y); }); g.strokeStyle=IVORY; g.lineWidth=4.5; g.lineJoin='round'; g.stroke(); g.restore();
+  g.beginPath(); S.slice(0,m).forEach((q,k)=>{ const X=px(q[0]),Y=py(q[1]); k?g.lineTo(X,Y):g.moveTo(X,Y); }); g.strokeStyle=S2?PINK:IVORY; g.lineWidth=S2?6:4.5; g.lineJoin='round'; if(S2){ g.shadowColor=PINK; g.shadowBlur=16; } g.stroke(); g.restore();
+  if(S2){ // 둘째 선: 자기 눈금(위 = 처음 값)으로 같은 칸에 그린다
+    const v2=S2.map(q=>q[1]), lo2=Math.min(...v2), hi2=Math.max(...v2), py2=v=>gyT+(hi2-v)/(hi2-lo2)*(gy1-gyT)*0.86;
+    const p2=ease(cl((t-(C.t02||6))/(C.dur2||2.4))), m2=Math.max(1,Math.round(S2.length*p2)), a2=ease(cl((t-(C.t02||6)+0.2)/0.4));
+    if(a2>0){ g.save(); g.globalAlpha=a2; g.beginPath(); S2.slice(0,m2).forEach((q,k)=>{ const X=px(q[0]),Y=py2(q[1]); k?g.lineTo(X,Y):g.moveTo(X,Y); }); g.strokeStyle=IVORY; g.lineWidth=5; g.lineJoin='round'; g.setLineDash([]); g.stroke();
+      const q=S2[m2-1]; g.fillStyle=IVORY; g.beginPath(); g.arc(px(q[0]),py2(q[1]),10,0,7); g.fill(); g.restore();
+      txtS(C.name2||'',px(S2[0][0])+18,py2(S2[0][1])-34,40,IVORY,800,'left',a2);
+      if(C.end2){ const ae=ease(cl((t-(C.t02||6)-(C.dur2||2.4))/0.5)); if(ae>0){ const q=S2[S2.length-1], X=px(q[0]), Y=py2(q[1]); g.save(); g.font='800 44px SUIT'; const lw=g.measureText(C.end2).width+44; g.restore();
+        g.save(); g.globalAlpha=ae; g.fillStyle='rgba(18,18,20,0.94)'; g.strokeStyle=IVORY; g.lineWidth=2; g.beginPath(); g.roundRect(X-lw+20,Y+28,lw,66,18); g.fill(); g.stroke(); g.restore(); txt(C.end2,X-lw/2+20,Y+61,44,IVORY,800,'center',ae); } } }
+    const ap=ease(cl((t-(C.t0||0.9)+0.3)/0.4)); if(C.name) txtS(C.name,px(S[0][0])+18,py(S[0][1])-40,40,PINK,800,'left',ap);
+  }
   (C.hl||[]).forEach((h,k)=>{ const ah=ease(cl((t-(h.at||3.4))/0.5)); if(ah<=0) return; const yy=py(h.v); g.save(); g.globalAlpha=ah; g.setLineDash([10,8]); g.strokeStyle=PINK; g.lineWidth=3; g.beginPath(); g.moveTo(gx0,yy); g.lineTo(gx1,yy); g.stroke(); g.restore();
     const lb=h.label; g.save(); g.font='800 34px SUIT'; const lw=g.measureText(lb).width+36; g.restore(); g.save(); g.globalAlpha=ah; g.fillStyle=PINK; g.beginPath(); g.roundRect(gx1-lw,yy-60,lw,48,24); g.fill(); g.restore(); txt(lb,gx1-lw/2,yy-36,34,'#fff',800,'center',ah); });
   (C.marks||[]).forEach((mk,k)=>{ const am=ease(cl((t-(mk.at||(1.6+k*0.7)))/0.45)); if(am<=0) return;
@@ -366,7 +377,7 @@ function vs2(C,t){
   // 칸이 바뀌는 순간(0.35초) 살짝 번쩍이며 옮겨 간다
   const HS=C.hl_style||'border'; let tsw=-9; if(C.hl){ C.hl.forEach(h=>{ if(t>=h[0]) tsw=h[0]; }); } const sw=cur!==null&&cur>=0?ease(cl((t-tsw)/0.35)):1;
   if(HS==='spot'&&cur!==null&&cur>=0){ const cx0=X0+cur*(cw+gap)+cw/2; g.save(); g.globalAlpha=0.55*sw; const rg=g.createRadialGradient(cx0,Y0+ch/2,40,cx0,Y0+ch/2,cw*0.95); rg.addColorStop(0,'rgba(255,77,109,0.35)'); rg.addColorStop(1,'rgba(255,77,109,0)'); g.fillStyle=rg; g.fillRect(0,0,W,H); g.restore(); }
-  I.forEach((it0,i)=>{ const it=cur===null?it0:Object.assign({},it0,{hi:i===cur}); const on=cur!==null&&cur>=0, act=on&&it.hi; let x=X0+i*(cw+gap), cx=x+cw/2; const a0=ease(cl((t-0.4-i*0.9)/0.5)); if(a0<=0) return;
+  I.forEach((it0,i)=>{ const it=cur===null?it0:Object.assign({},it0,{hi:i===cur}); const on=cur!==null&&cur>=0, act=on&&it.hi; let x=X0+i*(cw+gap), cx=x+cw/2; const TI=(C.at&&C.at[i]!=null)?C.at[i]:(C.hl&&C.hl.find(h=>h[1]===i)?C.hl.find(h=>h[1]===i)[0]-0.15:0.4+i*0.9); const a0=ease(cl((t-TI)/0.5)); if(a0<=0) return;
     const dim=(on&&!act&&(HS==='pop'||HS==='spot'))?(HS==='spot'?0.32:0.5):1, a=a0*dim; const sc=(act&&HS==='pop')?1+0.06*sw:1;
     const y=Y0+(1-a0)*28-((act&&HS==='pop')?18*sw:0), col=act&&HS==='fill'?'#15151a':((cur!==null&&!it.hi)?IVORY:(it.color==='red'?'#ff5a6e':PINK));
     g.save(); g.translate(cx,y+ch/2); g.scale(sc,sc); g.translate(-cx,-(y+ch/2));
@@ -374,7 +385,7 @@ function vs2(C,t){
     if(act&&HS==='fill'){ gr.addColorStop(0,'rgba(255,92,124,'+(0.95*sw)+')'); gr.addColorStop(1,'rgba(230,60,95,'+(0.95*sw)+')'); } else { gr.addColorStop(0,'rgba(255,255,255,0.07)'); gr.addColorStop(1,'rgba(255,255,255,0.015)'); }
     g.fillStyle=gr; g.beginPath(); g.roundRect(x,y,cw,ch,28); g.fill(); g.lineWidth=it.hi?3+2*(1-sw):1.5; g.strokeStyle=it.hi?PINK:'rgba(225,225,228,0.16)'; if(it.hi){ g.shadowColor='rgba(255,77,109,0.55)'; g.shadowBlur=36+40*(1-sw)+(HS==='pop'?20:0); } g.stroke(); g.restore();
     txt(it.k,cx,y+90,52,act&&HS==='fill'?'#15151a':IVORY,800,'center',a);
-    const an=ease(cl((t-1.0-i*0.9)/0.6))*dim; txt(it.big,cx,y+(it.unit?250:280),Math.max(TYPE.big,it.bs||130),col,800,'center',an); if(it.unit) txt(it.unit,cx,y+345,52,col,800,'center',an);
+    const an=ease(cl((t-TI-0.45)/0.6))*dim; txt(it.big,cx,y+(it.unit?250:280),Math.max(TYPE.big,it.bs||130),col,800,'center',an); if(it.unit) txt(it.unit,cx,y+345,52,col,800,'center',an);
     (it.sub?String(it.sub).split('\n'):[]).forEach((l,k)=>txtS(l,cx,y+420+k*44,40,act&&HS==='fill'?'#15151a':'#e8e8ea',700,'center',an));
     g.restore();
   });
@@ -423,16 +434,17 @@ function chain(C,t){
   if(C.wave){ const aw=ease(cl((t-0.6)/0.6)); const head=X0-cw/2+(cl((t-0.6)/(st*(n-1)+0.6)))*((n-1)*dx+cw);
     g.save(); g.globalAlpha=aw; for(let L=0;L<3;L++){ g.beginPath(); for(let x=X0-cw/2;x<=head;x+=6){ const k=(head-x)/220, amp=(18+L*10)*Math.exp(-k*0.35); const y=cy+150+L*34+Math.sin(x/38-t*5+L)*amp; x===X0-cw/2?g.moveTo(x,y):g.lineTo(x,y); }
       g.strokeStyle=L?'rgba(225,225,228,'+(0.22-L*0.06)+')':PINK; g.lineWidth=L?2:3.5; g.stroke(); } g.restore(); }
-  for(let i=0;i<n-1;i++){ const x1=X0+i*dx+cw/2+14, x2=X0+(i+1)*dx-cw/2-14, a=C.at?ease(cl((t-(C.at[i+1]-0.7))/0.6)):ease(cl((t-0.8-i*st-0.3)/0.6));
+  const TA=i=>C.at?C.at[i]:0.6+i*st;
+  for(let i=0;i<n-1;i++){ if(!C.preview&&t<TA(i)+0.3) continue; const x1=X0+i*dx+cw/2+14, x2=X0+(i+1)*dx-cw/2-14, a=C.at?ease(cl((t-(C.at[i+1]-0.7))/0.6)):ease(cl((t-0.8-i*st-0.3)/0.6));
     g.save(); g.strokeStyle='rgba(225,225,228,0.18)'; g.lineWidth=3; g.beginPath(); g.moveTo(x1,cy); g.lineTo(x2,cy); g.stroke();
     if(a>0){ const xe=x1+(x2-x1)*a; g.strokeStyle=PINK; g.lineWidth=4; g.beginPath(); g.moveTo(x1,cy); g.lineTo(xe,cy); g.stroke();
       g.fillStyle=PINK; g.beginPath(); g.moveTo(xe+4,cy); g.lineTo(xe-14,cy-11); g.lineTo(xe-14,cy+11); g.closePath(); g.fill();
       if(a<1){ g.shadowColor=PINK; g.shadowBlur=26; g.beginPath(); g.arc(xe,cy,9,0,7); g.fill(); } }
     g.restore(); }
-  const TA=i=>C.at?C.at[i]:0.6+i*st; let curN=-1; N.forEach((q,i)=>{ if(t>=TA(i)) curN=i; });
-  N.forEach((q,i)=>{ const a=ease(cl((t-TA(i))/0.45)), x=X0+i*dx, pul=(Math.sin((t-TA(i))*4)+1)/2, hi=C.at?(i===curN):(q.hi||i===n-1);
-    g.save(); g.globalAlpha=0.35+0.65*a; g.fillStyle='rgba(20,20,24,0.92)'; g.strokeStyle=a>0?(hi?PINK:'rgba(235,235,238,0.7)'):'rgba(225,225,228,0.25)'; g.lineWidth=hi&&a>0?4:2.5; if(a>0&&hi){ g.shadowColor=PINK; g.shadowBlur=14+12*pul*a; } g.beginPath(); g.roundRect(x-cw/2,cy-chh/2,cw,chh,22); g.fill(); g.stroke(); g.restore();
-    txt(q.k,x,cy-(q.sub?18:0),q.k.length>6?40:48,a>0&&hi?PINK:IVORY,800,'center',0.3+0.7*a); if(q.sub) txtS(q.sub,x,cy+36,26,GRAY,600,'center',0.3+0.7*a); });
+  let curN=-1; N.forEach((q,i)=>{ if(t>=TA(i)) curN=i; });
+  N.forEach((q,i)=>{ const a=ease(cl((t-TA(i))/0.45)), x=X0+i*dx; if(!C.preview&&a<=0) return; const pv=C.preview?0.35:0, pt=C.preview?0.3:0; const _x=x, pul=(Math.sin((t-TA(i))*4)+1)/2, hi=C.at?(i===curN):(q.hi||i===n-1);
+    g.save(); g.globalAlpha=pv+(1-pv)*a; g.fillStyle='rgba(20,20,24,0.92)'; g.strokeStyle=a>0?(hi?PINK:'rgba(235,235,238,0.7)'):'rgba(225,225,228,0.25)'; g.lineWidth=hi&&a>0?4:2.5; if(a>0&&hi){ g.shadowColor=PINK; g.shadowBlur=14+12*pul*a; } g.beginPath(); g.roundRect(x-cw/2,cy-chh/2,cw,chh,22); g.fill(); g.stroke(); g.restore();
+    txt(q.k,x,cy-(q.sub?18:0),q.k.length>6?40:48,a>0&&hi?PINK:IVORY,800,'center',pt+(1-pt)*a); if(q.sub) txtS(q.sub,x,cy+36,26,GRAY,600,'center',pt+(1-pt)*a); });
   if(C.foot) txtS(C.foot,W/2,1040,22,GRAY,600,'center',1);
 }
 // ⑯ 금리의 바닥(floor) — 2026-11-26 대표 "왜 국채에서부터 파동이 시작되는지 코드로": 모든 금리는 국채 금리(바닥) 위에 위험 값을 얹은 것 → 바닥이 오르면 전부 같이 오른다
