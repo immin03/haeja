@@ -43,8 +43,8 @@ def grade(t):
     for r in range(620, 0, -6):
         d.ellipse([fx - r, fy - int(r * 1.05), fx + r, fy + int(r * 1.05)], fill=int(255 * (1 - r / 620) ** .55))
     m = m.filter(ImageFilter.GaussianBlur(40))
-    dark = ImageEnhance.Brightness(g).enhance(.22)
-    lit = ImageEnhance.Brightness(g).enhance(1.12)
+    dark = ImageEnhance.Brightness(g).enhance(t.get("dark", .22))
+    lit = ImageEnhance.Brightness(g).enhance(t.get("lit", 1.12))
     out = Image.composite(lit, dark, m).convert("RGBA")
     # 핑크 림라이트(얼굴 오른쪽 가장자리)
     glow = Image.new("RGBA", (TW, TH), (0, 0, 0, 0)); gd = ImageDraw.Draw(glow)
@@ -113,6 +113,44 @@ def render(t, out):
     th.convert("RGB").save(out, quality=93); print(t["file"], "글씨", z)
 
 
+# 2026-11-27 18:38 대표 "이걸 보겠냐 — 벤치마킹하고 다시(금리의 모든 것 · 금리가 지배하는 세상 · 12월 9일 전 반드시)"
+# 벤치마킹(금리·돈 원리 상위 40편): 밝은 사진, '금리' 두 글자가 가장 큼, "이거 하나로 끝·N분 만에·모든 것" 약속형, 2줄
+SETS2 = [   # 18:57 대표 확정: 금리의 모든 것 · 금리가 지배하는 세상 · 금리 모르면 투자하지 마세요 — 글씨는 기존 크기
+    dict(file="thumb_a.jpg", photo="il_L261113g_fed_dusk.jpeg", face=(.5, .45), zoom=1.0, dark=.42, lit=1.25,
+         top="12월 9일 전 반드시 봐야 할", l1=[("11분 만에 끝내는", "w")], l2=[("금리", "pink"), ("의 모든 것", "w")]),
+    dict(file="thumb_b.jpg", photo="il_R1204_trading_screens.png", face=(.5, .45), zoom=1.0, dark=.42, lit=1.25,
+         top="집값·주식·금값·내 대출까지", l1=[("금리", "pink"), ("가", "w")], l2=[("지배하는 세상", "w")]),
+    dict(file="thumb_c.jpg", photo="il_R1204b_fomc_room.png", face=(.5, .45), zoom=1.0, dark=.42, lit=1.25,
+         top="12월 9일 전 필수 시청", l1=[("금리", "pink"), (" 모르면", "w")], l2=[("투자하지 마세요", "w")]),
+]
+def render2(t, out):
+    th = grade(t)
+    L = vn2.logo_layer(30); th.alpha_composite(L, (TW - 40 - L.width + 12, 34))
+    D = ImageDraw.Draw(th); LX = 56; MAXW = int(TW * .72); COL = {"w": WHITE, "pink": (*PINK, 255)}
+    def fit(parts, z0, mw):
+        z = z0
+        while D.textlength("".join(p for p, _ in parts), font=F("Heavy", z)) > mw: z -= 4
+        return z
+    z2 = fit(t["l2"], 160, MAXW); z1 = fit(t["l1"], 150, MAXW)
+    if abs(z1 - z2) < 50: z1 = z2 = min(z1, z2)
+    y2 = TH - 56 - z2; y1 = y2 - 6 - z1
+    # 왼쪽 위 배너: 핑크 바탕 + 흰 글씨(11/20 규칙)
+    fz = 62
+    while D.textlength(t["top"], font=F("Heavy", fz)) > TW * .62: fz -= 2
+    fw = D.textlength(t["top"], font=F("Heavy", fz)); by = min(56, y1 - fz - 70)
+    bx = Image.new("RGBA", th.size, (0, 0, 0, 0)); ImageDraw.Draw(bx).rounded_rectangle([LX, by, LX + fw + 56, by + fz + 34], 16, fill=(*PINK, 255)); th.alpha_composite(bx)
+    ImageDraw.Draw(th).text((LX + 28, by + 13), t["top"], font=F("Heavy", fz), fill=(255, 255, 255, 255))
+    for parts, y, z in ((t["l1"], y1, z1), (t["l2"], y2, z2)):
+        x = LX; f = F("Heavy", z)
+        for txt, c in parts:
+            shadow_text(th, (x, y), txt, f, COL[c], 18); x += ImageDraw.Draw(th).textlength(txt, font=f)
+    th.convert("RGB").save(out, quality=93); print(t["file"], z1, z2)
+
+
 if __name__ == "__main__":
+    if len(sys.argv) > 2 and sys.argv[2] == "v2":
+        os.makedirs(sys.argv[1], exist_ok=True)
+        for t in SETS2: render2(t, os.path.join(sys.argv[1], t["file"]))
+        sys.exit()
     out = sys.argv[1] if len(sys.argv) > 1 else "."; os.makedirs(out, exist_ok=True)
     for t in SETS: render(t, os.path.join(out, t["file"]))
