@@ -1,0 +1,28 @@
+{
+ "id": "il_L261207p_subway_phone",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, first-person or over-the-shoulder point of view, moody dark charcoal and deep blue-black color grade with cool bluish screen glow as the main light, shallow depth of field, fine film grain, rich realistic detail, ordinary Korean apartment or office setting. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable screens (screens show only soft blurred glow), no watermark, no recognizable faces. Wide 16:9 composition, keep the lower fifth of the frame dark and uncluttered. Scene: Evening Seoul subway car, over-the-shoulder view of a tired office worker in a dark coat standing and holding a strap with one hand while looking down at a glowing smartphone in the other hand, other commuters as blurred dark shapes, fluorescent light reflections on the window.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a21ad4-2390-7fae-9064-ed08dc8f67e7",
+  "status_url": "https://api.higgsfield.ai/requests/01a21ad4-2390-7fae-9064-ed08dc8f67e7/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a21ad4-2390-7fae-9064-ed08dc8f67e7/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "failed",
+ "result": {
+  "status": "failed",
+  "error": "Generation failed",
+  "request_id": "01a21ad4-2390-7fae-9064-ed08dc8f67e7",
+  "status_url": "https://api.higgsfield.ai/requests/01a21ad4-2390-7fae-9064-ed08dc8f67e7/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a21ad4-2390-7fae-9064-ed08dc8f67e7/cancel",
+  "expires_at": "2026-12-04T02:27:20.520406+00:00"
+ },
+ "seconds": 7
+}

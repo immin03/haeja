@@ -1,0 +1,28 @@
+{
+ "id": "il_L261207p_monitor_hands",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, first-person or over-the-shoulder point of view, moody dark charcoal and deep blue-black color grade with cool bluish screen glow as the main light, shallow depth of field, fine film grain, rich realistic detail, ordinary Korean apartment or office setting. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable screens (screens show only soft blurred glow), no watermark, no recognizable faces. Wide 16:9 composition, keep the lower fifth of the frame dark and uncluttered. Scene: Night, close view from behind of a man sitting at a desk with both hands pressed against the sides of his head, elbows on the desk, a monitor in front of him glowing with a blurred steep downward blue line, keyboard faintly lit, face not visible.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a21ad4-3dff-79fd-992c-357a7d102bbf",
+  "status_url": "https://api.higgsfield.ai/requests/01a21ad4-3dff-79fd-992c-357a7d102bbf/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a21ad4-3dff-79fd-992c-357a7d102bbf/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "failed",
+ "result": {
+  "status": "failed",
+  "error": "Generation failed",
+  "request_id": "01a21ad4-3dff-79fd-992c-357a7d102bbf",
+  "status_url": "https://api.higgsfield.ai/requests/01a21ad4-3dff-79fd-992c-357a7d102bbf/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a21ad4-3dff-79fd-992c-357a7d102bbf/cancel",
+  "expires_at": "2026-12-04T02:27:27.228969+00:00"
+ },
+ "seconds": 6
+}

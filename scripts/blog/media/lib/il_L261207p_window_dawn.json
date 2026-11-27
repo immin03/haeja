@@ -1,0 +1,28 @@
+{
+ "id": "il_L261207p_window_dawn",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, first-person or over-the-shoulder point of view, moody dark charcoal and deep blue-black color grade with cool bluish screen glow as the main light, shallow depth of field, fine film grain, rich realistic detail, ordinary Korean apartment or office setting. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable screens (screens show only soft blurred glow), no watermark, no recognizable faces. Wide 16:9 composition, keep the lower fifth of the frame dark and uncluttered. Scene: Early dawn, a man in a wrinkled shirt seen from behind standing at a high-rise apartment window holding a mug, pale grey-blue light rising over a dense Seoul skyline with the river in the distance, the room behind him still dark, quiet exhausted mood.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a21ad4-405d-7253-8edb-db0e66ac1036",
+  "status_url": "https://api.higgsfield.ai/requests/01a21ad4-405d-7253-8edb-db0e66ac1036/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a21ad4-405d-7253-8edb-db0e66ac1036/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "failed",
+ "result": {
+  "status": "failed",
+  "error": "Generation failed",
+  "request_id": "01a21ad4-405d-7253-8edb-db0e66ac1036",
+  "status_url": "https://api.higgsfield.ai/requests/01a21ad4-405d-7253-8edb-db0e66ac1036/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a21ad4-405d-7253-8edb-db0e66ac1036/cancel",
+  "expires_at": "2026-12-04T02:27:27.982108+00:00"
+ },
+ "seconds": 7
+}
