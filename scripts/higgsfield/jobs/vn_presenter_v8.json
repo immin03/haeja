@@ -1,0 +1,30 @@
+[
+  {
+    "id": "vn_pres8_shirt_a",
+    "endpoint": "bytedance/seedance-2.5/image-to-video",
+    "image": "scripts/higgsfield/in/vn_presenter_ref.png",
+    "use": "2026-11-28 대표: 진행자 시안 2개만 싸게 — 셔츠 버전, 멈춘 것과 계속 움직이는 것의 중간",
+    "max_usd": 0.6,
+    "body": {
+      "prompt": "Locked-off tripod camera, no zoom or pan. He is talking calmly to the microphone: gentle natural breathing, his torso leans in very slightly, and once in the middle he makes one small unhurried open-hand gesture with his right hand holding the pen, then lets the hand settle back on the desk. His left hand stays resting on the desk. Keep the exact same man, dark suit jacket, white open-collar shirt without tie, white pocket square, watch, microphone and library background as the reference image. Black and white, soft film grain, warm light from above. The framing never shows the chin, jaw, mouth or face. Natural, relaxed, human movement at real-life speed, never frozen, never exaggerated. No text, no logos.",
+      "duration": 5,
+      "resolution": "720p",
+      "aspect_ratio": "16:9",
+      "generate_audio": false
+    }
+  },
+  {
+    "id": "vn_pres8_shirt_b",
+    "endpoint": "bytedance/seedance-2.5/image-to-video",
+    "image": "scripts/higgsfield/in/vn_presenter_ref.png",
+    "use": "2026-11-28 대표: 진행자 시안 2개만 싸게 — 셔츠 버전, 멈춘 것과 계속 움직이는 것의 중간",
+    "max_usd": 0.6,
+    "body": {
+      "prompt": "Almost static camera with an extremely slow, barely noticeable push-in. He is explaining something calmly: he lightly taps the pen once on the open notebook, turns his right wrist a little as if making a point, and gives a slight nod with his shoulders. Subtle breathing throughout, movements small and relaxed, with natural pauses between them. Keep the exact same man, dark suit jacket, white open-collar shirt without tie, white pocket square, watch, microphone and library background as the reference image. Black and white, soft film grain, warm light from above. The framing never shows the chin, jaw, mouth or face. Natural, relaxed, human movement at real-life speed, never frozen, never exaggerated. No text, no logos.",
+      "duration": 5,
+      "resolution": "720p",
+      "aspect_ratio": "16:9",
+      "generate_audio": false
+    }
+  }
+]
