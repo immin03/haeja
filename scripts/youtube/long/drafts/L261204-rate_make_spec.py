@@ -633,7 +633,7 @@ spec['music'] = dict(spec['music'], intro="social/music/own/intro_conspiracy.mp3
 TITLE = "이자는 원래 “죄”였다 | 4,000년 금리의 역사, 금리는 어떻게 세상을 지배하게 됐나"
 spec.update({
  "id": "L261204-rate", "company": "RATE", "no_data": True, "series": "", "plan": "P261204-rate",
- "scheduled_at": "2026-12-04T19:30:00+09:00", "manual": True,
+ "scheduled_at": "2026-11-27T17:30:00+09:00", "manual": True,
  "opening": "성경 구절(형제에게 이자를 받지 말라) → 묻히지 못한 고리대금업자 → 지금은 이자가 모든 가격을 정한다 → 어떻게 왕이 됐나",
  "hook_type": "고전 문장 + 반전(죄 → 왕)",
  "endscreen_target": "L261126-son", "endscreen_also": "L261123-soxl-3",
