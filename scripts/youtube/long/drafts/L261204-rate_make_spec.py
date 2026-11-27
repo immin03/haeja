@@ -642,7 +642,7 @@ spec.update({
  "title_en": "Interest used to be a sin. How did interest rates come to rule the world?",
  "description_head": "3,000년 전 성경은 형제에게 이자를 받지 말라고 했고, 800년 전 교회는 이자를 받은 사람을 묘지에 묻어 주지도 않았습니다. 그 죄였던 이자가 지금은 집값·주식·금값, AI 회사의 몸값까지 정합니다.\n함무라비 법전의 이자 상한, 메디치 가문이 이자를 받은 비법, 은행과 파산이라는 말의 뿌리, 영란은행, 볼커의 금리 20%와 각목 우편, 마이너스 금리 대출, 그리고 금리의 파도가 왜 예전보다 훨씬 커졌는지까지 쉽게 풀었습니다.\n\n📈 지금 금리와 다음 결정일 👉 valuenote.co.kr/rate",
  "description_en": "Interest was once a sin. From Hammurabi's interest caps and the Medici's bills of exchange to the Bank of England, the Volcker shock and negative-rate mortgages, we explain how interest rates came to rule the world and why their waves are bigger than ever. Some images are AI-generated reenactments and are labeled. Not investment advice.",
- "pinned_comment": "📈 지금 금리와 다음 결정일(매일 갱신) 👉 valuenote.co.kr/rate\n\n다음 파도가 올 때, 여러분은 메디치일까요 샤일록일까요? 생각을 남겨 주세요.\n\n※ 옛 그림·기록 사진은 저작권이 끝났거나 공개 이용이 허락된 자료(위키미디어 공용)이고, 일부 사진은 재연 이미지(AI 생성)입니다. 숫자 기준 2026년. 매수·매도 권유가 아닙니다.",
+ "pinned_comment": "📈 지금 금리와 다음 결정일(매일 갱신) 👉 valuenote.co.kr/rate\n\n다음 파도가 올 때, 여러분은 메디치일까요 샤일록일까요? 생각을 남겨 주세요.\n\n※ 역사 장면 사진은 재연 이미지(AI 생성)이고, 폴 볼커 사진은 위키미디어 공용 자료입니다. 숫자 기준 2026년 11월. 매수·매도 권유가 아닙니다.",
  "hook_promises": ["이자가 죄였던 시절", "죄였던 이자가 왕이 된 과정", "금리의 파도가 커진 이유와 읽는 법"],
  "viewer_question": "금리는 왜 이렇게 세상을 흔드나",
  "tags": ["금리", "이자", "기준금리", "금리 역사", "메디치", "볼커", "연준", "국채 금리", "마이너스 금리", "경제 공부", "금리 쉽게"],
