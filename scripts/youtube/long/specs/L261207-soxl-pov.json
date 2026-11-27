@@ -1,0 +1,1382 @@
+{
+ "format": 2,
+ "world": "notebook",
+ "notebook": {
+  "cold_open": 0,
+  "stamps": {},
+  "desk": "walnut"
+ },
+ "overlay": "doc",
+ "look": {
+  "paper": "grain",
+  "dark": "charcoal",
+  "accent": "red"
+ },
+ "roadmap": true,
+ "hook": {
+  "bpm": 75.0,
+  "style": "basstaiko",
+  "cut": "bar",
+  "pulse": false,
+  "ident_fx": false
+ },
+ "music": {
+  "intro": "social/music/samples3/I3_full.mp3",
+  "intro_offset": 0.0,
+  "end_on_logo": true,
+  "bed": [
+   "social/music/samples5/M4_full.mp3@0",
+   "social/music/samples5/M5_full.mp3@0"
+  ],
+  "hits": [
+   0.57,
+   4.05,
+   7.55,
+   15.43,
+   18.85,
+   22.98,
+   26.57,
+   29.82,
+   33.05,
+   36.7,
+   40.3,
+   43.55,
+   46.98,
+   50.4,
+   54.27,
+   60.85,
+   64.12,
+   67.3,
+   70.9,
+   75.7,
+   83.72,
+   88.65
+  ],
+  "bed_gain_db": 1,
+  "bed_hp": 120,
+  "note": "r176 인트로 I3 ✓인트로 기존 곡 · 본편 M4·M5(클레임 없음) · r181 원음 구간 -19dB"
+ },
+ "design": "v2",
+ "synthetic_media": true,
+ "id": "L261207-soxl-pov",
+ "company": "SOXL",
+ "no_data": true,
+ "series": "SOXL",
+ "plan": "P261207-soxl-pov",
+ "scheduled_at": "2026-12-07T12:30:00+09:00",
+ "manual": true,
+ "opening": "새벽 알림 → 계좌 -78% → 금리 결정 26일 전 → 당신이라면 오늘? → 날짜를 가렸다(떡밥)",
+ "hook_type": "시점 화면(2인칭) + 날짜 가림 떡밥",
+ "endscreen_target": "L261123-soxl-3",
+ "endscreen_also": "L261126-son",
+ "title": "SOXL -89%, 당신이라면 오늘 어떻게 하시겠습니까? | 49일의 기록",
+ "doc_title": "SOXL 49일의 기록",
+ "title_en": "SOXL is down 89%. What would you do today? A 49-day record through your own eyes",
+ "description_head": "SOXL이 고점 대비 89% 떨어졌습니다. 손절, 한 번에 물타기, 나눠 사기, 현금 들고 기다리기. 같은 상황에서 네 가지 선택이 실제로 어떤 결과를 냈는지 49일의 기록으로 따라가 봅니다.\n이 영상은 예측하지 않습니다. 있었던 숫자만 보여 드립니다.\n\n📟 반도체 바닥 신호(매일 자동 갱신) 👉 valuenote.co.kr/semi",
+ "description_en": "SOXL has fallen 89% from its peak. We follow a real 49-day stretch through an investor's own screens and compare what four choices (cut losses, buy all at once, buy in steps, wait in cash) actually led to, plus how different exits played out. No forecasts, only recorded numbers. Not investment advice. Account, news and chat screens are reconstructions.",
+ "pinned_comment": "49일의 기록, 어떠셨나요. 그날 여러분은 넷 중 무엇을 고르셨을지 댓글로 남겨 주세요.\n📟 반도체 바닥 신호(매일 자동 갱신) 👉 valuenote.co.kr/semi\n\n※ 계좌·뉴스·대화방 화면은 재구성 화면입니다. 숫자는 야후 파이낸스 일별 시세 기준(2026년 11월 25일 종가까지). 매수·매도 권유가 아닙니다.",
+ "hook_promises": [
+  "네 가지 선택의 실제 결과",
+  "가려진 날짜의 정체",
+  "파는 방법에 따른 수익률"
+ ],
+ "viewer_question": "SOXL -89%, 지금 손절·물타기·기다리기 중 무엇을 해야 하나",
+ "tags": [
+  "SOXL",
+  "SOXL 주가",
+  "SOXL 전망",
+  "SOXL 물타기",
+  "반도체",
+  "레버리지 ETF",
+  "금리 인상",
+  "엔비디아",
+  "삼성전자",
+  "SK하이닉스",
+  "TQQQ"
+ ],
+ "search_keywords": [
+  "SOXL 주가 전망",
+  "SOXL 물타기",
+  "SOXL 손절",
+  "반도체 바닥",
+  "레버리지 ETF"
+ ],
+ "sources": [
+  "야후 파이낸스 SOXL·SOXX·나스닥 일별 시세(2026-11-27 조회)",
+  "연준 잭슨홀 연설 2022-08-26",
+  "연준 FOMC 2022-09-21",
+  "오픈AI 2022-11-30",
+  "블룸버그 2017-11-21"
+ ],
+ "format_note": "v1 2026-11-27 대표 — 2인칭 시점 화면(니치 벤딩 1호), 초반 반전 암시, 3분대 반전 뒤 기존 톤, 파는 전략은 가볍게. 시점·표·그래프는 미리 만든 영상(pov_L261207_*). 원음은 도착하면 추가",
+ "voice_speed": 1.03,
+ "photo_lift": 1.0,
+ "thumb": {
+  "photo": "il_base_trader_red.jpeg",
+  "focus_x": 0.5,
+  "l1": "SOXL -89%",
+  "l2": "오늘, 당신의 선택은?",
+  "pos": "left"
+ },
+ "scenes": [
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_lock.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_acct78.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "야후 파이낸스 일별 시세",
+   "sketch": [],
+   "lines": [
+    "새벽 6시 42분, 휴대폰이 연달아 울립니다. SOXL이 하루 만에 17% 떨어졌습니다.",
+    "계좌를 엽니다. 고점에 산 당신의 수익률은 마이너스 78%입니다."
+   ],
+   "note": "[훅] 시점 화면 — 알림·계좌"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_cal.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_question.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "야후 파이낸스 일별 시세",
+   "sketch": [],
+   "lines": [
+    "26일 뒤에는 금리 결정이 기다리고 있습니다.",
+    "당신이라면 오늘, 어떻게 하시겠습니까?"
+   ],
+   "note": "[훅] 질문"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_redact.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "lines": [
+    "한 가지만 미리 말씀드립니다. 이 이야기의 날짜는 일부러 가렸습니다.",
+    "이유는 3분 뒤에 밝히겠습니다."
+   ],
+   "note": "[훅] [떡밥] 날짜 가림 — 반전 암시"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_choice0.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "lines": [
+    "이 영상이 끝날 때쯤, 손절과 물타기, 그리고 기다리기 중 무엇이 어떤 결과였는지 숫자로 확인하시게 됩니다."
+   ],
+   "note": "[훅] [약속]"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "il_L261116p_wallst_red.png"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "ident": true
+   },
+   "lines": [
+    "현명한 투자를 위한 경제 채널, 밸류노트 지금 시작합니다."
+   ],
+   "sketch_add": [],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "dur": 6.0,
+   "note": "[로고 인트로] 시그니처"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_speech.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_pain.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "야후 파이낸스 일별 시세",
+   "sketch": [],
+   "lines": [
+    "1일째 밤. 미국 중앙은행 의장이 단 8분 동안 연설합니다.",
+    "물가를 잡기 위해 가계와 기업의 고통을 감수하겠다는 내용입니다."
+   ],
+   "note": "[1일째] 연설 속보",
+   "chapter": "1일째"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_drop17.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_quarter.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "야후 파이낸스 일별 시세",
+   "sketch": [],
+   "lines": [
+    "반도체 3배 상품은 그날 하루에만 17% 빠집니다.",
+    "고점 대비로는 마이너스 78%. 계좌에는 이미 4분의 1도 남지 않았습니다."
+   ],
+   "note": "[1일째] 계좌"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_choice1.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_choice2.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_choice3.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "lines": [
+    "여기서 당신이 고를 수 있는 길은 네 가지입니다.",
+    "지금이라도 손절한다. 아니면 가진 돈을 한 번에 넣어 물을 탄다.",
+    "여러 번에 나눠서 산다. 아니면 더 떨어질 때까지 현금을 들고 기다린다."
+   ],
+   "note": "[1일째] 선택 버튼 넷"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_chat1.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_tease49.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "야후 파이낸스 일별 시세",
+   "sketch": [],
+   "lines": [
+    "단체 대화방은 둘로 갈립니다. 지금이 바닥이라는 사람, 반도체는 끝났다는 사람.",
+    "결과는 49일째에 공개하겠습니다. 누가 맞았을까요?"
+   ],
+   "note": "[1일째] 대화방 + [R1]"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_bounce.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_chat_b.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "야후 파이낸스 일별 시세",
+   "sketch": [],
+   "lines": [
+    "15일째. 가격이 일주일 사이 14% 오릅니다.",
+    "대화방에는 드디어 끝났다는 말이 돌기 시작합니다. 정말 끝난 걸까요?"
+   ],
+   "note": "[15일째] 속임수 반등"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_cpi.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_drop18.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "야후 파이낸스 일별 시세",
+   "sketch": [],
+   "lines": [
+    "19일째. 이번에는 물가 지표가 예상보다 높게 나옵니다.",
+    "나스닥이 하루에 5% 넘게 빠지고, SOXL은 18% 떨어집니다."
+   ],
+   "note": "[19일째] 물가 충격",
+   "chapter": "19일째"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_lump24.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_regret.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "야후 파이낸스 일별 시세",
+   "sketch": [],
+   "lines": [
+    "1일째에 한 번에 물을 탄 사람은 19일 만에 그 돈의 24%를 잃었습니다.",
+    "물을 너무 일찍 탔다는 후회가 시작됩니다."
+   ],
+   "note": "[19일째] 물탄 돈"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_rate.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_dd84.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "야후 파이낸스 일별 시세",
+   "sketch": [],
+   "lines": [
+    "27일째 새벽 3시. 금리가 0.75%포인트 오릅니다. 세 번 연속입니다.",
+    "고점 대비 손실은 84%까지 커졌습니다."
+   ],
+   "note": "[27일째] 금리 인상",
+   "chapter": "27일째"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_chat2.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_worst.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "lines": [
+    "바닥이라고 말하던 사람들이 조용해집니다. 대화방에는 손절했다는 글만 올라옵니다.",
+    "그런데 가장 무서운 날은 아직 오지 않았습니다."
+   ],
+   "note": "[27일째] 대화방 + [R2]"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_dawn.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_plunge.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "야후 파이낸스 일별 시세",
+   "sketch": [],
+   "lines": [
+    "49일째 밤. 물가가 또 예상을 넘었습니다.",
+    "한 시간 뒤 장이 열리자, 가격이 수직으로 떨어집니다."
+   ],
+   "note": "[49일째] 개장 급락",
+   "chapter": "49일째"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_dd91.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_delist.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "야후 파이낸스 일별 시세",
+   "sketch": [],
+   "lines": [
+    "고점 대비 마이너스 91%. 1억 원을 넣었다면 850만 원이 남는 숫자입니다.",
+    "이러다 상품 자체가 없어지는 것 아니냐는 말까지 나옵니다."
+   ],
+   "note": "[49일째] 바닥"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_rebound.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_next13.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "야후 파이낸스 일별 시세",
+   "sketch": [],
+   "lines": [
+    "그런데 그날, 장중에 갑자기 방향이 바뀝니다. 종가는 오히려 9% 올랐습니다.",
+    "그리고 다음 날 다시 13% 떨어집니다. 지금 사야 합니까, 팔아야 합니까?"
+   ],
+   "note": "[49일째] 반등과 재하락"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_reveal0.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_reveal.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "야후 파이낸스 SOXL·SOXX·나스닥 일별 시세 2021-12~2026-11",
+   "sketch": [],
+   "lines": [
+    "이제 가렸던 날짜를 공개하겠습니다.",
+    "49일째인 오늘은, 2022년 10월 13일입니다."
+   ],
+   "note": "[반전] [떡밥 회수] [콜백] 날짜 공개",
+   "chapter": "날짜 공개"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_record.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_powell.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_cpi22.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "야후 파이낸스 SOXL·SOXX·나스닥 일별 시세 2021-12~2026-11 · 연준 잭슨홀 연설 2022-08-26",
+   "sketch": [],
+   "lines": [
+    "지금까지 보신 49일은 2022년 8월 26일부터 10월 13일까지, 4년 전의 실제 기록입니다.",
+    "1일째의 8분 연설은 제롬 파월 연준 의장의 잭슨홀 연설이었습니다.",
+    "49일째 밤의 속보는 2022년 9월 미국 소비자물가 발표였습니다."
+   ],
+   "note": "[반전] 기록의 정체"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_hikes.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "야후 파이낸스 SOXL·SOXX·나스닥 일별 시세 2021-12~2026-11 · 연준 FOMC 2022",
+   "sketch": [],
+   "lines": [
+    "그해 미국 중앙은행은 물가를 잡기 위해 금리를 0.75%포인트씩 네 번 연속 올렸습니다. 27일째의 인상은 그 세 번째였습니다."
+   ],
+   "note": "[반전] 2022년 금리"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pres7_calm.mp4"
+     },
+     {
+      "lib": "pres7_calm_2.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "lines": [
+    "왜 과거의 기록을 지금 일처럼 보여 드렸을까요? 이 영상은 앞으로를 예측하지 않습니다.",
+    "같은 상황에서 각각의 선택이 실제로 어떤 결과를 냈는지, 있었던 숫자만 보여 드리겠습니다."
+   ],
+   "note": "[반전] 진행자 — 톤 전환"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_setup1.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_setup1b.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_setup2.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "야후 파이낸스 SOXL·SOXX·나스닥 일별 시세 2021-12~2026-11",
+   "sketch": [],
+   "lines": [
+    "계산 조건은 이렇습니다. 고점에서 100주를 산 사람이 있습니다.",
+    "이 사람이 1일째에, 남은 평가액만큼의 돈을 더 가지고 있다고 가정했습니다.",
+    "수익률은 처음부터 넣은 돈 전체를 기준으로 계산했습니다."
+   ],
+   "note": "[결과] 계산 조건",
+   "chapter": "선택의 결과"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_t49_a.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_t49_b.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_t49_c.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_t49_d.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "야후 파이낸스 SOXL·SOXX·나스닥 일별 시세 2021-12~2026-11",
+   "sketch": [],
+   "lines": [
+    "먼저 49일째입니다. 아무것도 하지 않은 계좌는 마이너스 91%였습니다.",
+    "1일째에 손절한 계좌는 마이너스 64%에서 멈췄습니다.",
+    "한 번에 물을 탄 계좌는 마이너스 82%, 7번에 나눠 산 계좌는 마이너스 78%였습니다.",
+    "49일째까지는 손절한 사람이 가장 덜 잃었습니다."
+   ],
+   "note": "[결과] 49일째 표"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_wait_q.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_wait7.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_wait6.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "야후 파이낸스 SOXL·SOXX·나스닥 일별 시세 2021-12~2026-11",
+   "sketch": [],
+   "lines": [
+    "그러면 현금을 들고 기다린 사람은 어땠을까요?",
+    "7달러에 매수 주문을 걸어 둔 사람은 샀습니다. 다만 7달러 아래로 거래된 날은 단 2일뿐이었습니다.",
+    "6달러를 기다린 사람은 끝내 사지 못했습니다. 장중 최저가는 6달러 21센트였습니다."
+   ],
+   "note": "[결과] 기다린 사람 + [R3]"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_y1_a.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_y1_b.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_y1_c.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "야후 파이낸스 SOXL·SOXX·나스닥 일별 시세 2021-12~2026-11",
+   "sketch": [],
+   "lines": [
+    "1년 뒤를 보겠습니다. 가격은 19달러 근처까지 올라왔습니다.",
+    "그런데도 다섯 계좌 모두 아직 손실입니다. 7달러에 산 계좌가 마이너스 30%로 가장 나았습니다.",
+    "1일째에 손절한 계좌는 마이너스 64%에 그대로 멈춰 있습니다. 다시 사지 않았기 때문입니다."
+   ],
+   "note": "[결과] 1년 뒤"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_y2_a.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_y2_b.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_y2_c.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_y2_d.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "야후 파이낸스 SOXL·SOXX·나스닥 일별 시세 2021-12~2026-11",
+   "sketch": [],
+   "lines": [
+    "2년 뒤, 가격은 40달러를 넘습니다. 여기서 순서가 뒤집힙니다.",
+    "7달러에 산 계좌는 플러스 51%, 나눠 산 계좌는 플러스 12%로 돌아섭니다.",
+    "한 번에 물을 탄 계좌는 마이너스 8%, 손절한 계좌는 여전히 마이너스 64%입니다.",
+    "아무것도 하지 않은 계좌는 2년이 지나도 마이너스 54%였습니다."
+   ],
+   "note": "[결과] 2년 뒤"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_pk_a.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_pk_b.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_pk_c.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "야후 파이낸스 SOXL·SOXX·나스닥 일별 시세 2021-12~2026-11",
+   "sketch": [],
+   "lines": [
+    "가격이 가장 높았던 2024년 7월에는 차이가 더 벌어집니다. 7달러에 산 계좌는 플러스 153%였습니다.",
+    "나눠 산 계좌는 플러스 88%, 한 번에 물을 탄 계좌는 플러스 54%였습니다.",
+    "아무것도 하지 않은 계좌는 그 정점에서도 마이너스 23%였습니다. 이 계좌는 뒤에서 다시 보겠습니다."
+   ],
+   "note": "[결과] 2024년 정점"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_gpt1.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_gpt2.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "야후 파이낸스 SOXL·SOXX·나스닥 일별 시세 2021-12~2026-11 · 오픈AI 2022-11-30",
+   "sketch": [],
+   "lines": [
+    "무엇이 가격을 되돌렸을까요? 저점에서 48일 뒤인 2022년 11월 30일, 챗GPT가 공개됩니다.",
+    "49일째의 그 밤에는 누구도 계산에 넣지 못한 변수였습니다."
+   ],
+   "note": "[결과] 챗GPT"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_fake.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "lines": [
+    "그러면 답은 바닥에서 사서 버티는 것일까요? 아직 아닙니다. 산 뒤에 더 어려운 문제가 남아 있습니다."
+   ],
+   "note": "[가짜 결말] 산 뒤가 더 어렵다"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_exit_0.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_exit_1.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_exit_2.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_exit_3.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_exit_4.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "야후 파이낸스 SOXL·SOXX·나스닥 일별 시세 2021-12~2026-11",
+   "sketch": [],
+   "lines": [
+    "7달러에 산 사람을 기준으로, 파는 방법에 따라 결과가 얼마나 달랐는지 보겠습니다.",
+    "2배가 됐을 때 전부 판 사람은 약 3달 만에 111%를 벌었습니다.",
+    "2배, 3배, 5배에 3분의 1씩 나눠 판 사람은 247%를 벌었습니다.",
+    "2024년 7월 정점에서 전부 팔았다면 880%입니다.",
+    "물론 그날이 정점인지는 지나고 나서야 알 수 있습니다."
+   ],
+   "note": "[매도] 파는 방법별 수익률",
+   "chapter": "언제 팔았나"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_hold_q.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_hold_a.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_hold_b.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_hold_c.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_range.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "야후 파이낸스 SOXL·SOXX·나스닥 일별 시세 2021-12~2026-11",
+   "sketch": [],
+   "lines": [
+    "끝까지 들고 있던 사람은 어땠을까요?",
+    "68달러까지 올랐던 가격은 2025년 4월, 다시 8달러까지 내려옵니다.",
+    "880%였던 수익이 18%로 줄어든 겁니다.",
+    "그 뒤 올해 6월에는 300달러까지 올랐고, 지금은 32달러입니다.",
+    "같은 7달러 매수인데도, 언제 팔았느냐에 따라 결과는 18%에서 880%까지 갈렸습니다."
+   ],
+   "note": "[매도] 계속 보유"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pres6_breath.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "lines": [
+    "사는 계획만큼 파는 계획도 미리 정해 둬야 한다는 사실을, 이 숫자들이 보여 줍니다. 그러면 지금은 어떨까요?"
+   ],
+   "note": "[매도] 진행자 + [R4]"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_rec_q.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_rec_a.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_rec_b.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_rec_c.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "야후 파이낸스 SOXL·SOXX·나스닥 일별 시세 2021-12~2026-11",
+   "sketch": [],
+   "lines": [
+    "아까 본, 아무것도 하지 않은 계좌로 돌아가 보겠습니다.",
+    "이 계좌가 원금을 되찾은 날은 2026년 4월 10일입니다. 4년 넘게 걸렸습니다.",
+    "같은 반도체 지수를 1배로 따라간 상품은 약 2년 만에 회복했습니다.",
+    "지수가 46% 빠질 때 3배 상품은 90% 빠졌기 때문입니다."
+   ],
+   "note": "[지금] [콜백] 회복 기간",
+   "chapter": "그때와 지금"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_x10_a.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_x10_b.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "야후 파이낸스 SOXL·SOXX·나스닥 일별 시세 2021-12~2026-11",
+   "sketch": [],
+   "lines": [
+    "90% 빠진 가격이 원금으로 돌아오려면 10배 넘게 올라야 합니다. 46% 빠진 지수는 2배가 안 되게 오르면 됩니다.",
+    "3배 상품의 회복이 훨씬 오래 걸린 이유입니다."
+   ],
+   "note": "[지금] 10배"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_y2000_0.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_y2000_a.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_y2000_b.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "야후 파이낸스 SOXL·SOXX·나스닥 일별 시세 2021-12~2026-11 · 블룸버그 2017-11-21",
+   "sketch": [],
+   "lines": [
+    "반대 사례도 있습니다. 2000년 닷컴 버블 고점의 반도체 지수입니다.",
+    "이 지수는 2017년에야 그 가격을 되찾았습니다. 17년이 걸렸습니다.",
+    "2022년처럼 2년 만에 돌아온 것이 당연한 일은 아니라는 뜻입니다."
+   ],
+   "note": "[지금] 2000년 반례"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_now_a.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_now_b.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_now_c.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "야후 파이낸스 SOXL·SOXX·나스닥 일별 시세 2021-12~2026-11",
+   "sketch": [],
+   "lines": [
+    "그리고 지금입니다. SOXL은 6월 고점 300달러에서 32달러로, 89% 떨어졌습니다.",
+    "2022년의 90%와 거의 같은 깊이입니다.",
+    "다만 2022년에는 저점까지 약 10달이 걸렸고, 이번에는 5달 만에 여기까지 왔습니다."
+   ],
+   "note": "[지금] 같은 깊이"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_same.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_diff.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_unk.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "야후 파이낸스 SOXL·SOXX·나스닥 일별 시세 2021-12~2026-11",
+   "sketch": [],
+   "lines": [
+    "같은 점은 금리입니다. 그때도 지금도 금리가 오르는 시기입니다.",
+    "다른 점은 원인입니다. 2022년은 반도체 재고가 쌓인 문제였고, 지금은 AI 투자가 과열됐다는 우려입니다.",
+    "그때의 챗GPT 같은 변수가 이번에도 나타날지는 누구도 알 수 없습니다."
+   ],
+   "note": "[지금] 같은 점·다른 점"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pres7_calm_3.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_ref.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_rule.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "lines": [
+    "그래서 이 기록은 정답이 아니라 참고 자료입니다. 과거가 그대로 반복된다는 뜻이 아닙니다.",
+    "다만 한 번에 넣기보다 나눠서, 감보다는 기준을 정해 두고 움직인 계좌가 49일을 버텼습니다.",
+    "얼마나 떨어지면 몇 번에 나눠 살지, 몇 배가 되면 얼마를 팔지를 미리 적어 두는 것. 그것이 기준입니다."
+   ],
+   "note": "[지금] 진행자 — 참고 자료"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "globe_L261123s_semi_promo.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "lines": [
+    "그 기준을 숫자로 확인하고 싶은 분들을 위해, 밸류노트는 반도체 바닥 신호를 매일 정리하고 있습니다.",
+    "신호가 바뀔 때 알림을 받고 싶은 분은 설명란의 링크를 확인해 주세요."
+   ],
+   "note": "[마무리] 계기판 안내 1회",
+   "chapter": "마무리"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_q2.mp4"
+     },
+     {
+      "lib": "pov_L261207_fx_planned.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false,
+    "cut_by_line": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "lines": [
+    "처음의 질문으로 돌아가겠습니다. 당신이라면 오늘, 어떻게 하시겠습니까?",
+    "49일째가 언제인지는 누구도 모릅니다. 그래서 미리 정해 둔 계획이 필요합니다."
+   ],
+   "note": "[북엔드] 첫 질문으로"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "pov_L261207_fx_ask.mp4"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": false,
+    "doc_cine": false
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "lines": [
+    "그날 여러분이라면 네 가지 중 무엇을 고르셨을지, 댓글로 남겨 주세요."
+   ],
+   "note": "[마무리] 질문"
+  },
+  {
+   "v": {
+    "type": "media",
+    "full": true,
+    "wash": "none",
+    "cuts": [
+     {
+      "lib": "il_L261124g_fed_stone_dawn.jpeg"
+     }
+    ],
+    "wash_amt": 0.85,
+    "cine": true,
+    "doc_cine": true
+   },
+   "sketch_add": [],
+   "asof": false,
+   "src": "",
+   "sketch": [],
+   "lines": [
+    "여러분의 구독, 좋아요, 댓글은 영상 제작에 큰 힘이 됩니다."
+   ],
+   "note": "[마무리] 구독"
+  },
+  {
+   "v": {
+    "type": "end",
+    "sub": "",
+    "btn_at": [
+     "0:거시적",
+     "0:거시적",
+     "0:거시적"
+    ],
+    "note": {
+     "text": ""
+    },
+    "dark_end": true,
+    "end_v2": true,
+    "slogan": [
+     "시장의 흐름 뒤",
+     "숨은 이야기를 읽는 채널",
+     "거시적 관점으로 시장을 이해하면, 투자가 달라집니다"
+    ]
+   },
+   "lines": [
+    "거시적 관점으로 시장을 이해하면, 투자가 달라집니다. 감사합니다. 밸류노트였습니다."
+   ],
+   "sketch_add": [],
+   "asof": false,
+   "src": "",
+   "note": "[북엔드] 끝 화면"
+  }
+ ]
+}
