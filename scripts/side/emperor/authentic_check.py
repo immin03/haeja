@@ -23,6 +23,11 @@ EN_SRC_MAX = 0.50       # 영어판은 한국 원본과 장면 겹침 50% 이하
 OPEN_DAYS_EPS = 9       # 첫 장면은 같은 채널 최근 9편(약 3일)의 첫 장면과 달라야 한다
 TITLE_SIM_MAX = 0.80    # 같은 채널 제목과 글자 유사도 80% 미만
 PER_DAY_MAX = 2         # 채널당 하루 쇼츠 2편 상한 (현대판·롱폼 소개 쇼츠 포함) — 2026-11-21 대표 "2편으로 가자 한국도 2편으로" (이전 3편)
+# 2026-11-27 13:04 대표 "쇼츠를 하루 한 편으로 줄이는 건 나도 동의해. 영어든 한국어든" → 하루 1편.
+# 이미 예약된 편은 그대로(영어는 12/8 enc30 까지, 미국 동부 12/07 날짜까지) — 이 날짜(그 채널의 '하루') 부터 1편 상한.
+PER_DAY_ONE_FROM = {"KR": "2026-11-28", "EN": "2026-12-08"}
+def per_day_max(ch, day):
+    return 1 if str(day) >= PER_DAY_ONE_FROM.get(ch, "9999") else PER_DAY_MAX
 LEN_MIN_SPREAD = 8      # 최근 6편 길이의 최대-최소가 8초 이상 (전부 같은 길이 금지)
 REUSE_DAYS = 7          # 2026-11-17 대표 "같은 장면 반복이 심하다": 같은 채널 최근 7일(예약분 포함)에 쓴 장면은
 REUSE_MAX = 0.50        #   한 편의 50% 이하만 다시 쓴다 — 2026-11-22 대표 "만들어 놓은 게 많으니 기존 것과 새것을 적절히 섞어 쓰자"(이전 0.30: 새 장면이 모자라 11/22 20:30 칸이 비었다). 로마 800개 이상이면 다시 낮춘다
@@ -125,8 +130,9 @@ def check_one(me, fx, posts, src=None):
     if me in post and post[me].get("at"):
         day = ch_day(post[me]["at"], ch)
         n = sum(1 for p in posts if chan(p["id"], p.get("kind")) == ch and p.get("at") and ch_day(p["at"], ch) == day and not p.get("paused"))
-        if n > PER_DAY_MAX:
-            fails.append(f"{day} {ch} 쇼츠 {n}편 (상한 {PER_DAY_MAX})")
+        cap = per_day_max(ch, day)
+        if n > cap:
+            fails.append(f"{day} {ch} 쇼츠 {n}편 (상한 {cap})")
     # 5-1) 7일 안 재사용 (11/17)
     at = (post.get(me) or {}).get("at")
     used = recent_used(ch, me, at)
