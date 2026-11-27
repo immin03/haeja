@@ -14,29 +14,38 @@ html,body{width:1280px;height:720px;background:#000;overflow:hidden;font-family:
 #in{position:absolute;inset:0;transform-origin:50% 45%}
 .num{font-variant-numeric:tabular-nums}
 .abs{position:absolute}
-#day{position:absolute;left:48px;top:84px;font-size:30px;font-weight:700}
-#day small{font-size:30px;font-weight:400;color:rgba(255,255,255,.55);margin-left:12px}
+#day{position:absolute;left:44px;top:80px;height:46px;padding:0 20px 0 16px;border-radius:23px;display:flex;align-items:center;gap:10px;font-size:26px;font-weight:700;background:rgba(18,21,28,.62);border:1px solid rgba(255,255,255,.14);box-shadow:0 8px 30px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.08);backdrop-filter:blur(14px)}
+#day i{width:9px;height:9px;border-radius:50%;background:#FF4D6D;display:block;box-shadow:0 0 10px #FF4D6D}
+#day small{font-size:23px;font-weight:500;color:rgba(255,255,255,.6);padding-left:10px;border-left:1px solid rgba(255,255,255,.18)}
 #recon{position:absolute;left:48px;bottom:22px;font-size:18px;font-weight:500;color:rgba(255,255,255,.45)}
-#vig{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,transparent 55%,rgba(0,0,0,.6) 100%);pointer-events:none}
+#vig{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,transparent 48%,rgba(0,0,0,.72) 100%);pointer-events:none}
+#dof{position:absolute;inset:0;-webkit-mask-image:radial-gradient(ellipse 70% 62% at 50% 46%,transparent 62%,#000 100%);mask-image:radial-gradient(ellipse 70% 62% at 50% 46%,transparent 62%,#000 100%);pointer-events:none}
+#grain{position:absolute;inset:0;opacity:.085;mix-blend-mode:overlay;pointer-events:none}
 .blue{color:#5b9bff}.pink{color:#FF4D6D}.dim{color:rgba(255,255,255,.55)}
+.glass{background:linear-gradient(160deg,rgba(255,255,255,.075),rgba(255,255,255,.025) 55%,rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.13);box-shadow:0 30px 90px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,.12)}
+.pane{position:absolute;border-radius:30px;background:linear-gradient(165deg,#12151c,#0a0c11 60%,#07080b);border:1px solid rgba(255,255,255,.1);box-shadow:0 50px 120px rgba(0,0,0,.85),0 0 0 1px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.1);overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(26px)}
 /* phone */
-.phone{position:absolute;left:400px;top:-36px;width:480px;height:1000px;border-radius:62px;background:#0b0b0d;border:2px solid #2a2c31;box-shadow:0 0 0 7px #101114,0 40px 110px rgba(0,0,0,.9);transform-origin:50% 30%}
-.scr{position:absolute;inset:11px;border-radius:52px;overflow:hidden;background:linear-gradient(170deg,#1b2740,#0e1524 45%,#080b12)}
-.isl{position:absolute;left:50%;top:15px;width:134px;height:36px;margin-left:-67px;border-radius:20px;background:#000}
-.noti{position:absolute;left:17px;right:17px;height:92px;border-radius:24px;background:rgba(58,64,78,.74);border:1px solid rgba(255,255,255,.08);padding:13px 16px 13px 80px}
-.noti .ic{position:absolute;left:16px;top:17px;width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800}
-.noti .ap{font-size:17px;color:rgba(255,255,255,.6);font-weight:500;display:flex;justify-content:space-between}
+.phone{position:absolute;left:400px;top:-36px;width:480px;height:1000px;border-radius:64px;background:linear-gradient(145deg,#2b2e35,#0c0d10 30%,#0a0a0c 70%,#23262c);box-shadow:0 0 0 2px #3a3d45,0 0 0 9px #0d0e11,0 60px 140px rgba(0,0,0,.95),0 0 120px rgba(90,130,220,.16);transform-origin:50% 30%}
+.scr{position:absolute;inset:11px;border-radius:54px;overflow:hidden;background:#05070c}
+.isl{position:absolute;left:50%;top:15px;width:134px;height:36px;margin-left:-67px;border-radius:20px;background:#000;box-shadow:inset 0 0 0 1px rgba(255,255,255,.05)}
+.noti{position:absolute;left:17px;right:17px;height:92px;border-radius:26px;background:rgba(70,78,96,.5);backdrop-filter:blur(18px) saturate(1.4);border:1px solid rgba(255,255,255,.14);box-shadow:0 10px 30px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.12);padding:13px 16px 13px 80px}
+.noti .ic{position:absolute;left:16px;top:17px;width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 4px 10px rgba(0,0,0,.3)}
+.noti .ap{font-size:17px;color:rgba(255,255,255,.62);font-weight:500;display:flex;justify-content:space-between}
 .noti .tt{font-size:25px;font-weight:700;margin-top:3px;white-space:nowrap}
-.noti .tt b{color:#5b9bff;font-weight:800}
+.noti .tt b{color:#7fb2ff;font-weight:800}
 /* chat */
-.bub{position:absolute;max-width:760px;padding:16px 26px;border-radius:26px;font-size:38px;font-weight:600;line-height:1.3}
-.who{position:absolute;font-size:22px;font-weight:500;color:rgba(255,255,255,.55)}
+.bub{position:absolute;max-width:700px;padding:15px 26px;border-radius:26px;font-size:38px;font-weight:600;line-height:1.3;box-shadow:0 10px 30px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.12)}
+.who{position:absolute;font-size:22px;font-weight:600;color:rgba(255,255,255,.6)}
+.av{position:absolute;width:58px;height:58px;border-radius:22px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 6px 16px rgba(0,0,0,.4)}
 /* choice */
-.btn{position:absolute;width:520px;height:150px;border-radius:22px;border:2px solid rgba(255,255,255,.28);background:rgba(255,255,255,.04);display:flex;align-items:center;justify-content:center;font-size:44px;font-weight:700}
+.btn{position:absolute;width:520px;height:150px;border-radius:26px;display:flex;align-items:center;justify-content:center;font-size:44px;font-weight:700;letter-spacing:-.5px}
 /* table */
-.row{position:absolute;left:150px;right:150px;height:74px;border-radius:14px;display:flex;align-items:center;justify-content:space-between;padding:0 34px;font-size:36px;font-weight:600;border:3px solid transparent}
+.row{position:absolute;left:150px;right:150px;height:74px;border-radius:16px;display:flex;align-items:center;justify-content:space-between;padding:0 34px;font-size:36px;font-weight:600;border:1px solid rgba(255,255,255,.07)}
 .row .v{font-size:44px;font-weight:800}
-</style></head><body><div id="st"><div id="in"></div><div id="vig"></div><div id="day"></div><div id="recon">재구성 화면</div></div>
+.ttl{position:absolute;font-size:38px;font-weight:800;letter-spacing:-.5px;padding-left:22px}
+.ttl:before{content:"";position:absolute;left:0;top:7px;bottom:7px;width:7px;border-radius:4px;background:#FF4D6D;box-shadow:0 0 14px rgba(255,77,109,.7)}
+</style></head><body><div id="st"><div id="in"></div><div id="dof"></div><div id="vig"></div><div id="grain"></div><div id="day"></div><div id="recon">재구성 화면</div></div>
 <script>
 const $=id=>document.getElementById(id);
 const cl=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
@@ -45,118 +54,160 @@ const eo=x=>1-Math.pow(1-cl(x),3);
 const eio=x=>{x=cl(x);return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
 function rng(s){return()=>{s=(s*1664525+1013904223)%4294967296;return s/4294967296}}
 const hash=s=>{let h=7;for(const c of s)h=(h*31+c.charCodeAt(0))%1e9;return h};
-const BG_POV='radial-gradient(ellipse 800px 520px at 50% 50%,#10141c 0%,#05070a 60%,#000 100%)';
 const sgn=v=>(v<0?'-':'+')+Math.abs(v).toFixed(1)+'%';
 function step(t,from,to,hits){let v=from;const n=hits.length;hits.forEach((h,i)=>{v+=(to-from)/n*eo((t-h)/0.3)});return v}
 function shake(t,hits,amp=6,d=.3){const k=hits.reduce((s,h)=>s+(t>h&&t<h+d?(1-(t-h)/d):0),0);return [Math.sin(t*85)*amp*k,Math.cos(t*67)*amp*.7*k,k]}
+/* 2026-11-28 대표 "세련도를 엄청 — 시점 화면 안에 실제로 들어가 있는 사람처럼": 어두운 방(빛 망울·화면 빛 번짐)·손에 든 흔들림·가장자리 흐림·필름 입자 */
+function env(t,id,tint='91,155,255',glow=.2){const r=rng(hash(id||'x'));let h=`<div class="abs" style="inset:-40px;background:radial-gradient(ellipse 900px 560px at 50% 46%,#131822 0%,#07090d 55%,#010102 100%)"></div>`;
+  h+=`<div class="orb" style="left:240px;top:60px;width:800px;height:560px;background:radial-gradient(closest-side,rgba(${tint},${glow}),transparent);opacity:${.8+.2*Math.sin(t*1.7)}"></div>`;
+  for(let i=0;i<7;i++){const x=r()*1280,y=60+r()*520,sz=40+r()*110,ph=r()*6,warm=r()>.55;const edge=Math.abs(x-640)/640;
+    h+=`<div class="abs" style="left:${x+Math.sin(t*.35+ph)*14}px;top:${y+Math.cos(t*.28+ph)*9}px;width:${sz}px;height:${sz}px;border-radius:50%;background:radial-gradient(closest-side,rgba(${warm?'255,190,120':'120,160,255'},.5),rgba(${warm?'255,170,90':'90,130,255'},.12) 70%,transparent);filter:blur(${6+edge*8}px);opacity:${(.05+edge*.2)*(.7+.3*Math.sin(t*.9+ph))}"></div>`}
+  return h}
+const cam=(t,amp=1)=>`translate(${(Math.sin(t*.9)*4+Math.sin(t*2.3)*1.4)*amp}px,${(Math.cos(t*.7)*3+Math.sin(t*1.9)*1.2)*amp}px) rotate(${Math.sin(t*.5)*.22*amp}deg) scale(${1.025+lin(t,0,8,0,.035)})`;
+const BGV=`<div class="abs" style="inset:0;background:radial-gradient(ellipse 1200px 640px at 50% 38%,#151820 0%,#090a0e 58%,#030304 100%)"></div><div class="abs" style="inset:0;background-image:linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);background-size:64px 64px;-webkit-mask-image:radial-gradient(ellipse 80% 70% at 50% 45%,#000,transparent)"></div>`;
+const ttl=(x,y,t,s)=>`<div class="ttl" style="left:${x}px;top:${y}px">${t}<span class="dim" style="font-size:24px;font-weight:500;margin-left:16px;letter-spacing:0">${s||''}</span></div>`;
+const cnt=(s,a)=>{const m=String(s).match(/^(\s*약?\s*)([+-]?)(\d+(?:\.\d+)?)(.*)$/);if(!m||a>=1)return s;const d=(m[3].split('.')[1]||'').length;return m[1]+m[2]+(parseFloat(m[3])*a).toFixed(d)+m[4]};
 
 const K={};
 /* 잠금 화면 */
 K.lock=(p,t)=>{const N=p.notis;const on=lin(t,.25,.45);
   const buzz=N.reduce((s,n)=>s+(t>n.t&&t<n.t+.22?Math.sin((t-n.t)*90)*3*(1-(t-n.t)/.22):0),0);
-  let h=`<div class="abs" style="inset:0;background:${BG_POV}"></div><div class="abs" style="left:300px;top:-80px;width:680px;height:880px;border-radius:50%;background:radial-gradient(closest-side,rgba(120,150,210,.3),transparent);filter:blur(22px);opacity:${on*(.75+.25*Math.sin(t*2.1))}"></div>`;
-  h+=`<div class="phone" style="transform:perspective(1200px) translateX(${buzz}px) rotateX(${lin(t,0,8,8,4)}deg) rotateZ(${lin(t,0,8,-3,-1.5)}deg) scale(${lin(t,0,8,1,1.06)})"><div class="scr"><div class="isl"></div>
-   <div class="abs" style="top:78px;width:100%;text-align:center;font-size:26px;font-weight:500;color:rgba(255,255,255,.82)">${p.dow}</div>
-   <div class="abs num" style="top:104px;width:100%;text-align:center;font-size:126px;font-weight:300;letter-spacing:-3px">${p.time}</div>`;
+  const fl=N.reduce((s,n)=>s+(t>n.t&&t<n.t+.5?(1-(t-n.t)/.5):0),0);
+  let h=env(t,p.id,'120,150,220',.26*on+.1*fl);
+  h+=`<div class="abs" style="left:120px;right:120px;top:520px;height:300px;background:radial-gradient(ellipse 50% 60% at 50% 0%,rgba(110,140,210,${.16*on}),transparent)"></div>`;
+  h+=`<div class="phone" style="transform:perspective(1200px) translate(${buzz+Math.sin(t*.9)*5}px,${Math.cos(t*.7)*4}px) rotateX(${lin(t,0,8,9,4)}deg) rotateY(${Math.sin(t*.6)*1.6}deg) rotateZ(${lin(t,0,8,-3.2,-1.4)+Math.sin(t*.5)*.3}deg) scale(${lin(t,0,8,1,1.07)})"><div class="scr">
+   <div class="abs" style="inset:0;background:radial-gradient(ellipse 120% 60% at 20% 0%,#2a3d68 0%,transparent 60%),radial-gradient(ellipse 100% 55% at 100% 45%,#3a2550 0%,transparent 62%),linear-gradient(175deg,#141d33,#0a0f1c 55%,#05070c)"></div>
+   <div class="orb" style="left:${60+Math.sin(t*.4)*30}px;top:${420+Math.cos(t*.3)*24}px;width:340px;height:340px;background:radial-gradient(closest-side,rgba(90,130,255,.28),transparent)"></div><div class="isl"></div>
+   <div class="abs" style="left:38px;top:22px;font-size:19px;font-weight:700">${p.time}</div>
+   <div class="abs" style="right:36px;top:24px;display:flex;align-items:flex-end;gap:3px">${[7,10,13,16].map(x=>`<i style="display:block;width:4px;height:${x}px;border-radius:1px;background:#fff"></i>`).join('')}<span style="display:block;margin-left:8px;width:30px;height:15px;border-radius:5px;border:1.5px solid rgba(255,255,255,.6);padding:1.5px"><i style="display:block;width:38%;height:100%;border-radius:2px;background:#ff5a5a"></i></span></div>
+   <div class="abs" style="top:80px;width:100%;text-align:center;font-size:25px;font-weight:500;color:rgba(255,255,255,.82)">${p.dow}</div>
+   <div class="abs num" style="top:104px;width:100%;text-align:center;font-size:128px;font-weight:300;letter-spacing:-3px;text-shadow:0 0 40px rgba(140,170,255,.35)">${p.time}</div>`;
   N.forEach((n,k)=>{const a=eo((t-n.t)/.3);let yy=0;for(let j=k+1;j<N.length;j++)yy+=102*eo((t-N[j].t)/.3);
-    h+=`<div class="noti" style="top:${292+yy+(1-a)*-34}px;opacity:${(t>=n.t?a:0)*(1-cl((yy-204)/80))};transform:scale(${.94+.06*a})"><div class="ic" style="background:${n.c};color:${n.c=='#f7c600'?'#3a2a00':'#fff'}">${n.i}</div><div class="ap"><span>${n.app}</span><span>지금</span></div><div class="tt">${n.ttl}</div></div>`});
-  h+=`<div class="abs" style="inset:0;background:#000;opacity:${1-on}"></div></div></div>`;return h};
-/* 계좌 */
+    h+=`<div class="noti" style="top:${292+yy+(1-a)*-34}px;opacity:${(t>=n.t?a:0)*(1-cl((yy-204)/80))};transform:scale(${.94+.06*a})"><div class="ic" style="background:linear-gradient(160deg,${n.c},${n.c}cc);color:${n.c=='#f7c600'?'#3a2a00':'#fff'}">${n.i}</div><div class="ap"><span>${n.app}</span><span>지금</span></div><div class="tt">${n.ttl}</div></div>`});
+  h+=`<div class="abs" style="left:44px;bottom:60px;width:58px;height:58px;border-radius:50%;background:rgba(60,66,80,.6);backdrop-filter:blur(12px)"></div><div class="abs" style="right:44px;bottom:60px;width:58px;height:58px;border-radius:50%;background:rgba(60,66,80,.6);backdrop-filter:blur(12px)"></div><div class="abs" style="left:50%;bottom:18px;width:160px;height:6px;margin-left:-80px;border-radius:3px;background:rgba(255,255,255,.75)"></div>
+   <div class="abs" style="left:${-300+((t*.22)%1)*1100}px;top:-100px;width:140px;height:1300px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.07),transparent);transform:rotate(18deg)"></div>
+   <div class="abs" style="inset:0;background:#000;opacity:${1-on}"></div></div></div>`;return h};
+/* 계좌 — 증권 앱 화면 */
 K.acct=(p,t)=>{const hits=p.hits||[.9,1.7,2.4];const v=step(t,p.from,p.to,hits)+Math.sin(t*23)*.03;const [sx,sy,k]=shake(t,hits);
   const r=rng(hash(p.id));const pts=[];let y=0;for(let i=0;i<=90;i++){const x=i/90;y+=1.2+(x>.3&&x<.36?9:0)+(x>.62&&x<.68?10:0)+(x>.88?7:0)+(r()-.5)*7;pts.push([x,y])}
   const m=pts[pts.length-1][1];const prog=cl(lin(t,.3,3.2));const n=Math.max(2,Math.floor(prog*pts.length));
-  const P=pts.slice(0,n).map(q=>[20+q[0]*460,40+q[1]/m*340]);const L=P[P.length-1];
-  return `<div class="abs" style="inset:0;background:#0b0d11"></div><div class="abs" style="inset:0;transform:translate(${sx}px,${sy}px) scale(${1+lin(t,0,8,0,.03)})">
-   <div class="abs dim" style="left:100px;top:150px;font-size:28px;font-weight:600">내 계좌 <span style="margin-left:26px;font-size:22px"><span class="blue" style="opacity:${Math.sin(t*7)>0?1:.3}">●</span> 실시간</span></div>
-   <div class="abs" style="left:100px;top:196px;font-size:60px;font-weight:800">SOXL <span class="dim" style="font-size:26px;font-weight:500;margin-left:10px">반도체 3배 레버리지 ETF</span></div>
-   <div class="abs dim" style="left:100px;top:300px;font-size:30px;font-weight:600">${p.label}</div>
-   <div class="abs num blue" style="left:92px;top:322px;font-size:${p.small?132:156}px;font-weight:800;letter-spacing:-5px;line-height:1.15">${sgn(v)}</div>
-   ${p.sub?`<div class="abs" style="left:100px;top:520px;font-size:34px;font-weight:600;color:rgba(255,255,255,.8);opacity:${lin(t,2.6,3.1)}">${p.sub}</div>`:''}
-   <svg class="abs" style="left:720px;top:150px" width="500" height="420" viewBox="0 0 500 420"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5b9bff" stop-opacity=".28"/><stop offset="1" stop-color="#5b9bff" stop-opacity="0"/></linearGradient></defs>
-    <line x1="20" y1="40" x2="480" y2="40" stroke="rgba(255,255,255,.22)" stroke-width="2" stroke-dasharray="5 8"/><text x="480" y="28" text-anchor="end" font-size="20" fill="rgba(255,255,255,.5)" font-family="P">${p.ref||'매수가'}</text>
-    <path d="M${P.map(q=>q.join(',')).join(' L')} L${L[0]},410 L20,410 Z" fill="url(#g)"/><path d="M${P.map(q=>q.join(',')).join(' L')}" fill="none" stroke="#5b9bff" stroke-width="4.5" stroke-linejoin="round"/>
-    <circle cx="${L[0]}" cy="${L[1]}" r="${15+4*Math.sin(t*9)}" fill="#5b9bff" opacity=".25"/><circle cx="${L[0]}" cy="${L[1]}" r="7.5" fill="#fff"/></svg>
-   <div class="abs" style="inset:0;background:#5b9bff;opacity:${k*.1}"></div></div>`};
+  const P=pts.slice(0,n).map(q=>[16+q[0]*440,36+q[1]/m*250]);const L=P[P.length-1];
+  const rv=rng(hash(p.id)+3);let vol='';for(let i=0;i<44;i++){const hgt=6+rv()*30+(i>38?24:0);if(i/44<=prog)vol+=`<rect x="${16+i*10}" y="${350-hgt}" width="6.5" height="${hgt}" rx="2" fill="#5b9bff" opacity="${.25+.4*(i/44)}"/>`}
+  const rt=rng(Math.floor(t*7)+hash(p.id));let flow='';for(let i=0;i<9;i++){const w=30+rt()*150,sell=rt()<.74;flow+=`<div style="height:9px;width:${w}px;border-radius:5px;background:${sell?'#5b9bff':'#ff5a5a'};opacity:${.25+rt()*.55};margin-top:7px;${sell?'':'margin-left:auto'}"></div>`}
+  const tabs=['잔고','주문','차트','뉴스'].map((s,i)=>`<span style="position:relative;color:rgba(255,255,255,${i?.45:1});font-weight:${i?500:700}">${s}${i?'':'<i style="position:absolute;left:0;right:0;bottom:-13px;height:4px;border-radius:2px;background:#5b9bff;box-shadow:0 0 12px #5b9bff"></i>'}</span>`).join('');
+  return env(t,p.id,'91,155,255',.22+k*.25)+`<div class="abs" style="inset:0;transform:${cam(t)} translate(${sx}px,${sy}px)">
+  <div class="pane" style="left:66px;top:140px;width:1148px;height:462px;transform:perspective(1700px) rotateY(${-3.5+Math.sin(t*.6)*.8}deg) rotateX(${2+Math.cos(t*.5)*.5}deg)">
+   <div class="abs" style="left:0;right:0;top:0;height:66px;border-bottom:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(255,255,255,.05),transparent);display:flex;align-items:center;gap:38px;padding:0 36px;font-size:24px"><b style="font-size:25px;font-weight:800;letter-spacing:-.5px;margin-right:10px">내 계좌</b>${tabs}<span style="margin-left:auto;font-size:21px;font-weight:600;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:8px"><i style="width:9px;height:9px;border-radius:50%;background:#5b9bff;display:block;opacity:${Math.sin(t*7)>0?1:.3};box-shadow:0 0 10px #5b9bff"></i>실시간</span></div>
+   <div class="abs" style="left:36px;top:92px;display:flex;align-items:center;gap:16px"><span style="width:58px;height:58px;border-radius:18px;background:linear-gradient(150deg,#27324a,#141a28);border:1px solid rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font-size:23px;font-weight:800;color:#8db6ff">3X</span><span style="font-size:50px;font-weight:800;letter-spacing:-1px">SOXL</span><span class="dim" style="font-size:23px;font-weight:500;margin-top:14px">반도체 3배 레버리지 ETF</span></div>
+   <div class="abs dim" style="left:38px;top:178px;font-size:27px;font-weight:600">${p.label}</div>
+   <div class="abs num" style="left:30px;top:196px;font-size:${p.small?128:150}px;font-weight:800;letter-spacing:-5px;line-height:1.15;color:#6aa6ff;text-shadow:0 0 ${40+k*50}px rgba(91,155,255,${.45+k*.4})">${sgn(v)}</div>
+   ${p.sub?`<div class="abs" style="left:38px;top:388px;height:50px;padding:0 22px;border-radius:25px;background:rgba(91,155,255,.14);border:1px solid rgba(91,155,255,.35);display:flex;align-items:center;font-size:29px;font-weight:700;color:#cfe0ff;opacity:${lin(t,2.6,3.1)};transform:translateY(${(1-eo((t-2.6)/.5))*10}px)">${p.sub}</div>`:''}
+   <div class="abs" style="left:590px;top:86px;width:392px;height:356px;border-radius:22px;background:rgba(255,255,255,.028);border:1px solid rgba(255,255,255,.07)"></div>
+   <svg class="abs" style="left:556px;top:78px;overflow:visible" width="472" height="372" viewBox="0 0 472 372"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5b9bff" stop-opacity=".34"/><stop offset="1" stop-color="#5b9bff" stop-opacity="0"/></linearGradient><filter id="gl" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="5"/></filter></defs>
+    <g transform="translate(34,8) scale(.83)">${[0,1,2,3].map(i=>`<line x1="16" y1="${36+i*84}" x2="456" y2="${36+i*84}" stroke="rgba(255,255,255,.06)" stroke-width="1.5"/>`).join('')}
+    <line x1="16" y1="36" x2="456" y2="36" stroke="rgba(255,255,255,.3)" stroke-width="2" stroke-dasharray="5 8"/><text x="456" y="24" text-anchor="end" font-size="24" font-weight="600" fill="rgba(255,255,255,.55)" font-family="P">${p.ref||'매수가'}</text>
+    <path d="M${P.map(q=>q.join(',')).join(' L')} L${L[0]},300 L16,300 Z" fill="url(#g)"/><path d="M${P.map(q=>q.join(',')).join(' L')}" fill="none" stroke="#5b9bff" stroke-width="9" opacity=".5" filter="url(#gl)"/><path d="M${P.map(q=>q.join(',')).join(' L')}" fill="none" stroke="#8dbaff" stroke-width="4.5" stroke-linejoin="round"/>
+    <line x1="${L[0]}" y1="20" x2="${L[0]}" y2="352" stroke="rgba(255,255,255,.18)" stroke-width="1.5" stroke-dasharray="3 5"/>${vol}
+    <circle cx="${L[0]}" cy="${L[1]}" r="${17+5*Math.sin(t*9)}" fill="#5b9bff" opacity=".28"/><circle cx="${L[0]}" cy="${L[1]}" r="7.5" fill="#fff"/></g></svg>
+   <div class="abs" style="left:1004px;top:86px;width:112px;bottom:20px"><div class="dim" style="font-size:21px;font-weight:600">체결</div>${flow}</div>
+   <div class="abs" style="left:-200px;top:-200px;width:700px;height:500px;background:radial-gradient(closest-side,rgba(255,255,255,.05),transparent);transform:rotate(-20deg)"></div>
+   <div class="abs" style="inset:0;background:#5b9bff;opacity:${k*.1}"></div></div></div>`};
 /* 모니터 + 속보 */
 K.mon=(p,t)=>{const bt=p.bt||1.0;const [sx,sy]=shake(t,[bt],7,.35);const pl=lin(t,bt+.3,bt+2.2);
   const r=rng(hash(p.id));const C=[];let pr=100;for(let i=0;i<30;i++){let ch=(r()-.6)*5;if(i>=24)ch=-(5+r()*6);const o=pr,c=Math.max(8,pr+ch);C.push({o,c,h:Math.max(o,c)+r()*2.5,l:Math.min(o,c)-r()*3});pr=c}
   const vis=24+Math.floor(pl*6);const Y=v=>14+(106-v)/106*400;let s='';
-  for(let g=0;g<5;g++)s+=`<line x1="0" y1="${14+g*100}" x2="560" y2="${14+g*100}" stroke="rgba(255,255,255,.06)" stroke-width="2"/>`;
-  for(let i=0;i<vis;i++){const c=C[i],x=10+i*18,up=c.c>=c.o,col=up?'#ff5a5a':'#5b9bff';s+=`<line x1="${x+6}" y1="${Y(c.h)}" x2="${x+6}" y2="${Y(c.l)}" stroke="${col}" stroke-width="2"/><rect x="${x}" y="${Y(Math.max(c.o,c.c))}" width="12" height="${Math.max(2,Math.abs(Y(c.o)-Y(c.c)))}" fill="${col}"/>`}
-  const ba=eo((t-bt)/.22);const fl=t>=bt&&t<bt+1.2&&Math.sin((t-bt)*14)>.6;
-  return `<div class="abs" style="inset:0;background:radial-gradient(ellipse 800px 470px at 50% 45%,#0e1117,#040506 70%,#000)"></div>
-  <div class="abs" style="left:100px;top:132px;width:1080px;height:470px;border-radius:18px;background:#07090c;border:7px solid #17191d;box-shadow:0 26px 80px rgba(0,0,0,.9);overflow:hidden;transform:translate(${sx}px,${sy}px) scale(${1+lin(t,0,8,0,.04)})">
-   <div class="abs" style="left:0;top:0;width:600px;height:100%;border-right:2px solid #1b1e24"><div class="abs" style="left:28px;top:20px;font-size:30px;font-weight:800">SOXL<span class="dim" style="font-size:22px;font-weight:600;margin-left:10px">일봉</span></div>
-    <div class="abs num blue" style="right:28px;top:16px;font-size:36px;font-weight:800">${sgn(p.from+(p.to-p.from)*eio(pl))}</div><svg class="abs" style="left:20px;top:76px" width="560" height="360" viewBox="0 0 560 420" preserveAspectRatio="none">${s}</svg></div>
-   <div class="abs" style="left:602px;top:0;right:0;bottom:0;background:#0c0e12"><div class="abs" style="left:0;right:0;top:0;height:60px;background:#15181e;display:flex;align-items:center;padding-left:26px;font-size:25px;font-weight:700;gap:12px"><i style="width:13px;height:13px;border-radius:50%;background:#ff4d4d;display:block;opacity:${Math.sin(t*6)>0?1:.25}"></i>${p.ch||'경제 속보'}</div>
-    <div class="abs" style="left:26px;right:26px;top:78px;height:150px;border-radius:9px;overflow:hidden;background:linear-gradient(135deg,#1a2130,#0d1119)"><div class="abs" style="left:-40px;top:-30px;width:280px;height:280px;border-radius:50%;background:radial-gradient(closest-side,rgba(91,155,255,.25),transparent)"></div>${[[40,60,110],[112,86,150],[212,54,90],[280,100,130],[392,66,100]].map(b=>`<div class="abs" style="bottom:0;left:${b[0]}px;width:${b[1]}px;height:${b[2]}px;background:#0a0d13"></div>`).join('')}</div>
-    <div class="abs" style="left:26px;right:26px;top:244px;height:160px;background:${fl?'#ff3b40':'#e0262b'};border-radius:7px;padding:16px 22px;transform-origin:0 50%;opacity:${t>=bt?1:0};transform:scaleX(${.2+.8*ba})"><span style="display:inline-block;background:#fff;color:#e0262b;font-size:23px;font-weight:800;padding:2px 12px;border-radius:4px">속보</span><div style="font-size:${p.hs||38}px;font-weight:800;line-height:1.22;margin-top:8px;letter-spacing:-1px;white-space:nowrap">${p.head}</div></div>
-    <div class="abs" style="left:0;right:0;bottom:0;height:42px;background:#15181e;overflow:hidden"><div class="abs" style="top:7px;left:${470-t*140}px;white-space:nowrap;font-size:22px;font-weight:600;color:rgba(255,255,255,.85)">${p.tick} &nbsp;·&nbsp; ${p.tick} &nbsp;·&nbsp; ${p.tick}</div></div></div></div>`};
+  for(let g=0;g<5;g++)s+=`<line x1="0" y1="${14+g*100}" x2="560" y2="${14+g*100}" stroke="rgba(255,255,255,.055)" stroke-width="2"/>`;
+  for(let i=0;i<vis;i++){const c=C[i],x=10+i*18,up=c.c>=c.o,col=up?'#ff5a5a':'#5b9bff';s+=`<line x1="${x+6}" y1="${Y(c.h)}" x2="${x+6}" y2="${Y(c.l)}" stroke="${col}" stroke-width="2"/><rect x="${x}" y="${Y(Math.max(c.o,c.c))}" width="12" height="${Math.max(2,Math.abs(Y(c.o)-Y(c.c)))}" rx="1.5" fill="${col}"/>`}
+  const lastc=C[vis-1];s+=`<line x1="0" y1="${Y(lastc.c)}" x2="560" y2="${Y(lastc.c)}" stroke="#5b9bff" stroke-width="1.5" stroke-dasharray="4 6" opacity=".7"/>`;
+  const ba=eo((t-bt)/.22);const fl=t>=bt&&t<bt+1.2&&Math.sin((t-bt)*14)>.6;const red=t>=bt?(.5+.5*Math.sin(t*3)):0;
+  return env(t,p.id,t>=bt?'255,80,90':'91,155,255',.16+red*.08)+`<div class="abs" style="inset:0;transform:${cam(t,.8)}">
+  <div class="abs" style="left:160px;right:160px;top:592px;height:200px;background:radial-gradient(ellipse 50% 70% at 50% 0%,rgba(${t>=bt?'255,90,100':'100,150,255'},.2),transparent)"></div>
+  <div class="abs" style="left:560px;top:596px;width:160px;height:60px;background:linear-gradient(180deg,#16181d,#0a0b0e);clip-path:polygon(22% 0,78% 0,100% 100%,0 100%)"></div>
+  <div class="abs" style="left:100px;top:126px;width:1080px;height:476px;border-radius:20px;background:#07090c;border:8px solid #15171b;box-shadow:0 0 0 1.5px #2b2e35,0 30px 90px rgba(0,0,0,.9),0 0 90px rgba(${t>=bt?'255,70,80':'90,140,255'},.16);overflow:hidden;transform:translate(${sx}px,${sy}px) perspective(1800px) rotateX(1.2deg)">
+   <div class="abs" style="left:0;top:0;width:600px;height:100%;border-right:1px solid #1e2128;background:linear-gradient(180deg,#0b0e13,#07090c)"><div class="abs" style="left:28px;top:20px;font-size:30px;font-weight:800">SOXL<span class="dim" style="font-size:22px;font-weight:600;margin-left:10px">일봉</span></div>
+    <div class="abs num" style="right:28px;top:14px;font-size:36px;font-weight:800;color:#6aa6ff;text-shadow:0 0 22px rgba(91,155,255,.6)">${sgn(p.from+(p.to-p.from)*eio(pl))}</div><svg class="abs" style="left:20px;top:76px" width="560" height="360" viewBox="0 0 560 420" preserveAspectRatio="none">${s}</svg></div>
+   <div class="abs" style="left:601px;top:0;right:0;bottom:0;background:#0c0e12"><div class="abs" style="left:0;right:0;top:0;height:60px;background:linear-gradient(180deg,#1a1d24,#13161b);display:flex;align-items:center;padding-left:26px;font-size:25px;font-weight:700;gap:12px"><i style="width:13px;height:13px;border-radius:50%;background:#ff4d4d;display:block;opacity:${Math.sin(t*6)>0?1:.25};box-shadow:0 0 12px #ff4d4d"></i>${p.ch||'경제 속보'}<span style="margin-left:auto;margin-right:22px;font-size:21px;font-weight:800;color:#ff5a5a;border:1.5px solid #ff5a5a;border-radius:6px;padding:1px 9px">LIVE</span></div>
+    <div class="abs" style="left:26px;right:26px;top:78px;height:150px;border-radius:10px;overflow:hidden;background:linear-gradient(135deg,#1d2638,#0d1119)"><div class="abs" style="left:${-40+Math.sin(t*.5)*20}px;top:-30px;width:280px;height:280px;border-radius:50%;background:radial-gradient(closest-side,rgba(91,155,255,.3),transparent)"></div>${[[40,60,110],[112,86,150],[212,54,90],[280,100,130],[392,66,100]].map(b=>`<div class="abs" style="bottom:0;left:${b[0]-t*2}px;width:${b[1]}px;height:${b[2]}px;background:linear-gradient(180deg,#0e131c,#080b11)"></div>`).join('')}</div>
+    <div class="abs" style="left:26px;right:26px;top:244px;height:160px;background:linear-gradient(160deg,${fl?'#ff4a50':'#ea2a30'},#b8161c);border-radius:9px;padding:16px 22px;transform-origin:0 50%;opacity:${t>=bt?1:0};transform:scaleX(${.2+.8*ba});box-shadow:0 10px 40px rgba(230,40,50,.4),inset 0 1px 0 rgba(255,255,255,.25)"><span style="display:inline-block;background:#fff;color:#e0262b;font-size:23px;font-weight:800;padding:2px 12px;border-radius:4px">속보</span><div style="font-size:${p.hs||38}px;font-weight:800;line-height:1.22;margin-top:8px;letter-spacing:-1px;white-space:nowrap">${p.head}</div></div>
+    <div class="abs" style="left:0;right:0;bottom:0;height:42px;background:#15181e;overflow:hidden"><div class="abs" style="top:7px;left:${470-t*140}px;white-space:nowrap;font-size:22px;font-weight:600;color:rgba(255,255,255,.85)">${p.tick} &nbsp;·&nbsp; ${p.tick} &nbsp;·&nbsp; ${p.tick}</div></div></div>
+   <div class="abs" style="inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 1px,transparent 1px 3px)"></div><div class="abs" style="left:-100px;top:-260px;width:900px;height:460px;background:radial-gradient(closest-side,rgba(255,255,255,.06),transparent);transform:rotate(-14deg)"></div></div></div>`};
 /* 단체 대화방 */
-K.chat=(p,t)=>{let h=`<div class="abs" style="inset:0;background:#0d1117"></div><div class="abs dim" style="left:0;right:0;top:160px;text-align:center;font-size:26px;font-weight:600">${p.title}</div>`;let y=226;
-  p.msgs.forEach((m,i)=>{const t0=.35+i*(p.gap||.75);const a=eo((t-t0)/.25);const me=m.me;
-    if(!me)h+=`<div class="who" style="left:150px;top:${y}px;opacity:${t>=t0?a:0}">${m.who}</div>`;
-    h+=`<div class="bub" style="${me?'right:150px;background:#f7c600;color:#2b2000':'left:150px;background:#232a36'};top:${y+(me?0:30)}px;opacity:${t>=t0?a:0};transform:translateY(${(1-a)*18}px)">${m.text}</div>`;y+=me?92:122});
-  return h};
+K.chat=(p,t)=>{const AC=['#4b6fd6','#2f9e7a','#b0553f','#7a52c7'];const idx={};let ai=0;
+  let h=env(t,p.id,'247,198,0',.07)+`<div class="abs" style="inset:0;transform:${cam(t)}"><div class="pane" style="left:120px;top:128px;width:1040px;height:500px;transform:perspective(1700px) rotateY(${2.5+Math.sin(t*.6)*.7}deg) rotateX(1.5deg)">
+   <div class="abs" style="left:0;right:0;top:0;height:64px;border-bottom:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(255,255,255,.055),transparent);display:flex;align-items:center;padding:0 30px;gap:14px;font-size:26px;font-weight:700"><span style="font-size:30px;font-weight:300;color:rgba(255,255,255,.6);margin-top:-4px">‹</span>${p.title}</div>`;let y=84;
+  p.msgs.forEach((m,i)=>{const t0=.35+i*(p.gap||.75);const a=eo((t-t0)/.25);const me=m.me;const typ=!me&&t>t0-.5&&t<t0;
+    if(!me){if(idx[m.who]==null)idx[m.who]=ai++;const c=AC[idx[m.who]%4];
+      h+=`<div class="av" style="left:30px;top:${y+4}px;background:linear-gradient(150deg,${c},${c}aa);opacity:${t>=t0-.5?1:0}">${m.who.slice(0,1)}</div><div class="who" style="left:104px;top:${y}px;opacity:${t>=t0-.5?1:0}">${m.who}</div>`;
+      if(typ)h+=`<div class="bub" style="left:104px;top:${y+30}px;background:#232a36;padding:15px 24px">${[0,1,2].map(d=>`<i style="display:inline-block;width:11px;height:11px;border-radius:50%;background:#fff;margin:0 4px;opacity:${.3+.7*Math.max(0,Math.sin(t*14-d*1.1))}"></i>`).join('')}</div>`}
+    h+=`<div class="bub" style="${me?'right:34px;background:linear-gradient(170deg,#ffd92e,#f2bd00);color:#2b2000;border-bottom-right-radius:8px':'left:104px;background:linear-gradient(170deg,#2a3240,#212836);border-top-left-radius:8px'};top:${y+(me?0:30)}px;opacity:${t>=t0?a:0};transform:translateY(${(1-a)*18}px) scale(${.96+.04*a});transform-origin:${me?'100%':'0'} 100%">${m.text}</div>`;y+=me?92:122});
+  return h+`</div></div>`};
 /* 선택 버튼 */
-K.choice=(p,t)=>{const L=['손절한다','한 번에 물을 탄다','나눠서 산다','현금 들고 기다린다'];let h=`<div class="abs" style="inset:0;background:${BG_POV}"></div><div class="abs" style="left:0;right:0;top:136px;text-align:center;font-size:36px;font-weight:600;color:rgba(255,255,255,.75)">${p.q||'당신의 선택은?'}</div>`;
-  L.forEach((s,i)=>{const t0=.3+i*.28;const a=eo((t-t0)/.3);const hi=(p.hi||[]).includes(i);const pu=hi?(.5+.5*Math.sin(t*5)):0;const off=p.hi&&p.hi.length&&!hi;
-    h+=`<div class="btn" style="left:${i%2?660:100}px;top:${216+Math.floor(i/2)*176}px;opacity:${(t>=t0?a:0)*(off?.32:1)};transform:scale(${.92+.08*a});${hi?`border-color:#fff;background:rgba(255,255,255,${.1+.06*pu});box-shadow:0 0 ${30+20*pu}px rgba(255,255,255,.18)`:''}">${s}</div>`});return h};
+K.choice=(p,t)=>{const L=['손절한다','한 번에 물을 탄다','나눠서 산다','현금 들고 기다린다'];const has=p.hi&&p.hi.length;const scan=has?-1:(t>1.5?Math.floor((t-1.5)/.85)%4:-1);
+  let h=env(t,p.id,'255,255,255',.06)+`<div class="abs" style="inset:0;transform:${cam(t)}"><div class="abs" style="left:0;right:0;top:134px;text-align:center;font-size:36px;font-weight:600;color:rgba(255,255,255,.78);letter-spacing:-.5px;opacity:${lin(t,.1,.5)}">${p.q||'당신의 선택은?'}</div>`;
+  L.forEach((s,i)=>{const t0=.3+i*.28;const a=eo((t-t0)/.3);const hi=(p.hi||[]).includes(i);const pu=hi?(.5+.5*Math.sin(t*5)):0;const off=has&&!hi;const sc=scan==i?eo(((t-1.5)%.85)/.25):0;
+    h+=`<div class="btn glass" style="left:${i%2?660:100}px;top:${216+Math.floor(i/2)*176}px;opacity:${(t>=t0?a:0)*(off?.3:1)};transform:translateY(${(1-a)*20}px) scale(${.94+.06*a+sc*.025+(hi?.02:0)});${hi?`border-color:rgba(255,255,255,.85);background:linear-gradient(160deg,rgba(255,255,255,${.2+.06*pu}),rgba(255,255,255,.07));box-shadow:0 0 ${40+26*pu}px rgba(255,255,255,.22),0 30px 80px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.4)`:sc?`border-color:rgba(255,255,255,${.13+.4*sc});background:linear-gradient(160deg,rgba(255,255,255,${.075+.07*sc}),rgba(255,255,255,.03))`:''}">${s}</div>`});return h+'</div>'};
 /* 큰 글자 */
-K.big=(p,t)=>{const vn=p.style=='vn';const a1=eo((t-.25)/.5),a2=eo((t-(p.d2||.9))/.5);const ul=eio(lin(t,(p.d2||.9)+.5,(p.d2||.9)+1.0));
-  return `<div class="abs" style="inset:0;background:${vn?'#000':BG_POV}"></div><div class="abs" style="left:0;right:0;top:${p.top||210}px;text-align:center;transform:scale(${1+lin(t,0,8,0,.03)})">
-   ${p.pre?`<div style="font-size:30px;font-weight:600;color:rgba(255,255,255,.6);opacity:${a1};margin-bottom:14px">${p.pre}</div>`:''}
-   <div style="font-size:${p.s1||54}px;font-weight:${p.w1||500};color:rgba(255,255,255,${p.o1||.8});opacity:${a1};transform:translateY(${(1-a1)*16}px)">${p.l1}</div>
-   ${p.l2?`<div style="font-size:${p.s2||86}px;font-weight:800;letter-spacing:-2px;margin-top:16px;opacity:${t>=(p.d2||.9)?a2:0};transform:translateY(${(1-a2)*16}px)">${p.l2.replace(/\[(.+?)\]/,(m,w)=>`<span style="position:relative;display:inline-block" class="${p.col||''}">${w}<span style="position:absolute;left:0;bottom:-9px;height:12px;border-radius:6px;background:#FF4D6D;width:${ul*100}%"></span></span>`)}</div>`:''}
+K.big=(p,t)=>{const vn=p.style=='vn';const a1=eo((t-.25)/.6),a2=eo((t-(p.d2||.9))/.6);const ul=eio(lin(t,(p.d2||.9)+.5,(p.d2||.9)+1.0));
+  return (vn?BGV:env(t,p.id,'255,255,255',.055))+`<div class="abs" style="left:${640-170+Math.sin(t*.4)*30}px;top:150px;width:340px;height:340px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,77,109,.08),transparent);filter:blur(20px)"></div>
+  <div class="abs" style="left:0;right:0;top:${p.top||210}px;text-align:center;transform:${vn?`scale(${1+lin(t,0,8,0,.03)})`:cam(t,.7)}">
+   ${p.pre?`<div style="display:inline-flex;align-items:center;gap:14px;font-size:30px;font-weight:600;color:rgba(255,255,255,.62);opacity:${a1};margin-bottom:14px"><i style="display:block;width:${36*a1}px;height:2px;background:rgba(255,255,255,.4)"></i>${p.pre}<i style="display:block;width:${36*a1}px;height:2px;background:rgba(255,255,255,.4)"></i></div>`:''}
+   <div style="font-size:${p.s1||54}px;font-weight:${p.w1||500};letter-spacing:-.5px;color:rgba(255,255,255,${p.o1||.8});opacity:${a1};filter:blur(${(1-a1)*10}px);transform:translateY(${(1-a1)*16}px)">${p.l1}</div>
+   ${p.l2?`<div style="font-size:${p.s2||86}px;font-weight:800;letter-spacing:-2.5px;margin-top:16px;opacity:${t>=(p.d2||.9)?a2:0};filter:blur(${(1-a2)*12}px);transform:translateY(${(1-a2)*16}px);text-shadow:0 0 60px rgba(255,255,255,.18)">${p.l2.replace(/\[(.+?)\]/,(m,w)=>`<span style="position:relative;display:inline-block" class="${p.col||''}">${w}<span style="position:absolute;left:0;bottom:-9px;height:12px;border-radius:6px;background:#FF4D6D;box-shadow:0 0 22px rgba(255,77,109,.75);width:${ul*100}%"></span></span>`)}</div>`:''}
    ${p.l3?`<div style="font-size:34px;font-weight:600;color:rgba(255,255,255,.7);margin-top:30px;opacity:${lin(t,2.2,2.8)}">${p.l3}</div>`:''}</div>`};
 /* 가려진 날짜 */
 K.redact=(p,t)=>{const real=['2','0','2','2','년',' ','1','0','월',' ','1','3','일'];let s='';const rv=p.mode=='reveal';
   real.forEach((c,i)=>{const isN=/\d/.test(c);if(!isN){s+=`<span style="margin:0 6px">${c}</span>`;return}
-    const t0=1.0+i*.22;const open=rv&&t>=t0;const gl=!rv&&Math.sin(t*9+i*2.1)>.93;
-    s+=open?`<span class="num" style="display:inline-block;width:86px;text-align:center;color:#fff;transform:scale(${1+.25*(1-eo((t-t0)/.3))})">${c}</span>`:`<span style="display:inline-block;width:74px;height:104px;margin:0 6px;background:${gl?'#6a7384':'#2a303b'};border-radius:8px;vertical-align:-14px"></span>`});
-  return `<div class="abs" style="inset:0;background:${BG_POV}"></div><div class="abs" style="left:0;right:0;top:170px;text-align:center;font-size:32px;font-weight:600;color:rgba(255,255,255,.65);opacity:${lin(t,.2,.7)}">${p.pre}</div>
-   <div class="abs" style="left:0;right:0;top:250px;text-align:center;font-size:112px;font-weight:800;letter-spacing:-2px;opacity:${lin(t,.3,.8)};transform:scale(${1+lin(t,0,8,0,.03)})">${s}</div>
-   ${p.post?`<div class="abs" style="left:0;right:0;top:450px;text-align:center;font-size:36px;font-weight:600;color:rgba(255,255,255,.75);opacity:${lin(t,rv?4.2:1.6,rv?4.8:2.2)}">${p.post}</div>`:''}`};
+    const t0=1.0+i*.22;const open=rv&&t>=t0;const gl=!rv&&Math.sin(t*9+i*2.1)>.93;const sh=((t*.5+i*.13)%1);
+    s+=open?`<span class="num" style="display:inline-block;width:86px;text-align:center;color:#fff;text-shadow:0 0 40px rgba(255,255,255,${.6*(1-eo((t-t0)/.6))+.15});transform:scale(${1+.25*(1-eo((t-t0)/.3))})">${c}</span>`:`<span style="display:inline-block;position:relative;overflow:hidden;width:74px;height:104px;margin:0 6px;background:linear-gradient(180deg,${gl?'#7b8497':'#343b48'},${gl?'#5a6272':'#1f242d'});border:1px solid rgba(255,255,255,.12);box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 10px 30px rgba(0,0,0,.5);border-radius:12px;vertical-align:-14px"><i style="position:absolute;left:0;right:0;top:${-30+sh*160}px;height:26px;background:linear-gradient(180deg,transparent,rgba(255,255,255,.1),transparent)"></i></span>`});
+  return env(t,p.id,'255,255,255',.06)+`<div class="abs" style="inset:0;transform:${cam(t,.7)}"><div class="abs" style="left:0;right:0;top:170px;text-align:center;font-size:32px;font-weight:600;color:rgba(255,255,255,.65);opacity:${lin(t,.2,.7)}">${p.pre}</div>
+   <div class="abs" style="left:0;right:0;top:250px;text-align:center;font-size:112px;font-weight:800;letter-spacing:-2px;opacity:${lin(t,.3,.8)}">${s}</div>
+   ${p.post?`<div class="abs" style="left:0;right:0;top:450px;text-align:center;font-size:36px;font-weight:600;color:rgba(255,255,255,.75);opacity:${lin(t,rv?4.2:1.6,rv?4.8:2.2)}">${p.post}</div>`:''}</div>`};
 /* 장중 급락·반등 */
 K.plunge=(p,t)=>{const r=rng(hash(p.id));const N=140;const pts=[];let y=p.v?64:20;for(let i=0;i<=N;i++){const x=i/N;
    if(p.v){y+= x<.18?4.6:(x<.7?-1.15:-.25);}else{y+=x<.25?.4:(x<.6?3.4:1.2);} y+=(r()-.5)*2.2;pts.push([x,y])}
   const mn=Math.min(...pts.map(q=>q[1])),mx=Math.max(...pts.map(q=>q[1]));const prog=cl(lin(t,.3,p.v?4.2:3.4));const n=Math.max(2,Math.floor(prog*pts.length));
-  const P=pts.slice(0,n).map(q=>[90+q[0]*1100,210+(q[1]-mn)/(mx-mn)*330]);const L=P[P.length-1];const val=p.from+(p.to-p.from)*(p.v?(prog<.18?prog/.18*(p.low-p.from)/(p.to-p.from):((p.low-p.from)+(p.to-p.low)*((prog-.18)/.82))/(p.to-p.from)):prog);
-  const col=val>=0?'#ff5a5a':'#5b9bff';const [sx,sy]=shake(t,[.3,1.2,2.1],p.v?3:7,.5);
-  return `<div class="abs" style="inset:0;background:#07090c"></div><div class="abs" style="inset:0;transform:translate(${sx}px,${sy}px)"><div class="abs dim" style="left:90px;top:132px;font-size:26px;font-weight:600">SOXL · ${p.cap}</div>
-   <div class="abs num" style="right:90px;top:120px;font-size:72px;font-weight:800;color:${col}">${sgn(val)}</div>
-   <svg class="abs" style="left:0;top:0" width="1280" height="720"><path d="M${P.map(q=>q.join(',')).join(' L')}" fill="none" stroke="${col}" stroke-width="5" stroke-linejoin="round"/><circle cx="${L[0]}" cy="${L[1]}" r="${16+5*Math.sin(t*10)}" fill="${col}" opacity=".25"/><circle cx="${L[0]}" cy="${L[1]}" r="8" fill="#fff"/></svg></div>`};
+  const P=pts.slice(0,n).map(q=>[90+q[0]*1000,220+(q[1]-mn)/(mx-mn)*320]);const L=P[P.length-1];const val=p.from+(p.to-p.from)*(p.v?(prog<.18?prog/.18*(p.low-p.from)/(p.to-p.from):((p.low-p.from)+(p.to-p.low)*((prog-.18)/.82))/(p.to-p.from)):prog);
+  const col=val>=0?'#ff5a5a':'#5b9bff',rgb=val>=0?'255,90,90':'91,155,255';const [sx,sy]=shake(t,[.3,1.2,2.1],p.v?3:7,.5);const d=`M${P.map(q=>q.join(',')).join(' L')}`;let grid='';
+  for(let i=0;i<5;i++)grid+=`<line x1="90" y1="${220+i*80}" x2="1190" y2="${220+i*80}" stroke="rgba(255,255,255,.055)" stroke-width="1.5"/>`;for(let i=0;i<=6;i++)grid+=`<line x1="${90+i*183.3}" y1="548" x2="${90+i*183.3}" y2="558" stroke="rgba(255,255,255,.3)" stroke-width="2"/>`;
+  return env(t,p.id,rgb,.2)+`<div class="abs" style="inset:0;transform:${cam(t,.8)} translate(${sx}px,${sy}px)"><div class="abs" style="left:90px;top:136px;font-size:26px;font-weight:600;color:rgba(255,255,255,.65);display:flex;align-items:center;gap:12px"><b style="font-size:34px;font-weight:800;color:#fff">SOXL</b>${p.cap}</div>
+   <div class="abs num" style="right:90px;top:112px;font-size:76px;font-weight:800;letter-spacing:-2px;color:${col};text-shadow:0 0 40px rgba(${rgb},.6)">${sgn(val)}</div>
+   <svg class="abs" style="left:0;top:0" width="1280" height="720"><defs><linearGradient id="pg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity=".26"/><stop offset="1" stop-color="${col}" stop-opacity="0"/></linearGradient><filter id="pb"><feGaussianBlur stdDeviation="7"/></filter></defs>${grid}
+    <path d="${d} L${L[0]},560 L90,560 Z" fill="url(#pg)"/><path d="${d}" fill="none" stroke="${col}" stroke-width="12" opacity=".5" filter="url(#pb)"/><path d="${d}" fill="none" stroke="${col}" stroke-width="5" stroke-linejoin="round"/>
+    <line x1="90" y1="${L[1]}" x2="1190" y2="${L[1]}" stroke="${col}" stroke-width="1.5" stroke-dasharray="4 7" opacity=".6"/><circle cx="${L[0]}" cy="${L[1]}" r="${18+6*Math.sin(t*10)}" fill="${col}" opacity=".28"/><circle cx="${L[0]}" cy="${L[1]}" r="8" fill="#fff"/></svg></div>`};
 /* 표 (밸류노트 톤) */
-K.table=(p,t)=>{let h=`<div class="abs" style="inset:0;background:#000"></div><div class="abs" style="left:150px;top:122px;font-size:38px;font-weight:800">${p.title}<span class="dim" style="font-size:24px;font-weight:500;margin-left:16px">${p.sub||''}</span></div>`;
+K.table=(p,t)=>{let h=BGV+ttl(150,122,p.title,p.sub);
   const y0=184,dh=Math.min(80,340/p.rows.length);
-  p.rows.forEach((r,i)=>{const a=eo((t-.2-i*.12)/.35);const hi=(p.hi||[]).includes(i);const neg=String(r[1]).trim().startsWith('-');const vc=p.plain?'#fff':(neg?'#5b9bff':'#ff5a5a');
-    h+=`<div class="row" style="top:${y0+i*dh}px;height:${dh-8}px;opacity:${a*(p.hi&&p.hi.length&&!hi?.42:1)};background:rgba(255,255,255,${hi?.09:.04});border-color:${hi?'#FF4D6D':'transparent'}"><span>${r[0]}${r[2]?`<span class="dim" style="font-size:22px;margin-left:14px">${r[2]}</span>`:''}</span><span class="v num" style="color:${vc};${p.plain?'font-size:34px':''}">${r[1]}</span></div>`});
+  p.rows.forEach((r,i)=>{const a=eo((t-.2-i*.12)/.45);const hi=(p.hi||[]).includes(i);const neg=String(r[1]).trim().startsWith('-');const vc=p.plain?'#fff':(neg?'#6aa6ff':'#ff6b6b');const off=p.hi&&p.hi.length&&!hi;
+    h+=`<div class="row" style="top:${y0+i*dh}px;height:${dh-8}px;opacity:${a*(off?.42:1)};transform:translateX(${(1-a)*-26}px);background:${hi?'linear-gradient(90deg,rgba(255,77,109,.2),rgba(255,255,255,.07) 45%)':'linear-gradient(90deg,rgba(255,255,255,.06),rgba(255,255,255,.028))'};border-color:${hi?'rgba(255,77,109,.9)':'rgba(255,255,255,.07)'};${hi?'box-shadow:0 0 34px rgba(255,77,109,.28),inset 0 1px 0 rgba(255,255,255,.14)':'box-shadow:inset 0 1px 0 rgba(255,255,255,.05)'}">${hi?'<i style="position:absolute;left:0;top:10px;bottom:10px;width:6px;border-radius:3px;background:#FF4D6D"></i>':''}<span>${r[0]}${r[2]?`<span class="dim" style="font-size:22px;margin-left:14px">${r[2]}</span>`:''}</span><span class="v num" style="color:${vc};${p.plain?'font-size:34px':`text-shadow:0 0 24px ${neg?'rgba(91,155,255,.4)':'rgba(255,90,90,.4)'}`}">${p.plain?r[1]:cnt(r[1],eo((t-.2-i*.12)/.8))}</span></div>`});
   if(p.note)h+=`<div class="abs dim" style="left:150px;top:${y0+p.rows.length*dh+6}px;font-size:21px;font-weight:500">${p.note}</div>`;return h};
 /* 가격 경로 */
 K.path=(p,t)=>{const pts=p.pts;const mx=Math.log(Math.max(...pts.map(q=>q[1]))*1.25),mn=Math.log(Math.min(...pts.map(q=>q[1]))*.75);
   const X=i=>120+i/(pts.length-1)*1040,Y=v=>520-(Math.log(v)-mn)/(mx-mn)*340;const upto=p.upto==null?pts.length-1:p.upto;const prog=lin(t,.3,2.6)*upto;
-  let d='';let h=`<div class="abs" style="inset:0;background:#000"></div><div class="abs" style="left:120px;top:122px;font-size:38px;font-weight:800">${p.title}<span class="dim" style="font-size:24px;font-weight:500;margin-left:16px">${p.sub||''}</span></div>`;let s='';
+  let d='';let h=BGV+ttl(120,122,p.title,p.sub);let s='<defs><linearGradient id="wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".13"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><filter id="wb"><feGaussianBlur stdDeviation="6"/></filter></defs>';
+  for(let i=0;i<4;i++)s+=`<line x1="120" y1="${200+i*106}" x2="1160" y2="${200+i*106}" stroke="rgba(255,255,255,.05)" stroke-width="1.5"/>`;
   if(p.line){s+=`<line x1="120" y1="${Y(p.line[0])}" x2="1160" y2="${Y(p.line[0])}" stroke="#FF4D6D" stroke-width="3" stroke-dasharray="8 8"/><text x="1160" y="${Y(p.line[0])-10}" text-anchor="end" font-size="24" font-weight="700" fill="#FF4D6D" font-family="P">${p.line[1]}</text>`}
-  for(let i=0;i<=Math.floor(prog);i++){d+=(i?' L':'M')+X(i)+','+Y(pts[i][1])}
-  const fi=Math.floor(prog),fr=prog-fi;if(fi<upto){d+=` L${X(fi)+(X(fi+1)-X(fi))*fr},${Y(pts[fi][1])+(Y(pts[fi+1][1])-Y(pts[fi][1]))*fr}`}
-  s+=`<path d="${d}" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>`;
-  pts.forEach((q,i)=>{if(i>prog+.01||!q[0])return;const hi=(p.hi||[]).includes(i);s+=`<circle cx="${X(i)}" cy="${Y(q[1])}" r="${hi?12:8}" fill="${hi?'#FF4D6D':'#fff'}"/><text x="${X(i)}" y="${Y(q[1])+(q[3]=='b'?46:-22)}" text-anchor="${i==0?'start':i==pts.length-1?'end':'middle'}" font-size="${hi?32:26}" font-weight="800" fill="${hi?'#FF4D6D':'#fff'}" font-family="P">${q[2]||('$'+q[1])}</text><text x="${X(i)}" y="566" text-anchor="${i==0?'start':i==pts.length-1?'end':'middle'}" font-size="21" font-weight="500" fill="rgba(255,255,255,.55)" font-family="P">${q[0]}</text>`});
+  for(let i=0;i<=Math.floor(prog);i++){d+=(i?' L':'M')+X(i)+','+Y(pts[i][1])}let ex=X(Math.floor(prog));
+  const fi=Math.floor(prog),fr=prog-fi;if(fi<upto){ex=X(fi)+(X(fi+1)-X(fi))*fr;d+=` L${ex},${Y(pts[fi][1])+(Y(pts[fi+1][1])-Y(pts[fi][1]))*fr}`}
+  s+=`<path d="${d} L${ex},540 L120,540 Z" fill="url(#wg)"/><path d="${d}" fill="none" stroke="#fff" stroke-width="10" opacity=".3" filter="url(#wb)"/><path d="${d}" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>`;
+  pts.forEach((q,i)=>{if(i>prog+.01||!q[0])return;const hi=(p.hi||[]).includes(i);s+=`${hi?`<circle cx="${X(i)}" cy="${Y(q[1])}" r="${20+5*Math.sin(t*5)}" fill="#FF4D6D" opacity=".25"/>`:''}<circle cx="${X(i)}" cy="${Y(q[1])}" r="${hi?12:8}" fill="${hi?'#FF4D6D':'#fff'}"/><text x="${X(i)}" y="${Y(q[1])+(q[3]=='b'?46:-22)}" text-anchor="${i==0?'start':i==pts.length-1?'end':'middle'}" font-size="${hi?32:26}" font-weight="800" fill="${hi?'#FF4D6D':'#fff'}" font-family="P">${q[2]||('$'+q[1])}</text><text x="${X(i)}" y="566" text-anchor="${i==0?'start':i==pts.length-1?'end':'middle'}" font-size="21" font-weight="500" fill="rgba(255,255,255,.55)" font-family="P">${q[0]}</text>`});
   return h+`<svg class="abs" style="left:0;top:0" width="1280" height="720">${s}</svg>`};
 /* 막대 비교 */
-K.bars=(p,t)=>{let h=`<div class="abs" style="inset:0;background:#000"></div><div class="abs" style="left:150px;top:122px;font-size:38px;font-weight:800">${p.title}<span class="dim" style="font-size:24px;font-weight:500;margin-left:16px">${p.sub||''}</span></div>`;const mx=Math.max(...p.items.map(i=>i[1]));
-  const many=p.items.length>2;
-  p.items.forEach((it,i)=>{const a=eio(lin(t,.3+i*.35,1.3+i*.35));const hi=(p.hi||[]).includes(i);const y=220+i*(300/p.items.length);
-    if(many){const yy=206+i*78;h+=`<div class="abs" style="left:150px;top:${yy}px;font-size:34px;font-weight:700;opacity:${p.hi&&p.hi.length&&!hi?.5:1}">${it[0]}</div><div class="abs" style="left:300px;top:${yy-2}px;height:48px;width:${it[1]/mx*560*a}px;background:${hi?'#FF4D6D':'#fff'};border-radius:8px;opacity:${p.hi&&p.hi.length&&!hi?.4:1}"></div><div class="abs num" style="left:${318+it[1]/mx*560*a}px;top:${yy-6}px;font-size:42px;font-weight:800;color:${hi?'#FF4D6D':'#fff'};opacity:${a}">${it[2]}</div>`;return}
-    h+=`<div class="abs" style="left:150px;top:${y}px;font-size:32px;font-weight:700;opacity:${p.hi&&p.hi.length&&!hi?.5:1}">${it[0]}</div><div class="abs" style="left:150px;top:${y+48}px;height:44px;width:${it[1]/mx*760*a}px;background:${hi?'#FF4D6D':'#fff'};border-radius:8px;opacity:${p.hi&&p.hi.length&&!hi?.4:1}"></div><div class="abs num" style="left:${166+it[1]/mx*760*a}px;top:${y+40}px;font-size:44px;font-weight:800;color:${hi?'#FF4D6D':'#fff'};opacity:${a}">${it[2]}</div>`});return h};
+K.bars=(p,t)=>{let h=BGV+ttl(150,122,p.title,p.sub);const mx=Math.max(...p.items.map(i=>i[1]));
+  const many=p.items.length>2;const bar=(hi)=>hi?'background:linear-gradient(90deg,#ff2e55,#FF6D88);box-shadow:0 0 30px rgba(255,77,109,.5)':'background:linear-gradient(90deg,#8d939e,#f2f4f7)';
+  p.items.forEach((it,i)=>{const a=eio(lin(t,.3+i*.35,1.3+i*.35));const hi=(p.hi||[]).includes(i);const y=220+i*(300/p.items.length);const off=p.hi&&p.hi.length&&!hi;
+    if(many){const yy=206+i*78;h+=`<div class="abs" style="left:150px;top:${yy}px;font-size:34px;font-weight:700;opacity:${off?.5:1}">${it[0]}</div><div class="abs" style="left:300px;top:${yy-2}px;height:48px;width:${it[1]/mx*560*a}px;${bar(hi)};border-radius:10px;opacity:${off?.4:1}"></div><div class="abs num" style="left:${318+it[1]/mx*560*a}px;top:${yy-6}px;font-size:42px;font-weight:800;color:${hi?'#FF4D6D':'#fff'};opacity:${a}">${cnt(it[2],a)}</div>`;return}
+    h+=`<div class="abs" style="left:150px;top:${y}px;font-size:32px;font-weight:700;opacity:${off?.5:1}">${it[0]}</div><div class="abs" style="left:150px;top:${y+48}px;height:44px;width:760px;border-radius:10px;background:rgba(255,255,255,.04)"></div><div class="abs" style="left:150px;top:${y+48}px;height:44px;width:${it[1]/mx*760*a}px;${bar(hi)};border-radius:10px;opacity:${off?.4:1}"></div><div class="abs num" style="left:${166+it[1]/mx*760*a}px;top:${y+40}px;font-size:44px;font-weight:800;color:${hi?'#FF4D6D':'#fff'};opacity:${a}">${cnt(it[2],a)}</div>`});return h};
 /* 연표 */
-K.tline=(p,t)=>{let h=`<div class="abs" style="inset:0;background:#000"></div><div class="abs" style="left:120px;top:122px;font-size:38px;font-weight:800">${p.title}</div><div class="abs" style="left:120px;top:356px;height:4px;width:${1040*eio(lin(t,.3,1.6))}px;background:#fff"></div>`;
+K.tline=(p,t)=>{const w=1040*eio(lin(t,.3,1.6));let h=BGV+ttl(120,122,p.title)+`<div class="abs" style="left:120px;top:357px;height:2px;width:1040px;background:rgba(255,255,255,.1)"></div><div class="abs" style="left:120px;top:356px;height:4px;width:${w}px;border-radius:2px;background:linear-gradient(90deg,rgba(255,255,255,.5),#fff);box-shadow:0 0 16px rgba(255,255,255,.5)"></div>`;
   p.items.forEach((it,i)=>{const x=120+it[0]*1040;const a=eo((t-.4-it[0]*1.2)/.4);const hi=(p.hi||[]).includes(i);
-    h+=`<div class="abs" style="left:${x-11}px;top:347px;width:22px;height:22px;border-radius:50%;background:${hi?'#FF4D6D':'#fff'};opacity:${a}"></div><div class="abs" style="left:${x-170}px;width:340px;text-align:${it[0]<.1?'left':it[0]>.9?'right':'center'};${it[0]<.1?'padding-left:170px;':it[0]>.9?'padding-right:170px;':''}top:${i%2?388:250}px;opacity:${a}"><div class="num" style="font-size:24px;font-weight:600;color:rgba(255,255,255,.6)">${it[1]}</div><div style="font-size:${hi?38:32}px;font-weight:800;color:${hi?'#FF4D6D':'#fff'}">${it[2]}</div></div>`});
+    h+=`${hi?`<div class="abs" style="left:${x-26}px;top:332px;width:52px;height:52px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,77,109,.5),transparent);opacity:${a*(.6+.4*Math.sin(t*5))}"></div>`:''}<div class="abs" style="left:${x-11}px;top:347px;width:22px;height:22px;border-radius:50%;background:${hi?'#FF4D6D':'#fff'};border:4px solid #0b0c10;box-sizing:content-box;margin:-4px;opacity:${a};transform:scale(${.5+.5*a})"></div><div class="abs" style="left:${x-170}px;width:340px;text-align:${it[0]<.1?'left':it[0]>.9?'right':'center'};${it[0]<.1?'padding-left:170px;':it[0]>.9?'padding-right:170px;':''}top:${i%2?388:250}px;opacity:${a};transform:translateY(${(1-a)*(i%2?-10:10)}px)"><div class="num" style="font-size:24px;font-weight:600;color:rgba(255,255,255,.6)">${it[1]}</div><div style="font-size:${hi?38:32}px;font-weight:800;color:${hi?'#FF4D6D':'#fff'}">${it[2]}</div></div>`});
   if(p.note)h+=`<div class="abs" style="left:0;right:0;top:500px;text-align:center;font-size:34px;font-weight:700;opacity:${lin(t,2.2,2.8)}">${p.note}</div>`;return h};
 
 let CLIPS={};
 function render(name,t){const p=CLIPS[name];p.id=name;$('in').innerHTML=K[p.k](p,t);
-  const pov=!!p.day;const vnk=['table','bars','path','tline'].includes(p.k);$('in').style.transformOrigin=vnk?'50% 0':'50% 45%';$('in').style.transform=vnk?'translateY(14px) scale(1.08)':'';$('day').style.display=pov?'block':'none';$('recon').style.display=(pov||p.recon)?'block':'none';$('vig').style.display=(pov||p.recon)?'block':'none';
-  if(pov)$('day').innerHTML=`${p.day}<small>${p.clock||''}</small>`}
+  const pov=!!p.day;const vnk=['table','bars','path','tline'].includes(p.k);const im=pov||p.recon;$('in').style.transformOrigin=vnk?'50% 0':'50% 45%';$('in').style.transform=vnk?'translateY(14px) scale(1.08)':'';$('day').style.display=pov?'flex':'none';$('recon').style.display=im?'block':'none';$('vig').style.display=im?'block':'none';$('dof').style.display=im?'block':'none';
+  const gs=Math.floor(t*30);$('grain').style.backgroundPosition=`${(gs*73)%256}px ${(gs*151)%256}px`;$('grain').style.opacity=im?.085:.05;
+  if(pov)$('day').innerHTML=`<i style="opacity:${Math.sin(t*4)>-.3?1:.3}"></i>${p.day}${p.clock?`<small>${p.clock}</small>`:''}`}
+(()=>{const c=document.createElement('canvas');c.width=c.height=256;const x=c.getContext('2d'),d=x.createImageData(256,256);let q=12345;for(let i=0;i<d.data.length;i+=4){q=(q*1664525+1013904223)%4294967296;const v=q/4294967296*255;d.data[i]=d.data[i+1]=d.data[i+2]=v;d.data[i+3]=255}x.putImageData(d,0,0);$('grain').style.backgroundImage=`url(${c.toDataURL()})`})();
 window.render=render;window.setClips=c=>{CLIPS=c};
 </script></body></html>
