@@ -1221,7 +1221,7 @@ def cuts_source(v, n_frames, seed):
         if j != st["j"]:
             if st["src"] is not None and hasattr(st["src"], "close"): st["src"].close()
             a, b, c = edges[j]; nf = int(round(((max(b, total) - a) if j == len(edges) - 1 else (b - a)) * FPS)) + 2
-            st["src"] = full_source({"lib": c["lib"], "wash": c.get("wash", "none"), "start": c.get("start", 0)}, nf, seed * 7 + j); st["j"] = j; st["a"] = a   # start: 원음 영상 컷을 더빙과 같은 지점부터 (2026-11-20)
+            st["src"] = full_source({"lib": c["lib"], "wash": c.get("wash", "none"), "start": c.get("start", 0), "crop": c.get("crop")}, nf, seed * 7 + j); st["j"] = j; st["a"] = a   # start: 원음 영상 컷을 더빙과 같은 지점부터 (2026-11-20)
         return st["src"](max(0.0, u - st["a"]))
     return get
 
@@ -1444,7 +1444,12 @@ def full_source(v, n_frames, seed):
     pth = os.path.join(lib, v.get("lib", ""))
     if not v.get("lib") or not os.path.exists(pth): return lambda u: background("light")
     if pth.lower().endswith((".mp4", ".mov", ".webm")): return clip_source(pth, n_frames, seed, start=float(v.get("start") or 0))
-    src = Image.open(pth).convert("RGB"); r = max(W / src.width, H / src.height) * 1.1
+    src = Image.open(pth).convert("RGB")
+    if v.get("crop"):   # 2026-11-27 대표 "한 사진 5초 넘게 금지": 같은 사진의 다른 부분을 당겨 찍은 컷(cx, cy, 배율)
+        cx_, cy_, z_ = v["crop"]; cw_, ch_ = src.width / z_, src.height / z_
+        x0_ = min(max(0, src.width * cx_ - cw_ / 2), src.width - cw_); y0_ = min(max(0, src.height * cy_ - ch_ / 2), src.height - ch_)
+        src = src.crop((int(x0_), int(y0_), int(x0_ + cw_), int(y0_ + ch_)))
+    r = max(W / src.width, H / src.height) * 1.1
     big = src.resize((int(src.width * r), int(src.height * r)), Image.LANCZOS); bw, bh = big.size
     dirs = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (1, 1)]; dx, dy = dirs[seed % len(dirs)]; zin = seed % 2 == 0
     side = v.get("wash", "left"); amt = float(v.get("wash_amt", .72)); ov = None
@@ -2359,6 +2364,7 @@ def preflight(spec):
         for i, sc in enumerate(spec.get("scenes", [])):
             for c in (sc.get("v") or {}).get("cuts", []) or []:
                 n = c.get("lib") if isinstance(c, dict) else c
+                if isinstance(c, dict) and c.get("crop"): continue   # 2026-11-27: 같은 사진의 다른 부분을 당긴 컷은 반복이 아니다
                 if n and not n.startswith("globe_"): _seen.setdefault(n, []).append(i)
         for n, ix in _seen.items():
             if len(ix) > 1: errs.append(f"같은 사진·영상 반복 {n} (장면 {ix})")

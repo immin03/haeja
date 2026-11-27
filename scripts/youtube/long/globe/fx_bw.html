@@ -153,7 +153,7 @@ function race(C,t){
   const F=C.frames||[], dur=C.step||2.2, k=cl((t-0.6)/dur,0,F.length-1), i=Math.floor(k), f=k-i, j=Math.min(i+1,F.length-1), e=ease(f);
   const names=Object.keys(F[0].vals), val=n=>F[i].vals[n]+(F[j].vals[n]-F[i].vals[n])*e;
   const rank=fr=>[...names].sort((a,b)=>F[fr].vals[b]-F[fr].vals[a]); const ri=rank(i), rj=rank(j), mx=Math.max(...names.map(val))*(C.room||1.08);
-  const X0=360, X1=1640, Y0=280, BH=110, GAP=40;
+  const X0=C.x0||360, X1=1640, Y0=C.y0||280, BH=C.bh||110, GAP=40;
   txt(F[f<0.5?i:j].label,1780,1000,64,'rgba(225,225,228,0.55)',800,'right',1);
   names.forEach(n=>{ const y=Y0+(ri.indexOf(n)+(rj.indexOf(n)-ri.indexOf(n))*e)*(BH+GAP), v=val(n), w=(X1-X0)*v/mx, col=(C.colors||{})[n]||GOLD;
     g.save(); const gr=g.createLinearGradient(X0,0,X0+w,0); gr.addColorStop(0,col.replace(')',',0.35)').replace('rgb','rgba')); gr.addColorStop(1,col); g.fillStyle=gr; g.shadowColor=col; g.shadowBlur=18; g.beginPath(); g.roundRect(X0,y,w,BH,14); g.fill(); g.restore();
@@ -360,7 +360,7 @@ function vs2(C,t){
   bg(); kicker(C,t);
   const I=C.items||[], n=I.length, X0=150, X1=W-150, gap=40, cw=(X1-X0-gap*(n-1))/n, Y0=C.y0||300, ch=C.ch||500;
   // 2026-11-27 대표 "말할 때마다 빨간 테두리가 그 칸으로 옮겨 가야": hl=[[초, 칸번호],...] 이면 그 시각부터 그 칸만 켜진다(켜지지 않은 칸 숫자는 흰색)
-  let cur=null; if(C.hl){ cur=-1; C.hl.forEach(h=>{ if(t>=h[0]) cur=h[1]; }); }
+  let cur=null; if(C.hl&&!window.MEASURING){ cur=-1; C.hl.forEach(h=>{ if(t>=h[0]) cur=h[1]; }); }
   // 2026-11-27 대표 "다 똑같은 효과 — 어떤 건 더 화려하게, 다채롭게": hl_style 로 강조 방식을 카드마다 다르게
   //   border(빨간 테두리) · pop(켜진 칸이 앞으로 튀어나오고 나머지는 흐려짐) · fill(켜진 칸이 핑크로 꽉 차고 글자는 검정) · spot(켜진 칸 뒤로 빛 + 나머지 어둡게)
   // 칸이 바뀌는 순간(0.35초) 살짝 번쩍이며 옮겨 간다
@@ -423,13 +423,14 @@ function chain(C,t){
   if(C.wave){ const aw=ease(cl((t-0.6)/0.6)); const head=X0-cw/2+(cl((t-0.6)/(st*(n-1)+0.6)))*((n-1)*dx+cw);
     g.save(); g.globalAlpha=aw; for(let L=0;L<3;L++){ g.beginPath(); for(let x=X0-cw/2;x<=head;x+=6){ const k=(head-x)/220, amp=(18+L*10)*Math.exp(-k*0.35); const y=cy+150+L*34+Math.sin(x/38-t*5+L)*amp; x===X0-cw/2?g.moveTo(x,y):g.lineTo(x,y); }
       g.strokeStyle=L?'rgba(225,225,228,'+(0.22-L*0.06)+')':PINK; g.lineWidth=L?2:3.5; g.stroke(); } g.restore(); }
-  for(let i=0;i<n-1;i++){ const x1=X0+i*dx+cw/2+14, x2=X0+(i+1)*dx-cw/2-14, a=ease(cl((t-0.8-i*st-0.3)/0.6));
+  for(let i=0;i<n-1;i++){ const x1=X0+i*dx+cw/2+14, x2=X0+(i+1)*dx-cw/2-14, a=C.at?ease(cl((t-(C.at[i+1]-0.7))/0.6)):ease(cl((t-0.8-i*st-0.3)/0.6));
     g.save(); g.strokeStyle='rgba(225,225,228,0.18)'; g.lineWidth=3; g.beginPath(); g.moveTo(x1,cy); g.lineTo(x2,cy); g.stroke();
     if(a>0){ const xe=x1+(x2-x1)*a; g.strokeStyle=PINK; g.lineWidth=4; g.beginPath(); g.moveTo(x1,cy); g.lineTo(xe,cy); g.stroke();
       g.fillStyle=PINK; g.beginPath(); g.moveTo(xe+4,cy); g.lineTo(xe-14,cy-11); g.lineTo(xe-14,cy+11); g.closePath(); g.fill();
       if(a<1){ g.shadowColor=PINK; g.shadowBlur=26; g.beginPath(); g.arc(xe,cy,9,0,7); g.fill(); } }
     g.restore(); }
-  N.forEach((q,i)=>{ const a=ease(cl((t-0.6-i*st)/0.45)), x=X0+i*dx, pul=(Math.sin((t-i*st)*4)+1)/2, hi=q.hi||i===n-1;
+  const TA=i=>C.at?C.at[i]:0.6+i*st; let curN=-1; N.forEach((q,i)=>{ if(t>=TA(i)) curN=i; });
+  N.forEach((q,i)=>{ const a=ease(cl((t-TA(i))/0.45)), x=X0+i*dx, pul=(Math.sin((t-TA(i))*4)+1)/2, hi=C.at?(i===curN):(q.hi||i===n-1);
     g.save(); g.globalAlpha=0.35+0.65*a; g.fillStyle='rgba(20,20,24,0.92)'; g.strokeStyle=a>0?(hi?PINK:'rgba(235,235,238,0.7)'):'rgba(225,225,228,0.25)'; g.lineWidth=hi&&a>0?4:2.5; if(a>0&&hi){ g.shadowColor=PINK; g.shadowBlur=14+12*pul*a; } g.beginPath(); g.roundRect(x-cw/2,cy-chh/2,cw,chh,22); g.fill(); g.stroke(); g.restore();
     txt(q.k,x,cy-(q.sub?18:0),q.k.length>6?40:48,a>0&&hi?PINK:IVORY,800,'center',0.3+0.7*a); if(q.sub) txtS(q.sub,x,cy+36,26,GRAY,600,'center',0.3+0.7*a); });
   if(C.foot) txtS(C.foot,W/2,1040,22,GRAY,600,'center',1);
@@ -445,9 +446,17 @@ function floor(C,t){
   g.save(); g.globalAlpha=a0; g.setLineDash([14,10]); g.strokeStyle=PINK; g.lineWidth=3; g.beginPath(); g.moveTo(X0-60,by); g.lineTo(X1,by); g.stroke(); g.restore();
   txt(base.k,X0-40,by-16,52,PINK,800,'right',a0); txtS('모든 금리의',X0-40,by+34,40,GRAY,700,'right',a0); txtS('바닥',X0-40,by+80,40,GRAY,700,'right',a0);
   g.save(); g.globalAlpha=a0*0.9; const gb=g.createLinearGradient(0,by,0,gy); gb.addColorStop(0,'rgba(255,77,109,0.20)'); gb.addColorStop(1,'rgba(255,77,109,0.04)'); g.fillStyle=gb; g.fillRect(X0-60,by,X1-X0+60,gy-by); g.restore();
-  B.forEach((q,i)=>{ const a=ease(cl((t-0.9-i*0.6)/0.5)); if(a<=0) return; const cx=X0+((X1-X0)/n)*(i+0.5), top=by-(q.spread||0)*sc*a;
+  B.forEach((q,i)=>{ const a=ease(cl((t-(C.bar_at?C.bar_at[i]:0.9+i*0.6))/0.5)); if(a<=0) return; const cx=X0+((X1-X0)/n)*(i+0.5), top=by-(q.spread||0)*sc*a;
     if(q.spread){ g.save(); g.globalAlpha=a; g.fillStyle='rgba(242,242,242,0.85)'; g.beginPath(); g.roundRect(cx-bw/2,top,bw,by-top,[14,14,0,0]); g.fill(); g.restore(); txt('+ 위험 값',cx,(top+by)/2,44,'#18181b',800,'center',a); }
     txt(q.k,cx,top-(q.sub?70:40),52,IVORY,800,'center',a); if(q.sub) txtS(q.sub,cx,top-24,24,GRAY,600,'center',a); });
+  if(r>0){ // 2026-11-27 대표 '바닥 국채 금리 오르면 할 때 오르는 표시를 맞춰서': 바닥선 옆 ▲+1%p, 막대마다 위 화살표가 솟는다
+    const ar=ease(cl((t-ra)/0.6)), bob=Math.sin((t-ra)*6)*4*(1-r);
+    g.save(); g.globalAlpha=ar; g.fillStyle=PINK; g.beginPath(); const ax=X0-40-190, ay=by-150+bob; g.moveTo(ax,ay-26); g.lineTo(ax-24,ay+10); g.lineTo(ax+24,ay+10); g.closePath(); g.fill(); g.restore();
+    txt('+1%p',X0-40-150,by-142+bob,52,PINK,800,'left',ar);
+    B.forEach((q,i)=>{ const cx=X0+((X1-X0)/n)*(i+0.5), top=by-(q.spread||0)*sc; const yy=top-(q.sub?120:92)-26*r;
+      g.save(); g.globalAlpha=ar*(0.9-0.5*r+0.4); g.strokeStyle=PINK; g.lineWidth=6; g.lineCap='round'; g.beginPath(); g.moveTo(cx+bw/2+34,yy+70); g.lineTo(cx+bw/2+34,yy+10); g.stroke();
+      g.fillStyle=PINK; g.beginPath(); g.moveTo(cx+bw/2+34,yy-8); g.lineTo(cx+bw/2+18,yy+18); g.lineTo(cx+bw/2+50,yy+18); g.closePath(); g.fill(); g.restore(); });
+  }
   if(r>0){ const al=Math.min(1,r*2); txt(C.rise_label||'바닥이 오르면, 전부 같이 오른다',W/2,C.ry||1010,56,PINK,800,'center',al); }
   if(C.foot) txtS(C.foot,W/2,1048,22,GRAY,600,'center',1);
 }
@@ -465,7 +474,7 @@ const SAFE_L=116, SAFE_R=W-116, SAFE_B=868, KY=150;
 let _bb=null, _bbKey='';
 function _measure(C,fn){
   const oc=document.createElement('canvas'); oc.width=W; oc.height=H; const g0=g; g=oc.getContext('2d');
-  window.NOBG=1; window.NOKICK=1; try{ fn(C,60); } finally { g=g0; window.NOBG=0; window.NOKICK=0; }
+  window.NOBG=1; window.NOKICK=1; window.MEASURING=1; try{ fn(C,60); } finally { g=g0; window.NOBG=0; window.NOKICK=0; window.MEASURING=0; }   // 2026-11-27 대표 '박스 2개가 왼쪽으로 치우침': 강조(빛·확대)가 크기 재기에 들어가 가운데가 틀어졌음 → 잴 때는 강조 끔
   const d=oc.getContext('2d').getImageData(0,0,W,H).data; let x0=W,y0=H,x1=0,y1=0;
   for(let y=0;y<H;y+=2){ const r=y*W*4; for(let x=0;x<W;x+=2){ if(d[r+x*4+3]>40){ if(x<x0)x0=x; if(x>x1)x1=x; if(y<y0)y0=y; if(y>y1)y1=y; } } }
   if(x1<=x0||y1<=y0) return {x0:0,y0:0,x1:W,y1:H}; return {x0,y0,x1:x1+2,y1:y1+2};

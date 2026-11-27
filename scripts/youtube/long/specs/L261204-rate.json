@@ -133,14 +133,26 @@
     "cuts": [
      {
       "lib": "il_R1204_stone_tablet.png",
-      "d": 3.9
+      "d": 2.92
      },
      {
       "lib": "il_R1204c_s01_1.png",
-      "d": 3.9
+      "word": "돈을 꾸",
+      "d": 2.92
      },
      {
-      "lib": "il_R1204c_s01_2.png"
+      "lib": "il_R1204c_s01_2.png",
+      "word": "3,00",
+      "d": 2.92
+     },
+     {
+      "lib": "il_R1204c_s01_2.png",
+      "crop": [
+       0.3,
+       0.4,
+       1.45
+      ],
+      "word": "변리, 바"
      }
     ],
     "wash_amt": 0.85,
@@ -182,7 +194,8 @@
       "d": 4.23
      },
      {
-      "lib": "il_R1204c_s02_1.png"
+      "lib": "il_R1204c_s02_1.png",
+      "word": "묘지에 묻"
      }
     ],
     "wash_amt": 0.85,
@@ -206,31 +219,36 @@
     "cuts": [
      {
       "lib": "il_R1204_trading_screens.png",
-      "d": 2.82
+      "d": 2.5
      },
      {
       "lib": "il_R1204c_s03_1.png",
       "word": "집값",
-      "d": 2.82
+      "d": 2.5
      },
      {
       "lib": "il_R1204c_s03_5.png",
       "word": "주식",
-      "d": 2.82
+      "d": 2.5
      },
      {
       "lib": "il_R1204c_s03_2.png",
       "word": "금값",
-      "d": 2.82
+      "d": 2.5
      },
      {
       "lib": "il_R1204c_s03_3.png",
       "word": "AI",
-      "d": 2.82
+      "d": 2.5
      },
      {
       "lib": "il_R1204c_s03_6.png",
-      "word": "죄였던 이자는"
+      "word": "죄였던 이자는",
+      "d": 2.5
+     },
+     {
+      "lib": "il_R1204c_s03_7.png",
+      "word": "4,000년 금리의"
      }
     ],
     "wash_amt": 0.85,
@@ -280,18 +298,16 @@
      {
       "lib": "il_R1204_friend_loan.png",
       "allow_anim": true,
-      "d": 3.02
+      "d": 4.03
      },
      {
       "lib": "il_R1204c_s05_1.png",
-      "d": 3.02
+      "word": "친구에게",
+      "d": 4.03
      },
      {
       "lib": "il_R1204c_s05_2.png",
-      "d": 3.02
-     },
-     {
-      "lib": "il_R1204c_s05_4.png"
+      "word": "더 갚는"
      }
     ],
     "wash_amt": 0.85,
@@ -338,14 +354,11 @@
     "cuts": [
      {
       "lib": "il_R1204b_hammurabi.png",
-      "d": 3.15
+      "d": 4.73
      },
      {
       "lib": "il_R1204c_s07_1.png",
-      "d": 3.15
-     },
-     {
-      "lib": "il_R1204c_s07_2.png"
+      "word": "함무라비"
      }
     ],
     "wash_amt": 0.85,
@@ -396,7 +409,8 @@
       "d": 3.0
      },
      {
-      "lib": "il_R1204c_s09_1.png"
+      "lib": "il_R1204c_s09_1.png",
+      "word": "수 없다"
      }
     ],
     "wash_amt": 0.85,
@@ -420,22 +434,21 @@
     "cuts": [
      {
       "lib": "il_R1204_moneylender_candle.png",
-      "d": 3.52
+      "d": 4.4
      },
      {
       "lib": "il_R1204c_s10_1.png",
-      "d": 3.52
+      "word": "형제에게",
+      "d": 4.4
      },
      {
       "lib": "il_R1204c_s10_2.png",
-      "d": 3.52
+      "word": "이방인에",
+      "d": 4.4
      },
      {
       "lib": "il_R1204c_s10_3.png",
-      "d": 3.52
-     },
-     {
-      "lib": "il_R1204c_s10_4.png"
+      "word": "1,00"
      }
     ],
     "wash_amt": 0.85,
@@ -453,7 +466,9 @@
      "line": 1,
      "at": 0.1,
      "color": "red",
-     "hold": 2.6
+     "hold": 2.6,
+     "t0": 8.19,
+     "until": 12.06
     }
    ],
    "lines": [
@@ -474,14 +489,17 @@
      },
      {
       "lib": "il_R1204c_s11_1.png",
+      "word": "시간은 신",
       "d": 4.28
      },
      {
       "lib": "il_R1204c_s11_2.png",
+      "word": "단테의 『",
       "d": 4.28
      },
      {
-      "lib": "il_R1204c_s11_3.png"
+      "lib": "il_R1204c_s11_3.png",
+      "word": "쏟아지는"
      }
     ],
     "wash_amt": 0.85,
@@ -505,22 +523,22 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_R1204_venice_court.png"
+      "lib": "il_R1204_venice_court.png",
+      "d": 4.28
      },
      {
-      "lib": "il_R1204b_shylock.png"
+      "lib": "il_R1204b_shylock.png",
+      "word": "떼어 가",
+      "d": 4.28
      },
      {
-      "lib": "il_R1204c_s12_1.png"
-     },
-     {
-      "lib": "il_R1204c_s12_2.png"
+      "lib": "il_R1204c_s12_1.png",
+      "word": "그만큼 사"
      }
     ],
     "wash_amt": 0.85,
     "cine": true,
-    "doc_cine": true,
-    "cut_by_line": true
+    "doc_cine": true
    },
    "sketch_add": [],
    "asof": false,
@@ -544,10 +562,12 @@
      },
      {
       "lib": "il_R1204c_s13_1.png",
+      "word": "이자를 받",
       "d": 3.75
      },
      {
-      "lib": "il_R1204c_s13_2.png"
+      "lib": "il_R1204c_s13_2.png",
+      "word": "이자 대"
      }
     ],
     "wash_amt": 0.85,
@@ -574,7 +594,8 @@
       "d": 3.17
      },
      {
-      "lib": "il_R1204c_s14_1.png"
+      "lib": "il_R1204c_s14_1.png",
+      "word": "당당히 받"
      }
     ],
     "wash_amt": 0.85,
@@ -597,25 +618,27 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_R1204_florence_bench.png"
+      "lib": "il_R1204_florence_bench.png",
+      "d": 4.56
      },
      {
-      "lib": "il_R1204b_ledger_coins.png"
+      "lib": "il_R1204b_ledger_coins.png",
+      "word": "메디치는",
+      "d": 4.56
      },
      {
-      "lib": "il_R1204c_s15_1.png"
+      "lib": "il_R1204c_s15_1.png",
+      "word": "피렌체에",
+      "d": 4.56
      },
      {
-      "lib": "il_R1204c_s15_2.png"
-     },
-     {
-      "lib": "il_R1204c_s15_3.png"
+      "lib": "il_R1204c_s15_2.png",
+      "word": "돈으로 돌"
      }
     ],
     "wash_amt": 0.85,
     "cine": true,
-    "doc_cine": true,
-    "cut_by_line": true
+    "doc_cine": true
    },
    "sketch_add": [],
    "asof": false,
@@ -658,26 +681,33 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_R1204b_cosimo.png"
+      "lib": "il_R1204b_cosimo.png",
+      "d": 3.98
      },
      {
       "lib": "il_R1204_renaissance_chapel.png",
-      "allow_anim": true
+      "allow_anim": true,
+      "word": "재밌는 건",
+      "d": 3.98
      },
      {
-      "lib": "il_R1204c_s17_1.png"
+      "lib": "il_R1204c_s17_1.png",
+      "word": "메디치는",
+      "d": 3.98
      },
      {
-      "lib": "il_R1204c_s17_2.png"
+      "lib": "il_R1204c_s17_2.png",
+      "word": "그 돈으",
+      "d": 3.98
      },
      {
-      "lib": "il_R1204c_s17_3.png"
+      "lib": "il_R1204c_s17_3.png",
+      "word": "메디치 집"
      }
     ],
     "wash_amt": 0.85,
     "cine": true,
-    "doc_cine": true,
-    "cut_by_line": true
+    "doc_cine": true
    },
    "sketch_add": [],
    "asof": false,
@@ -697,18 +727,16 @@
     "cuts": [
      {
       "lib": "il_R1204_broken_bench.png",
-      "d": 3.82
+      "d": 5.1
      },
      {
       "lib": "il_R1204c_s18_1.png",
-      "d": 3.82
+      "word": "이탈리아",
+      "d": 5.1
      },
      {
       "lib": "il_R1204c_s18_2.png",
-      "d": 3.82
-     },
-     {
-      "lib": "il_R1204c_s18_3.png"
+      "word": "부서진 의"
      }
     ],
     "wash_amt": 0.85,
@@ -726,7 +754,9 @@
      "line": 1,
      "at": 0.1,
      "color": "red",
-     "hold": 2.6
+     "hold": 2.6,
+     "t0": 4.7,
+     "until": 8.77
     }
    ],
    "lines": [
@@ -742,25 +772,32 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_R1204_london_1694.png"
+      "lib": "il_R1204_london_1694.png",
+      "d": 3.85
      },
      {
-      "lib": "il_R1204b_boe.png"
+      "lib": "il_R1204b_boe.png",
+      "word": "돈이 급",
+      "d": 3.85
      },
      {
-      "lib": "il_R1204c_s19_1.png"
+      "lib": "il_R1204c_s19_1.png",
+      "word": "파운드를",
+      "d": 3.85
      },
      {
-      "lib": "il_R1204c_s19_2.png"
+      "lib": "il_R1204c_s19_2.png",
+      "word": "이렇게 생",
+      "d": 3.85
      },
      {
-      "lib": "il_R1204c_s19_3.png"
+      "lib": "il_R1204c_s19_3.png",
+      "word": "나라를 움"
      }
     ],
     "wash_amt": 0.85,
     "cine": true,
-    "doc_cine": true,
-    "cut_by_line": true
+    "doc_cine": true
    },
    "sketch_add": [],
    "asof": false,
@@ -802,23 +839,22 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "commons_volcker_1_wide.jpg",
-      "d": 3.58
+      "lib": "commons_volcker_1.jpg",
+      "d": 4.48
      },
      {
       "lib": "il_R1204c_s21_1.png",
-      "d": 3.58
+      "word": "마트 물",
+      "d": 4.48
      },
      {
       "lib": "il_R1204c_s21_2.png",
-      "d": 3.58
+      "word": "이때 키",
+      "d": 4.48
      },
      {
       "lib": "il_R1204c_s21_3.png",
-      "d": 3.58
-     },
-     {
-      "lib": "il_R1204c_s21_4.png"
+      "word": "폴 볼커"
      }
     ],
     "wash_amt": 0.85,
@@ -834,7 +870,9 @@
      "text": "폴 볼커",
      "sub": "미국 연방준비제도 의장 · 1979~1987",
      "line": 1,
-     "at": 0.3
+     "at": 0.3,
+     "t0": 8.63,
+     "until": 13.01
     }
    ],
    "lines": [
@@ -934,7 +972,8 @@
       "d": 3.91
      },
      {
-      "lib": "il_R1204c_s24_1.png"
+      "lib": "il_R1204c_s24_1.png",
+      "word": "몰고 워"
      }
     ],
     "wash_amt": 0.85,
@@ -957,22 +996,22 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_R1204_lumber_mail.png"
+      "lib": "il_R1204_lumber_mail.png",
+      "d": 3.79
      },
      {
-      "lib": "il_R1204_keys_coffin.png"
+      "lib": "il_R1204_keys_coffin.png",
+      "word": "붙여 연",
+      "d": 3.79
      },
      {
-      "lib": "il_R1204c_s25_1.png"
-     },
-     {
-      "lib": "il_R1204c_s25_2.png"
+      "lib": "il_R1204c_s25_1.png",
+      "word": "못한 차"
      }
     ],
     "wash_amt": 0.85,
     "cine": true,
-    "doc_cine": true,
-    "cut_by_line": true
+    "doc_cine": true
    },
    "sketch_add": [],
    "asof": false,
@@ -996,14 +1035,17 @@
      },
      {
       "lib": "il_R1204c_s26_1.png",
+      "word": "미국은 그",
       "d": 4.32
      },
      {
       "lib": "il_R1204c_s26_2.png",
+      "word": "전체의 체",
       "d": 4.32
      },
      {
-      "lib": "il_R1204c_s26_3.png"
+      "lib": "il_R1204c_s26_3.png",
+      "word": "아직 아"
      }
     ],
     "wash_amt": 0.85,
@@ -1032,10 +1074,12 @@
      },
      {
       "lib": "il_R1204c_s27_1.png",
+      "word": "금리를 0",
       "d": 3.64
      },
      {
-      "lib": "il_R1204c_s27_2.png"
+      "lib": "il_R1204c_s27_2.png",
+      "word": "그 뒤로"
      }
     ],
     "wash_amt": 0.85,
@@ -1063,18 +1107,22 @@
      },
      {
       "lib": "il_R1204c_s28_1.png",
+      "word": "정반대 세",
       "d": 3.62
      },
      {
       "lib": "il_R1204c_s28_2.png",
+      "word": "대출을 내",
       "d": 3.62
      },
      {
       "lib": "il_R1204c_s28_3.png",
+      "word": "빌린 돈",
       "d": 3.62
      },
      {
-      "lib": "il_R1204c_s28_4.png"
+      "lib": "il_R1204c_s28_4.png",
+      "word": "달라고 하"
      }
     ],
     "wash_amt": 0.85,
@@ -1092,7 +1140,9 @@
      "line": 0,
      "at": 0.75,
      "color": "red",
-     "hold": 2.6
+     "hold": 2.6,
+     "t0": 7.71,
+     "until": 11.1
     }
    ],
    "lines": [
@@ -1117,12 +1167,12 @@
    },
    "sketch_add": [],
    "asof": false,
-   "src": "연준 기준금리 2022-12 4.25~4.50% · 나스닥 2022년 -33.1%",
+   "src": "연준 기준금리 상단 2021-12 0.25% → 2022-12 4.50% · 나스닥 2022년 -33.1%",
    "sketch": [],
    "lines": [
     "그리고 2022년, 청구서가 날아옵니다. 물가가 다시 뛰자 미국은 0%대였던 금리를 1년 만에 4%대로 올렸고, 기술주가 모인 나스닥은 한 해에 33% 빠졌습니다."
    ],
-   "note": "[전] 2022 청구서(코드)"
+   "note": "[전] 2022(코드 · 선 그래프)"
   },
   {
    "v": {
@@ -1135,7 +1185,8 @@
       "d": 4.15
      },
      {
-      "lib": "il_R1204c_s30_1.png"
+      "lib": "il_R1204c_s30_1.png",
+      "word": "왜 지금"
      }
     ],
     "wash_amt": 0.85,
@@ -1162,12 +1213,6 @@
      },
      {
       "lib": "il_R1204_stone_ocean.png"
-     },
-     {
-      "lib": "il_R1204c_s31_1.png"
-     },
-     {
-      "lib": "il_R1204c_s31_2.png"
      }
     ],
     "wash_amt": 0.85,
@@ -1180,8 +1225,8 @@
    "src": "",
    "sketch": [],
    "lines": [
-    "돌 하나를 떠올려 보세요. 작은 연못에 던지면 물결이 조금 일고 끝납니다.",
-    "그런데 같은 돌을 바다에 던지면 어떨까요. 금리는 돌이고, 빚은 물입니다."
+    "물 높이로 생각해 보세요. 금리가 1%포인트 오르는 건, 물 높이가 1센티미터 오르는 것과 같습니다.",
+    "작은 연못에서 1센티미터는 양동이 몇 개면 되지만, 바다에서 1센티미터는 어마어마한 양의 물이죠. 여기서 물은 빚입니다."
    ],
    "note": "[파동] 비유",
    "chapter": "금리의 파동"
@@ -1205,7 +1250,8 @@
    "src": "미국 재무부(1980 회계연도 말 9,077억 달러 · 2026년 38조 달러+)",
    "sketch": [],
    "lines": [
-    "1980년 미국 나라 빚은 1조 달러 정도였습니다. 지금은 38조 달러가 넘습니다. 같은 금리라도 흔드는 물의 양이, 서른 배 넘게 커진 거죠."
+    "1980년 미국 나라 빚은 1조 달러 정도였습니다. 그때 금리 1%포인트는 1년 이자 90억 달러였죠.",
+    "지금은 빚이 38조 달러가 넘습니다. 같은 1%포인트가, 이제 3,800억 달러입니다."
    ],
    "note": "[파동] 연못과 바다(코드)"
   },
@@ -1216,7 +1262,22 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "globe_L261204r_fx_world.mp4"
+      "lib": "il_L261109p_satellite_earth.jpeg",
+      "d": 3.48
+     },
+     {
+      "lib": "il_L261107s_globe_line.jpeg",
+      "word": "금리가 딱",
+      "d": 3.48
+     },
+     {
+      "lib": "il_L261109p_satellite_earth.jpeg",
+      "word": "1년 이자만",
+      "crop": [
+       0.6,
+       0.5,
+       1.5
+      ]
      }
     ],
     "wash_amt": 0.85,
@@ -1226,11 +1287,36 @@
    "sketch_add": [],
    "asof": false,
    "src": "IIF 2026-09-23",
-   "sketch": [],
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "세계 빚 365조 달러",
+     "sub": "",
+     "line": 0,
+     "at": 0.0,
+     "color": "red",
+     "hold": 2.6,
+     "t0": 0.25,
+     "until": 2.87,
+     "sync": false
+    },
+    {
+     "kind": "punch",
+     "text": "이자 +3.65조 달러",
+     "sub": "금리 1%포인트 오르면 · 1년",
+     "line": 0,
+     "at": 0.27,
+     "color": "red",
+     "hold": 2.6,
+     "t0": 2.87,
+     "until": 6.48,
+     "sync": false
+    }
+   ],
    "lines": [
     "세계 전체 빚은 365조 달러입니다. 금리가 딱 1%포인트만 올라도, 단순하게 계산해서 1년 이자만 3조 6,500억 달러가 더 붙습니다."
    ],
-   "note": "[파동] 세계 빚(코드)"
+   "note": "[파동] 세계 빚(사진+글)"
   },
   {
    "v": {
@@ -1239,7 +1325,27 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "globe_L261204r_fx_home.mp4"
+      "lib": "il_L261107m_powerlines_homes.jpeg",
+      "d": 3.81
+     },
+     {
+      "lib": "il_L261107m_powerlines_homes.jpeg",
+      "word": "금리가 1%포인트만",
+      "crop": [
+       0.7,
+       0.7,
+       1.6
+      ],
+      "d": 3.81
+     },
+     {
+      "lib": "il_L261107m_powerlines_homes.jpeg",
+      "word": "한 달에",
+      "crop": [
+       0.3,
+       0.72,
+       1.7
+      ]
      }
     ],
     "wash_amt": 0.85,
@@ -1249,11 +1355,36 @@
    "sketch_add": [],
    "asof": false,
    "src": "계산 예시(3억 원 × 1%포인트 = 1년 300만 원, 한 달 25만 원)",
-   "sketch": [],
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "1년 이자 +300만 원",
+     "sub": "3억 대출 · 금리 1%포인트",
+     "line": 0,
+     "at": 0.35,
+     "color": "red",
+     "hold": 2.6,
+     "t0": 3.57,
+     "until": 7.61,
+     "sync": false
+    },
+    {
+     "kind": "punch",
+     "text": "매달 +25만 원",
+     "sub": "",
+     "line": 0,
+     "at": 0.77,
+     "color": "red",
+     "hold": 2.6,
+     "t0": 7.61,
+     "until": 10.12,
+     "sync": false
+    }
+   ],
    "lines": [
     "우리 집으로 가져와 볼까요. 3억 원을 빌린 집이라면, 금리가 1%포인트만 올라도 1년 이자가 300만 원 늘어납니다. 한 달에 25만 원이 더 나가는 거죠."
    ],
-   "note": "[파동] 우리 집(코드)"
+   "note": "[파동] 우리 집(사진+글)"
   },
   {
    "v": {
@@ -1276,7 +1407,7 @@
    "lines": [
     "미국 정부가 1년에 내는 이자는 2019년 3,750억 달러에서, 2026년 1조 520억 달러가 됐습니다. 하루에 29억 달러. 나라를 지키는 국방비보다 이자가 더 큽니다."
    ],
-   "note": "[파동] 미국 이자(코드)"
+   "note": "[파동] 미국 이자(코드 · 막대)"
   },
   {
    "v": {
@@ -1362,10 +1493,12 @@
      },
      {
       "lib": "il_R1204c_s39_1.png",
+      "word": "자체는 낮",
       "d": 3.86
      },
      {
-      "lib": "il_R1204c_s39_2.png"
+      "lib": "il_R1204c_s39_2.png",
+      "word": "그래서 작"
      }
     ],
     "wash_amt": 0.85,
@@ -1392,7 +1525,8 @@
       "d": 4.07
      },
      {
-      "lib": "il_R1204c_s40_1.png"
+      "lib": "il_R1204c_s40_1.png",
+      "word": "주가가 하"
      }
     ],
     "wash_amt": 0.85,
@@ -1430,7 +1564,7 @@
    "lines": [
     "역사를 보면 버블을 끝낸 건 늘 금리였습니다. 1929년 대공황 직전에도, 2000년 닷컴 버블 직전에도, 2022년에도, 미국은 금리를 올리고 있었습니다."
    ],
-   "note": "[결] 버블과 금리(코드)"
+   "note": "[결] 버블과 금리(코드 · 사슬)"
   },
   {
    "v": {
@@ -1454,7 +1588,7 @@
     "그래서 AI 같은 큰 꿈일수록 금리에 약합니다. 10년 뒤에 받을 1억 원을 생각해 보세요. 금리가 1%면 지금 가치로 9,053만 원이지만, 금리가 5%면 6,139만 원으로 줄어듭니다.",
     "돈을 벌 날이 먼 미래일수록, 금리가 오를 때 지금 몸값이 크게 깎이는 거죠. 게다가 AI 데이터센터는 대부분 빌린 돈으로 짓습니다."
    ],
-   "note": "[결] 할인율(코드)"
+   "note": "[결] 할인(코드 · 막대)"
   },
   {
    "v": {
@@ -1488,14 +1622,16 @@
     "cuts": [
      {
       "lib": "il_R1204b_fomc_room.png",
-      "d": 2.5
+      "d": 4.37
      },
      {
       "lib": "il_R1204c_s44_1.png",
-      "d": 2.5
+      "word": "미국에서는",
+      "d": 4.37
      },
      {
-      "lib": "il_R1204c_s44_2.png"
+      "lib": "il_R1204c_s44_2.png",
+      "word": "한국에서는"
      }
     ],
     "wash_amt": 0.85,
@@ -1505,36 +1641,39 @@
    "sketch_add": [],
    "asof": false,
    "src": "연준 FOMC(투표권 12명 · 연 8회) · 한국은행 금융통화위원회(7명)",
-   "sketch": [],
-   "lines": [
-    "그럼 이 금리는 누가 정할까요?"
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "미국 연준 12명",
+     "sub": "1년에 8번 투표",
+     "line": 1,
+     "at": 0.38,
+     "color": "red",
+     "hold": 2.6,
+     "t0": 4.71,
+     "until": 8.35,
+     "sync": false
+    },
+    {
+     "kind": "punch",
+     "text": "한국은행 7명",
+     "sub": "금융통화위원회",
+     "line": 2,
+     "at": 0.0,
+     "color": "red",
+     "hold": 2.6,
+     "t0": 8.35,
+     "until": 12.31,
+     "sync": false
+    }
    ],
-   "note": "[다음 파도] 누가 정하나",
-   "chapter": "다음 파도"
-  },
-  {
-   "v": {
-    "type": "media",
-    "full": true,
-    "wash": "none",
-    "cuts": [
-     {
-      "lib": "globe_L261204r_fx_who.mp4"
-     }
-    ],
-    "wash_amt": 0.85,
-    "cine": true,
-    "doc_cine": true
-   },
-   "sketch_add": [],
-   "asof": false,
-   "src": "연준 FOMC(투표권 12명 · 연 8회) · 한국은행 금융통화위원회(7명)",
-   "sketch": [],
    "lines": [
+    "그럼 이 금리는 누가 정할까요?",
     "미국에서는 중앙은행인 연준의 위원 12명이 1년에 8번 모여 투표로 정합니다.",
     "한국에서는 한국은행 금융통화위원 7명이 정하죠."
    ],
-   "note": "[다음 파도] 위원 수(코드)"
+   "note": "[다음 파도] 위원 수(사진+글)",
+   "chapter": "다음 파도"
   },
   {
    "v": {
@@ -1567,7 +1706,52 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "globe_L261204r_fx_dec9.mp4"
+      "lib": "il_L261107m_capitol_dawn.jpeg",
+      "d": 3.21
+     },
+     {
+      "lib": "il_L261107m_capitol_dawn.jpeg",
+      "word": "12월 9일,",
+      "crop": [
+       0.5,
+       0.45,
+       1.6
+      ],
+      "d": 3.21
+     },
+     {
+      "lib": "il_L261110a_empty_podium.jpeg",
+      "word": "한국 시간으로는",
+      "d": 3.21
+     },
+     {
+      "lib": "il_L261110a_empty_podium.jpeg",
+      "word": "미국 물가가",
+      "crop": [
+       0.3,
+       0.55,
+       1.6
+      ],
+      "d": 3.21
+     },
+     {
+      "lib": "il_L261110a_empty_podium.jpeg",
+      "word": "시장은 금리가",
+      "crop": [
+       0.75,
+       0.5,
+       1.5
+      ],
+      "d": 3.21
+     },
+     {
+      "lib": "il_L261110a_empty_podium.jpeg",
+      "word": "가능성을",
+      "crop": [
+       0.5,
+       0.6,
+       1.25
+      ]
      }
     ],
     "wash_amt": 0.85,
@@ -1577,12 +1761,37 @@
    "sketch_add": [],
    "asof": false,
    "src": "CME FedWatch 2026-11-25 스냅숏(0.25%p 인상 97.8%) · 연준 목표 범위 3.75~4.00%",
-   "sketch": [],
+   "sketch": [
+    {
+     "kind": "punch",
+     "text": "12월 9일",
+     "sub": "올해 마지막 금리 결정",
+     "line": 0,
+     "at": 0.35,
+     "color": "red",
+     "hold": 2.6,
+     "t0": 3.29,
+     "until": 6.76,
+     "sync": false
+    },
+    {
+     "kind": "punch",
+     "text": "인상 확률 97.8%",
+     "sub": "+0.25%포인트 · CME 페드워치 11월 25일",
+     "line": 1,
+     "at": 0.66,
+     "color": "red",
+     "hold": 2.6,
+     "t0": 14.72,
+     "until": 17.95,
+     "sync": false
+    }
+   ],
    "lines": [
     "그리고 지금 전 세계가 보고 있는 날짜가 있습니다. 12월 9일, 미국 연준의 올해 마지막 금리 결정입니다. 한국 시간으로는 10일 새벽이죠.",
     "미국 물가가 5년 넘게 목표를 웃돌자, 시장은 금리가 0.25%포인트 더 오를 가능성을 97.8%로 보고 있습니다."
    ],
-   "note": "[다음 파도] 12월 9일(코드)"
+   "note": "[다음 파도] 12월 9일(사진+글)"
   },
   {
    "v": {
@@ -1596,14 +1805,17 @@
      },
      {
       "lib": "il_R1204c_s48_1.png",
+      "word": "출렁이고",
       "d": 4.56
      },
      {
       "lib": "il_R1204c_s48_2.png",
+      "word": "기억하시",
       "d": 4.56
      },
      {
-      "lib": "il_R1204c_s48_3.png"
+      "lib": "il_R1204c_s48_3.png",
+      "word": "진짜 파"
      }
     ],
     "wash_amt": 0.85,
@@ -1644,7 +1856,7 @@
     "둘째, 성명서와 의장 기자회견. 여기서 '물가가 아직 높다', '추가 인상도 검토한다' 같은 한 문장이 나오면 시장이 바로 움직입니다.",
     "셋째, 점도표. 연준 위원들이 각자 내년 말 금리가 어디쯤일지 점을 하나씩 찍은 표입니다. 점들이 위로 몰려 있으면 내년에도 더 오른다는 뜻이고, 아래로 내려오면 이제 멈춘다는 뜻이죠."
    ],
-   "note": "[다음 파도] 결정 뒤에 볼 것(코드)"
+   "note": "[다음 파도] 결정 뒤에 볼 것(코드 · 사슬)"
   },
   {
    "v": {
@@ -1678,14 +1890,26 @@
     "cuts": [
      {
       "lib": "il_R1204_closing_dawn.png",
-      "d": 4.77
+      "d": 3.58
      },
      {
       "lib": "il_R1204c_s49_1.png",
-      "d": 4.77
+      "word": "지옥에 가",
+      "d": 3.58
      },
      {
-      "lib": "il_R1204c_s49_3.png"
+      "lib": "il_R1204c_s49_3.png",
+      "word": "바다를 흔",
+      "d": 3.58
+     },
+     {
+      "lib": "il_R1204c_s49_3.png",
+      "crop": [
+       0.3,
+       0.4,
+       1.45
+      ],
+      "word": "메디치가"
      }
     ],
     "wash_amt": 0.85,
@@ -1710,14 +1934,11 @@
     "cuts": [
      {
       "lib": "il_L261123s_fed_dawn.png",
-      "d": 3.48
+      "d": 5.22
      },
      {
       "lib": "il_R1204c_s50_1.png",
-      "d": 3.48
-     },
-     {
-      "lib": "il_R1204c_s50_2.png"
+      "word": "다음 결"
      }
     ],
     "wash_amt": 0.85,
@@ -1740,11 +1961,7 @@
     "wash": "none",
     "cuts": [
      {
-      "lib": "il_R1204b_subscribe.png",
-      "d": 2.5
-     },
-     {
-      "lib": "il_R1204c_s51_1.png"
+      "lib": "il_R1204b_subscribe.png"
      }
     ],
     "wash_amt": 0.85,

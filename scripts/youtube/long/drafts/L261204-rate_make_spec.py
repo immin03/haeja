@@ -95,8 +95,33 @@ def _hl(name, lines, hl):
         out.append([round(before / rate + .2 * li - .15, 2), idx])
     return out
 
-def FX(name, mode, cfg, lines, src="", note="", hl=None):
+def _tl_lines(lines):
+    L_ = TL.get(tuple(lines))
+    if L_: return L_
+    out = []; u = .25
+    for l in lines: d_ = len(l.replace(" ", "")) / 6.1; out.append([u, d_, l]); u += d_ + .2
+    return out
+def _wt(L_, w):
+    for a_, d_, tx in L_:
+        if w in tx: return a_ + d_ * len(tx[:tx.index(w)].replace(" ", "")) / max(1, len(tx.replace(" ", "")))
+    raise KeyError(w)
+def PS(cuts, lines, punches, src="", note=""):
+    """2026-11-27 대표 '같은 코드 효과가 연속 — 사진+텍스트로도': cuts=[(사진, 바뀌는 낱말|None)], punches=[(글, 작은 글, 나오는 낱말)] — 글은 자기 사진이 바뀔 때 사라진다"""
+    L_ = _tl_lines(lines); end_ = L_[-1][0] + L_[-1][1] + .35
+    cs = [dict({"lib": c[0]}, **({"word": c[1]} if c[1] else {}), **({"crop": list(c[2])} if len(c) > 2 else {})) for c in cuts]
+    bt = [0.0] + [_wt(L_, c[1]) for c in cuts[1:]]
+    sk = []
+    for t, sub, w in punches:
+        t0 = _wt(L_, w); j_ = max(i for i, b in enumerate(bt) if b <= t0 + .3)
+        li_ = next(i for i, l in enumerate(L_) if w in l[2]); at_ = round((t0 - L_[li_][0]) / max(.1, L_[li_][1]), 2)
+        sk.append({"kind": "punch", "text": t, "sub": sub, "line": li_, "at": at_, "color": "red", "hold": 2.6, "t0": round(t0, 2), "until": round(bt[j_ + 1] if j_ + 1 < len(bt) else end_, 2), "sync": False})
+    sc_ = S([cuts[0][0]], lines, sk, src, note); sc_["v"]["cuts"] = cs; return sc_
+
+def FX(name, mode, cfg, lines, src="", note="", hl=None, at=None):
     if hl: cfg = dict(cfg, hl=_hl(name, lines, hl))
+    if at: cfg = dict(cfg, at=[t for t, _ in _hl(name, lines, at)])
+    if cfg.get("rise_word"): cfg = dict(cfg, rise_at=_hl(name, lines, [(cfg["rise_word"], 0)])[0][0])   # 바닥이 오르는 순간 = 그 말
+    if cfg.get("bar_words"): cfg = dict(cfg, bar_at=[t for t, _ in _hl(name, lines, [(w, 0) for w in cfg["bar_words"]])])   # 사슬: 그 말을 할 때 그 칸이 켜진다
     sec = sum(len(l.replace(' ', '')) for l in lines) / 6.1 + 0.6 * len(lines) + 1.2
     json.dump({"page": "fx_bw.html", "mode": mode, "secs": round(sec + 1.5), "cfg": cfg}, open(GL + name + '.json', 'w'), ensure_ascii=False, indent=1)
     clip = f"globe_L261204r_fx_{name}.mp4"
@@ -221,44 +246,38 @@ sc.append(S([R + "copenhagen_home"],
     ["그리고 볼커가 금리를 올린 지 꼭 40년 뒤인 2019년, 정반대 세상이 옵니다. 덴마크의 한 은행이 이런 주택 대출을 내놓습니다. 금리, 마이너스 0.5%.",
      "빌린 돈보다 덜 갚는 대출. 은행이 돈 좀 빌려 가 달라고 하는, 공짜 돈의 시대였습니다."],
     [P("금리 -0.5%", s="2019년 덴마크 위스케 은행 10년 주택 대출", line=0, at=0.75)], "CNBC 2019-08-12", "[전] 마이너스 금리"))
-sc.append(FX("bill2022", "vs2", {"hl_style": "spot", "kicker": "공짜 돈의 청구서", "title": "1년 만에", "items": [
-        {"k": "2021년 말", "big": "0%대"},
-        {"k": "2022년 말", "big": "4%대", "hi": True}],
-        "foot": "미국 기준금리 · 연방준비제도"},
+sc.append(FX("bill2022", "lchart", {"kicker": "공짜 돈의 청구서", "title": "1년 만에 0%대 → 4%대", "badge": "+4.25%포인트", "badge_at": 7.4,
+        "ser": [["2021-12", 0.25], ["2022-02", 0.25], ["2022-03", 0.5], ["2022-05", 1.0], ["2022-06", 1.75], ["2022-07", 2.5], ["2022-09", 3.25], ["2022-11", 4.0], ["2022-12", 4.5]],
+        "marks": [{"d": "2021-12", "label": "0%대", "color": "ivory"}, {"d": "2022-12", "label": "4%대", "color": "pink", "up": True}], "t0": 4.8, "dur": 2.6},
     ["그리고 2022년, 청구서가 날아옵니다. 물가가 다시 뛰자 미국은 0%대였던 금리를 1년 만에 4%대로 올렸고, 기술주가 모인 나스닥은 한 해에 33% 빠졌습니다."],
-    "연준 기준금리 2022-12 4.25~4.50% · 나스닥 2022년 -33.1%", "[전] 2022 청구서(코드)", hl=[('0%대였던', 0), ('4%대로', 1)]))
+    "연준 기준금리 상단 2021-12 0.25% → 2022-12 4.50% · 나스닥 2022년 -33.1%", "[전] 2022(코드 · 선 그래프)"))
 sc.append(S(["il_L261113g2_fed_winter"],
     ["그런데 이상하지 않으세요? 볼커 때는 금리가 20%였는데, 왜 지금은 4%만 돼도 세상이 이렇게 흔들릴까요?"],
     [], "연준 기준금리 1981년 20% · 2022-12 4.25~4.50%", "[리후킹] 왜 4%에도"))
 
 # ───────── 파동: 금리의 파동이 커졌다 ─────────
 sc.append(CH(S([R + "stone_pond", R + "stone_ocean"],
-    ["돌 하나를 떠올려 보세요. 작은 연못에 던지면 물결이 조금 일고 끝납니다.",
-     "그런데 같은 돌을 바다에 던지면 어떨까요. 금리는 돌이고, 빚은 물입니다."],
+    ["물 높이로 생각해 보세요. 금리가 1%포인트 오르는 건, 물 높이가 1센티미터 오르는 것과 같습니다.",
+     "작은 연못에서 1센티미터는 양동이 몇 개면 되지만, 바다에서 1센티미터는 어마어마한 양의 물이죠. 여기서 물은 빚입니다."],
     [], "", "[파동] 비유", v={"cut_by_line": True}), "금리의 파동"))
-sc.append(FX("ripple", "ripple", {"kicker": "같은 돌, 다른 물", "title": "미국 나라 빚", "ponds": [
-        {"k": "1980년", "v": "1조 달러", "r": 0.12},
-        {"k": "지금", "v": "38조 달러+", "r": 0.92}], "drop": 2.2,
-        "foot": "자료: 미국 재무부"},
-    ["1980년 미국 나라 빚은 1조 달러 정도였습니다. 지금은 38조 달러가 넘습니다. 같은 금리라도 흔드는 물의 양이, 서른 배 넘게 커진 거죠."],
+sc.append(FX("ripple", "ripple", {"kicker": "같은 1%포인트, 다른 물", "title": "미국 나라 빚", "ponds": [
+        {"k": "1980년 · 1조 달러", "v": "이자 +90억 달러", "r": 0.12},
+        {"k": "지금 · 38조 달러+", "v": "이자 +3,800억 달러", "r": 0.92}], "drop": 2.2},
+    ["1980년 미국 나라 빚은 1조 달러 정도였습니다. 그때 금리 1%포인트는 1년 이자 90억 달러였죠.", "지금은 빚이 38조 달러가 넘습니다. 같은 1%포인트가, 이제 3,800억 달러입니다."],
     "미국 재무부(1980 회계연도 말 9,077억 달러 · 2026년 38조 달러+)", "[파동] 연못과 바다(코드)"))
-sc.append(FX("world", "vs2", {"hl_style": "pop", "kicker": "세계의 바다", "title": "금리 1%포인트의 무게", "items": [
-        {"k": "세계 빚", "big": "365", "unit": "조 달러"},
-        {"k": "1년 이자 +", "big": "3.65", "unit": "조 달러", "hi": True}],
-        "foot": "단순 계산 · 국제금융협회(IIF) 2026-09"},
+sc.append(PS([("il_L261109p_satellite_earth.jpeg", None), ("il_L261107s_globe_line.jpeg", "금리가 딱"), ("il_L261109p_satellite_earth.jpeg", "1년 이자만", (.6, .5, 1.5))],
     ["세계 전체 빚은 365조 달러입니다. 금리가 딱 1%포인트만 올라도, 단순하게 계산해서 1년 이자만 3조 6,500억 달러가 더 붙습니다."],
-    "IIF 2026-09-23", "[파동] 세계 빚(코드)", hl=[('세계 전체', 0), ('금리가 딱', 1)]))
-sc.append(FX("home", "vs2", {"hl_style": "fill", "kicker": "우리 집으로 가져오면", "title": "3억 대출, 금리 1%p 오르면", "items": [
-        {"k": "1년 이자 +", "big": "300", "unit": "만 원"},
-        {"k": "한 달 +", "big": "25", "unit": "만 원", "hi": True}]},
+    [("세계 빚 365조 달러", "", "세계 전체"), ("이자 +3.65조 달러", "금리 1%포인트 오르면 · 1년", "금리가 딱")],
+    "IIF 2026-09-23", "[파동] 세계 빚(사진+글)"))
+sc.append(PS([("il_L261107m_powerlines_homes.jpeg", None), ("il_L261107m_powerlines_homes.jpeg", "금리가 1%포인트만", (.7, .7, 1.6)), ("il_L261107m_powerlines_homes.jpeg", "한 달에", (.3, .72, 1.7))],
     ["우리 집으로 가져와 볼까요. 3억 원을 빌린 집이라면, 금리가 1%포인트만 올라도 1년 이자가 300만 원 늘어납니다. 한 달에 25만 원이 더 나가는 거죠."],
-    "계산 예시(3억 원 × 1%포인트 = 1년 300만 원, 한 달 25만 원)", "[파동] 우리 집(코드)", hl=[('1년 이자가', 0), ('한 달에', 1)]))
-sc.append(FX("usint", "vs2", {"hl_style": "spot", "kicker": "미국 정부가 내는 이자", "title": "국방비보다 큰 이자", "items": [
-        {"k": "2019년", "big": "3,750", "unit": "억 달러"},
-        {"k": "2026년", "big": "1조 520", "unit": "억 달러", "hi": True}],
-        "foot": "미국 재무부 · 1년 순이자"},
+    [("1년 이자 +300만 원", "3억 대출 · 금리 1%포인트", "금리가 1%포인트만"), ("매달 +25만 원", "", "한 달에")],
+    "계산 예시(3억 원 × 1%포인트 = 1년 300만 원, 한 달 25만 원)", "[파동] 우리 집(사진+글)"))
+sc.append(FX("usint", "race", {"kicker": "미국 정부가 1년에 내는 이자", "title": "국방비보다 큰 이자", "fmt": "{k}억 달러", "fx": 1, "dec": 0, "step": 1.45, "room": 1.22, "y0": 400, "bh": 150, "x0": 420,
+        "colors": {"2019년": "rgb(225,225,228)", "2026년": "rgb(255,77,109)"},
+        "frames": [{"label": "", "vals": {"2019년": 0.1, "2026년": 0.1}}, {"label": "", "vals": {"2019년": 0.1, "2026년": 0.1}}, {"label": "", "vals": {"2019년": 3750, "2026년": 0.1}}, {"label": "", "vals": {"2019년": 3750, "2026년": 0.1}}, {"label": "", "vals": {"2019년": 3750, "2026년": 10520}}]},   # 말("2019년"·"2026년")에 맞춘 단계
     ["미국 정부가 1년에 내는 이자는 2019년 3,750억 달러에서, 2026년 1조 520억 달러가 됐습니다. 하루에 29억 달러. 나라를 지키는 국방비보다 이자가 더 큽니다."],
-    "미국 재무부 2026 회계연도", "[파동] 미국 이자(코드)", hl=[('2019년', 0), ('2026년', 1)]))
+    "미국 재무부 2026 회계연도", "[파동] 미국 이자(코드 · 막대)"))
 sc.append(FX("aivsint", "vs2", {"hl_style": "pop", "kicker": "같은 돈을 두고", "title": "AI와 이자", "items": [
         {"k": "국채 이자", "big": "3.3", "unit": "조 달러", "hi": True},
         {"k": "AI 투자", "big": "2.6", "unit": "조 달러"}],
@@ -272,7 +291,7 @@ sc.append(FX("chain", "chain", {"kicker": "파도가 오는 순서", "title": "�
     "", "[파동] 파도 순서(코드)"))
 sc.append(FX("floor", "floor", {"kicker": "왜 국채에서 시작할까", "title": "모든 금리의 바닥", "base": {"k": "국채 금리", "v0": 4, "v1": 5},
         "bars": [{"k": "회사 대출", "spread": 1.5}, {"k": "집 대출", "spread": 2.2}, {"k": "주식 기대 수익", "spread": 4}], "rise_label": "바닥이 오르면, 전부 같이 오른다",
-        "foot": "이해를 돕기 위한 그림"},
+        "rise_word": "국채 금리가 오르면", "bar_words": ["회사 대출도", "집 대출도", "주식도"]},
     ["그럼 왜 파도는 국채에서 시작할까요? 미국 국채는 세상에서 가장 안전한 빚입니다. 미국 정부가 못 갚을 일은 거의 없으니까요.",
      "그래서 국채 금리가 모든 금리의 바닥이 됩니다. 회사 대출도, 집 대출도, 국채 금리 위에 위험한 만큼 조금씩 더 얹은 값이죠. 주식도 마찬가지입니다. 안전한 국채보다는 더 벌어야 사니까요.",
      "그러니 바닥인 국채 금리가 오르면, 그 위에 얹힌 모든 금리가 같이 올라갑니다. 파도가 늘 국채에서 시작하는 이유입니다."],
@@ -285,19 +304,16 @@ sc.append(S(["il_L261113g_fed_dusk"],
 sc.append(CH(S(["il_R1204b_crash1929"],
     ["1929년 10월, 뉴욕 월가 앞에 사람들이 몰려들었습니다. 주가가 하루에 10% 넘게 무너진 날이었죠."],
     [], "1929년 10월 뉴욕 증시 대폭락", "[결] 1929"), "금리를 읽는 법"))
-sc.append(FX("bubbles", "vs2", {"hl_style": "spot", "kicker": "버블을 끝낸 것", "title": "늘 금리였다", "items": [
-        {"k": "1929년", "big": "대공황", "bs": 110},
-        {"k": "2000년", "big": "닷컴", "bs": 110},
-        {"k": "2022년", "big": "기술주", "bs": 110, "hi": True}],
-        "foot": "미국 연방준비제도 역사"},
+sc.append(FX("bubbles", "chain", {"kicker": "버블을 끝낸 것", "title": "늘 금리였다", "dx": 520,
+        "nodes": [{"k": "1929 대공황"}, {"k": "2000 닷컴"}, {"k": "2022 기술주"}]},
     ["역사를 보면 버블을 끝낸 건 늘 금리였습니다. 1929년 대공황 직전에도, 2000년 닷컴 버블 직전에도, 2022년에도, 미국은 금리를 올리고 있었습니다."],
-    "연준 역사 · 1929년 8월 재할인율 6% · 2000년 5월 6.5%", "[결] 버블과 금리(코드)", hl=[('1929년', 0), ('2000년', 1), ('2022년에도', 2)]))
-sc.append(FX("discount", "vs2", {"hl_style": "fill", "kicker": "10년 뒤 받을 1억 원", "title": "지금 가치는?", "items": [
-        {"k": "금리 1%", "big": "9,053", "unit": "만 원"},
-        {"k": "금리 5%", "big": "6,139", "unit": "만 원", "hi": True}]},
+    "연준 역사 · 1929년 8월 재할인율 6% · 2000년 5월 6.5%", "[결] 버블과 금리(코드 · 사슬)", at=[("1929년 대공황", 0), ("2000년", 1), ("2022년에도", 2)]))
+sc.append(FX("discount", "race", {"kicker": "10년 뒤 받을 1억 원", "title": "지금 가치는?", "fmt": "{k}만 원", "fx": 1, "dec": 0, "step": 1.5, "room": 1.25, "y0": 400, "bh": 150, "x0": 420,
+        "colors": {"금리 1%": "rgb(225,225,228)", "금리 5%": "rgb(255,77,109)"},
+        "frames": [{"label": "", "vals": {"금리 1%": 0.1, "금리 5%": 0.1}}] * 5 + [{"label": "", "vals": {"금리 1%": 9053, "금리 5%": 0.1}}] * 2 + [{"label": "", "vals": {"금리 1%": 9053, "금리 5%": 6139}}]},   # 말("1%면"·"5%면")에 맞춘 단계
     ["그래서 AI 같은 큰 꿈일수록 금리에 약합니다. 10년 뒤에 받을 1억 원을 생각해 보세요. 금리가 1%면 지금 가치로 9,053만 원이지만, 금리가 5%면 6,139만 원으로 줄어듭니다.",
      "돈을 벌 날이 먼 미래일수록, 금리가 오를 때 지금 몸값이 크게 깎이는 거죠. 게다가 AI 데이터센터는 대부분 빌린 돈으로 짓습니다."],
-    "계산 예시(1억 원 ÷ 1.01^10 = 9,053만 원, ÷ 1.05^10 = 6,139만 원)", "[결] 할인율(코드)", hl=[('금리가 1%면', 0), ('금리가 5%면', 1)]))
+    "계산 예시(1억 원 ÷ 1.01^10 = 9,053만 원, ÷ 1.05^10 = 6,139만 원)", "[결] 할인(코드 · 막대)"))
 sc.append(FX("read3", "vs2", {"hl_style": "pop", "kicker": "금리 뉴스를 볼 때", "title": "세 가지만 기억하세요", "items": [
         {"k": "하나", "big": "10년 국채", "bs": 76},
         {"k": "둘", "big": "예상과 차이", "bs": 76},
@@ -305,43 +321,35 @@ sc.append(FX("read3", "vs2", {"hl_style": "pop", "kicker": "금리 뉴스를 볼
     ["그러니 금리 뉴스를 볼 때는 세 가지만 기억하세요.",
      "첫째, 중앙은행이 정하는 기준금리보다, 시장이 매기는 10년 국채 금리가 내 주식에 더 가깝습니다. 둘째, 결정 그 자체보다 예상과 얼마나 달랐는지가 시장을 움직입니다. 셋째, 파도는 국채, 달러, 주식 순서로 옵니다."],
     "", "[결] 읽는 법(코드)", hl=[('첫째', 0), ('둘째', 1), ('셋째', 2)]))
-sc.append(CH(S(["il_R1204b_fomc_room"],
-    ["그럼 이 금리는 누가 정할까요?"],
-    [], "연준 FOMC(투표권 12명 · 연 8회) · 한국은행 금융통화위원회(7명)", "[다음 파도] 누가 정하나"), "다음 파도"))
-sc.append(FX("who", "vs2", {"hl_style": "border", "kicker": "1년에 8번", "title": "금리를 정하는 사람들", "items": [
-        {"k": "미국 연준", "big": "12명"},
-        {"k": "한국은행", "big": "7명", "hi": True}],
-        "foot": "연준 FOMC 투표권 · 한국은행 금융통화위원회"},
-    ["미국에서는 중앙은행인 연준의 위원 12명이 1년에 8번 모여 투표로 정합니다.", "한국에서는 한국은행 금융통화위원 7명이 정하죠."],
-    "연준 FOMC(투표권 12명 · 연 8회) · 한국은행 금융통화위원회(7명)", "[다음 파도] 위원 수(코드)", hl=[('미국에서는', 0), ('한국에서는', 1)]))
+# (11/27 질문 한 줄은 아래 위원 장면 첫 줄로 합침 — 3초짜리 사진 장면 없앰)
+sc.append(CH(PS([("il_R1204b_fomc_room.png", None), ("il_R1204c_s44_1.png", "미국에서는"), ("il_R1204c_s44_2.png", "한국에서는")],
+    ["그럼 이 금리는 누가 정할까요?", "미국에서는 중앙은행인 연준의 위원 12명이 1년에 8번 모여 투표로 정합니다.", "한국에서는 한국은행 금융통화위원 7명이 정하죠."],
+    [("미국 연준 12명", "1년에 8번 투표", "위원 12명"), ("한국은행 7명", "금융통화위원회", "한국에서는")],
+    "연준 FOMC(투표권 12명 · 연 8회) · 한국은행 금융통화위원회(7명)", "[다음 파도] 위원 수(사진+글)"), "다음 파도"))
 sc.append(FX("watch", "vs2", {"hl_style": "fill", "kicker": "이들이 보는 것", "title": "물가와 일자리", "items": [
         {"k": "물가가 뜨거우면", "big": "올린다", "hi": True},
         {"k": "일자리가 식으면", "big": "내린다"}],
         "foot": "미국 물가 목표 2%"},
     ["이들이 보는 건 크게 두 가지입니다. 물가와 일자리.", "물가가 너무 오르면 금리를 올려 돈을 덜 쓰게 하고, 경기가 식어 일자리가 줄면 금리를 내려 돈이 돌게 합니다. 볼커가 한 일도 바로 이거였죠. 미국이 목표로 하는 물가는 1년에 2%입니다."],
     "연준 물가 목표 2%", "[다음 파도] 올릴까 내릴까(코드)", hl=[('물가가 너무', 0), ('경기가 식어', 1)]))
-sc.append(FX("dec9", "vs2", {"hl_style": "spot", "kicker": "올해 마지막 결정", "title": "12월 9일", "items": [
-        {"k": "지금 미국 금리", "big": "3.75~4%", "bs": 96},
-        {"k": "시장 예상", "big": "+0.25%p", "bs": 96, "sub": "확률 97.8%", "hi": True}],
-        "foot": "CME 페드워치 · 2026-11-25 기준"},
+sc.append(PS([("il_L261107m_capitol_dawn.jpeg", None), ("il_L261107m_capitol_dawn.jpeg", "12월 9일,", (.5, .45, 1.6)), ("il_L261110a_empty_podium.jpeg", "한국 시간으로는"), ("il_L261110a_empty_podium.jpeg", "미국 물가가", (.3, .55, 1.6)), ("il_L261110a_empty_podium.jpeg", "시장은 금리가", (.75, .5, 1.5)), ("il_L261110a_empty_podium.jpeg", "가능성을", (.5, .6, 1.25))],
     ["그리고 지금 전 세계가 보고 있는 날짜가 있습니다. 12월 9일, 미국 연준의 올해 마지막 금리 결정입니다. 한국 시간으로는 10일 새벽이죠.",
      "미국 물가가 5년 넘게 목표를 웃돌자, 시장은 금리가 0.25%포인트 더 오를 가능성을 97.8%로 보고 있습니다."],
-    "CME FedWatch 2026-11-25 스냅숏(0.25%p 인상 97.8%) · 연준 목표 범위 3.75~4.00%", "[다음 파도] 12월 9일(코드)", hl=[('12월 9일,', 0), ('시장은 금리가', 1)]))
+    [("12월 9일", "올해 마지막 금리 결정", "12월 9일,"), ("인상 확률 97.8%", "+0.25%포인트 · CME 페드워치 11월 25일", "가능성을")],
+    "CME FedWatch 2026-11-25 스냅숏(0.25%p 인상 97.8%) · 연준 목표 범위 3.75~4.00%", "[다음 파도] 12월 9일(사진+글)"))
 sc.append(S(["il_R1204b_markets_wait"],
     ["그래서 금값도, 비트코인도, 주식도, 이 날짜를 앞두고 출렁이고 있습니다.",
      "그런데 아까 두 번째로 기억하자고 한 것, 기억하시죠? 다 아는 결정은 이미 가격에 있습니다. 진짜 파도는 결정 그 자체보다, 연준이 그날 뭐라고 말하느냐에서 나옵니다."],
     [], "", "[다음 파도] 출렁이는 시장"))
 # 2026-11-27 08:57 대표 "금리 결정 다음 연준이 뭐라고 하는 게 중요하다 — 이 부분을 조금 더 구체적으로, 사람들 헷갈릴 수 있다"
-sc.append(FX("fedsays", "vs2", {"kicker": "12월 9일, 같이 나오는 것", "title": "결정 하나에 세 가지", "hl_style": "fill", "items": [
-        {"k": "하나", "big": "금리 결정", "bs": 76},
-        {"k": "둘", "big": "기자회견", "bs": 76},
-        {"k": "셋", "big": "점도표", "bs": 76}]},
+sc.append(FX("fedsays", "chain", {"kicker": "12월 9일, 같이 나오는 것", "title": "결정 하나에 세 가지", "dx": 520,
+        "nodes": [{"k": "금리 결정"}, {"k": "기자회견"}, {"k": "점도표"}], "wave": True},
     ["연준은 그날 금리만 발표하지 않습니다. 세 가지가 같이 나옵니다.",
      "첫째, 금리 결정. 이번엔 시장이 이미 거의 다 예상하고 있어서, 결정 자체는 큰 뉴스가 아닙니다.",
      "둘째, 성명서와 의장 기자회견. 여기서 '물가가 아직 높다', '추가 인상도 검토한다' 같은 한 문장이 나오면 시장이 바로 움직입니다.",
      "셋째, 점도표. 연준 위원들이 각자 내년 말 금리가 어디쯤일지 점을 하나씩 찍은 표입니다. 점들이 위로 몰려 있으면 내년에도 더 오른다는 뜻이고, 아래로 내려오면 이제 멈춘다는 뜻이죠."],
-    "연준 FOMC 발표 구성: 정책 결정 · 성명서 · 의장 기자회견 · 경제전망 요약(SEP, 점도표는 3·6·9·12월)", "[다음 파도] 결정 뒤에 볼 것(코드)",
-    hl=[("첫째", 0), ("둘째", 1), ("셋째", 2)]))
+    "연준 FOMC 발표 구성: 정책 결정 · 성명서 · 의장 기자회견 · 경제전망 요약(SEP, 점도표는 3·6·9·12월)", "[다음 파도] 결정 뒤에 볼 것(코드 · 사슬)",
+    at=[("첫째", 0), ("둘째", 1), ("셋째", 2)]))
 sc.append(FX("reaction", "vs2", {"kicker": "같은 0.25%p 인상이라도", "title": "말 한마디에 갈린다", "hl_style": "spot", "items": [
         {"k": "\"이번이 마지막일 수도\"", "big": "주식 ↑", "bs": 96},
         {"k": "\"내년에도 더 올린다\"", "big": "주식 ↓", "bs": 96, "color": "red"}]},
@@ -376,7 +384,9 @@ for _i, _s in enumerate(sc):
     if any(k in ("steps", "tl") for k, _, _ in _k) and len(_k) > 1:
         raise SystemExit(f"겹침: 장면 {_i} 단계표·연표는 끝까지 남으니 다른 강조와 같이 못 둠 {_k}")
     _lines = [l for _, l, _ in _k]
-    if len(_lines) != len(set(_lines)):
+    _w = sorted((b["t0"], b["until"]) for b in (_s.get("sketch") or []) if b.get("t0") is not None and b.get("until") is not None)
+    _ok = len(_w) == len(_k) and all(_w[i][1] <= _w[i + 1][0] + .05 for i in range(len(_w) - 1))   # 11/27: 시각을 못박은 글씨끼리 안 겹치면 같은 줄에 둘 수 있다
+    if len(_lines) != len(set(_lines)) and not _ok:
         raise SystemExit(f"겹침: 장면 {_i} 같은 줄에 강조 2개 {_k}")
     for (k1, l1, a1), (k2, l2, a2) in zip(sorted(_k, key=lambda x: x[1]), sorted(_k, key=lambda x: x[1])[1:]):
         if l2 == l1 + 1 and a1 > 0.5:
@@ -496,10 +506,7 @@ EXTRA = {
  "il_L261113g2_fed_winter.jpeg": [
   "il_R1204c_s30_1.png"
  ],
- "il_R1204_stone_pond.png": [
-  "il_R1204c_s31_1.png",
-  "il_R1204c_s31_2.png"
- ],
+ "il_R1204_stone_pond.png": [],   # 11/27 물 높이 비유로 바꿈 — 돌 던지는 사진은 뺌
  "il_L261113g_fed_dusk.jpeg": [
   "il_R1204c_s39_1.png",
   "il_R1204c_s39_2.png"
@@ -507,7 +514,7 @@ EXTRA = {
  "il_R1204b_crash1929.png": [
   "il_R1204c_s40_1.png"
  ],
- "il_R1204b_fomc_room.png": [
+ "il_R1204b_fomc_room.png__off": [
   "il_R1204c_s44_1.png",
   "il_R1204c_s44_2.png"
  ],
@@ -542,7 +549,80 @@ for s_ in sc:
         s_["v"]["cuts"] = [{"lib": R + "trading_screens.png"},
                            {"lib": "il_R1204c_s03_1.png", "word": "집값"}, {"lib": "il_R1204c_s03_5.png", "word": "주식"},
                            {"lib": "il_R1204c_s03_2.png", "word": "금값"}, {"lib": "il_R1204c_s03_3.png", "word": "AI"},
-                           {"lib": "il_R1204c_s03_6.png", "word": "죄였던 이자는"}]   # 11/27 09:49 대표: AI 사진은 '몸값까지 정합니다'까지, 다음 문장에서 새 사진으로 인트로 마무리
+                           {"lib": "il_R1204c_s03_6.png", "word": "죄였던 이자는"}, {"lib": "il_R1204c_s03_7.png", "word": "4,000년 금리의"}]   # 11/27 09:49 대표: AI 사진은 '몸값까지 정합니다'까지, 다음 문장에서 새 사진으로 인트로 마무리
+
+# ── 2026-11-27 10:46 대표 "사진 하나를 5초 넘게(특히 메디치) 쓰지 말 것 · 볼커 사진은 '키가 2미터' 때 · 하이라이트 글씨는 그 사진과 같이 나오고 같이 사라질 것"
+#    사진 컷을 말에 묶는다: 지난 렌더의 실제 줄 시각으로 문장·쉼표 경계 중 3~4.8초 간격 지점을 고르고, 그 낱말(word)에서 사진이 바뀐다(렌더가 실제 말 시각으로 다시 계산)
+#    사진이 모자라면 같은 사진의 다른 부분을 당겨 찍은 컷(crop)을 넣는다. 펀치·이름표는 자기 사진이 바뀌는 순간에 사라진다(t0·until)
+import re as _re, math as _m
+_TLR = json.load(open(_TLP)) if os.path.exists(_TLP) else []
+_TLB = {tuple(l[2] for l in e["lines"]): e["lines"] for e in _TLR}   # 줄 글로 찾는다(첫 사진이 바뀌어도 찾게)
+FIRST_AT = {"commons_volcker_1_wide.jpg": "이때 키가 2미터"}   # 이 사진은 이 말에서 처음 나온다
+_CROPS = [(.3, .4, 1.45), (.7, .55, 1.45), (.5, .35, 1.6)]
+def _cands(lines):
+    out = []   # (시각, 줄번호, 글자위치)
+    for li, (a_, d_, tx) in enumerate(lines):
+        nt = max(1, len(tx.replace(" ", "")))
+        for m_ in _re.finditer(r"(?:(?<=[.?!])|(?<=,)) +(?=\S)", tx):
+            k_ = m_.end(); out.append((a_ + d_ * len(tx[:k_].replace(" ", "")) / nt, li, k_))
+        if li: out.append((a_, li, 0))
+        for m_ in _re.finditer(r" (?=\S)", tx):   # 낱말 사이(5초를 넘길 때만 씀)
+            k_ = m_.end(); out.append((a_ + d_ * len(tx[:k_].replace(" ", "")) / nt + 1e-4, li, -k_))
+    return sorted(out)
+def _frag(lines, li, k_):
+    tx = lines[li][2]; k_ = abs(k_); allt = " / ".join(l[2] for l in lines)
+    for n_ in range(4, 30):
+        f_ = tx[k_:k_ + n_]
+        if f_.strip() and allt.count(f_) == 1 and not f_.endswith(" "): return f_
+    return tx[k_:k_ + 12]
+for s_ in sc:
+    v_ = s_["v"]; cs_ = v_.get("cuts") or []
+    if not cs_ or s_.get("sot") or v_.get("ident") or any(isinstance(c_, dict) and c_.get("word") for c_ in cs_): continue
+    if any(str(c_.get("lib", "")).endswith(".mp4") for c_ in cs_): continue
+    L_ = _TLB.get(tuple(s_["lines"]))
+    if not L_: continue
+    end_ = L_[-1][0] + L_[-1][1] + .35
+    cands = _cands(L_); bnd = [(0.0, None)]; last = 0.0
+    fa = next((FIRST_AT[c_["lib"]] for c_ in cs_ if c_["lib"] in FIRST_AT), None)
+    if fa:   # 지정 사진이 나오는 경계는 반드시 둔다
+        li_ = next(i for i, l in enumerate(L_) if fa in l[2]); k0 = L_[li_][2].index(fa)
+        must = (L_[li_][0] + L_[li_][1] * len(L_[li_][2][:k0].replace(" ", "")) / max(1, len(L_[li_][2].replace(" ", ""))), li_, k0)
+    else: must = None
+    while True:
+        if must and last < must[0] - .1 and must[0] - last <= 5.0 and must[0] - last >= 2.4:
+            nxt = [c for c in cands if c[0] < must[0] - 2.4 and c[0] >= last + 3.0 and c[2] >= 0]
+            if must[0] - last > 4.8 and nxt: c = nxt[0]
+            else: c = must; must_used = True
+            bnd.append((c[0], (c[1], c[2]))); last = c[0]; continue
+        if end_ - last <= 4.7: break
+        ph = [c for c in cands if last + 2.8 <= c[0] <= last + 4.6 and c[2] >= 0 and end_ - c[0] >= 2.2 and (not must or c[0] < must[0] - 2.4 or c[0] > must[0])]
+        wd = [c for c in cands if last + 2.8 <= c[0] <= last + 4.4 and end_ - c[0] >= 2.2 and (not must or c[0] < must[0] - 2.4 or c[0] > must[0])]
+        c = (ph[-1] if ph else (wd[len(wd) // 2] if wd else None))
+        if c is None: break
+        bnd.append((c[0], (c[1], c[2]))); last = c[0]
+    if fa and not any(b_[1] and abs(b_[0] - must[0]) < .05 for b_ in bnd):
+        bnd = [b_ for b_ in bnd if not (b_[1] and must[0] - 2.4 < b_[0] < must[0] + 2.4)] + [(must[0], (must[1], must[2]))]; bnd.sort(key=lambda x: x[0])
+    n_ = len(bnd)
+    _sn = set(); pool = [c_ for c_ in cs_ if c_["lib"] not in FIRST_AT and not (c_["lib"] in _sn or _sn.add(c_["lib"]))]; fx_ = [c_ for c_ in cs_ if c_["lib"] in FIRST_AT]
+    new = []
+    for i_ in range(n_):
+        if fx_ and must and abs(bnd[i_][0] - must[0]) < .05: new.append(dict(fx_[0])); continue
+        if pool: new.append(dict(pool.pop(0))); continue
+        src_ = new[i_ - 1] if i_ else cs_[0]; base_ = {k: v for k, v in src_.items() if k not in ("word", "crop", "d")}
+        new.append(dict(base_, crop=list(_CROPS[i_ % len(_CROPS)])))
+    for i_ in range(1, n_):
+        li_, k_ = bnd[i_][1]; new[i_]["word"] = _frag(L_, li_, k_)
+    for c_ in new: c_.pop("d", None)
+    v_["cuts"] = new; v_.pop("cut_by_line", None)
+    # 하이라이트(펀치·이름표): 자기 사진 구간에 묶는다
+    for it in s_.get("sketch", []):
+        if it.get("kind") not in ("punch", "lower"): continue
+        if it.get("kind") == "lower" and it.get("text") == "폴 볼커" and must:
+            t0_ = must[0]
+        else:
+            li_ = min(it.get("line", 0), len(L_) - 1); t0_ = L_[li_][0] + it.get("at", .05) * L_[li_][1]
+        bt = [b_[0] for b_ in bnd]; j_ = max(i for i, b in enumerate(bt) if b <= t0_ + .3)
+        it["t0"] = round(bt[j_] + .15, 2); it["until"] = round(bt[j_ + 1] if j_ + 1 < len(bt) else end_, 2)
 
 spec = {k: base[k] for k in ['format', 'world', 'notebook', 'overlay', 'look', 'roadmap', 'hook', 'music', 'design', 'synthetic_media'] if k in base}
 spec['music'] = dict(spec['music'], intro="social/music/own/intro_conspiracy.mp3", intro_offset=0.0,

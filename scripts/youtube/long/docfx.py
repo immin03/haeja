@@ -68,6 +68,7 @@ def _key_tokens(b):
 def _t0(b, lines):
     """2026-11-12 대표님: 큰 숫자·표가 자막보다 먼저/늦게 휙 지나가지 않게 — 내레이션이 그 숫자를 말하는 순간에 맞춘다.
     lines 항목은 (시작, 길이, 자막 글) — sync:false 로 끄면 예전처럼 line/at 비율."""
+    if b.get("t0") is not None: return float(b["t0"])   # 2026-11-27 대표 "하이라이트 글씨는 사진이 나올 때 같이 나오고 사라질 때 같이": 그 사진이 바뀌는 순간
     if b.get("kind") == "lower" and DESIGN2[0]: return .4   # 2026-11-17 대표님: 이름표가 늦게·짧게 떴다 → 장면 시작부터
     if b.get("kind") == "tag" and lines:   # 2026-11-19 v6 몽타주 꼬리표: 그 줄을 말하기 시작할 때
         return lines[min(b.get("line", 0), len(lines) - 1)][0]
@@ -324,6 +325,7 @@ def set_design2(on):
 
 def _punch_win(b, lines):
     t0 = _t0(b, lines); hold = max(3.0, b.get("hold", PUNCH_HOLD), min(_scene_end(lines) - t0 - .3, 6.0))
+    if b.get("until") is not None: return t0, max(.8, float(b["until"]) - t0 - .5)   # 사진이 바뀌기 직전에 사라진다
     nx = b.get("_next_t0")   # 2026-11-22 대표 23:26 "하이라이트 글씨 겹침 제발 없게": 같은 장면 다음 강조가 뜨기 전에 완전히 사라진다
     if nx is not None: hold = max(.8, min(hold, nx - t0 - 1.0))
     return t0, hold
