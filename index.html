@@ -7298,7 +7298,7 @@ function refresh(kind){
   if(location.hash === '#alerts'){ S.tab = 'alerts'; checkPush().then(() => { if(S.tab === 'alerts') render(); }); history.replaceState(null, '', location.pathname); }
   window.addEventListener('hashchange', () => { if(location.hash === '#alerts'){ S.tab = 'alerts'; render(); history.replaceState(null, '', location.pathname); } });
   /* 메일·관리자 메시지 링크 (2026-11-05): ?tab=portfolio 또는 #portfolio 로 그 화면을 바로 연다. utm_source=mail 이면 메일 유입으로 기록 */
-  { const u = new URLSearchParams(location.search), OK = ['portfolio','companies','column','account','alerts','notify','briefing','watchlist','analyze','grade','journal','dividend','gauge','gaugeGold'];
+  { const u = new URLSearchParams(location.search), OK = ['portfolio','companies','column','account','alerts','notify','briefing','watchlist','analyze','grade','journal','dividend','gauge','gaugeGold','rates'];   // 2026-11-27 금리 편 롱폼 → /rate 로 금리 화면
     const t = u.get('tab') || (location.hash.length > 1 ? location.hash.slice(1) : '');
     if(OK.includes(t)){ S.tab = t; if(t === 'account') mailLoad(); }
     if(u.get('utm_source') === 'mail') store.track('view', 'from-mail-' + (u.get('utm_campaign') || 'x').replace(/[^a-z0-9-]/gi, '').slice(0, 20));

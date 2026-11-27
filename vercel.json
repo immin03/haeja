@@ -62,6 +62,11 @@
   ],
   "redirects": [
     {
+      "source": "/rate",
+      "destination": "/?tab=rates&utm_source=yt-rate",
+      "permanent": false
+    },
+    {
       "source": "/ig",
       "destination": "/start?utm_source=ig-bio",
       "permanent": false
