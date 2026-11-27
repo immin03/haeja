@@ -2696,11 +2696,11 @@ document.addEventListener('click', async e => {
   if(pushState === 'on'){ saveProg({ setupPush: true }); document.querySelector('.pn-bar')?.remove(); toastMsg('알림을 켰어요. 의미 있는 날에만 알려 드릴게요.'); setTimeout(installOffer, 3200); } else b.disabled = false;
 });
 /* 알림 종류 고르기 (알림 탭) */
-const PUSH_KINDS = [['semi', '반도체 바닥 계기판', '바닥 신호 5개 중 하나라도 켜지거나 꺼지는 날 (valuenote.co.kr/semi)'], ['gold', '금 바닥 계기판', '금 바닥 신호 5개 중 하나라도 켜지거나 꺼지는 날 (valuenote.co.kr/gold)'], ['interest', '최근 본 회사 소식', '가격이 크게 바뀌거나 저평가 구간에 들어오면'], ['value', '새로 싸진 회사', '적정 주가보다 25% 이상 싸진 좋은 회사가 새로 생기면'], ['column', '새 칼럼', '주간 시장·거장의 투자가 올라오면']];
+const PUSH_KINDS = [['semi', '반도체 바닥 계기판', '바닥 신호 5개 중 하나라도 켜지거나 꺼지는 날 (valuenote.co.kr/semi)'], ['gold', '금 바닥 계기판', '금 바닥 신호 5개 중 하나라도 켜지거나 꺼지는 날 (valuenote.co.kr/gold)'], ['interest', '최근 본 회사 소식', '가격이 크게 바뀌거나 저평가 구간에 들어오면'], ['value', '새로 싸진 회사', '적정 주가보다 25% 이상 싸진 좋은 회사가 새로 생기면'], ['column', '새 칼럼', '주간 시장·거장의 투자가 올라오면'], ['vpop', '새 영상 팝업', '유튜브에 새 영상이 올라오면 앱을 열 때 한 번 보여 드려요']];
 /* 금 계기판(2026-11-24): /semi?tab=gold 의 알림 버튼(?alert=gold)으로 온 회원은 semi 대신 gold 를 켠다 */
 const GZ = () => { let k = 'semi'; try{ if(localStorage.getItem('vn-want-gauge') === 'gold') k = 'gold'; }catch(_){} return { [k]: true }; };
 const GZN = () => GZ().gold ? '금' : '반도체';
-const pushPrefs = () => ({ semi: false, gold: false, interest: true, value: true, column: true, ...((S.pushPrefs || []).find(d => d.id === 'main') || {}) });
+const pushPrefs = () => ({ semi: false, gold: false, interest: true, value: true, column: true, vpop: true, ...((S.pushPrefs || []).find(d => d.id === 'main') || {}) });
 function pushPrefsHtml(){
   const P = pushPrefs();
   return `<div class="al-kinds"><div class="eyebrow">받을 알림</div>${PUSH_KINDS.map(([k, t, d]) => `<label class="al-kind"><input type="checkbox" data-pk="${k}" ${P[k] ? 'checked' : ''}><span><b>${t}</b><span class="small muted">${d}</span></span></label>`).join('')}<div class="small muted">보유 종목 급등락·적정 매수가 도달 알림은 늘 켜져 있어요. 하루 최대 두 번까지만 보내요.</div></div>`;
@@ -5365,6 +5365,39 @@ function companyFromRow(r){
   S.companies.push(c); return c;
 }
 /* 가입·로그인 직후: 기업 페이지에서 누른 회사를 관심 종목에 담고 그 회사를 연다 (3일 안의 의도만) */
+/* 2026-11-27 대표: 롱폼이 공개되면 24시간 동안 앱을 열 때 '새 영상' 팝업 — 영상당 한 번만, '새 영상 팝업 그만 보기'로 끌 수 있고 마이 메뉴 '받을 알림'에서 다시 켬.
+   한 번 접속에 팝업은 하나만: 알림 받을 곳 안내가 뜬 접속에는 띄우지 않는다. 가입한 지 하루 안 된 회원에게도 띄우지 않는다. */
+async function videoPop(){
+  try{
+    if(store.isGuest || store.isDemo || !store.client || pushPrefs().vpop === false || document.querySelector('.ch-gate, .vpop, [role="dialog"], .modal, .ob')) return;
+    const born = Date.parse(store.user?.created_at || ''); if(born && Date.now() - born < 20 * 3600e3) return;
+    const { data: v } = await store.client.rpc('latest_video'); if(!v || !v.id) return;
+    const seenKey = 'vn-vpop-' + v.id; try{ if(localStorage.getItem(seenKey)) return; }catch(_){}
+    if(document.querySelector('.ch-gate, .vpop, [role="dialog"], .modal, .ob')) return;
+    const thumb = v.thumb ? (String(v.thumb).startsWith('http') ? v.thumb : String(v.thumb)) : `https://i.ytimg.com/vi/${encodeURIComponent(v.id)}/hqdefault.jpg`;
+    const hrs = (Date.now() - Date.parse(v.at)) / 3600e3, when = hrs < 1 ? '방금 공개' : hrs < 12 ? `${Math.floor(hrs)}시간 전 공개` : (new Date(Date.parse(v.at) + 9 * 3600e3).toISOString().slice(0, 10) === new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10) ? '오늘 공개' : '어제 공개');
+    const url = `https://www.youtube.com/watch?v=${encodeURIComponent(v.id)}&utm_source=valuenote_app&utm_campaign=vpop`;
+    document.body.insertAdjacentHTML('beforeend', `<div class="vpop" role="dialog" aria-modal="true" aria-label="새 영상"><div class="vpop-dim" data-vp="close"></div><div class="vpop-sheet">
+      <div class="vpop-grab"></div>
+      <div class="vpop-eb"><span class="vpop-dot"></span>새 영상이 올라왔어요<button type="button" class="vpop-x" data-vp="close" aria-label="닫기">×</button></div>
+      <a class="vpop-thumb" href="${esc(url)}" target="_blank" rel="noopener" data-vp="go"><img src="${esc(thumb)}" alt="" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/${esc(v.id)}/hqdefault.jpg'"><span class="vpop-play"></span></a>
+      <div class="vpop-t">${esc(v.title)}</div><div class="vpop-sub">${when} · 밸류노트 유튜브</div>
+      <a class="vpop-go" href="${esc(url)}" target="_blank" rel="noopener" data-vp="go">영상 보기</a>
+      <div class="vpop-row"><button type="button" data-vp="close">닫기</button><button type="button" class="u" data-vp="off">새 영상 팝업 그만 보기</button></div>
+    </div></div>`);
+    try{ localStorage.setItem(seenKey, String(Date.now())); }catch(_){}
+    store.track('view', 'vpop-show');
+    const g = document.querySelector('.vpop');
+    g.addEventListener('click', e => {
+      const b = e.target.closest('[data-vp]'); if(!b) return;
+      const k = b.dataset.vp;
+      if(k === 'go'){ store.track('view', 'vpop-go'); setTimeout(() => g.remove(), 300); return; }
+      if(k === 'off'){ const P = { ...pushPrefs(), vpop: false }; delete P.id; S.pushPrefs = [{ id: 'main', ...P }]; store.set('push_prefs', 'main', P).catch(() => {}); store.track('view', 'vpop-off'); toastMsg('새 영상 팝업을 껐어요. 마이 메뉴 › 받을 알림에서 다시 켤 수 있어요.'); }
+      else store.track('view', 'vpop-close');
+      g.remove();
+    });
+  }catch(_){}
+}
 function wantApply(){
   if(store.isGuest || store.isDemo || !S.loaded.c || !(S2.screen || []).length) return;
   { let ws = 0; try{ ws = +localStorage.getItem('vn-want-semi') || 0; }catch(_){}
@@ -5377,9 +5410,10 @@ function wantApply(){
     else setTimeout(async () => {
       if(!S.pushChecked && typeof checkPush === 'function'){ try{ await checkPush(); }catch(_){} }
       /* 2026-11-24: 카톡 채널·이 기기 알림 중 하나라도 되어 있으면 띄우지 않는다 */
-      if(store.isGuest || store.isDemo || pushPrefs().ch || pushGuess() === 'on' || document.querySelector('.ch-gate, [role="dialog"], .modal, .ob')) return;
+      if(store.isGuest || store.isDemo || document.querySelector('.ch-gate, [role="dialog"], .modal, .ob')) return;
+      if(pushPrefs().ch || pushGuess() === 'on') return videoPop();   /* 알림이 이미 되어 있으면 새 영상 팝업만 본다 (2026-11-27) */
       let last = 0; try{ last = +localStorage.getItem('vn-ch-later') || 0; }catch(_){}
-      if(Date.now() - last < 20 * 3600e3) return;
+      if(Date.now() - last < 20 * 3600e3) return videoPop();
       chGate(null, 'all');
     }, 3500); }
   let vt = null; try{ vt = JSON.parse(localStorage.getItem('vn-want-tab') || 'null'); localStorage.removeItem('vn-want-tab'); }catch(_){}
@@ -7638,6 +7672,19 @@ input,select,textarea{border-radius:10px}
 .col-item{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:5px;padding:16px;border-radius:16px;background:var(--surface);border:1px solid var(--line)}
 .col-item b{font-size:16.5px;line-height:1.45;letter-spacing:-.02em}
 .col-item.first{border-color:rgba(255,77,109,.6)}
+.vpop{position:fixed;inset:0;z-index:90}.vpop-dim{position:absolute;inset:0;background:rgba(10,14,12,.45)}
+.vpop-sheet{position:absolute;left:0;right:0;bottom:0;max-width:560px;margin:0 auto;background:var(--surface);color:var(--ink);border-radius:22px 22px 0 0;padding:10px 20px calc(20px + env(safe-area-inset-bottom));box-shadow:0 -8px 30px rgba(0,0,0,.18);animation:vpUp .28s ease-out}
+@keyframes vpUp{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+.vpop-grab{width:40px;height:4px;border-radius:2px;background:var(--line);margin:0 auto 14px}
+.vpop-eb{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:#FF4D6D}.vpop-dot{width:8px;height:8px;border-radius:4px;background:#FF4D6D}
+.vpop-x{all:unset;cursor:pointer;margin-left:auto;font-size:24px;line-height:1;color:var(--muted);padding:2px 6px}
+.vpop-thumb{position:relative;display:block;margin-top:12px;border-radius:14px;overflow:hidden;background:#111}.vpop-thumb img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+.vpop-play{position:absolute;right:12px;bottom:12px;width:44px;height:44px;border-radius:22px;background:rgba(0,0,0,.6)}.vpop-play::after{content:'';position:absolute;left:17px;top:13px;border-left:14px solid #fff;border-top:9px solid transparent;border-bottom:9px solid transparent}
+.vpop-t{font-size:19px;font-weight:800;line-height:1.45;letter-spacing:-.02em;margin:14px 0 4px}.vpop-sub{font-size:14px;color:var(--muted)}
+.vpop-go{display:block;margin-top:16px;background:#111;color:#fff;text-align:center;border-radius:999px;padding:15px;font-size:16px;font-weight:800;text-decoration:none}
+:root[data-theme="dark"] .vpop-go{background:#fff;color:#111}
+.vpop-row{display:flex;justify-content:space-between;margin-top:12px}.vpop-row button{all:unset;cursor:pointer;font-size:13.5px;color:var(--muted);padding:6px 0}.vpop-row .u{text-decoration:underline;text-underline-offset:3px}
+
 .col-stat{margin-left:8px;white-space:nowrap}.col-stat::before{content:'·';margin-right:8px}
 .col-ex{color:var(--muted);line-height:1.55}
 .col-art{margin-top:12px;padding:22px 20px}
