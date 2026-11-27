@@ -2208,6 +2208,38 @@ def sfx_tick(level=.01, seed=0):
     return (x / (np.abs(x).max() + 1e-9) * _env(n, .0005, .012) * level).astype(np.float32)
 
 
+def sfx_ping(level=.045):
+    """알림 소리: 맑은 두 음이 짧게 (2026-11-28 대표 "카톡 올라갈 때 띵띵 효과음")"""
+    n = int(SR * .5); t = np.arange(n) / SR; k = int(SR * .075)
+    y = np.sin(2 * np.pi * 1318.5 * t) * _env(n, .002, .09); y2 = np.sin(2 * np.pi * 1760 * t) * _env(n, .002, .16)
+    out = y.copy(); out[k:] += y2[: n - k]
+    return (out / 1.4 * level).astype(np.float32)
+
+
+def sfx_buzz(level=.04):
+    """휴대폰 진동"""
+    n = int(SR * .26); t = np.arange(n) / SR
+    y = np.sin(2 * np.pi * 165 * t) * (.55 + .45 * np.sign(np.sin(2 * np.pi * 27 * t))) * np.minimum(1, t / .01) * np.minimum(1, (t[-1] - t) / .03)
+    return (y * level).astype(np.float32)
+
+
+def sfx_pop(level=.035):
+    """말풍선·버튼이 뜰 때 짧은 톡"""
+    n = int(SR * .12); t = np.arange(n) / SR; f = 520 + 900 * t / t[-1]
+    return (np.sin(2 * np.pi * np.cumsum(f) / SR) * _env(n, .002, .035) * level).astype(np.float32)
+
+
+def sfx_alert(level=.04):
+    """속보: 짧은 경고음 두 번"""
+    n = int(SR * .5); t = np.arange(n) / SR; b = np.sin(2 * np.pi * 880 * t) * _env(n, .003, .06); k = int(SR * .15)
+    out = b.copy(); out[k:] += b[: n - k]
+    return (out * level).astype(np.float32)
+
+
+SFXK = {"ping": lambda: sfx_ping(), "buzz": lambda: sfx_buzz(), "pop": lambda: sfx_pop(), "alert": lambda: sfx_alert(),
+        "thud": lambda: sfx_hit(.045), "tick": lambda: sfx_tick(.035), "chime": lambda: sfx_chime(.04)}
+
+
 def sfx_braam(level=.12):
     """밸류노트 로고가 뜰 때 웅장한 저음 화음 + 맑은 위 음 (2026-11-03 대표님: 약간 웅장한 효과음)"""
     from scipy import signal as _sg
@@ -2517,6 +2549,11 @@ def main():
         def _add(at, sfx):
             i = int(at * SR)
             if 0 <= i < len(mix): mix[i:i + len(sfx)] += sfx[: max(0, len(mix) - i)]
+        for x in timeline:   # 2026-11-28 장면이 정한 효과음(알림·말풍선·속보·표 한 줄씩): sfx = [{"line": 줄, "at": 그 줄 시작 뒤 초, "k": 종류}]
+            for e in x["sc"].get("sfx", []):
+                ln = x["lines"]
+                if not ln or e.get("k") not in SFXK: continue
+                _add(x["start"] + ln[min(int(e.get("line", 0)), len(ln) - 1)][0] + float(e.get("at", 0)), SFXK[e["k"]]())
         # 2026-11-03 대표님: "처음 훅에는 시네마틱한 효과음이 중요, 중간중간 장면 전환·주제 넘어갈 때도, 아웃트로도"
         for k, x in enumerate(timeline):
             v_ = x["sc"]["v"]

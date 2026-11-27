@@ -11,10 +11,10 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import vn2
 from vn2 import W, H, SUIT, NS, PINK, eout, eio, clamp, _paste, _shadowed
 
-FPS, DUR = 30, 5.6
+FPS, DUR = 30, float(os.environ.get("RS_DUR", 5.6))   # 2026-11-28 금리 페이지 소개에도 쓴다: RS_NAME·RS_LABEL·RS_SUB·RS_DUR·RS_START·RS_NOIN
 N = int(FPS * DUR)
 SHOT, MP4 = sys.argv[1], sys.argv[2]; END_Y = float(sys.argv[3]) if len(sys.argv) > 3 else 1560
-NAME = "경제 레이더"; SUBL = [""]; OUT = tempfile.mkdtemp(); SCORE_Y = 0
+NAME = os.environ.get("RS_NAME", "경제 레이더"); SUBL = [""]; OUT = tempfile.mkdtemp(); SCORE_Y = 0
 full = Image.open(SHOT).convert("RGB")          # 390 css px 폭, 3배 해상도
 SCR_H = 740; SCR_W = round(SCR_H * 390 / 844)               # 화면 크기 (영상 px)
 K = SCR_W / 390                                             # css px → 영상 px
@@ -35,21 +35,21 @@ v = np.clip(1 - (((xx - W * .62) / W) ** 2 + ((yy - H * .5) / H) ** 2) * 1.6, 0,
 bg = np.stack([10 + 16 * v, 10 + 16 * v, 12 + 17 * v], -1).astype(np.uint8)
 BG = Image.fromarray(bg).convert("RGBA")
 
-SC0 = 0; SC1 = END_Y   # 2026-11-17 대표님: 적정 주가 카드는 화면에 넣지 않는다 → 점수 줄 근처에서 시작해 조금만 스크롤
+SC0 = float(os.environ.get("RS_START", 0)); SC1 = END_Y; NOIN = bool(os.environ.get("RS_NOIN"))   # 2026-11-17 대표님: 적정 주가 카드는 화면에 넣지 않는다 → 점수 줄 근처에서 시작해 조금만 스크롤
 SUBS = []
 
 
 def left_text(im, t):
-    a = eout((t - .2) / .6)
+    a = 1 if NOIN else eout((t - .2) / .6)
     if a <= 0: return
     lay = Image.new("RGBA", (900, 330), (0, 0, 0, 0)); d = ImageDraw.Draw(lay)
     fl = NS("Medium", 30); x = 0
-    for ch in "밸류노트 앱 · 매일 아침 갱신": d.text((x, 0), ch, font=fl, fill=(235, 235, 235, 255)); x += d.textlength(ch, font=fl) + 5
-    ln = 560 * eout((t - .4) / .7)
+    for ch in os.environ.get("RS_LABEL", "밸류노트 앱 · 매일 아침 갱신"): d.text((x, 0), ch, font=fl, fill=(235, 235, 235, 255)); x += d.textlength(ch, font=fl) + 5
+    ln = 560 * (1 if NOIN else eout((t - .4) / .7))
     d.rectangle([0, 52, ln, 54], fill=(255, 255, 255, 220)); d.rounded_rectangle([0, 49, min(64, ln), 57], 4, fill=(*PINK, 255))
     # 2026-11-17 대표님: 주소(/c/tsla)까지 보이면 지저분 → 이름과 한 줄 설명만
     d.text((0, 96), NAME, font=SUIT("Bold", 72), fill=(255, 255, 255, 255))
-    d.text((0, 200), "위기 신호 10개를 신호등으로", font=NS("Regular", 30), fill=(205, 205, 205, 255))
+    d.text((0, 200), os.environ.get("RS_SUB", "위기 신호 10개를 신호등으로"), font=NS("Regular", 30), fill=(205, 205, 205, 255))
     _paste(im, _shadowed(lay, 8, .5), (150 - 20 * (1 - a), 250), a)
 
 
@@ -58,8 +58,8 @@ for k in range(N):
     im = BG.copy()
     left_text(im, t)
     # 폰: 아래에서 살짝 올라오며 나타남
-    pa = eout(t / .7); dy = int(40 * (1 - pa))
-    sc = SC0 + (SC1 - SC0) * eio((t - 1.6) / 2.6)
+    pa = 1 if NOIN else eout(t / .7); dy = int(40 * (1 - pa))
+    sc = SC0 + (SC1 - SC0) * eio((t - (.6 if NOIN else 1.6)) / (2.6 if DUR < 7 else DUR - 3.2))
     oy = int(sc * K)
     scr = page.crop((0, oy, SCR_W, oy + SCR_H)).convert("RGBA")
     # 점수 줄 핑크 밑줄 (3.1초~)
