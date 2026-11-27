@@ -114,13 +114,23 @@
    ]
   },
   {
-   "type": "list",
-   "title": "손정의가 쥔 AI의 핵심 자리",
-   "items": [
-    "① 오픈AI · 646억 달러",
-    "② 스타게이트 · 미국 AI 데이터센터",
-    "③ Arm · AI 반도체 설계"
-   ],
+   "type": "photo",
+   "photo": "son_altman_v.png",
+   "full": {
+    "img": "son_altman_v.png",
+    "video": "son_stargate_masa_c.mp4",
+    "label": "손정의가 쥔 AI의 핵심 자리",
+    "num": "오픈AI 646억 달러",
+    "tone": "gold",
+    "bars": [
+     {
+      "label": "오픈AI",
+      "v": 646,
+      "text": "646억 달러",
+      "color": "gold"
+     }
+    ]
+   },
    "lines": [
     {
      "say": "오픈AI에 646억 달러, 미국 AI 데이터센터 스타게이트, 반도체 설계 회사 Arm까지.",
@@ -205,8 +215,22 @@
     "img": "son_ohio_v.png",
     "video": "son2_abilene_drone.mp4",
     "label": "1년 이자 약 16조 원",
-    "num": "왜 멈추지 않나",
-    "tone": "loss"
+    "num": "1년 16조 원",
+    "tone": "loss",
+    "bars": [
+     {
+      "label": "3개월 이자",
+      "v": 4.0,
+      "text": "약 4조 원",
+      "color": "ivory"
+     },
+     {
+      "label": "1년 이자",
+      "v": 16.1,
+      "text": "약 16조 원",
+      "color": "loss"
+     }
+    ]
    },
    "lines": [
     {
