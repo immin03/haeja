@@ -25,12 +25,12 @@
  "scheduled_at": "2026-11-26T21:00:00+09:00",
  "banner_tag": "손정의 × SK하이닉스",
  "banner": [
-  "손정의, SK하이닉스 통째로?",
-  "1년 이자 16조 원"
+  "손정의가 노린 SK하이닉스",
+  "인수가격 1조 달러"
  ],
- "title": "손정의는 왜 멈추지 않나? | 1년 이자 16조 원, AI 버블을 만든 남자 #SK하이닉스",
+ "title": "손정의는 왜 SK하이닉스를 노렸나? | 인수가격 1조 달러, 1년 이자만 16조 원 #SK하이닉스",
  "title_en": "Why won't Masayoshi Son stop? | ~₩16T a year in interest, the man behind the AI bubble #SKhynix",
- "cover_title": "1년 이자 16조\n손정의는 왜?",
+ "cover_title": "손정의가 노린\nSK하이닉스",
  "hashtags": [
   "SK하이닉스",
   "손정의",
@@ -40,7 +40,7 @@
   "밸류노트"
  ],
  "message": "youtube-queue PART B 11/26 15시 — 손정의 롱폼(L261126-son) 연계 쇼츠·릴스 1편(owner-rules-short 126·127)",
- "note": "11/27 11:24 대표 재구성: 훅(SK하이닉스) → 손정의가 쥔 AI 길목 → 빌린 돈 → 1년 이자 16조 원 → 왜 멈추지 않나 = AI 버블 → 풀영상. 소프트뱅크 주가·하이닉스 6.7% 등 연결 약한 내용 뺌. 장면마다 롱폼 원음·영상 클립 사용.",
+ "note": "11/27 11:24 대표 재구성: 훅(SK하이닉스) → 손정의가 쥔 AI 길목 → 빌린 돈 → 1년 이자 16조 원 → 왜 멈추지 않나 = AI 버블 → 풀영상. 소프트뱅크 주가·하이닉스 6.7% 등 연결 약한 내용 뺌. 장면마다 롱폼 원음·영상 클립 사용. · 11/27 12:03 대표: 표지 = 손정의 × SK하이닉스 주인공, 1조 달러 = 인수가격 / 영상은 인물이 화면 가운데 오게 시작 지점·가로 위치 고정(장면마다 한 컷)",
  "pinned_comment": "🎬 풀영상: 손정의가 설계한 AI 도박판 (관련 영상)\n1년에 16조 원을 이자로 내면서도 손정의가 멈추지 않는 이유, 풀영상에 담았습니다. 좋아요와 구독은 영상 제작에 큰 힘이 됩니다.",
  "caption": "미국 매체 디인포메이션은 11월 20일, 손정의가 SK하이닉스를 약 1조 달러에 사들이는 방안을 검토했다고 보도했습니다(소프트뱅크: 더 이상 적극 검토하지 않음). 손정의는 오픈AI·스타게이트·Arm으로 AI의 길목을 쥐었고, 그 돈의 상당 부분은 빌린 돈입니다. 소프트뱅크의 3개월 금융비용은 4,619억 엔(약 4조 원), 1년으로 치면 16조 원이 넘습니다. 손정의가 AI 버블을 어떻게 설계했는지는 풀영상에서.",
  "facts": [
@@ -57,7 +57,7 @@
  "scenes": [
   {
    "type": "hook",
-   "top": "손정의, SK하이닉스를\n1조 달러에?",
+   "top": "손정의가 노린\nSK하이닉스",
    "num": {
     "from": 0,
     "to": 1,
@@ -68,12 +68,14 @@
    "full": {
     "img": "il_L261121j_fab_night.png",
     "video": "son2_hynix_hbm4.mp4",
-    "label": "SK하이닉스 인수 검토 보도 (11월 20일)",
-    "num": "약 1조 달러",
+    "label": "인수가격 (11월 20일 보도)",
+    "num": "1조 달러",
     "num_line": 0,
     "num_frac": 0.1,
     "tone": "gold",
-    "num_size": 150
+    "num_size": 150,
+    "video_start": 12.0,
+    "video_x": 0.5
    },
    "lines": [
     {
@@ -101,7 +103,9 @@
     "video": "son_stargate_masa.mp4",
     "label": "AI 판을 짜는 사람",
     "num": "손정의",
-    "tone": "gold"
+    "tone": "gold",
+    "video_start": 40.0,
+    "video_x": 0.5
    },
    "lines": [
     {
@@ -118,7 +122,7 @@
    "photo": "son_altman_v.png",
    "full": {
     "img": "son_altman_v.png",
-    "video": "son_stargate_masa_c.mp4",
+    "video": "son2_nvda_sale_reuters.mp4",
     "label": "손정의가 쥔 AI의 핵심 자리",
     "num": "오픈AI 646억 달러",
     "tone": "gold",
@@ -129,7 +133,9 @@
       "text": "646억 달러",
       "color": "gold"
      }
-    ]
+    ],
+    "video_start": 35.5,
+    "video_x": 0.42
    },
    "lines": [
     {
@@ -154,10 +160,10 @@
    "photo": "son_portrait_v.png",
    "full": {
     "img": "son_portrait_v.png",
-    "video": "son2_nvda_sale_reuters.mp4",
     "label": "그 돈은 어디서 났을까",
     "num": "빌린 돈",
-    "tone": "loss"
+    "tone": "loss",
+    "motion": "in"
    },
    "lines": [
     {
@@ -213,7 +219,7 @@
    "photo": "son_ohio_v.png",
    "full": {
     "img": "son_ohio_v.png",
-    "video": "son2_abilene_drone.mp4",
+    "video": "son_fii2025_v_end.mp4",
     "label": "1년 이자 약 16조 원",
     "num": "1년 16조 원",
     "tone": "loss",
@@ -230,7 +236,9 @@
       "text": "약 16조 원",
       "color": "loss"
      }
-    ]
+    ],
+    "video_start": 9.0,
+    "video_x": 0.45
    },
    "lines": [
     {
@@ -266,7 +274,9 @@
     "video": "son_rubenstein_99.mp4",
     "label": "풀영상",
     "num": "손정의가 설계한 AI 도박판",
-    "tone": "gold"
+    "tone": "gold",
+    "video_start": 9.0,
+    "video_x": 0.55
    },
    "lines": [
     {

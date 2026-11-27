@@ -152,6 +152,9 @@ def photo_panel(im, name, box, fade="tb", focus=(.5, .5)):
 
 
 def render(spec, out):
+    if spec.get("file"):   # 2026-11-27 대표 "썸네일만 봐도 클릭하고 싶게": 따로 디자인한 표지 그림을 그대로 쓴다
+        import shutil; src = spec["file"] if os.path.isabs(spec["file"]) else os.path.join(os.path.dirname(os.path.abspath(__file__)), spec["file"])
+        os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True); shutil.copy(src, out); return out
     if spec.get("v", 1) >= 5:   # 2026-11-06 대표님 확정: 롱폼 썸네일 v5 (아래 두 줄·아이보리+초록/빨강/금색·테두리 없음·좌우 대비형)
         import thumb_v5; return thumb_v5.render(spec, out)
     if spec.get("v", 1) >= 4 and spec.get("format") == "long": return render_v4(spec, out)
