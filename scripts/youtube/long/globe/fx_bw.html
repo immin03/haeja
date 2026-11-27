@@ -361,11 +361,22 @@ function vs2(C,t){
   const I=C.items||[], n=I.length, X0=150, X1=W-150, gap=40, cw=(X1-X0-gap*(n-1))/n, Y0=C.y0||300, ch=C.ch||500;
   // 2026-11-27 대표 "말할 때마다 빨간 테두리가 그 칸으로 옮겨 가야": hl=[[초, 칸번호],...] 이면 그 시각부터 그 칸만 켜진다(켜지지 않은 칸 숫자는 흰색)
   let cur=null; if(C.hl){ cur=-1; C.hl.forEach(h=>{ if(t>=h[0]) cur=h[1]; }); }
-  I.forEach((it0,i)=>{ const it=cur===null?it0:Object.assign({},it0,{hi:i===cur}); const x=X0+i*(cw+gap), cx=x+cw/2, a=ease(cl((t-0.4-i*0.9)/0.5)); if(a<=0) return; const y=Y0+(1-a)*28, col=(cur!==null&&!it.hi)?IVORY:(it.color==='red'?'#ff5a6e':PINK);
-    g.save(); g.globalAlpha=a; const gr=g.createLinearGradient(0,y,0,y+ch); gr.addColorStop(0,'rgba(255,255,255,0.07)'); gr.addColorStop(1,'rgba(255,255,255,0.015)'); g.fillStyle=gr; g.beginPath(); g.roundRect(x,y,cw,ch,28); g.fill(); g.lineWidth=it.hi?3:1.5; g.strokeStyle=it.hi?PINK:'rgba(225,225,228,0.16)'; if(it.hi){ g.shadowColor='rgba(255,77,109,0.45)'; g.shadowBlur=36; } g.stroke(); g.restore();
-    txt(it.k,cx,y+90,52,IVORY,800,'center',a);
-    const an=ease(cl((t-1.0-i*0.9)/0.6)); txt(it.big,cx,y+(it.unit?250:280),Math.max(TYPE.big,it.bs||130),col,800,'center',an); if(it.unit) txt(it.unit,cx,y+345,52,col,800,'center',an);
-    (it.sub?String(it.sub).split('\n'):[]).forEach((l,k)=>txtS(l,cx,y+420+k*44,34,'#e8e8ea',700,'center',an));
+  // 2026-11-27 대표 "다 똑같은 효과 — 어떤 건 더 화려하게, 다채롭게": hl_style 로 강조 방식을 카드마다 다르게
+  //   border(빨간 테두리) · pop(켜진 칸이 앞으로 튀어나오고 나머지는 흐려짐) · fill(켜진 칸이 핑크로 꽉 차고 글자는 검정) · spot(켜진 칸 뒤로 빛 + 나머지 어둡게)
+  // 칸이 바뀌는 순간(0.35초) 살짝 번쩍이며 옮겨 간다
+  const HS=C.hl_style||'border'; let tsw=-9; if(C.hl){ C.hl.forEach(h=>{ if(t>=h[0]) tsw=h[0]; }); } const sw=cur!==null&&cur>=0?ease(cl((t-tsw)/0.35)):1;
+  if(HS==='spot'&&cur!==null&&cur>=0){ const cx0=X0+cur*(cw+gap)+cw/2; g.save(); g.globalAlpha=0.55*sw; const rg=g.createRadialGradient(cx0,Y0+ch/2,40,cx0,Y0+ch/2,cw*0.95); rg.addColorStop(0,'rgba(255,77,109,0.35)'); rg.addColorStop(1,'rgba(255,77,109,0)'); g.fillStyle=rg; g.fillRect(0,0,W,H); g.restore(); }
+  I.forEach((it0,i)=>{ const it=cur===null?it0:Object.assign({},it0,{hi:i===cur}); const on=cur!==null&&cur>=0, act=on&&it.hi; let x=X0+i*(cw+gap), cx=x+cw/2; const a0=ease(cl((t-0.4-i*0.9)/0.5)); if(a0<=0) return;
+    const dim=(on&&!act&&(HS==='pop'||HS==='spot'))?(HS==='spot'?0.32:0.5):1, a=a0*dim; const sc=(act&&HS==='pop')?1+0.06*sw:1;
+    const y=Y0+(1-a0)*28-((act&&HS==='pop')?18*sw:0), col=act&&HS==='fill'?'#15151a':((cur!==null&&!it.hi)?IVORY:(it.color==='red'?'#ff5a6e':PINK));
+    g.save(); g.translate(cx,y+ch/2); g.scale(sc,sc); g.translate(-cx,-(y+ch/2));
+    g.save(); g.globalAlpha=a; const gr=g.createLinearGradient(0,y,0,y+ch);
+    if(act&&HS==='fill'){ gr.addColorStop(0,'rgba(255,92,124,'+(0.95*sw)+')'); gr.addColorStop(1,'rgba(230,60,95,'+(0.95*sw)+')'); } else { gr.addColorStop(0,'rgba(255,255,255,0.07)'); gr.addColorStop(1,'rgba(255,255,255,0.015)'); }
+    g.fillStyle=gr; g.beginPath(); g.roundRect(x,y,cw,ch,28); g.fill(); g.lineWidth=it.hi?3+2*(1-sw):1.5; g.strokeStyle=it.hi?PINK:'rgba(225,225,228,0.16)'; if(it.hi){ g.shadowColor='rgba(255,77,109,0.55)'; g.shadowBlur=36+40*(1-sw)+(HS==='pop'?20:0); } g.stroke(); g.restore();
+    txt(it.k,cx,y+90,52,act&&HS==='fill'?'#15151a':IVORY,800,'center',a);
+    const an=ease(cl((t-1.0-i*0.9)/0.6))*dim; txt(it.big,cx,y+(it.unit?250:280),Math.max(TYPE.big,it.bs||130),col,800,'center',an); if(it.unit) txt(it.unit,cx,y+345,52,col,800,'center',an);
+    (it.sub?String(it.sub).split('\n'):[]).forEach((l,k)=>txtS(l,cx,y+420+k*44,40,act&&HS==='fill'?'#15151a':'#e8e8ea',700,'center',an));
+    g.restore();
   });
   if(C.foot){ const af=ease(cl((t-2.6)/0.6)); if(af>0) txtS(C.foot,W/2,Y0+ch+44,24,GRAY,600,'center',af); }
 }

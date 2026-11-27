@@ -1185,6 +1185,13 @@ def cuts_source(v, n_frames, seed):
     elif v.get("_beat"):   # 박자에 맞춰: 장면 박자 수를 컷 수로 나눠 경계를 박자 위에 둔다
         bt = v["_beat"]; B = max(1, int(round(total / bt))); n = len(cs); bd = [0] + [max(1, int(round(i * B / n))) for i in range(1, n)] + [B]
         edges = [(bd[i] * bt, bd[i + 1] * bt, cs[i]) for i in range(n)]
+    # 2026-11-27 대표 "1초도 안 돼서 바뀌는 건 정신없다 — 3초쯤 또는 한 문장마다": 낱말 컷(대표가 짚은 순간)이 아니면 한 컷은 최소 MIN_CUT초. 짧은 컷은 빼고 앞 컷을 늘린다
+    MIN_CUT = float(v.get("min_cut", 2.6)); e2 = []
+    for a_, b_, c_ in edges:
+        if e2 and (b_ - a_) < MIN_CUT and not c_.get("word"):
+            pa, pb, pc = e2[-1]; e2[-1] = (pa, b_, pc); continue
+        e2.append((a_, b_, c_))
+    edges = e2
     st = {"j": -1, "src": None, "a": 0.0}
 
     def get(u):
@@ -2408,7 +2415,7 @@ def main():
     split_end(spec)
     # 1) 음성
     if not fake: from tts import speak
-    timeline = []; t = 0.0; audio = []
+    timeline = []; t = 0.0; audio = []; TLOG = []
     SOT_IV = []; SOT_MUSIC_DB[0] = []
     BEAT = (60.0 / float(spec["hook"]["bpm"])) if spec.get("hook", {}).get("bpm") else 0.0   # 2026-11-03 대표님: 훅은 음악 박자에 맞춰 컷이 딱딱 바뀌어야 의미가 있다
     for sc in spec["scenes"]:
@@ -2458,7 +2465,7 @@ def main():
             SOT_IV.append((t, t + dur))   # 2026-11-19 대표 v5: 원음+더빙 장면도 배경음악을 낮춘다
         HITS = MUSIC.get("hits") or []
         if sc["v"].get("cut_by_line"): sc["v"]["_lines_at"] = [l_[0] for l_ in lt]
-        if any(isinstance(c_, dict) and c_.get("word") for c_ in sc["v"].get("cuts", [])): sc["v"]["_lt"] = [(l_[0], l_[1], l_[2]) for l_ in lt]   # 2026-11-27 대표 "집이란 말과 동시에 사진을 딱": 컷이 그 낱말을 말하는 순간에 바뀐다   # 2026-11-19 v6: 줄마다 컷 (박자 컷보다 우선)
+        elif any(isinstance(c_, dict) and c_.get("word") for c_ in sc["v"].get("cuts", [])): sc["v"]["_lt"] = [(l_[0], l_[1], l_[2]) for l_ in lt]   # 2026-11-27 대표 "집이란 말과 동시에 사진을 딱": 컷이 그 낱말을 말하는 순간에 바뀐다   # 2026-11-19 v6: 줄마다 컷 (박자 컷보다 우선)
         elif HITS and sc["v"].get("cine"):   # 2026-11-07 13:48 대표님: 자잘한 박자마다 흔들지 말고, 큰 베이스가 '쿵' 할 때(3~6초마다)만 사진·영상을 바꾼다
             # 14:27 대표님: 사진 전환에 맞추려고 말을 멈추지 말 것 — 장면 길이는 말 길이 그대로, 장면 안에서 큰 베이스가 오면 그때만 사진을 바꾼다
             hs = [h - t for h in HITS if t + .3 < h < t + dur - .3]; sc["v"]["_hits"] = hs or None; sc["v"]["_beat"] = BEAT or .5   # 2026-11-27 대표 "한 사진 4~5초 넘게 쓰지 말 것": 박자가 없는 장면(인트로 뒤)은 여러 장을 고르게 나눈다
@@ -2472,9 +2479,14 @@ def main():
             nb_ = max(1, int(round(dur / unit)))
             if unit > BEAT and len(sc["v"].get("cuts", [])) > nb_:
                 print(f"  훅 마디 맞춤: 사진 {len(sc['v']['cuts'])}장 → {nb_}장 (마디 {nb_}개)"); sc["v"] = dict(sc["v"], cuts=sc["v"]["cuts"][:nb_])
+        TLOG.append({"i": len(timeline), "start": round(t, 2), "lib": ((sc["v"].get("cuts") or [{}])[0].get("lib") if isinstance((sc["v"].get("cuts") or [{}])[0], dict) else ""), "lines": [[round(x_[0], 2), round(x_[1], 2), x_[2]] for x_ in lt]})   # 2026-11-27 대표 "말 맞춰 바꾸는 게 약간씩 엇박자" → 실제 말 시각을 남긴다
         if sc.get("endscreen"): dur = max(dur + .8, 8.0, float(sc["endscreen"])); ENDSCREEN_SEC[0] = round(dur, 1)   # 2026-11-03 대표님 "공백이 길었다": 20초 고정 대신 말 끝 + 0.8초 (유튜브 최종 화면 최소 5초는 지킴)
         timeline.append({"sc": sc, "start": t, "dur": dur, "lines": lt}); t += dur
     total = t
+    try:   # 장면별 실제 말 시각 기록 (카드 강조·낱말 컷을 다음 렌더에서 정확히 맞출 때 씀)
+        _od = out
+        json.dump(TLOG, open(os.path.join(_od, "timeline.json"), "w"), ensure_ascii=False, indent=0)
+    except Exception as _e: print("  타임라인 기록 실패:", _e)
     mix = np.zeros(int((total + 1) * SR), np.float32)
     for st, a in audio:
         i = int(st * SR); mix[i:i + len(a)] += a[: len(mix) - i]
