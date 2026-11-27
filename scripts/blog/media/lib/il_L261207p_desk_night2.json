@@ -1,0 +1,33 @@
+{
+ "id": "il_L261207p_desk_night2",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, first-person or over-the-shoulder point of view, moody dark charcoal and deep blue-black color grade with cool bluish screen glow as the main light, shallow depth of field, fine film grain, rich realistic detail, ordinary Korean apartment or office setting. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable screens (screens show only soft blurred glow), no watermark, no recognizable faces. Wide 16:9 composition, keep the lower fifth of the frame dark and uncluttered. Scene: Late night home office in a small Korean apartment, seen from just behind a man's shoulder (only shoulder and back of head, dark silhouette), a desk with a single monitor glowing cold blue showing an abstract blurred falling line chart, a mug and a notebook on the desk, the room otherwise dark.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a21ae2-96e1-79a5-8eb8-cc5c987f7766",
+  "status_url": "https://api.higgsfield.ai/requests/01a21ae2-96e1-79a5-8eb8-cc5c987f7766/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a21ae2-96e1-79a5-8eb8-cc5c987f7766/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.06,
+ "usd_hf": 0.06,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a21ae2-96e1-79a5-8eb8-cc5c987f7766",
+  "status_url": "https://api.higgsfield.ai/requests/01a21ae2-96e1-79a5-8eb8-cc5c987f7766/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a21ae2-96e1-79a5-8eb8-cc5c987f7766/cancel",
+  "expires_at": "2026-12-04T02:44:30.446772+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a21ae2-96e1-79a5-8eb8-cc5c987f7766/14289461-abac-4016-ab73-0a9afb467b8f.jpeg"
+   }
+  ]
+ },
+ "seconds": 88,
+ "file": "scripts/blog/media/lib/il_L261207p_desk_night2.jpeg"
+}

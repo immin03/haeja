@@ -1,0 +1,33 @@
+{
+ "id": "il_L261207p_livingroom_3am2",
+ "endpoint": "xai/grok-imagine-image-2.0",
+ "body": {
+  "prompt": "Cinematic film still, photorealistic documentary photography, first-person or over-the-shoulder point of view, moody dark charcoal and deep blue-black color grade with cool bluish screen glow as the main light, shallow depth of field, fine film grain, rich realistic detail, ordinary Korean apartment or office setting. Absolutely no text, no letters, no numbers, no logos, no brand names, no readable screens (screens show only soft blurred glow), no watermark, no recognizable faces. Wide 16:9 composition, keep the lower fifth of the frame dark and uncluttered. Scene: Three in the morning in a dark Korean apartment living room, a man in a t-shirt seen from behind sitting on the edge of a sofa, lit only by the cold flicker of a television showing blurred red and blue news colors, city lights through thin curtains.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a21ae2-93d9-75d9-a1c9-53718c232f41",
+  "status_url": "https://api.higgsfield.ai/requests/01a21ae2-93d9-75d9-a1c9-53718c232f41/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a21ae2-93d9-75d9-a1c9-53718c232f41/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.06,
+ "usd_hf": 0.06,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a21ae2-93d9-75d9-a1c9-53718c232f41",
+  "status_url": "https://api.higgsfield.ai/requests/01a21ae2-93d9-75d9-a1c9-53718c232f41/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a21ae2-93d9-75d9-a1c9-53718c232f41/cancel",
+  "expires_at": "2026-12-04T02:44:18.235433+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a21ae2-93d9-75d9-a1c9-53718c232f41/a5803dae-9c66-415e-98b1-a26ab0356260.jpeg"
+   }
+  ]
+ },
+ "seconds": 75,
+ "file": "scripts/blog/media/lib/il_L261207p_livingroom_3am2.jpeg"
+}
