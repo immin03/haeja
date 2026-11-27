@@ -73,6 +73,8 @@ def sot_cfg(key, start, dur, at=None):
 GL = HJ + '/scripts/youtube/long/globe/cfg_L261204r/'
 os.makedirs(GL, exist_ok=True)
 FXDUR = json.load(open(os.path.join(os.path.dirname(__file__), 'L261204-rate_fxdur.json')))   # 지난 렌더에서 잰 장면 길이(말 길이) — 테두리 옮기는 시각 계산용
+_TLP = os.path.join(os.path.dirname(__file__), '..', '..', '..', '..', 'social', 'youtube', 'L261204-rate', 'timeline.json')
+TL = {tuple(x_[2] for x_ in e["lines"]): e["lines"] for e in (json.load(open(_TLP)) if os.path.exists(_TLP) else [])}   # 11/27 지난 렌더의 실제 말 시각(줄 시작·길이)
 def _hl(name, lines, hl):
     """hl=[(말 조각, 칸번호), ...] → [[초, 칸번호], ...] — 그 조각을 말하기 시작하는 시각(2026-11-27 대표: 말할 때마다 빨간 테두리가 그 칸으로)"""
     ch = [len(l.replace(' ', '')) for l in lines]
@@ -80,6 +82,13 @@ def _hl(name, lines, hl):
     speak = (m["dur"] - .35 - .2 * len(lines)) if (m and m["lines"] == lines) else sum(ch) / 6.1   # 같은 말이면 실제 길이, 아니면 추정
     rate = sum(ch) / max(speak, 1)
     out = []
+    if tuple(lines) in TL:   # 실제 줄 시작·길이가 있으면 그걸로: 줄 시작 + 줄 길이 × (앞 글자 / 줄 글자)
+        L_ = TL[tuple(lines)]
+        for frag, idx in hl:
+            li = next(i for i, l in enumerate(lines) if frag in l); a_, d_, tx = L_[li]
+            nb = len(tx[:tx.index(frag)].replace(' ', '')); nt = max(1, len(tx.replace(' ', '')))
+            out.append([round(a_ + d_ * nb / nt - .12, 2), idx])
+        return out
     for frag, idx in hl:
         li = next(i for i, l in enumerate(lines) if frag in l)
         before = sum(ch[:li]) + len(lines[li][:lines[li].index(frag)].replace(' ', ''))
@@ -532,7 +541,8 @@ for s_ in sc:
     if _c and _c[0].get("lib") == R + "trading_screens.png":
         s_["v"]["cuts"] = [{"lib": R + "trading_screens.png"},
                            {"lib": "il_R1204c_s03_1.png", "word": "집값"}, {"lib": "il_R1204c_s03_5.png", "word": "주식"},
-                           {"lib": "il_R1204c_s03_2.png", "word": "금값"}, {"lib": "il_R1204c_s03_3.png", "word": "AI"}]
+                           {"lib": "il_R1204c_s03_2.png", "word": "금값"}, {"lib": "il_R1204c_s03_3.png", "word": "AI"},
+                           {"lib": "il_R1204c_s03_6.png", "word": "죄였던 이자는"}]   # 11/27 09:49 대표: AI 사진은 '몸값까지 정합니다'까지, 다음 문장에서 새 사진으로 인트로 마무리
 
 spec = {k: base[k] for k in ['format', 'world', 'notebook', 'overlay', 'look', 'roadmap', 'hook', 'music', 'design', 'synthetic_media'] if k in base}
 spec['music'] = dict(spec['music'], intro="social/music/own/intro_conspiracy.mp3", intro_offset=0.0,
