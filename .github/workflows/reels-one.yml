@@ -77,7 +77,7 @@ jobs:
           for i in 1 2 3 4 5 6 7 8; do
             git fetch -q origin main && git checkout -q -f -B main origin/main
             cp /tmp/keep/$id.json scripts/reels/specs/$id.json
-            rm -rf social/reels/$id && cp -r /tmp/keep/$id social/reels/$id
+            rm -rf social/reels/$id && mkdir -p social/reels && cp -r /tmp/keep/$id social/reels/$id   # 2026-11-27: 듬성 체크아웃이라 social/reels 폴더가 없어 cp 실패하던 것
             git add --sparse scripts/reels/specs/$id.json social/reels/$id
             [ -f social/reels/$id/reel.stored ] && git rm -q --sparse --cached --ignore-unmatch social/reels/$id/reel.mp4 || true   # 예전에 커밋된 영상이 남아 있으면 지운다(사이트가 옛 영상을 내주지 않게)
             git diff --cached --quiet && exit 0
