@@ -217,7 +217,7 @@ SEQ = [
  ("n:lf1_two_cups", "q01", "여러분에게 끝까지 남은 한 사람은 누구입니까. 이름은 적지 않으셔도 됩니다. 어떤 사람인지만, 댓글로 들려주세요."),
  ("FINALE", None, None),
 ]
-RETAKE = {"p04", "r08", "r09", "e03", "e07", "b02", "d02"}   # 11/28 음성 관문 불통과(소리 끌림·끝소리 끌기)
+RETAKE = {"p04": 2, "r08": 2, "r09": 2, "e07": 2, "b02": 2, "e03": 3, "d02": 3, "y06": 2, "m2": 2, "b05": 2, "b08": 2, "c06": 2}   # 11/28 음성 관문 불통과(1·2차)
 RECAP_V = [("t01", "오늘 밤, 이 세 가지만 해 보십시오."),
            ("t02", "첫째, 지난 한 달 동안 내가 먼저 연락한 사람의 이름을 적어 보십시오."),
            ("t03", "둘째, 끝까지 곁에 두고 싶은 다섯 사람을 적고, 그중 한 사람에게 오늘 고맙다고 말해 보십시오."),
@@ -260,8 +260,8 @@ def gen():
     json.dump(jobs, open(os.path.join(ROOT, "scripts/side/gen/EDL261128-lf01.json"), "w"), ensure_ascii=False, indent=1)
     V = []
     for k, vid, txt in lines():
-        V.append({"name": k, "id": vid, "line": txt, "emotion": "tonedown", "tempo": 0.86 if vid == M else 0.92, **({"take": 2} if k in RETAKE else {})})
-    json.dump({"requested": "2026-11-28T12:30", "note": "lf01 수정 녹음 — 대표 11/28 '말 속도 살짝 느리게'(해설 0.92·황제 0.86, 속도는 후처리라 0원), 음성 관문 불통과 7줄은 새 테이크", "tag": TAG, "keep": True,
+        V.append({"name": k, "id": vid, "line": txt, "emotion": "tonedown", "tempo": 0.86 if vid == M else 0.92, **({"take": RETAKE[k]} if k in RETAKE else {})})
+    json.dump({"requested": "2026-11-28T14:30", "note": "lf01 수정 녹음 — 대표 11/28 '말 속도 살짝 느리게'(해설 0.92·황제 0.86, 속도는 후처리라 0원), 음성 관문 불통과 7줄은 새 테이크", "tag": TAG, "keep": True,
                "lang": "kor", "model": "ssfm-v30", "emotion": "tonedown", "tempo": 1.0, "voices": V},
               open(os.path.join(ROOT, "scripts/side/voices_req.json"), "w"), ensure_ascii=False, indent=1)
     print(f"그림 {len(jobs)}장 · 녹음 {len(V)}줄 · 글자 {sum(len(v['line']) for v in V)}")
@@ -290,7 +290,8 @@ def spec():
     for scr, k, txt in SEQ:
         if scr == "INTRO":
             shots += [{"type": "black", "dur": 0.4, "fixed": True},
-                      {"type": "intro", "sfx": [["cinematic_6.mp3", 1.47, 0.7], ["ring_synth.wav", 2.4, 0.5], ["drum_5.mp3", 3.92, 1.0], ["impact_2.mp3", 3.02, 0.8], ["transition_5.mp3", 8.96, 0.5]]}]
+                      {"type": "intro", "sfx": [["cinematic_6.mp3", 1.47, 0.7], ["ring_synth.wav", 2.4, 0.5], ["drum_5.mp3", 3.92, 1.0], ["impact_2.mp3", 3.02, 0.8], ["cinematic_4.mp3", 4.9, 0.55], ["transition_5.mp3", 8.96, 0.5]]},
+                      {"type": "episode", "kicker": "ESSAY", "num": 1, "title": "나이 들수록 사람을 줄이는 사람들", "en": "Those Who Choose Fewer", "dur": 4.6, "fixed": True, "amb": ["wind_2.mp3", 0.3], "sfx": [["drum_6.mp3", 0.3, 0.45]], "tout": "black", "fout": 0.8}]
             continue
         if scr.startswith("CARD:"):
             n = scr[5:]; lab, ttl, en = CARDS[n]
@@ -320,11 +321,15 @@ def spec():
         subs[k] = subs_of(txt)
     for k, t in RECAP_V + OUTRO_V: subs[k] = subs_of(t)
     n = len(shots)
-    mus = [{"file": "sad_3.mp3", "at_shot": 1, "offset": 0.3, "start": 0, "until_shot": 13, "vol": 0.18, "fin": 2, "fout": 3},
-           {"file": "cinematic_2.mp3", "at_shot": 15, "offset": 1.0, "start": 0, "until_shot": 48, "vol": 0.16, "fin": 3, "fout": 3},
-           {"file": "cinematic_5.mp3", "at_shot": 48, "offset": 1.0, "start": 0, "until_shot": 62, "vol": 0.18, "fin": 3, "fout": 3},
-           {"file": "sad_1.mp3", "at_shot": 62, "offset": 1.0, "start": 0, "until_shot": 96, "vol": 0.16, "fin": 3, "fout": 3},
-           {"file": "cinematic_4.mp3", "at_shot": 96, "offset": 1.0, "start": 0, "until_shot": n, "vol": 0.18, "fin": 3, "fout": 3}]
+    ix = lambda t, k=0: [i for i, x in enumerate(shots) if x["type"] == t][k]
+    i_intro, i_ep, i_rc = ix("intro"), ix("episode"), ix("recap")
+    c1, c3 = ix("card", 0), ix("card", 2)
+    # 11/28 대표: 인트로는 예전 편과 똑같이 — 훅 음악은 인트로 전 검은 화면에서 끝나고(꼬리 없음), 본 음악은 제목 카드 뒤에 시작
+    mus = [{"file": "sad_3.mp3", "at_shot": 1, "offset": 0.3, "start": 0, "until_shot": i_intro - 1, "tail": 0.0, "vol": 0.16, "fin": 2, "fout": 1.5},
+           {"file": "cinematic_0.mp3", "at_shot": i_ep + 1, "offset": 0.5, "start": 0, "until_shot": c1, "vol": 0.18, "fin": 3, "fout": 3},
+           {"file": "cinematic_5.mp3", "at_shot": c1 + 1, "offset": 1.0, "start": 0, "until_shot": c3, "vol": 0.18, "fin": 3, "fout": 3},
+           {"file": "sad_1.mp3", "at_shot": c3 + 1, "offset": 1.0, "start": 0, "until_shot": i_rc, "vol": 0.16, "fin": 3, "fout": 3},
+           {"file": "cinematic_4.mp3", "at_shot": i_rc, "offset": 0.5, "start": 0, "until_shot": n, "vol": 0.18, "fin": 3, "fout": 3}]
     S = {"root": "../../..", "gen_dir": "social/side/gen", "sfx_dir": "social/side/ed_long/sfx", "music_dir": "social/side/ed_long/music", "out_dir": "_long",
          "intro": {"logo": "docs/emperor/profile_final.png"},
          "monologue_fx": "highpass=f=70,aecho=0.9:0.35:35|70:0.09|0.04,", "voice_gain": {"mono": 3.8, "narr": 1.2, "cast": 0.85}, "cap_scale": 1.3,

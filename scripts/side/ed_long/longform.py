@@ -431,7 +431,7 @@ def end_frame(s, t, dur, cache, logo):
 def episode_frame(s, t, dur, cache):
     """편 오프닝 (템플릿): EPISODE · 큰 숫자 · 빛나며 길어지는 금선 · 한글 제목 · 영어 부제 · 금빛 먼지 · 천천히 다가오는 카메라 (11/3 대표 확정: 파일럿 v2 카드 느낌, 군더더기 없이)"""
     if "ep" not in cache:
-        cache["ep"] = (text_layer(["EPISODE"], "en", 38, GOLD, track=16, shadow=False, height=60),
+        cache["ep"] = (text_layer([s.get("kicker", "EPISODE")], "en", 38, GOLD, track=16, shadow=False, height=60),   # 11/28 에세이 롱폼: 머리글 바꿀 수 있게
                        text_layer([str(s.get("num", 1))], "en", 128, GOLD, shadow=False, height=170),
                        text_layer([s["title"]], "ko", 70, (236, 212, 160), height=110),
                        text_layer([s.get("en", "")], "it", 44, (205, 192, 168), shadow=False, height=70),
