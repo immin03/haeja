@@ -117,11 +117,11 @@ def render(t, out):
 # 벤치마킹(금리·돈 원리 상위 40편): 밝은 사진, '금리' 두 글자가 가장 큼, "이거 하나로 끝·N분 만에·모든 것" 약속형, 2줄
 SETS2 = [   # 18:57 대표 확정: 금리의 모든 것 · 금리가 지배하는 세상 · 금리 모르면 투자하지 마세요 — 글씨는 기존 크기
     dict(file="thumb_a.jpg", photo="il_L261113g_fed_dusk.jpeg", face=(.5, .45), zoom=1.0, dark=.42, lit=1.25,
-         top="12월 9일 전 반드시 봐야 할", top_hi="12월 9일", chip="D-11", l1=[("11분 만에 끝내는", "w")], l2=[("금리", "pink"), ("의 모든 것", "w")]),
+         top="12월 9일 전 반드시 시청하세요", top_hi="12월 9일", chip="D-11", l1=[("11분 만에 끝내는", "w")], l2=[("금리", "pink"), ("의 모든 것", "w")]),
     dict(file="thumb_b.jpg", photo="il_R1204_trading_screens.png", face=(.5, .45), zoom=1.0, dark=.42, lit=1.25,
-         top="집값·주식·금값·내 대출까지", top_hi="", chip="총정리", l1=[("금리", "pink"), ("가", "w")], l2=[("지배하는 세상", "w")]),
+         top="12월 9일 전 반드시 시청하세요", top_hi="12월 9일", chip="총정리", l1=[("금리", "pink"), ("가", "w")], l2=[("지배하는 세상", "w")]),
     dict(file="thumb_c.jpg", photo="il_R1204b_fomc_room.png", face=(.5, .45), zoom=1.0, dark=.42, lit=1.25,
-         top="12월 9일 전 필수 시청", top_hi="12월 9일", chip="필수", l1=[("금리", "pink"), (" 모르면", "w")], l2=[("투자하지 마세요", "w")]),
+         top="12월 9일 전 반드시 시청하세요", top_hi="12월 9일", chip="필수", l1=[("금리", "pink"), (" 모르면", "w")], l2=[("투자하지 마세요", "w")]),
 ]
 def render2(t, out):
     th = grade(t)
