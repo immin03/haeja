@@ -922,7 +922,9 @@ def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False, chu
         s = p["s"]; t0, d = p["t0"], p["dur"]
         if t0 + d <= t_from or t0 >= t_to: continue
         cache = {}; src = None
-        if s["type"] == "still": src = Still(os.path.join(gdir, s["src"] + ".jpeg"), s.get("move"), face=s.get("face"))
+        if s["type"] == "still":   # 11/28: Z-Image 그림은 .png 로 저장된다 → .jpeg 가 없으면 다른 확장자
+            sp = next((os.path.join(gdir, s["src"] + e) for e in (".jpeg", ".jpg", ".png", ".webp") if os.path.exists(os.path.join(gdir, s["src"] + e))), os.path.join(gdir, s["src"] + ".jpeg"))
+            src = Still(sp, s.get("move"), face=s.get("face"))
         elif s["type"] == "video" and s.get("write"): src = WriteClip(os.path.join(gdir, s["src"] + ".mp4"), s.get("move"), s.get("start", 0), s["write"])
         elif s["type"] == "video": src = Clip(os.path.join(gdir, s["src"] + ".mp4"), s.get("move"), s.get("start", 0), face=s.get("face"))
         elif s["type"] == "intro": intro = intro or Intro({**S["intro"], "logo": P(S["intro"]["logo"])})

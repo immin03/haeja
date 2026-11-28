@@ -34,7 +34,7 @@ def paths(S, rel):
     gd = rel(S["gen_dir"]); out = set(audio_paths(S, rel))
     for sh in S["shots"]:
         if sh.get("src"):
-            out.add(f"{gd}/{sh['src']}.mp4" if sh["type"] == "video" else f"{gd}/{sh['src']}.jpeg")
+            out.add(f"{gd}/{sh['src']}.mp4" if sh["type"] == "video" else f"{gd}/{sh['src']}.*")   # 11/28: Z-Image 그림은 .png
         for ov in sh.get("overlays", []):
             if ov.get("src") and isinstance(ov["src"], str) and not ov["src"].startswith(("Meditations", "-")) and "/" not in ov["src"] and " " not in ov["src"]:
                 out.add(f"{gd}/{ov['src']}.*")
