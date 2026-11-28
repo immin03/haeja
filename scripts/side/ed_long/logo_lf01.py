@@ -115,3 +115,20 @@ if __name__ == '__main__':
     sheet = Image.new('RGB', (rows[0].width * 2 + 10, (len(rows) + 1) // 2 * (rows[0].height + 6)), (24, 24, 24))
     for i, r in enumerate(rows): sheet.paste(r, ((i % 2) * (r.width + 10), (i // 2) * (r.height + 6)))
     sheet.save(O + 'logo_options2.jpg', quality=88); print('ok', sheet.size)
+
+
+def L_EG(scale=1.0):
+    """11/28 15:28 대표 확정: E + G — 「THE EMPEROR'S DIARY」 금색 영문(양옆 가는 선·마름모) 위, 「황제의 일기」 아래, 가운데 정렬. 주화 없음.
+    scale=1.0 은 1080p 기준(위 검은 띠 131px 안)."""
+    k = 3; s = lambda v: int(round(v * scale * k))
+    fe = fnt('Cinzel-SemiBold.ttf', s(25)); fk = fnt('hahmlet-korean-600-normal.ttf', s(25))
+    te, tk = "THE EMPEROR'S DIARY", '황제의 일기'; we = tw(te, fe, s(3)); wk = tw(tk, fk, s(7))
+    rule = s(34); gap = s(14); Wd = int(we + 2 * (rule + gap)) + s(4); Hd = s(76)
+    im = canvas(Wd, Hd); d = ImageDraw.Draw(im); cx = Wd / 2; ye = s(4); yl = ye + s(17)
+    spaced(d, (cx - we / 2, ye), te, fe, GOLD, s(3))
+    for sg in (-1, 1):
+        x_in = cx + sg * (we / 2 + gap); x_out = x_in + sg * rule
+        d.line((min(x_in, x_out), yl, max(x_in, x_out), yl), fill=GOLD2 + (255,), width=max(1, s(1)))
+        dx = x_in - sg * s(2); r = s(4); d.polygon([(dx - r, yl), (dx, yl - r), (dx + r, yl), (dx, yl + r)], fill=GOLD)
+    spaced(d, (cx - wk / 2, s(42)), tk, fk, IVO, s(7))
+    return im.resize((Wd // k, Hd // k), Image.LANCZOS)

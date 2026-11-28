@@ -217,7 +217,8 @@ SEQ = [
  ("n:lf1_two_cups", "q01", "여러분에게 끝까지 남은 한 사람은 누구입니까. 이름은 적지 않으셔도 됩니다. 어떤 사람인지만, 댓글로 들려주세요."),
  ("FINALE", None, None),
 ]
-RETAKE = {"p04": 2, "r08": 2, "r09": 2, "e07": 2, "b02": 2, "e03": 3, "d02": 3, "y06": 2, "m2": 2, "b05": 2, "b08": 2, "c06": 2}   # 11/28 음성 관문 불통과(1·2차)
+RETAKE = {"p04": 2, "r08": 2, "r09": 2, "e07": 2, "b02": 2, "e03": 4, "d02": 4, "y06": 3, "m2": 2, "b05": 2, "b08": 2, "c06": 3}   # 11/28 음성 관문 불통과(1·2·3차)
+TEMPO_X = {"y06": 0.96, "e03": 0.96, "c06": 0.96, "d02": 0.96}   # 3차까지 끌림이 남은 줄: 늦추는 폭을 줄인다
 RECAP_V = [("t01", "오늘 밤, 이 세 가지만 해 보십시오."),
            ("t02", "첫째, 지난 한 달 동안 내가 먼저 연락한 사람의 이름을 적어 보십시오."),
            ("t03", "둘째, 끝까지 곁에 두고 싶은 다섯 사람을 적고, 그중 한 사람에게 오늘 고맙다고 말해 보십시오."),
@@ -260,7 +261,7 @@ def gen():
     json.dump(jobs, open(os.path.join(ROOT, "scripts/side/gen/EDL261128-lf01.json"), "w"), ensure_ascii=False, indent=1)
     V = []
     for k, vid, txt in lines():
-        V.append({"name": k, "id": vid, "line": txt, "emotion": "tonedown", "tempo": 0.86 if vid == M else 0.92, **({"take": RETAKE[k]} if k in RETAKE else {})})
+        V.append({"name": k, "id": vid, "line": txt, "emotion": "tonedown", "tempo": TEMPO_X.get(k, 0.86 if vid == M else 0.92), **({"take": RETAKE[k]} if k in RETAKE else {})})
     json.dump({"requested": "2026-11-28T14:30", "note": "lf01 수정 녹음 — 대표 11/28 '말 속도 살짝 느리게'(해설 0.92·황제 0.86, 속도는 후처리라 0원), 음성 관문 불통과 7줄은 새 테이크", "tag": TAG, "keep": True,
                "lang": "kor", "model": "ssfm-v30", "emotion": "tonedown", "tempo": 1.0, "voices": V},
               open(os.path.join(ROOT, "scripts/side/voices_req.json"), "w"), ensure_ascii=False, indent=1)
@@ -332,7 +333,7 @@ def spec():
            {"file": "cinematic_4.mp3", "at_shot": i_rc, "offset": 0.5, "start": 0, "until_shot": n, "vol": 0.18, "fin": 3, "fout": 3}]
     S = {"root": "../../..", "gen_dir": "social/side/gen", "sfx_dir": "social/side/ed_long/sfx", "music_dir": "social/side/ed_long/music", "out_dir": "_long",
          "intro": {"logo": "docs/emperor/profile_final.png"},
-         "monologue_fx": "highpass=f=70,aecho=0.9:0.35:35|70:0.09|0.04,", "voice_gain": {"mono": 3.8, "narr": 1.2, "cast": 0.85}, "cap_scale": 1.3,
+         "monologue_fx": "highpass=f=70,aecho=0.9:0.35:35|70:0.09|0.04,", "voice_gain": {"mono": 3.8, "narr": 1.2, "cast": 0.85}, "cap_scale": 1.3, "corner_logo": "docs/emperor/long/corner_logo.png",
          "id": "edl_lf01", "voice_dir": f"social/side/voice_samples/{TAG}", "voice_files": vf, "subs": subs,
          "monologue_voices": [k for k in vf if k.startswith("m")], "music": mus, "shots": shots, "cast_voices": []}
     json.dump(S, open(os.path.join(HERE, "spec_lf01.json"), "w"), ensure_ascii=False, indent=1)

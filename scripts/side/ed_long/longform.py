@@ -914,6 +914,7 @@ def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False, chu
     vid_path = os.path.join(out_dir, f"{tag}_{chunk}_v.mp4" if chunk else f"{tag}_v.mp4")
     # 2) 화면
     look = Look(); intro = None; last = None
+    corner = corner_logo(P(S["corner_logo"]), float(S.get("corner_alpha", 0.92))) if S.get("corner_logo") and not os.environ.get("ED_VERT") else None
     scale = 0.5 if preview else 1.0
     if audio_only and os.path.exists(vid_path): plan_v = []
     else: plan_v = plan
@@ -974,6 +975,8 @@ def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False, chu
                 img = overlay(img, ov, tt, d, cache, f"ov{oi}")
             if s["type"] in ("still", "video", "black"): img = look.apply(img, s.get("grade"))
             else: img = _bars(img)
+            if corner and s["type"] in ("still", "video") and not s.get("nologo"):   # 11/28 대표: 우측 상단 로고(E+G 가운데 정렬), 본문 장면에만
+                img = put_corner(img, corner, min(1.0, tt / 0.5) if s.get("tin") in ("black", "dissolve") else 1.0)
             if not os.environ.get("ED_VERT"): img = draw_captions(img, gt, events, capc)
             # 들어오고 나가기
             tin, tout = s.get("tin", "cut"), s.get("tout", "cut")
@@ -999,6 +1002,19 @@ def build(spec_path, t_from=0.0, t_to=None, preview=False, audio_only=False, chu
                     "-shortest", "-movflags", "+faststart", final], check=True)
     print("완성", final, flush=True)
     return final
+
+
+def corner_logo(path, alpha):
+    """우측 상단 로고: 위 검은 띠(BAR) 안 세로 가운데, 오른쪽 여백 56px. (x, y, rgb float, a float) 로 한 번만 준비."""
+    lg = np.array(Image.open(path).convert("RGBA")); h, w = lg.shape[:2]
+    x = W - 56 - w; y = max(6, (BAR - h) // 2)
+    return x, y, lg[..., :3][..., ::-1].astype(np.float32), lg[..., 3:4].astype(np.float32) / 255.0 * alpha
+
+
+def put_corner(img, c, k=1.0):
+    x, y, rgb, a = c; h, w = a.shape[:2]; a = a * k
+    roi = img[y:y + h, x:x + w].astype(np.float32); img = img.copy()
+    img[y:y + h, x:x + w] = (roi * (1 - a) + rgb * a).astype(np.uint8); return img
 
 
 def _bars(img):
