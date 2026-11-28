@@ -63,7 +63,7 @@ function summary(r, sc) {
   const f = r.fin || {};
   if (isNum(sc.q)) {
     const bits = [];
-    if (isNum(f.roeAvg)) bits.push(`5년 평균 ROE ${n0(f.roeAvg, 1)}%`);
+    if (isNum(f.roeAvg)) bits.push(`최근 평균 ROE ${n0(f.roeAvg, 1)}%`);
     if (isNum(f.fcfConv)) bits.push(`이익의 ${n0(f.fcfConv)}%가 현금으로 들어옴`);
     if (isNum(f.ltdNi)) bits.push(`장기부채는 순이익의 ${n0(f.ltdNi, 1)}배`);
     out.push(`재무 점수는 ${sc.q}점입니다${bits.length ? ' (' + bits.join(', ') + ')' : ''}.`);
@@ -239,7 +239,7 @@ function faqItems(x, date) {
   const bits = [];
   if (isNum(sc.per)) bits.push(`PER ${n0(sc.per, 1)}배`);
   if (isNum(sc.pbr)) bits.push(`PBR ${n0(sc.pbr, 2)}배`);
-  if (isNum(f.roeAvg)) bits.push(`5년 평균 ROE ${n0(f.roeAvg, 1)}%`);
+  if (isNum(f.roeAvg)) bits.push(`최근 평균 ROE ${n0(f.roeAvg, 1)}%`);
   if (bits.length) out.push([`${r.n} PER·PBR·ROE는?`, `${date} 기준 ${bits.join(', ')}입니다. PER은 낮을수록 이익 대비 싸고, ROE는 꾸준히 높을수록 자본을 잘 굴리는 회사입니다. 한 해 숫자보다 여러 해 평균을 보는 것이 안전합니다.`]);
   out.push(['밸류노트 점수는 어떻게 계산하나요?', '밸류노트 점수는 숫자 점수 65%, 정성 평가 20%, 트렌드 15%를 합친 값입니다. 숫자 점수는 ROE·이익률·현금흐름 등 13개 지표로 본 재무 점수 40%와 적정 주가 대비 할인율로 본 저평가 점수 60%로 계산하고, 잦은 적자·과도한 빚·잦은 증자 같은 위험 신호는 감점합니다. 정성 평가는 그레이엄·워렌 버핏·찰리 멍거의 질문으로 사업 자체를 따져 본 결과이며, 모든 사용자에게 같은 값을 보여 줍니다. 이 방식은 버크셔 해서웨이의 실제 매수 62건으로 검증했습니다.']);
   return out;
@@ -269,11 +269,11 @@ function companyPage(x, peers, date) {
   const title = `${r.n} 적정 주가 ${hasIv ? money(sc.iv, cur) + ' · ' : ''}가치투자 점수 ${isNum(b) ? b + '점' : ''} | 밸류노트`;
   const desc = `${r.n}(${code}) 적정 주가와 밸류노트 점수 ${isNum(b) ? b + '점' : '계산 불가'}(재무 점수 ${sc.q ?? '–'}점, 저평가 ${sc.v ?? '–'}점${isNum(sc.qualScore) ? `, 정성 평가 ${sc.qualScore}점` : ''}).` +
     (hasPx ? ` 현재가 ${money(r.px, cur)}, 적정 주가 ${money(sc.iv, cur)}.` : '') +
-    (isNum(sc.per) ? ` PER ${n0(sc.per, 1)}배` : '') + (isNum(f.roeAvg) ? `, 5년 평균 ROE ${n0(f.roeAvg, 1)}%.` : '.') + ` 그레이엄·워렌 버핏 기준으로 매일 계산합니다.`;
+    (isNum(sc.per) ? ` PER ${n0(sc.per, 1)}배` : '') + (isNum(f.roeAvg) ? `, 최근 평균 ROE ${n0(f.roeAvg, 1)}%.` : '.') + ` 그레이엄·워렌 버핏 기준으로 매일 계산합니다.`;
   const sum = summary(r, sc);
   const faq = faqItems(x, date);
   const rowsM = [
-    ['5년 평균 ROE', isNum(f.roeAvg) ? n0(f.roeAvg, 1) + '%' : '–', '자기자본으로 1년에 몇 %를 버는지'],
+    ['최근 평균 ROE', isNum(f.roeAvg) ? n0(f.roeAvg, 1) + '%' : '–', '자기자본으로 1년에 몇 %를 버는지'],
     ['5년 중 최저 ROE', isNum(f.roeMin) ? n0(f.roeMin, 1) + '%' : '–', '나쁜 해에도 버티는지'],
     ['ROIC', isNum(f.roic) ? n0(f.roic, 1) + '%' : '–', '빚까지 포함한 투자 자본 수익률'],
     ['매출총이익률', isNum(f.gpm) ? n0(f.gpm, 1) + '%' : '–', '가격 결정력의 흔적'],
@@ -349,9 +349,9 @@ ${meter}
   const proof = `<section class="card proof"><div class="kick">밸류노트 점수대로 샀다면</div>
 ${bt ? `<h2>4년 전 ${esc(josa(r.n, '은', '는'))} ${bt[1]}점이었습니다</h2><div class="big"><span>2022년 10월 1억 원</span><b>${bt[2]}</b><span>2026년 10월 · 배당 포함</span></div>
 <p>지금 ${esc(r.n)} 점수는 ${isNum(b) ? b + '점' : '–'}입니다. 같은 기준으로 매일 다시 계산하기 때문에, 점수가 다시 올라오는 날도 바로 알 수 있습니다.</p>`
-  : `<h2>4년 전 70점 이상이던 회사에 1억 원을 넣었다면</h2><div class="big"><span>2022년 10월 1억 원</span><b>평균 7억 4,500만 원</b><span>같은 돈을 코스피에 넣었다면 2억 5천만 원</span></div>`}
+  : `<h2>4년 전 70점 이상이던 회사에 1억 원을 넣었다면</h2><div class="big"><span>2022년 10월 1억 원</span><b>평균 7억 4,500만 원</b><span>70점 이상 3곳 평균 · 같은 돈을 코스피에 넣었다면 2억 5천만 원</span></div>`}
 <div class="ex">${ex.filter((s) => s !== x.slug).slice(0, bt ? 2 : 3).map((s) => `<a href="/c/${s}"><span class="sc">${BT[s][1]}점</span><b>${BT[s][0]}</b><em>1억 → ${BT[s][2]}</em></a>`).join('')}</div>
-<p>그때 70점을 넘었던 세 곳은 모두 코스피보다 많이 벌었습니다. 70점이 안 되던 아홉 곳 가운데 코스피를 이긴 곳은 세 곳뿐이었습니다.</p><details class="how"><summary>어떻게 계산했나요?</summary><p class="note">${BT_NOTE} 점수가 늘 맞지는 않습니다. 버크셔 해서웨이는 이 방식으로 고평가로 나오는 알파벳을 올해도 더 샀습니다.</p></details></section>`;
+<p>그때 70점을 넘었던 세 곳은 모두 코스피보다 많이 벌었습니다. 70점이 안 되던 아홉 곳 가운데 코스피를 이긴 곳은 세 곳뿐이었습니다.</p><p class="note" style="display:block">표본은 12곳(70점 이상 3곳), 기간은 2022년 10월부터 4년 한 구간뿐입니다. 표본이 작아 우연일 수 있고, 13억 6천만 원이 된 SK하이닉스 한 곳이 평균을 크게 끌어올렸습니다. 과거 수익률은 미래 수익을 보장하지 않습니다.</p><details class="how"><summary>어떻게 계산했나요?</summary><p class="note">${BT_NOTE} 점수가 늘 맞지는 않습니다. 버크셔 해서웨이는 이 방식으로 고평가로 나오는 알파벳을 올해도 더 샀습니다.</p></details></section>`;
 
   // ③ 가입하면 보이는 것(잠금 미리보기). 가짜 숫자는 넣지 않고 모양만 흐리게 보여 준다
   const locks = [

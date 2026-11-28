@@ -1,7 +1,7 @@
 // @ts-nocheck
 // index.html(밸류노트 화면)의 점수 계산 코드를 그대로 옮겨 온 것. 화면과 같은 점수를 내야 하므로 손으로 고치지 말고 scripts/sync_scoring.py로 다시 생성한다.
 const isNum = v => typeof v === 'number' && isFinite(v);
-const DEF_SETTINGS = { fx:1339, fxCNY:188, fxHKD:172, fxJPY:9.3, cashKRW:0, reqMOS:30, discKR:10, discUS:10, discCN:11, discHK:11, discJP:9, tgKR:2, tgUS:2.5, tgCN:2, tgHK:2, tgJP:1.5, bondKR:4.3, bondUS:5.2, bondCN:1.8, bondHK:4.2, bondJP:1.7 };
+const DEF_SETTINGS = { fx:1339, fxCNY:188, fxHKD:172, fxJPY:9.3, cashKRW:0, reqMOS:30, discKR:10, discUS:10, discCN:11, discHK:11, discJP:9, tgKR:2, tgUS:2.5, tgCN:2, tgHK:2, tgJP:1.5, bondKR:3.86, bondUS:4.85, bondCN:1.8, bondHK:4.2, bondJP:2.78 };
 let __st = {...DEF_SETTINGS};
 export function setSettings(s){ __st = {...DEF_SETTINGS, ...(s||{})}; }
 const cfg = () => __st;
@@ -23,7 +23,7 @@ const HOLDCO_DISC = 0.30;
 const WARN_FLAGS = new Set(['경기순환·이익 변동','지주회사','주식보상 큼','혁신 의존','중국 본토 규제']);
 const CN_RISK = 6;
 const FIN_SKIP = new Set(['gpm','fcfConv','capexNi','ltdNi','icr','currentRatio','roic','npm']);
-const CYC_RE = /auto|steel|oil|gas|energy|airline|shipping|marine|homebuild|residential construction|chemical|mining|metal|commodit|capital markets|brokerage|자동차|철강|정유|석유|해운|항공|건설|화학|광업|조선|증권/i;
+const CYC_RE = /auto|steel|oil|gas|energy|airline|shipping|shipbuild|marine|homebuild|residential construction|chemical|mining|metal|commodit|capital markets|brokerage|자동차|철강|정유|석유|해운|항공|건설|화학|광업|조선|증권/i;
 function paramsFor(m){
   const st = cfg(), g = grpOf(m);
   if(g==='US') return {disc:st.discUS, tg:st.tgUS, bond:st.bondUS};
@@ -91,6 +91,10 @@ function scoreRow(row, p, reqMOS){
   const earnTop = Math.max(isNum(eps) && eps > 0 ? eps : 0, isNum(eAvg) && eAvg > 0 ? eAvg : 0) || null;
   let ivBase = growthCapex ? normEps : oe;
   if(isNum(ivBase) && earnTop) ivBase = Math.min(ivBase, earnTop*1.3);
+  /* 2026-11-28 점검: 현금 이익 하한. 설비 투자·지분법 이익 탓에 현금 이익이 순이익보다 훨씬 작으면 적정 주가가 이익의 1배 아래로 나왔다(아마존 $3.6, 일라이 릴리 $19, 코웨이).
+     꾸준히 버는 회사(최근 이익 흑자, 적자 연도 1회 이하, 평균 ROE 10% 이상)는 기준 이익을 정상 이익(평균·최근 중 작은 값)의 절반 아래로 내리지 않는다. 절반은 보수적으로 잡은 값이다 */
+  const cashFloor = !row.fin_sector && normEps !== null && isNum(eps) && eps > 0 && (fin.lossYears||0) <= 1 && isNum(fin.roeAvg) && fin.roeAvg >= 10 ? normEps*0.5 : null;
+  if(cashFloor !== null && (!isNum(ivBase) || ivBase < cashFloor)) ivBase = cashFloor;
   if(cycAdj && normEps !== null) ivBase = isNum(ivBase) && ivBase > 0 ? Math.min(ivBase, normEps) : normEps;
   /* 꾸준한 우량주는 현금 이익과 최근 이익 중 큰 값 (일시적 세금·인수 대금·성장 투자로 현금이 이익보다 늦을 때). 경기순환주의 '작은 값'과 대칭 */
   if(durable && isNum(eps) && eps > 0) ivBase = Math.max(isNum(ivBase) && ivBase > 0 ? ivBase : 0, eps);
@@ -125,7 +129,9 @@ function scoreRow(row, p, reqMOS){
   if(row.fin_sector && pbr && isNum(fin.roeAvg)) parts.push([lin((fin.roeAvg/p.disc)/pbr, 0.5, 1.2, 2), 2]);
   if(!per && px && isNum(val.sps) && val.sps > 0){ const fairPE = grpOf(row.m)==='US' ? 20 : 15; parts.push([lin(-(px/(fairPE*0.10)/val.sps),-20,-3,-1),1]); }
   const pp = parts.filter(x => x[0] !== null);
-  const v = pp.length ? Math.round(pp.reduce((a,[s,w])=>a+s*w,0)/pp.reduce((a,[,w])=>a+w,0)*100) : null;
+  let v = pp.length ? Math.round(pp.reduce((a,[s,w])=>a+s*w,0)/pp.reduce((a,[,w])=>a+w,0)*100) : null;
+  /* 2026-11-28 점검: 이익이 없는 회사는 매출 대비 가격 하나로 저평가 100점이 나왔다(SK이노베이션·대우건설). 이익으로 확인되지 않은 저평가는 50점까지만 인정한다 */
+  if(v !== null && !per && !row.fin_sector) v = Math.min(v, 50);
   const flags = [];
   if((fin.lossYears||0) >= 2) flags.push('잦은 적자');
   if((isNum(fin.ltdNi) && fin.ltdNi > 8) || (isNum(fin.icr) && fin.icr < 3 && (!isNum(fin.ltdNi) || fin.ltdNi > 0))) flags.push('차입 부담');
