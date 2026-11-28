@@ -28,6 +28,8 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<!-- 2026-11-28 점검: 위 저장소(jsdelivr)에서 못 받으면 앱 전체가 멈췄다. 다른 저장소(unpkg)에서 한 번 더 받는다 -->
+<script>window.supabase||document.write('<script src="https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"><\/script>')</script>
 <script src="config.js"></script>
 <script>/* 소개 페이지에서 크롬·Safari로 넘어오면 같은 방문자로 이어서 센다 (?vsid=…&vref=…) */
 (function(){try{var p=new URLSearchParams(location.search),v=p.get('vsid'),r=p.get('vref');if(v&&/^[0-9a-z]{8,40}$/i.test(v))localStorage.setItem('vn-sid',v);if(r&&!localStorage.getItem('vn-ref'))localStorage.setItem('vn-ref',r.slice(0,100));if(v||r){p.delete('vsid');p.delete('vref');history.replaceState(null,'',location.pathname+(p.toString()?'?'+p:'')+location.hash);}}catch(e){}})();</script>
@@ -767,19 +769,19 @@ body.tour-portfolio nav.tabs button[data-tab="portfolio"],body.tour-briefing nav
 <script>
 /* ============ 기준 정의 ============ */
 const FIN = [
-  {g:'사업의 질', k:'roeAvg', label:'ROE 5년 평균', unit:'%', w:2, op:'>=', th:{US:15,KR:12}, hint:'부채로 부풀리지 않은 15% 이상'},
+  {g:'사업의 질', k:'roeAvg', label:'ROE 평균(최근 4~7년)', unit:'%', w:2, op:'>=', th:{US:15,KR:12}, hint:'부채로 부풀리지 않은 15% 이상'},
   {g:'사업의 질', k:'roeMin', label:'ROE 최저 연도', unit:'%', w:2, op:'>=', th:{US:10,KR:8}, hint:'한 해도 무너지지 않는 수익력'},
   {g:'사업의 질', k:'roic', label:'ROIC', unit:'%', w:2, op:'>=', th:{US:15,KR:10}, hint:'해자의 숫자 증거'},
   {g:'사업의 질', k:'gpm', label:'매출총이익률', unit:'%', w:1, op:'>=', th:{US:40,KR:30}, hint:'가격결정력 신호. 업종 편차 큼'},
   {g:'사업의 질', k:'npm', label:'순이익률', unit:'%', w:1, op:'>=', th:{US:10,KR:8}, hint:'20% 이상이면 우수'},
-  {g:'사업의 질', k:'epsCagr', label:'EPS 5년 연평균 성장', unit:'%', w:1, op:'>=', th:{US:7,KR:7}, hint:'이익이 꾸준히 커지는가'},
-  {g:'사업의 질', k:'lossYears', label:'최근 10년 적자 연도', unit:'회', w:2, op:'<=', th:{US:0,KR:0}, hint:'예측 가능한 수익력'},
+  {g:'사업의 질', k:'epsCagr', label:'EPS 연평균 성장(최근 4~7년)', unit:'%', w:1, op:'>=', th:{US:7,KR:7}, hint:'이익이 꾸준히 커지는가'},
+  {g:'사업의 질', k:'lossYears', label:'적자 연도(최근 4~7년)', unit:'회', w:2, op:'<=', th:{US:0,KR:0}, hint:'예측 가능한 수익력'},
   {g:'재무 안전', k:'fcfConv', label:'FCF ÷ 순이익', unit:'%', w:2, op:'>=', th:{US:80,KR:80}, hint:'이익이 현금으로 들어오는가'},
   {g:'재무 안전', k:'capexNi', label:'설비투자 ÷ 순이익', unit:'%', w:1, op:'<=', th:{US:50,KR:50}, hint:'돈을 계속 재투자해야 버티는 사업인가'},
   {g:'재무 안전', k:'ltdNi', label:'장기차입금 ÷ 순이익', unit:'년', w:2, op:'<=', th:{US:4,KR:4}, hint:'지금 이익으로 장기 빚을 다 갚는 데 걸리는 햇수. 빚이 없으면 0, 적자인데 빚이 있으면 99'},
   {g:'재무 안전', k:'icr', label:'이자보상배율', unit:'배', w:1, op:'>=', th:{US:7,KR:7}, hint:'영업이익이 이자 비용의 몇 배인지. 빚이 없으면 99'},
   {g:'재무 안전', k:'currentRatio', label:'유동비율', unit:'배', w:1, op:'>=', th:{US:1.5,KR:1.5}, hint:'그레이엄 방어적 투자자 기준'},
-  {g:'자본 배분', k:'shareChg', label:'주식 수 5년 변화', unit:'%', w:1, op:'<=', th:{US:0,KR:0}, hint:'유상증자·CB 희석 여부'},
+  {g:'자본 배분', k:'shareChg', label:'주식 수 변화(최근 4~7년)', unit:'%', w:1, op:'<=', th:{US:0,KR:0}, hint:'유상증자·CB 희석 여부'},
 ];
 /* 연속 점수 구간: [나쁨, 기준, 우수] — 스크리너 Python(screener.py)과 동일 */
 const BANDS = {
@@ -826,7 +828,8 @@ const WARN_FLAGS = new Set(['경기순환·이익 변동','지주회사','주식
 const CN_RISK = 6;
 /* 은행·보험은 매출 정의가 달라 순이익률(npm)로 품질을 볼 수 없다 (중국 은행 순이익률 50%대가 품질로 잘못 읽히던 문제). ROE·이익 안정성으로만 본다 */
 const FIN_SKIP = new Set(['gpm','fcfConv','capexNi','ltdNi','icr','currentRatio','roic','npm']);
-const CYC_RE = /auto|steel|oil|gas|energy|airline|shipping|marine|homebuild|residential construction|chemical|mining|metal|commodit|capital markets|brokerage|자동차|철강|정유|석유|해운|항공|건설|화학|광업|조선|증권/i;
+const CYC_RE = /auto|steel|oil|gas|energy|airline|shipping|shipbuild|marine|homebuild|residential construction|chemical|mining|metal|commodit|capital markets|brokerage|자동차|철강|정유|석유|해운|항공|건설|화학|광업|조선|증권/i;
+/* 2026-11-28 점검: 업종 판정식에 조선(shipbuild)이 빠져 HD한국조선해양이 저평가 1위(적정 주가가 현재가의 2.9배)로 나왔다 → 추가 */
 /* 품질(q)·저평가(v)·워렌 버핏 근접도(b). row = {m, px, fin, val, fin_sector, s, ind, sector} — screener.py score_row와 동일 */
 function scoreRow(row, p, reqMOS){
   p = p || paramsFor(row.m); reqMOS = reqMOS ?? cfg().reqMOS; const ts = thSet(row.m);
@@ -874,6 +877,10 @@ function scoreRow(row, p, reqMOS){
   const earnTop = Math.max(isNum(eps) && eps > 0 ? eps : 0, isNum(eAvg) && eAvg > 0 ? eAvg : 0) || null;
   let ivBase = growthCapex ? normEps : oe;
   if(isNum(ivBase) && earnTop) ivBase = Math.min(ivBase, earnTop*1.3);
+  /* 2026-11-28 점검: 현금 이익 하한. 설비 투자·지분법 이익 탓에 현금 이익이 순이익보다 훨씬 작으면 적정 주가가 이익의 1배 아래로 나왔다(아마존 $3.6, 일라이 릴리 $19, 코웨이).
+     꾸준히 버는 회사(최근 이익 흑자, 적자 연도 1회 이하, 평균 ROE 10% 이상)는 기준 이익을 정상 이익(평균·최근 중 작은 값)의 절반 아래로 내리지 않는다. 절반은 보수적으로 잡은 값이다 */
+  const cashFloor = !row.fin_sector && normEps !== null && isNum(eps) && eps > 0 && (fin.lossYears||0) <= 1 && isNum(fin.roeAvg) && fin.roeAvg >= 10 ? normEps*0.5 : null;
+  if(cashFloor !== null && (!isNum(ivBase) || ivBase < cashFloor)) ivBase = cashFloor;
   if(cycAdj && normEps !== null) ivBase = isNum(ivBase) && ivBase > 0 ? Math.min(ivBase, normEps) : normEps;
   /* 꾸준한 우량주는 현금 이익과 최근 이익 중 큰 값 (일시적 세금·인수 대금·성장 투자로 현금이 이익보다 늦을 때). 경기순환주의 '작은 값'과 대칭 */
   if(durable && isNum(eps) && eps > 0) ivBase = Math.max(isNum(ivBase) && ivBase > 0 ? ivBase : 0, eps);
@@ -908,7 +915,9 @@ function scoreRow(row, p, reqMOS){
   if(row.fin_sector && pbr && isNum(fin.roeAvg)) parts.push([lin((fin.roeAvg/p.disc)/pbr, 0.5, 1.2, 2), 2]);
   if(!per && px && isNum(val.sps) && val.sps > 0){ const fairPE = grpOf(row.m)==='US' ? 20 : 15; parts.push([lin(-(px/(fairPE*0.10)/val.sps),-20,-3,-1),1]); }
   const pp = parts.filter(x => x[0] !== null);
-  const v = pp.length ? Math.round(pp.reduce((a,[s,w])=>a+s*w,0)/pp.reduce((a,[,w])=>a+w,0)*100) : null;
+  let v = pp.length ? Math.round(pp.reduce((a,[s,w])=>a+s*w,0)/pp.reduce((a,[,w])=>a+w,0)*100) : null;
+  /* 2026-11-28 점검: 이익이 없는 회사는 매출 대비 가격 하나로 저평가 100점이 나왔다(SK이노베이션·대우건설). 이익으로 확인되지 않은 저평가는 50점까지만 인정한다 */
+  if(v !== null && !per && !row.fin_sector) v = Math.min(v, 50);
   const flags = [];
   if((fin.lossYears||0) >= 2) flags.push('잦은 적자');
   if((isNum(fin.ltdNi) && fin.ltdNi > 8) || (isNum(fin.icr) && fin.icr < 3 && (!isNum(fin.ltdNi) || fin.ltdNi > 0))) flags.push('차입 부담');
@@ -1190,6 +1199,8 @@ const store = (() => {
   };
 })();
 function loginView(){
+  /* 2026-11-28 점검: 연결 파일을 못 받은 회원에게 개발자용 문구("config.js에…")가 보였다. 회원에게는 다시 열기 안내만 보여 준다 */
+  if(store.mode === 'noconfig' && !window.supabase) return `<div class="card" style="margin-top:24px"><h3>잠시 연결이 원활하지 않습니다</h3><p class="small muted">인터넷 연결을 확인한 뒤 다시 열어 주세요. 계속 안 되면 value.note.korea@gmail.com 으로 알려 주세요.</p><button class="btn primary" type="button" onclick="location.reload()">다시 열기</button></div>`;
   if(store.mode === 'noconfig') return `<div class="card" style="margin-top:24px"><h3>설정이 필요합니다</h3><p class="small muted">config.js에 Supabase 주소와 공개 키(anon key)를 넣어 주세요. README의 3단계입니다.</p></div>`;
   return `<div class="login">
     <div class="login-brand"><div class="wordmark lg vn"><span class="vn-en"><span class="wm-a">VALUE</span><span class="wm-b">NOTE</span></span><span class="vn-ko">밸류노트</span></div><div class="login-sub">뉴스가 말하지 않는 기업과 경제의 이야기</div>
@@ -2109,9 +2120,12 @@ let sampleFn = null;
 
 /* ============ 상태 ============ */
 const S = { scope:'held', coSort:'b', coTag:'', coHide:true, tab:'portfolio', refSub:'rules', prices:{}, profiles:{}, fx:null, lastSub:{}, rangePref:{}, coSec:'mine', coMkt:'ALL', coQ:'', coShown:30, coOpen:null, dvV:'배당 적합', dvMkt:'ALL', companies:[], holdings:[], journal:[], settings:null, news:{}, briefings:[], trends:null, curId:null, editHold:null, loaded:{c:0,h:0,j:0,s:0} };
-const DEF_SETTINGS = { fx:1339, fxCNY:188, fxHKD:172, fxJPY:9.3, cashKRW:0, reqMOS:30, discKR:10, discUS:10, discCN:11, discHK:11, discJP:9, tgKR:2, tgUS:2.5, tgCN:2, tgHK:2, tgJP:1.5, bondKR:4.3, bondUS:5.2, bondCN:1.8, bondHK:4.2, bondJP:1.7 };
+const DEF_SETTINGS = { fx:1339, fxCNY:188, fxHKD:172, fxJPY:9.3, cashKRW:0, reqMOS:30, discKR:10, discUS:10, discCN:11, discHK:11, discJP:9, tgKR:2, tgUS:2.5, tgCN:2, tgHK:2, tgJP:1.5, bondKR:3.86, bondUS:4.85, bondCN:1.8, bondHK:4.2, bondJP:2.78 };
 const S2 = { screen:[], meta:null, loaded:false, mkt:'ALL', sort:'tb', q:'', hideFlags:true, tag:'', shown:40, open:null };
-const cfg = () => ({...DEF_SETTINGS, ...(S.settings||{})});
+/* 2026-11-28 점검: 점수에 쓰는 값(요구 안전마진·할인율·영구 성장률·국채 금리)은 회원 설정에서 읽지 않는다. 회원 171명의 설정에 가입 시점 값(일본 국채 1.7% 등)이 굳어 있었고 계정 2개는 다른 값이라 같은 회사 점수가 달랐다.
+   국채 금리는 금리 화면과 같은 10년물 값(미국 4.85% 2026-11-25, 한국 3.86%·일본 2.78% 2026-11-20). 중국·홍콩은 확인된 자료가 없어 그대로 뒀다. 바꿀 때는 위 DEF_SETTINGS만 고치고 scripts/sync_scoring.py를 돌린다 */
+const SCORE_KEYS = ['reqMOS','discKR','discUS','discCN','discHK','discJP','tgKR','tgUS','tgCN','tgHK','tgJP','bondKR','bondUS','bondCN','bondHK','bondJP'];
+const cfg = () => { const o = {...DEF_SETTINGS, ...(S.settings||{})}; SCORE_KEYS.forEach(k => { o[k] = DEF_SETTINGS[k]; }); return o; };
 
 /* ============ 유틸 ============ */
 const $ = s => document.querySelector(s);
@@ -2286,6 +2300,9 @@ document.addEventListener('click', e => {
   /* 긴 안내 대신 고른 유형의 가이드 페이지로 바로 간다 (안내는 오른쪽 위 ? 에서 언제든) */
   if(first && typeof introDone === 'function') introDone();
   S.tab = 'myguide'; try{ localStorage.setItem('ml-tab', 'myguide'); }catch(_){}
+  /* 2026-11-28 점검: 계기판 랜딩(/semi·/gold)으로 가입한 148명 중 계기판 탭을 연 회원이 43명(27%)뿐이었다. 계기판을 보러 온 가입자는 가입 직후 한 번만 계기판 화면에 도착한다(다음 접속부터 첫 화면은 그대로 포트폴리오) */
+  { let lg = ''; try{ lg = localStorage.getItem('vn-land-gauge') || ''; localStorage.removeItem('vn-land-gauge'); }catch(_){}
+    if(first && lg && Date.now() - (+lg.split('|')[0] || 0) < 7 * 864e5){ S.tab = lg.split('|')[1] === 'gold' ? 'gaugeGold' : 'gauge'; store.track('view', 'land-gauge'); } }
   /* 2026-11-10 가입 첫날 이후 재방문이 0인 문제 → 유형 다음에 '내 종목 1개'를 바로 받고, 그 종목 점수를 보여 준 뒤 그 종목 알림으로 묻는다 */
   if(first && !store.isGuest && !store.isDemo && store.mode === 'db'){ const pre = S.wantQ && (S2.screen || []).length ? scoredRows().find(r => r.n === S.wantQ) : null; S.onbStock = { q: pre ? pre.n : '', pick: pre ? pre.n : null, held: false }; store.track('view', pre ? 'onb-stock-pre' : 'onb-stock'); }
   render(); window.scrollTo(0, 0);
@@ -2531,7 +2548,8 @@ function ghMine(at){
   return `<div class="gh-mine end"><b>이제 내 계좌로 확인해 보세요</b><p>홍길동의 예시처럼, 내 종목도 고평가인지 저평가인지 바로 알려 드립니다. 이메일만 있으면 1분이면 끝납니다.</p><button type="button" class="btn primary" data-guest="signup">내 종목으로 계산하기</button></div>`;
 }
 function guestHero(){
-  const n = '600+';
+  /* 2026-11-28 점검: 기업 수 표기를 실제 계산 수에 맞춘다 */
+  const n = (S2.screen || []).length > 100 ? String(S2.screen.length) : '650+';
   return `<section class="g-hero">
     <div class="gh-eyebrow">밸류노트 · 거인의 어깨 위에서</div>
     <h1>주식 사기 전에,<br><em>점수부터</em> 확인하세요</h1>
@@ -2813,7 +2831,7 @@ function demoBar(){ return store.isDemo ? `<div class="demo-bar"><b>체험 계�
    ① 처음 한 번 동의(필수)  ② 모든 화면 하단 한 줄  ③ 종목·알림 화면 추정치 안내 */
 const DISC_FULL = '밸류노트(ValueNote)는 공개된 재무 데이터와 사용자가 설정한 기준에 따라 수치를 계산해 보여주는 정보 정리 도구입니다. ValueNote는 「자본시장과 금융투자업에 관한 법률」에 따른 투자자문업자 또는 유사투자자문업자가 아니며, 특정 금융투자상품의 매수·매도를 권유하거나 투자 판단을 대신하지 않습니다. 표시되는 적정 주가, 적정 매수가, 저평가 등은 과거 데이터와 가정에 기반한 추정치로 미래 수익을 보장하지 않으며, 데이터에는 오류나 지연이 있을 수 있습니다. 모든 투자 판단과 그 결과에 대한 책임은 이용자 본인에게 있습니다.';
 const DISC_LINE = '본 서비스는 투자 자문이 아닌 정보 제공 도구이며, 투자 판단의 책임은 이용자에게 있습니다.';
-const DISC_EST = '표시되는 가격·저평가은 추정치이며 수익을 보장하지 않습니다.';
+const DISC_EST = '표시되는 가격·저평가 판정은 추정치이며 수익을 보장하지 않습니다.';
 const consentLocal = () => { try{ return localStorage.getItem('vn-consent-v1-'+(store.user?.id||'')) === '1'; }catch(_){ return false; } };
 const consentOk = () => store.isGuest || (!needSignupAgree() && (!!prog().consentV1 || consentLocal() || !!store.user?.user_metadata?.agreed));
 function consentHtml(){
@@ -2856,6 +2874,8 @@ document.addEventListener('compositionend', e => { __imeOn = false;
 function coQApply(){
   if(__imeOn) return; /* 다음 글자를 조합 중이면 조합이 끝날 때 다시 부른다 */
   const el = document.getElementById('co-q'); if(el) S.coQ = el.value;
+  /* 2026-11-28 점검: '보유'·'관심 후보' 범위에서 검색하면 없는 회사는 0개로 나왔다. 지금 범위에 없고 전체에 있으면 '전체'에서 찾는다 */
+  if((S.coQ || '').trim() && (S.scope || 'held') !== 'all' && !filteredStage(S.scope || 'held').length && filteredStage('all').length){ S.scope = 'all'; render(); if(S.tab === 'analyze') updateEval(); return; }
   if(!coPatch()) render(); if(S.tab === 'analyze') updateEval();
 }
 document.addEventListener('focusout', () => { if(__imeOn){ __imeOn = false; if(__renderLater){ __renderLater = false; setTimeout(render, 0); } } }, true);
@@ -3747,8 +3767,9 @@ function viewBriefing(){
         <div class="prose" style="margin-top:8px"><p>${esc(latest.summary||'')}</p>${latest.trendNotes ? `<p class="small muted">${esc(latest.trendNotes)}</p>` : ''}</div>
         ${(latest.sources||[]).length ? `<div class="small muted">출처 ${latest.sources.length}곳 · ${latest.sources.slice(0,3).map(u => { try{ return esc(new URL(u).hostname.replace(/^www\./,'')); }catch(_){ return ''; } }).join(', ')}</div>` : ''}
       </details>
-    </div>` : `<div class="card empty" style="margin-top:10px">보유 종목 맞춤 브리핑은 준비 중입니다. 지금은 기업 화면의 판정과 메가트렌드에서 시장 흐름을 확인할 수 있습니다.</div>`}
+    </div>` : `<div class="card empty" style="margin-top:10px">${store.isGuest ? '가입하고 보유 종목을 넣으면 매일 아침 내 종목 브리핑을 볼 수 있습니다. 지금은 기업 화면의 판정과 메가트렌드에서 시장 흐름을 확인할 수 있습니다.' : '보유 종목 맞춤 브리핑은 준비 중입니다. 지금은 기업 화면의 판정과 메가트렌드에서 시장 흐름을 확인할 수 있습니다.'}</div>`}
   ${S.fx?.headline ? `<button type="button" class="card br-fx" data-act="go-tab" data-v="fx"><span class="small"><b>환율</b> ${esc(S.fx.headline)}</span><span class="small muted">›</span></button>` : ''}
+  <div class="card" style="margin-top:12px"><div class="small muted" style="margin-bottom:8px">더 살펴보기</div><div class="chips" style="flex-wrap:wrap;gap:8px">${[['radar','경제 레이더'],['trends','메가트렌드'],['fx','환율'],['rates','금리']].map(([k,l]) => `<button type="button" class="chip" data-act="go-tab" data-v="${k}">${l} ›</button>`).join('')}</div></div>
   <details class="card more" style="margin-top:20px"><summary>더 보기 <span class="small muted">뉴스 온도 · 트렌드 · 종목별 뉴스 · 지난 브리핑</span></summary>
     <div class="stack" style="margin-top:12px">
       <div><h3>뉴스 온도</h3>${newsImpactHtml()}</div>
@@ -4396,6 +4417,8 @@ function coPatch(){
 }
 function viewCompanies(){
   if(!S.loaded.c) return `<div class="empty">불러오는 중</div>`;
+  /* 2026-11-28 점검: 기본 범위가 '보유'라 보유 종목이 없는 사람은 빈 화면("조건에 맞는 기업이 없습니다")만 봤다(7일간 기업 탭을 연 회원 56명 중 기업을 연 사람 5명). 직접 범위를 고르기 전에는 보유 종목이 없으면 '전체'로 연다 */
+  if(!S.scopeSet && (S.scope || 'held') === 'held' && !stageItems('held').length) S.scope = 'all';
   const st = S.scope || 'held';
   let rows = filteredStage(st);
   if(S.coFocus){ const i = rows.findIndex(x => normKey(x.code) === normKey(S.coFocus)); if(i > 0) rows = [rows[i], ...rows.slice(0,i), ...rows.slice(i+1)]; }
@@ -4436,7 +4459,7 @@ function viewValue(){
     <div class="small muted" style="margin-top:4px">${vnCount()} 기업의 현재가를 밸류노트가 계산한 적정 주가와 비교했습니다. 매일 저녁 갱신됩니다.${typeof DM!=="undefined" && DM.cur && DM.cur.date ? ` <span class="num">· ${esc(String(DM.cur.date).slice(0,10))} 계산</span>` : ""}</div></div>
     <div class="vl-side">${[['under','저평가', all.under],['over','고평가', all.over]].map(([k, l, c]) => `<button type="button" class="${side === k ? 'on' : ''}" data-act="vl-side" data-v="${k}">${l} <span>${c}</span></button>`).join('')}</div>
     <div class="vl-mkt">${VL_MKT.map(([k, l]) => `<button type="button" class="${mkt === k ? 'on' : ''}" data-act="vl-mkt" data-v="${k}">${l}</button>`).join('')}</div>
-    <div class="small muted" style="margin:6px 2px 10px">${side === 'under' ? '현재가가 적정 주가보다 25% 이상 낮은 회사 · 재무 점수 50점 이상, 감점 신호 없는 회사만' : '현재가가 적정 주가의 1.5배 이상인 회사 중 재무 점수이 높은 순 (좋은 회사지만 비싼 경우). 10배를 넘는 회사는 이익이 일시적으로 작아 비교가 왜곡될 수 있어 뺐습니다'}</div>
+    <div class="small muted" style="margin:6px 2px 10px">${side === 'under' ? '현재가가 적정 주가보다 25% 이상 낮은 회사 · 재무 점수 50점 이상, 감점 신호 없는 회사만' : '현재가가 적정 주가의 1.5배 이상인 회사 중 재무 점수가 높은 순 (좋은 회사지만 비싼 경우). 10배를 넘는 회사는 이익이 일시적으로 작아 비교가 왜곡될 수 있어 뺐습니다'}</div>
     <div class="card vl-list">${G && shown.length > 3 ? `<div class="vl-top3">${shown.slice(0, 3).map(lock).join('')}<button type="button" class="btn primary vl-top3-btn" data-guest="signup">1초 만에 가입하고 TOP 3 보기</button></div>${shown.slice(3).map((x, i) => row(x, i + 3)).join('')}` : (shown.map(row).join('') || '<div class="empty">조건에 맞는 기업이 없습니다.</div>')}
       ${store.isGuest && rows.length > lim ? `<div class="g-more"><div class="g-blur" aria-hidden="true">${rows.slice(lim, lim + 3).map((x, i) => row(x, lim + i)).join('')}</div>
         <div class="g-more-c"><b>나머지 ${rows.length - lim}개 기업</b><span>가입하면 전체 순위를 보고, 관심 종목은 적정 매수가에 오면 알림을 받아요.</span>
@@ -5495,12 +5518,12 @@ function valueRow(ev, px, cur){
 }
 /* ===== 용어 풀이: 물음표를 누르면 쉬운 설명 ===== */
 const GLOSS = {
-  roeAvg:['ROE 5년 평균','자기자본이익률. 주주가 맡긴 돈 100원으로 1년에 몇 원을 버는지다. 15%면 100원으로 15원을 번다. 높고 꾸준할수록 좋은 사업이다.'],
+  roeAvg:['ROE 평균(최근 4~7년)','자기자본이익률. 주주가 맡긴 돈 100원으로 1년에 몇 원을 버는지다. 15%면 100원으로 15원을 번다. 높고 꾸준할수록 좋은 사업이다.'],
   roeMin:['ROE 최저 연도','최근 몇 년 중 가장 나빴던 해의 ROE. 나쁜 해에도 크게 무너지지 않아야 해자가 있다고 본다.'],
   roic:['ROIC','투하자본이익률. 빚까지 포함해 사업에 들어간 돈 전체로 얼마를 버는지다. 빚으로 부풀린 ROE와 달리 사업 자체의 실력을 보여 준다.'],
   gpm:['매출총이익률','매출에서 원가를 뺀 몫의 비율. 높을수록 가격을 올려도 손님이 떠나지 않는 회사, 즉 가격결정력이 있는 회사다.'],
   npm:['순이익률','매출 100원 중 세금·이자까지 다 내고 남는 돈. 10%면 100원 팔아 10원이 남는다.'],
-  epsCagr:['EPS 5년 연평균 성장','주당순이익(EPS)이 해마다 평균 몇 %씩 늘었는지. 회사가 커지면서 주주 몫도 커지는지를 본다.'],
+  epsCagr:['EPS 연평균 성장(최근 4~7년)','주당순이익(EPS)이 해마다 평균 몇 %씩 늘었는지. 회사가 커지면서 주주 몫도 커지는지를 본다.'],
   lossYears:['적자 연도','최근 기간 중 순이익이 마이너스였던 해의 수. 0이 가장 좋다. 적자가 잦으면 미래 이익을 예측하기 어렵다.'],
   fcfConv:['FCF ÷ 순이익','장부상 이익이 실제 현금으로 얼마나 들어오는지. 80% 이상이면 이익이 진짜 돈이라는 뜻이다. FCF(잉여현금흐름)는 영업으로 번 현금에서 설비투자를 뺀 돈이다.'],
   capexNi:['설비투자 ÷ 순이익','번 돈 중 공장·장비에 다시 넣어야 하는 비율. 낮을수록 주주에게 남는 돈이 많다. 100%가 넘으면 번 돈보다 더 많이 투자하는 중이다.'],
@@ -5645,7 +5668,7 @@ const INTRO = [
   {tab:'fx', t:'⑥ 환율', b:`<p>해외 주식 수익은 결국 원화로 따져야 해요. 원/달러, 원/엔 흐름과 그 배경, 다가오는 금리 결정 일정을 정리하고, <b>내 해외 자산이 환율로 얼마나 영향을 받는지</b>도 같이 보여 드려요.</p>`},
   {tab:'trends', t:'⑦ 메가트렌드', b:`<p>반도체, AI 데이터센터, 방산 같은 산업 사이클을 수혜 기업 지수로 묶어 3개월~5년 단위로 보여 드려요. 바닥권·상승·조정·고점권 국면은 감이 아니라 가격 위치와 추세로 판정해요.</p>
     <p>유행하는 산업이라는 이유만으로 비싸게 사지 않도록, 과열된 산업의 비싼 회사에는 <b>"테마 프리미엄"</b> 경고를 붙여요.</p>`},
-  {tab:'companies', t:'⑧ 기업 찾기', b:`<p>한국, 미국, 일본, 중국, 홍콩의 큰 회사 <b>약 600곳</b>을 같은 기준으로 점수 매겨 두었어요. 점수 순, 싼 순, 배당 많은 순으로 정렬해서 볼 수 있어요.</p>
+  {tab:'companies', t:'⑧ 기업 찾기', b:`<p>한국, 미국, 일본, 중국, 홍콩의 큰 회사 <b>${(S2.screen || []).length > 100 ? S2.screen.length + '곳' : '650곳 이상'}</b>을 같은 기준으로 점수 매겨 두었어요. 점수 순, 싼 순, 배당 많은 순으로 정렬해서 볼 수 있어요.</p>
     <p>내 종목이 목록에 없으면 이름으로 검색해서 바로 분석할 수 있어요. 서로 다른 종목 3개까지 가능해요.</p>`},
   {tab:'analyze', cur:'demo-005830', t:'⑨ 회사 하나 자세히 보기', b:`<p>회사를 누르면 품질·가격 점수와 판정이 나와요. 가격 판단은 이 세 숫자로 해요.</p>
     <div class="in-list"><div><b>적정 주가</b><span>앞으로 벌 현금을 지금 가치로 할인해 계산한 적정 주가예요</span></div><div><b>적정 매수가</b><span>적정 주가에서 안전마진 30%를 뺀 가격이에요. 추정이 빗나가도 손실을 줄이기 위한 여유분이에요</span></div><div><b>저평가·고평가</b><span>현재가가 적정 주가보다 얼마나 낮은지(저평가) 높은지(고평가)예요</span></div></div>
@@ -6146,7 +6169,7 @@ const GUIDE = [
      <li><b>자기자본이익률(ROE):</b> 빚 없이 자본 대비 높은 이익을 꾸준히 내는가.</li>
      <li><b>능력 범위와 10년 보유:</b> 이해하는 사업만 사고, 10년 들고 있을 생각이 없으면 10분도 들지 않는다.</li></ul>
      <p><b>ValueNote에 넣은 것.</b></p>
-     <ul><li><b>재무 점수 13개 지표</b>(0~100점): ROE 5년 평균·최저 연도, ROIC, 매출총이익률, 순이익률, EPS 성장, 적자 연도, FCF ÷ 순이익, 설비투자 ÷ 순이익, 장기차입금 ÷ 순이익, 이자보상배율, 유동비율, 주식 수 변화.</li>
+     <ul><li><b>재무 점수 13개 지표</b>(0~100점): ROE 평균(최근 4~7년)·최저 연도, ROIC, 매출총이익률, 순이익률, EPS 성장, 적자 연도, FCF ÷ 순이익, 설비투자 ÷ 순이익, 장기차입금 ÷ 순이익, 이자보상배율, 유동비율, 주식 수 변화.</li>
      <li><b>오너이익 DCF:</b> 주당 오너이익을 10년 성장시킨 뒤 영구성장으로 마무리해 적정 주가를 낸다. 성장률은 과거 이익·매출 성장률 중 낮은 값의 절반(0~8%)으로 잡고, 그 성장도 5년만 유지한 뒤 10년차까지 영구성장률로 줄인다. 스톡옵션 같은 주식보상비용은 오너이익에서 뺀다.</li>
      <li><b>배수 상한:</b> 어떤 계산이 나와도 적정 주가는 최근 이익의 25배(품질 60점 미만은 15배)를 넘지 않는다. 그레이엄이 성장주에도 25배 이상은 주지 말라고 한 한도다.</li>
      <li><b>경기순환 보정:</b> 자동차·철강·화학·해운·조선·건설·증권처럼 경기를 타는 업종, 또는 최근 이익이 평균보다 크게 튄 회사는 호황기 이익과 성장률을 10년 동안 이어 붙이지 않는다. 평균과 최근 이익 중 작은 값을 성장 없이 보고, 최대 10배까지만 인정한다.</li>
@@ -6412,7 +6435,8 @@ document.addEventListener('click', e => {
 const NAV = [
   {k:'portfolio', l:'포트폴리오', subs:[['portfolio','현황'],['myguide','나의 가이드'],['grade','내 등급'],['journal','결정 일지']]},
   {k:'gauge', l:'계기판', subs:[['gauge','반도체'],['gaugeGold','금']]},
-  {k:'briefing', l:'브리핑', subs:[['briefing','오늘'],['column','칼럼'],['radar','경제 레이더'],['trends','메가트렌드'],['fx','환율'],['rates','금리']]},
+  /* 2026-11-28 점검: 경제 레이더·메가트렌드·환율·금리는 7일간 회원 5~8명만 열었다. 상단 하위 메뉴에서는 빼고(세 번째 값 1 = 숨김) 브리핑 '오늘' 화면의 '더 살펴보기' 버튼으로 들어간다. 그 화면에 들어가 있을 때만 하위 메뉴에 보인다 */
+  {k:'briefing', l:'브리핑', subs:[['briefing','오늘'],['column','칼럼'],['radar','경제 레이더',1],['trends','메가트렌드',1],['fx','환율',1],['rates','금리',1]]},
   {k:'companies', l:'기업', subs:[['companies','찾기'],['value','저평가·고평가'],['watchlist','관심 종목'],['dividend','배당'],['ref','기준·검증']]},
 ];
 const TAB_ALIAS = {analyze:'companies', screener:'companies'};
@@ -6422,7 +6446,7 @@ function renderNav(){
   document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === g.k)));
   const sub = document.getElementById('subnav');
   if(sub && (S.tab === 'alerts' || S.tab === 'notify' || S.tab === 'account' || S.tab === 'guide')){ sub.innerHTML = ''; document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-selected','false')); return; }
-  if(sub) sub.innerHTML = g.subs.map(([k,l]) => `<button type="button" data-sub="${k}" aria-pressed="${(TAB_ALIAS[S.tab]||S.tab)===k}">${l}</button>`).join('');
+  if(sub) sub.innerHTML = g.subs.filter(([k,,h]) => !h || (TAB_ALIAS[S.tab]||S.tab) === k).map(([k,l]) => `<button type="button" data-sub="${k}" aria-pressed="${(TAB_ALIAS[S.tab]||S.tab)===k}">${l}</button>`).join('');
 }
 
 /* ============ 환율 탭 ============ */
@@ -7072,7 +7096,7 @@ document.addEventListener('click', async e => {
   const a = e.target.closest('[data-act]'); if(!a) return;
   const act = a.dataset.act, id = a.dataset.id;
   if(act === 'ch-range'){ const p = PC[a.dataset.pc]; if(p){ p.r = a.dataset.r; S.rangePref[normKey(p.key)] = p.r; document.getElementById(a.dataset.pc).innerHTML = pcInner(a.dataset.pc); } return; }
-  if(act === 'scope'){ S.coFocus = null; S.scope = a.dataset.v; S.coShown = 30; render(); if(S.tab==='analyze') updateEval(); return; }
+  if(act === 'scope'){ S.scopeSet = true; S.coFocus = null; S.scope = a.dataset.v; S.coShown = 30; render(); if(S.tab==='analyze') updateEval(); return; }
   if(act === 'map-open'){ S.coFocus = a.dataset.v; S.coOpen = a.dataset.v; render(); const t = document.getElementById('coListTop'); if(t) window.scrollTo(0, t.getBoundingClientRect().top + window.scrollY - 130); return; }
   if(act === 'co-sec'){ S.coSec = a.dataset.v; render(); return; }
   if(act === 'co-min'){ S.coMin = +a.dataset.v || 0; S.coShown = 30; render(); return; }
@@ -7313,7 +7337,7 @@ function refresh(kind){
   { const u = new URLSearchParams(location.search); const vt = (u.get('vt') || '').toUpperCase();
     if(vt){ try{ localStorage.setItem('vn-want-tab', JSON.stringify({ m: vt, at: Date.now() })); }catch(_){} } }
   /* 반도체 계기판(/semi)의 알림 버튼(?alert=semi): 가입 뒤 '반도체 바닥 계기판' 알림을 켜도록 기억해 둔다 (2026-11-23) */
-  { const u = new URLSearchParams(location.search); if(u.get('alert') === 'semi' || u.get('alert') === 'gold'){ try{ localStorage.setItem('vn-want-semi', String(Date.now())); localStorage.setItem('vn-want-gauge', u.get('alert')); }catch(_){} store.track('view', 'want-' + u.get('alert')); } }
+  { const u = new URLSearchParams(location.search); if(u.get('alert') === 'semi' || u.get('alert') === 'gold'){ try{ localStorage.setItem('vn-want-semi', String(Date.now())); localStorage.setItem('vn-want-gauge', u.get('alert')); localStorage.setItem('vn-land-gauge', Date.now() + '|' + u.get('alert')); }catch(_){} store.track('view', 'want-' + u.get('alert')); } }
   /* 기업 공개 페이지의 알림 버튼(?watch=티커): 가입 뒤 그 회사를 관심 종목에 담도록 기억해 둔다 (카카오 왕복으로 주소가 사라져도 남게) */
   { const u = new URLSearchParams(location.search); const w = u.get('watch');
     if(w){ try{ localStorage.setItem('vn-want', JSON.stringify({ t: w, co: u.get('co') || '', q: u.get('q') || '', at: Date.now() })); }catch(_){}
