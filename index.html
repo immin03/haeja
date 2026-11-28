@@ -5369,11 +5369,11 @@ function companyFromRow(r){
    한 번 접속에 팝업은 하나만: 알림 받을 곳 안내가 뜬 접속에는 띄우지 않는다. 가입한 지 하루 안 된 회원에게도 띄우지 않는다. */
 async function videoPop(){
   try{
-    if(store.isGuest || store.isDemo || !store.client || pushPrefs().vpop === false || document.querySelector('.ch-gate, .vpop, [role="dialog"], .modal, .ob')) return;
+    if(store.isGuest || store.isDemo || !store.client || pushPrefs().vpop === false || document.querySelector('.ch-gate, .vpop, .gz-pop, .gate, .intro, .qz, [role="dialog"], .modal, .ob')) return;
     const born = Date.parse(store.user?.created_at || ''); if(born && Date.now() - born < 20 * 3600e3) return;
     const { data: v } = await store.client.rpc('latest_video'); if(!v || !v.id) return;
     const seenKey = 'vn-vpop-' + v.id; try{ if(localStorage.getItem(seenKey)) return; }catch(_){}
-    if(document.querySelector('.ch-gate, .vpop, [role="dialog"], .modal, .ob')) return;
+    if(document.querySelector('.ch-gate, .vpop, .gz-pop, .gate, .intro, .qz, [role="dialog"], .modal, .ob')) return;
     const thumb = v.thumb ? (String(v.thumb).startsWith('http') ? v.thumb : String(v.thumb)) : `https://i.ytimg.com/vi/${encodeURIComponent(v.id)}/hqdefault.jpg`;
     const hrs = (Date.now() - Date.parse(v.at)) / 3600e3, when = hrs < 1 ? '방금 공개' : hrs < 12 ? `${Math.floor(hrs)}시간 전 공개` : (new Date(Date.parse(v.at) + 9 * 3600e3).toISOString().slice(0, 10) === new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10) ? '오늘 공개' : '어제 공개');
     const url = `https://www.youtube.com/watch?v=${encodeURIComponent(v.id)}&utm_source=valuenote_app&utm_campaign=vpop`;
@@ -5385,7 +5385,7 @@ async function videoPop(){
       <a class="vpop-go" href="${esc(url)}" target="_blank" rel="noopener" data-vp="go">영상 보기</a>
       <div class="vpop-row"><button type="button" data-vp="close">닫기</button><button type="button" class="u" data-vp="off">새 영상 팝업 그만 보기</button></div>
     </div></div>`);
-    try{ localStorage.setItem(seenKey, String(Date.now())); }catch(_){}
+    try{ localStorage.setItem(seenKey, String(Date.now())); sessionStorage.setItem('vn-pop-shown', '1'); }catch(_){}   /* 한 번 접속에 팝업 하나: 만족도 팝업이 이어서 뜨지 않게 (2026-11-28) */
     store.track('view', 'vpop-show');
     const g = document.querySelector('.vpop');
     g.addEventListener('click', e => {
@@ -8614,6 +8614,7 @@ nav.tabs button.gz-new .tab-dot{display:block}
     if(days.length < NEED) return false;
     var last = +getJ(LAST, 0); if(last && Date.now() - last < GAP) return false;
     if(getJ('vn-gz-seen-day', '') === kday()) return false;
+    try{ if(sessionStorage.getItem('vn-pop-shown')) return false; }catch(_){}   /* 새 영상 팝업을 본 접속에는 묻지 않는다 (2026-11-28) */
     return !document.querySelector(OTHER);
   }
   var FACES = [['1', '별로예요'], ['2', '아쉬워요'], ['3', '보통이에요'], ['4', '좋아요'], ['5', '아주 좋아요']];
