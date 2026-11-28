@@ -117,11 +117,11 @@ def render(t, out):
 # 벤치마킹(금리·돈 원리 상위 40편): 밝은 사진, '금리' 두 글자가 가장 큼, "이거 하나로 끝·N분 만에·모든 것" 약속형, 2줄
 SETS2 = [   # 18:57 대표 확정: 금리의 모든 것 · 금리가 지배하는 세상 · 금리 모르면 투자하지 마세요 — 글씨는 기존 크기
     dict(file="thumb_a.jpg", photo="il_L261113g_fed_dusk.jpeg", face=(.5, .45), zoom=1.0, dark=.42, lit=1.25,
-         top="12월 9일 전 반드시 시청하세요", top_hi="12월 9일", chip="D-11", l1=[("11분 만에 끝내는", "w")], l2=[("금리", "pink"), ("의 모든 것", "w")]),
+         top="12월 9일 전 필수 시청", top_hi="12월 9일", chip="D-11", l1=[("11분 만에 끝내는", "w")], l2=[("금리", "pink"), ("의 모든 것", "w")]),
     dict(file="thumb_b.jpg", photo="il_R1204_trading_screens.png", face=(.5, .45), zoom=1.0, dark=.42, lit=1.25,
-         top="12월 9일 전 반드시 시청하세요", top_hi="12월 9일", chip="총정리", l1=[("금리", "pink"), ("가", "w")], l2=[("지배하는 세상", "w")]),
+         top="12월 9일 전 필수 시청", top_hi="12월 9일", chip="총정리", l1=[("금리", "pink"), ("가", "w")], l2=[("지배하는 세상", "w")]),
     dict(file="thumb_c.jpg", photo="il_R1204b_fomc_room.png", face=(.5, .45), zoom=1.0, dark=.42, lit=1.25,
-         top="12월 9일 전 반드시 시청하세요", top_hi="12월 9일", chip="필수", l1=[("금리", "pink"), (" 모르면", "w")], l2=[("투자하지 마세요", "w")]),
+         top="12월 9일 전 필수 시청", top_hi="12월 9일", chip="필수", l1=[("금리", "pink"), (" 모르면", "w")], l2=[("투자하지 마세요", "w")]),
 ]
 def render2(t, out):
     th = grade(t)
@@ -136,9 +136,9 @@ def render2(t, out):
     y2 = TH - 56 - z2; y1 = y2 - 6 - z1
     # 왼쪽 위 배너 — 2026-11-28 대표 "더 세련되게": BANNER 환경변수로 모양 선택 (pill: 검은 유리 + 핑크 점 / bar: 핑크 세로선 / chip: 핑크 칩 + 유리 띠)
     import os as _os; BS = _os.environ.get("BANNER", "bar"); top = t["top"]; hi = t.get("top_hi", "")
-    fz = 56 if BS == "bar" else 50   # 11/28 09:43 대표 확정: 세로선(bar), 글씨 조금 더 크게
+    fz = 66 if BS == "bar" else 50   # 11/28 10:09 대표: "12월 9일 전 필수 시청", 대제목 바로 위, 글씨 조금 더 크게
     while D.textlength(top, font=F("Bold", fz)) > TW * .64: fz -= 2
-    fB = F("Bold", fz); fw = D.textlength(top, font=fB); by = min(52, y1 - fz - 74)
+    fB = F("Bold", fz); fw = D.textlength(top, font=fB); by = y1 - fz - 30   # 대제목 바로 위
     lay = Image.new("RGBA", th.size, (0, 0, 0, 0)); L = ImageDraw.Draw(lay)
     def words(x0, y0, col_hi):
         x = x0
