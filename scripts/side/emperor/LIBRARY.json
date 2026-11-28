@@ -1,15 +1,6 @@
 {
 "_about": "황제의 일기 공용 그림·영상 라이브러리. library.py build 로 다시 만든다(손으로 고치지 않는다).",
 "_recent_eps": [
-"enc01",
-"ep38",
-"ep39",
-"en29",
-"enc02",
-"ep40",
-"ep41",
-"enc03",
-"en31",
 "ep42",
 "ep43",
 "en13",
@@ -30,9 +21,14 @@
 "ep51",
 "en18",
 "enc07",
+"ep52",
+"ep53",
 "enc08",
+"ep54",
+"ep55",
 "en33",
 "enc09",
+"ep56",
 "enc10",
 "enc11",
 "enc12",
@@ -49,9 +45,14 @@
 "enc24",
 "enc25",
 "enc26",
-"enc27"
+"enc27",
+"enc28",
+"enc29",
+"enc30",
+"enc31",
+"enc32"
 ],
-"_built": "2026-11-26 05:14:40 KST",
+"_built": "2026-11-28 02:43:00 UTC",
 "items": [
 {
 "file": "c1_burn.jpeg",
@@ -356,8 +357,8 @@
 "made": "2026-11-09",
 "job": "EDL261109-cine01v3",
 "used": [
-"enc25a",
 "L-cine_ep01_en",
+"enc25a",
 "L-mix_tmp",
 "L-cine01",
 "ep26",
@@ -384,8 +385,8 @@
 "made": "2026-11-09",
 "job": "EDL261109-cine01v2",
 "used": [
-"L-cine_ep01_en",
 "enc13a",
+"L-cine_ep01_en",
 "L-mix_tmp",
 "L-cine01",
 "ep27",
@@ -412,11 +413,11 @@
 "made": "2026-11-09",
 "job": "EDL261109-cine01v1",
 "used": [
-"enc20a",
 "L-cine_ep01_en",
-"enc14a",
 "L-mix_tmp",
 "en34",
+"enc14a",
+"enc20a",
 "L-cine01",
 "ep30",
 "ep32",
@@ -441,8 +442,8 @@
 "made": "2026-11-09",
 "job": "EDL261109-cine01v3",
 "used": [
-"enc03a",
 "ep29",
+"enc03a",
 "L-cine01",
 "ep35",
 "enc03"
@@ -466,8 +467,8 @@
 "job": "EDL261109-cine01v3",
 "used": [
 "L-cine_ep01_en",
-"enc26a",
 "L-mix_tmp",
+"enc26a",
 "L-cine01",
 "ep31",
 "en23",
@@ -492,8 +493,8 @@
 "made": "2026-11-09",
 "job": "EDL261109-cine01v1",
 "used": [
-"enc04a",
 "L-cine_ep01_en",
+"enc04a",
 "L-mix_tmp",
 "L-cine01",
 "ep27",
@@ -520,13 +521,15 @@
 "used": [
 "L-cine_ep01_en",
 "L-mix_tmp",
+"enc30a",
 "L-cine01",
 "ep27",
 "en23",
 "ep44",
-"en35"
+"en35",
+"enc30"
 ],
-"n_used": 7,
+"n_used": 9,
 "usd": 0.75
 },
 {
@@ -546,13 +549,15 @@
 "used": [
 "L-cine_ep01_en",
 "L-mix_tmp",
+"enc30a",
 "ep26",
 "ep31",
 "en21",
 "ep49",
-"en20"
+"en20",
+"enc30"
 ],
-"n_used": 7,
+"n_used": 9,
 "usd": 0.5
 },
 {
@@ -570,12 +575,12 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v2",
 "used": [
-"enc21a",
 "L-cine_ep01_en",
 "ep29",
-"enc14a",
 "L-mix_tmp",
 "en34",
+"enc14a",
+"enc21a",
 "ep31",
 "enc14",
 "enc21"
@@ -619,10 +624,12 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v5",
 "used": [
+"enc28a",
 "ep37",
-"en31"
+"en31",
+"enc28"
 ],
-"n_used": 2,
+"n_used": 4,
 "usd": 0.1
 },
 {
@@ -644,9 +651,10 @@
 "L-mix_tmp",
 "ep37",
 "en31",
-"en20"
+"en20",
+"ep53"
 ],
-"n_used": 5,
+"n_used": 6,
 "usd": 0.75
 },
 {
@@ -664,14 +672,16 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v9",
 "used": [
-"enc02a",
 "L-cine_ep01_en",
 "L-mix_tmp",
+"enc02a",
+"enc28a",
 "ep37",
 "enc02",
-"ep47"
+"ep47",
+"enc28"
 ],
-"n_used": 6,
+"n_used": 8,
 "usd": 0.1
 },
 {
@@ -689,9 +699,9 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v6",
 "used": [
-"enc02a",
 "L-cine_ep01_en",
 "L-mix_tmp",
+"enc02a",
 "ep31",
 "enc02",
 "ep47"
@@ -714,13 +724,14 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v4",
 "used": [
-"en30",
 "L-cine_ep01_en",
-"enc16a",
-"enc19a",
-"enc22a",
 "L-mix_tmp",
+"enc19a",
 "en34",
+"L-lf01",
+"enc16a",
+"en30",
+"enc22a",
 "ep26",
 "en24",
 "ep28",
@@ -730,7 +741,7 @@
 "enc19",
 "enc22"
 ],
-"n_used": 15,
+"n_used": 16,
 "usd": 0.75
 },
 {
@@ -750,13 +761,14 @@
 "used": [
 "L-cine_ep01_en",
 "L-mix_tmp",
+"L-lf01",
 "ep27",
 "ep30",
 "en23",
 "ep45",
 "en33"
 ],
-"n_used": 7,
+"n_used": 8,
 "usd": 0.75
 },
 {
@@ -797,10 +809,10 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v9",
 "used": [
-"enc20a",
 "L-cine_ep01_en",
-"enc15a",
 "L-mix_tmp",
+"enc15a",
+"enc20a",
 "ep34",
 "ep37",
 "enc15",
@@ -824,10 +836,10 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v5",
 "used": [
-"enc24a",
 "L-cine_ep01_en",
 "enc17a",
 "L-mix_tmp",
+"enc24a",
 "ep35",
 "en29",
 "enc17",
@@ -851,8 +863,8 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v9",
 "used": [
-"L-cine_ep01_en",
 "enc13a",
+"L-cine_ep01_en",
 "L-mix_tmp",
 "ep31",
 "en35",
@@ -1023,13 +1035,14 @@
 "made": "2026-11-10",
 "job": "EDL261110-cep01v9",
 "used": [
-"enc03a",
 "L-cine_ep01_en",
 "L-mix_tmp",
+"enc03a",
 "ep36",
-"enc03"
+"enc03",
+"ep53"
 ],
-"n_used": 5,
+"n_used": 6,
 "usd": 0.1
 },
 {
@@ -1051,9 +1064,10 @@
 "L-mix_tmp",
 "ep31",
 "en32",
-"ep47"
+"ep47",
+"ep56"
 ],
-"n_used": 5,
+"n_used": 6,
 "usd": 0.75
 },
 {
@@ -1073,14 +1087,17 @@
 "used": [
 "L-cine_ep01_en",
 "L-mix_tmp",
+"L-lf01",
+"enc29a",
 "ep27",
 "ep31",
 "ep33",
 "en21",
 "en29",
-"ep48"
+"ep48",
+"enc29"
 ],
-"n_used": 8,
+"n_used": 11,
 "usd": 0.1
 },
 {
@@ -1100,12 +1117,14 @@
 "used": [
 "L-cine_ep01_en",
 "L-mix_tmp",
+"enc32a",
 "ep33",
 "en35",
 "en20",
-"ep51"
+"ep51",
+"enc32"
 ],
-"n_used": 6,
+"n_used": 8,
 "usd": 0.1
 },
 {
@@ -1172,8 +1191,8 @@
 "job": "EDL261110-cep01v5",
 "used": [
 "L-cine_ep01_en",
-"enc16a",
 "L-mix_tmp",
+"enc16a",
 "ep27",
 "ep30",
 "ep45",
@@ -1222,12 +1241,14 @@
 "job": "EDL261110-cep01v3",
 "used": [
 "enc01a",
+"enc32a",
 "ep28",
 "ep31",
 "enc01",
-"ep47"
+"ep47",
+"enc32"
 ],
-"n_used": 5,
+"n_used": 7,
 "usd": 0.75
 },
 {
@@ -2709,9 +2730,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
+"L-ep01v",
 "L-ep01_intro",
 "L-ep02v",
-"L-ep01v",
 "L-ep01",
 "L-ep02"
 ],
@@ -2733,8 +2754,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -2755,8 +2776,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -3482,8 +3503,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -3504,8 +3525,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -3526,8 +3547,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4067,10 +4088,10 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
+"L-ep01v",
 "L-ep03v",
 "L-ep01_intro",
 "L-ep02v",
-"L-ep01v",
 "L-ep01",
 "L-ep02",
 "L-ep03"
@@ -4093,9 +4114,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
+"L-ep01v",
 "L-ep03v",
 "L-ep01_intro",
-"L-ep01v",
 "L-ep01",
 "L-ep03"
 ],
@@ -4117,8 +4138,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4139,8 +4160,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4541,8 +4562,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4563,11 +4584,12 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-lf01",
+"L-ep01_intro",
 "L-ep01"
 ],
-"n_used": 3,
+"n_used": 4,
 "usd": 0.05
 },
 {
@@ -4585,8 +4607,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4607,8 +4629,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4629,8 +4651,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4651,8 +4673,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4673,8 +4695,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4695,8 +4717,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4717,8 +4739,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4739,8 +4761,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01"
 ],
 "n_used": 3,
@@ -4995,8 +5017,8 @@
 "made": "2026-11-02",
 "job": "ED261102-ep01",
 "used": [
-"ep06x",
 "ep29",
+"ep06x",
 "ep05b",
 "ep09",
 "ep11",
@@ -5012,9 +5034,10 @@
 "en27",
 "ep34",
 "ep37",
-"en32"
+"en32",
+"ep53"
 ],
-"n_used": 18,
+"n_used": 19,
 "usd": 0.1
 },
 {
@@ -5111,9 +5134,10 @@
 "en02",
 "en10",
 "ep34",
-"en21"
+"en21",
+"ep55"
 ],
-"n_used": 9,
+"n_used": 10,
 "usd": 0.1
 },
 {
@@ -5131,6 +5155,7 @@
 "made": "2026-11-02",
 "job": "ED261102-ep03",
 "used": [
+"enc31a",
 "ep05b",
 "ep09",
 "ep15",
@@ -5141,9 +5166,10 @@
 "ep33",
 "en16",
 "en21",
-"ep49"
+"ep49",
+"enc31"
 ],
-"n_used": 11,
+"n_used": 13,
 "usd": 0.1
 },
 {
@@ -5161,8 +5187,8 @@
 "made": "2026-11-02",
 "job": "ED261102-ep03b",
 "used": [
-"enc20a",
 "enc04a",
+"enc20a",
 "ep05b",
 "ep10",
 "ep19",
@@ -5195,9 +5221,9 @@
 "made": "2026-11-02",
 "job": "ED261102-ep03b",
 "used": [
-"en30",
 "ep06x",
 "enc16a",
+"en30",
 "ep05b",
 "ep09",
 "ep33",
@@ -5252,12 +5278,12 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep02",
 "used": [
-"enc24a",
-"enc20a",
+"en34",
 "enc16a",
 "en28",
-"en34",
+"enc20a",
 "L-ep02v",
+"enc24a",
 "L-ep02",
 "ep27",
 "ep30",
@@ -5292,9 +5318,10 @@
 "ep33",
 "en12",
 "ep48",
+"ep56",
 "enc16"
 ],
-"n_used": 9,
+"n_used": 10,
 "usd": 0.1
 },
 {
@@ -5313,8 +5340,8 @@
 "job": "EDL261104-ep02",
 "used": [
 "enc16a",
-"enc22a",
 "L-ep02v",
+"enc22a",
 "L-ep02",
 "ep13",
 "ep16",
@@ -5347,6 +5374,7 @@
 "job": "EDL261104-ep02v",
 "used": [
 "L-ep02v",
+"enc30a",
 "L-ep02",
 "ep12",
 "ep17",
@@ -5356,9 +5384,10 @@
 "en17",
 "ep35",
 "en12",
-"ep51"
+"ep51",
+"enc30"
 ],
-"n_used": 11,
+"n_used": 13,
 "usd": 0.1
 },
 {
@@ -5376,8 +5405,8 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep02",
 "used": [
-"enc05a",
 "L-ep02v",
+"enc05a",
 "L-ep02",
 "ep13",
 "ep19",
@@ -5418,10 +5447,11 @@
 "ep35",
 "ep50",
 "en33",
+"ep56",
 "enc16",
 "enc23"
 ],
-"n_used": 15,
+"n_used": 16,
 "usd": 0.1
 },
 {
@@ -5440,12 +5470,14 @@
 "job": "EDL261104-ep03v",
 "used": [
 "L-ep03v",
+"enc30a",
 "L-ep03",
 "ep35",
 "en21",
-"ep51"
+"ep51",
+"enc30"
 ],
-"n_used": 5,
+"n_used": 7,
 "usd": 0.1
 },
 {
@@ -5500,9 +5532,10 @@
 "en11",
 "en23",
 "ep36",
+"ep52",
 "enc25"
 ],
-"n_used": 14,
+"n_used": 15,
 "usd": 0.1
 },
 {
@@ -5520,8 +5553,8 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
-"enc03a",
 "L-ep03v",
+"enc03a",
 "L-ep03",
 "ep37",
 "enc03"
@@ -5544,9 +5577,9 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
-"enc24a",
 "L-ep03v",
 "enc06a",
+"enc24a",
 "L-ep03",
 "ep27",
 "ep44",
@@ -5662,15 +5695,18 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
-"en30",
-"enc02a",
 "L-ep03v",
+"enc02a",
+"enc28a",
+"en30",
 "L-ep03",
 "ep26",
 "ep33",
-"enc02"
+"enc02",
+"ep52",
+"enc28"
 ],
-"n_used": 7,
+"n_used": 10,
 "usd": 0.1
 },
 {
@@ -5690,6 +5726,7 @@
 "used": [
 "L-ep03v",
 "ep29",
+"enc29a",
 "ep13",
 "L-ep03",
 "ep18",
@@ -5697,9 +5734,11 @@
 "en15",
 "en19",
 "ep35",
-"en16"
+"en16",
+"ep52",
+"enc29"
 ],
-"n_used": 10,
+"n_used": 13,
 "usd": 0.1
 },
 {
@@ -5797,10 +5836,11 @@
 "en23",
 "ep37",
 "en31",
+"ep53",
 "enc19",
 "enc25"
 ],
-"n_used": 18,
+"n_used": 19,
 "usd": 0.1
 },
 {
@@ -5819,6 +5859,7 @@
 "job": "EDL261104-ep03v2",
 "used": [
 "L-ep03v",
+"enc31a",
 "ep12",
 "L-ep03",
 "ep19",
@@ -5826,9 +5867,11 @@
 "en15",
 "en10",
 "ep35",
-"en12"
+"en12",
+"ep53",
+"enc31"
 ],
-"n_used": 9,
+"n_used": 12,
 "usd": 0.1
 },
 {
@@ -5857,9 +5900,10 @@
 "en23",
 "ep36",
 "en32",
+"ep53",
 "enc21"
 ],
-"n_used": 12,
+"n_used": 13,
 "usd": 0.1
 },
 {
@@ -5877,8 +5921,8 @@
 "made": "2026-11-04",
 "job": "EDL261104-ep03v2",
 "used": [
-"en30",
 "L-ep03v",
+"en30",
 "L-ep03",
 "ep35",
 "ep44",
@@ -5963,9 +6007,10 @@
 "enc01",
 "en35",
 "ep48",
+"ep52",
 "enc23"
 ],
-"n_used": 12,
+"n_used": 13,
 "usd": 0.1
 },
 {
@@ -5988,9 +6033,10 @@
 "L-ep03",
 "ep36",
 "en29",
-"enc06"
+"enc06",
+"ep52"
 ],
-"n_used": 6,
+"n_used": 7,
 "usd": 0.1
 },
 {
@@ -6008,8 +6054,8 @@
 "made": "2026-11-07",
 "job": "EDL261107-ep04v",
 "used": [
-"en28",
 "enc14a",
+"en28",
 "L-ep04p",
 "L-ep04",
 "ep26",
@@ -6139,9 +6185,10 @@
 "L-ep04p",
 "L-ep04",
 "ep37",
-"enc02"
+"enc02",
+"ep52"
 ],
-"n_used": 4,
+"n_used": 5,
 "usd": 0.1
 },
 {
@@ -6181,13 +6228,15 @@
 "made": "2026-11-07",
 "job": "EDL261107-ep04v",
 "used": [
+"enc28a",
 "L-ep04",
 "ep26",
 "ep31",
 "en23",
-"ep48"
+"ep48",
+"enc28"
 ],
-"n_used": 5,
+"n_used": 7,
 "usd": 0.1
 },
 {
@@ -6205,9 +6254,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
-"enc01a",
 "L-ep01v",
+"enc01a",
+"L-ep01_intro",
 "L-ep01",
 "ep37",
 "enc01"
@@ -6230,10 +6279,10 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
-"enc19a",
-"enc22a",
 "L-ep01v",
+"enc19a",
+"L-ep01_intro",
+"enc22a",
 "L-ep01",
 "ep11",
 "ep17",
@@ -6266,8 +6315,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"enc28a",
+"L-ep01_intro",
 "L-ep01",
 "ep12",
 "ep16",
@@ -6276,9 +6326,10 @@
 "en02",
 "ep35",
 "en16",
-"en12"
+"en12",
+"enc28"
 ],
-"n_used": 11,
+"n_used": 13,
 "usd": 0.1
 },
 {
@@ -6296,17 +6347,18 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
+"L-ep01v",
 "ep29",
 "L-ep01_intro",
 "enc26a",
-"L-ep01v",
 "L-ep01",
 "en12",
 "ep36",
 "en18",
+"ep52",
 "enc26"
 ],
-"n_used": 9,
+"n_used": 10,
 "usd": 0.1
 },
 {
@@ -6324,11 +6376,11 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"enc21a",
+"L-ep01v",
 "L-ep01_intro",
 "enc15a",
 "en28",
-"L-ep01v",
+"enc21a",
 "L-ep01",
 "ep26",
 "ep32",
@@ -6354,15 +6406,17 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"enc28a",
+"L-ep01_intro",
 "L-ep01",
 "ep31",
 "en21",
 "ep47",
-"en18"
+"en18",
+"enc28"
 ],
-"n_used": 7,
+"n_used": 9,
 "usd": 0.1
 },
 {
@@ -6380,8 +6434,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-ep01",
 "used": [
-"L-ep01_intro",
 "L-ep01v",
+"L-ep01_intro",
 "L-ep01",
 "ep27",
 "en09",
@@ -6412,9 +6466,10 @@
 "enc22a",
 "ep43",
 "enc08",
+"ep56",
 "enc22"
 ],
-"n_used": 5,
+"n_used": 6,
 "usd": 0.001
 },
 {
@@ -6432,13 +6487,14 @@
 "made": "2026-11-20",
 "job": "EDH261120-trial2",
 "used": [
-"enc07a",
 "enc14a",
+"enc07a",
 "ep43",
 "enc07",
+"ep56",
 "enc14"
 ],
-"n_used": 5,
+"n_used": 6,
 "usd": 0.001
 },
 {
@@ -6460,9 +6516,10 @@
 "enc07a",
 "ep43",
 "enc07",
+"ep56",
 "enc25"
 ],
-"n_used": 5,
+"n_used": 6,
 "usd": 0.001
 },
 {
@@ -6546,11 +6603,12 @@
 "made": "2026-11-19",
 "job": "EDH261119-trial1",
 "used": [
+"L-lf01",
 "ep38",
 "ep43",
 "en35"
 ],
-"n_used": 3,
+"n_used": 4,
 "usd": 0.001
 },
 {
@@ -6568,11 +6626,13 @@
 "made": "2026-11-19",
 "job": "EDH261119-trial1",
 "used": [
+"L-lf01",
 "enc05a",
 "ep38",
-"enc05"
+"enc05",
+"ep55"
 ],
-"n_used": 3,
+"n_used": 5,
 "usd": 0.001
 },
 {
@@ -6654,11 +6714,14 @@
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
 "used": [
+"enc30a",
 "ep40",
 "ep42",
-"enc08"
+"enc08",
+"ep56",
+"enc30"
 ],
-"n_used": 3,
+"n_used": 6,
 "usd": 0.001
 },
 {
@@ -6699,9 +6762,10 @@
 "used": [
 "enc06a",
 "ep39",
-"enc06"
+"enc06",
+"ep56"
 ],
-"n_used": 3,
+"n_used": 4,
 "usd": 0.001
 },
 {
@@ -6720,9 +6784,10 @@
 "job": "EDH261119-trial1",
 "used": [
 "ep38",
-"en35"
+"en35",
+"ep56"
 ],
-"n_used": 2,
+"n_used": 3,
 "usd": 0.001
 },
 {
@@ -6809,11 +6874,14 @@
 "job": "EDH261119-trial1",
 "used": [
 "enc13a",
+"enc31a",
 "ep39",
 "en35",
-"enc13"
+"ep54",
+"enc13",
+"enc31"
 ],
-"n_used": 4,
+"n_used": 7,
 "usd": 0.001
 },
 {
@@ -6834,9 +6902,10 @@
 "enc15a",
 "ep39",
 "en31",
+"ep54",
 "enc15"
 ],
-"n_used": 4,
+"n_used": 5,
 "usd": 0.001
 },
 {
@@ -6855,11 +6924,13 @@
 "job": "EDH261119-trial1",
 "used": [
 "enc12a",
+"enc29a",
 "ep39",
 "en31",
-"enc12"
+"enc12",
+"enc29"
 ],
-"n_used": 4,
+"n_used": 6,
 "usd": 0.001
 },
 {
@@ -6877,14 +6948,16 @@
 "made": "2026-11-19",
 "job": "EDH261119-trial2",
 "used": [
+"enc32a",
 "enc09a",
 "enc15a",
 "en29",
 "ep40",
 "enc09",
-"enc15"
+"enc15",
+"enc32"
 ],
-"n_used": 6,
+"n_used": 8,
 "usd": 0.001
 },
 {
@@ -6905,9 +6978,10 @@
 "enc12a",
 "ep40",
 "en13",
+"ep55",
 "enc12"
 ],
-"n_used": 4,
+"n_used": 5,
 "usd": 0.001
 },
 {
@@ -6925,10 +6999,12 @@
 "made": "2026-11-19",
 "job": "EDH261119-trial2",
 "used": [
+"enc32a",
 "en29",
-"ep41"
+"ep41",
+"enc32"
 ],
-"n_used": 2,
+"n_used": 4,
 "usd": 0.001
 },
 {
@@ -6969,11 +7045,13 @@
 "made": "2026-11-19",
 "job": "EDH261119-trial2",
 "used": [
+"L-lf01",
 "ep41",
 "en35",
+"ep54",
 "enc16"
 ],
-"n_used": 3,
+"n_used": 5,
 "usd": 0.001
 },
 {
@@ -6991,12 +7069,14 @@
 "made": "2026-11-19",
 "job": "EDH261119-trial2",
 "used": [
+"L-lf01",
 "enc22a",
 "en29",
 "ep41",
+"ep54",
 "enc22"
 ],
-"n_used": 4,
+"n_used": 6,
 "usd": 0.001
 },
 {
@@ -7017,9 +7097,10 @@
 "enc25a",
 "ep38",
 "en13",
+"ep54",
 "enc25"
 ],
-"n_used": 4,
+"n_used": 5,
 "usd": 0.001
 },
 {
@@ -7040,9 +7121,10 @@
 "enc20a",
 "ep38",
 "en13",
+"ep54",
 "enc20"
 ],
-"n_used": 4,
+"n_used": 5,
 "usd": 0.001
 },
 {
@@ -7081,11 +7163,13 @@
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
 "used": [
+"L-lf01",
 "enc10a",
 "ep40",
+"ep54",
 "enc10"
 ],
-"n_used": 3,
+"n_used": 5,
 "usd": 0.001
 },
 {
@@ -7105,10 +7189,11 @@
 "used": [
 "enc25a",
 "ep41",
+"ep54",
 "en33",
 "enc25"
 ],
-"n_used": 4,
+"n_used": 5,
 "usd": 0.001
 },
 {
@@ -7150,9 +7235,10 @@
 "job": "EDH261119-trial1",
 "used": [
 "ep40",
-"en13"
+"en13",
+"ep55"
 ],
-"n_used": 2,
+"n_used": 3,
 "usd": 0.001
 },
 {
@@ -7303,11 +7389,12 @@
 "made": "2026-11-18",
 "job": "EDH261118-trial1",
 "used": [
+"L-lf01",
 "enc09a",
 "ep38",
 "enc09"
 ],
-"n_used": 3,
+"n_used": 4,
 "usd": 0.001
 },
 {
@@ -7326,9 +7413,10 @@
 "job": "EDH261118-trial1",
 "used": [
 "ep40",
-"en13"
+"en13",
+"ep55"
 ],
-"n_used": 2,
+"n_used": 3,
 "usd": 0.001
 },
 {
@@ -7346,8 +7434,8 @@
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
 "used": [
-"enc17a",
 "enc08a",
+"enc17a",
 "ep43",
 "enc08",
 "enc17"
@@ -7396,9 +7484,10 @@
 "used": [
 "enc08a",
 "ep40",
-"enc08"
+"enc08",
+"ep55"
 ],
-"n_used": 3,
+"n_used": 4,
 "usd": 0.001
 },
 {
@@ -7417,11 +7506,13 @@
 "job": "EDH261120-trial1",
 "used": [
 "enc13a",
+"L-lf01",
 "ep40",
+"ep55",
 "en33",
 "enc13"
 ],
-"n_used": 4,
+"n_used": 6,
 "usd": 0.001
 },
 {
@@ -7531,8 +7622,8 @@
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
 "used": [
-"enc24a",
 "enc08a",
+"enc24a",
 "ep41",
 "enc08",
 "enc24"
@@ -7578,9 +7669,10 @@
 "job": "EDH261119-trial1",
 "used": [
 "ep40",
-"en35"
+"en35",
+"ep56"
 ],
-"n_used": 2,
+"n_used": 3,
 "usd": 0.001
 },
 {
@@ -7598,11 +7690,12 @@
 "made": "2026-11-19",
 "job": "EDH261119-trial1",
 "used": [
+"L-lf01",
 "ep41",
 "ep43",
 "en35"
 ],
-"n_used": 3,
+"n_used": 4,
 "usd": 0.001
 },
 {
@@ -7620,12 +7713,13 @@
 "made": "2026-11-19",
 "job": "EDH261119-trial1",
 "used": [
+"L-lf01",
 "enc05a",
 "ep39",
 "ep43",
 "enc05"
 ],
-"n_used": 4,
+"n_used": 5,
 "usd": 0.001
 },
 {
@@ -7643,13 +7737,14 @@
 "made": "2026-11-20",
 "job": "EDH261120-trial2",
 "used": [
+"L-lf01",
 "enc11a",
 "enc10a",
 "ep42",
 "enc10",
 "enc11"
 ],
-"n_used": 5,
+"n_used": 6,
 "usd": 0.001
 },
 {
@@ -7712,9 +7807,10 @@
 "job": "EDH261120-trial2",
 "used": [
 "ep42",
+"ep52",
 "enc08"
 ],
-"n_used": 2,
+"n_used": 3,
 "usd": 0.001
 },
 {
@@ -7799,12 +7895,15 @@
 "made": "2026-11-18",
 "job": "EDH261118-trial1",
 "used": [
+"enc31a",
 "enc11a",
 "ep38",
 "en31",
-"enc11"
+"ep56",
+"enc11",
+"enc31"
 ],
-"n_used": 4,
+"n_used": 7,
 "usd": 0.001
 },
 {
@@ -7914,12 +8013,16 @@
 "made": "2026-11-18",
 "job": "EDH261118-trial1",
 "used": [
+"L-lf01",
 "enc11a",
+"enc29a",
 "ep38",
 "en31",
-"enc11"
+"ep56",
+"enc11",
+"enc29"
 ],
-"n_used": 4,
+"n_used": 8,
 "usd": 0.001
 },
 {
@@ -7960,10 +8063,11 @@
 "made": "2026-11-20",
 "job": "EDH261120-trial1",
 "used": [
+"L-lf01",
 "ep41",
 "en18"
 ],
-"n_used": 2,
+"n_used": 3,
 "usd": 0.001
 },
 {
@@ -7982,10 +8086,12 @@
 "job": "EDH261120-trial1",
 "used": [
 "enc09a",
+"enc30a",
 "ep41",
-"enc09"
+"enc09",
+"enc30"
 ],
-"n_used": 3,
+"n_used": 5,
 "usd": 0.001
 },
 {
@@ -8003,10 +8109,13 @@
 "made": "2026-11-19",
 "job": "EDH261119-trial1",
 "used": [
+"enc32a",
 "ep39",
-"en29"
+"en29",
+"ep55",
+"enc32"
 ],
-"n_used": 2,
+"n_used": 5,
 "usd": 0.001
 },
 {
@@ -8050,9 +8159,10 @@
 "enc26a",
 "ep39",
 "enc05",
+"ep55",
 "enc26"
 ],
-"n_used": 4,
+"n_used": 5,
 "usd": 0.001
 },
 {
@@ -8070,11 +8180,12 @@
 "made": "2026-11-18",
 "job": "EDH261118-trial1",
 "used": [
+"L-lf01",
 "ep39",
 "ep42",
 "enc09"
 ],
-"n_used": 3,
+"n_used": 4,
 "usd": 0.001
 },
 {
@@ -8092,11 +8203,13 @@
 "made": "2026-11-18",
 "job": "EDH261118-trial1",
 "used": [
+"L-lf01",
 "enc06a",
 "ep38",
-"enc06"
+"enc06",
+"ep54"
 ],
-"n_used": 3,
+"n_used": 5,
 "usd": 0.001
 },
 {
@@ -8114,10 +8227,12 @@
 "made": "2026-11-18",
 "job": "EDH261118-trial1",
 "used": [
+"L-lf01",
 "ep38",
-"en13"
+"en13",
+"ep54"
 ],
-"n_used": 2,
+"n_used": 4,
 "usd": 0.001
 },
 {
@@ -8135,11 +8250,13 @@
 "made": "2026-11-18",
 "job": "EDH261118-trial1",
 "used": [
+"L-lf01",
 "ep39",
 "ep42",
-"enc05"
+"enc05",
+"ep56"
 ],
-"n_used": 3,
+"n_used": 5,
 "usd": 0.001
 },
 {
@@ -8158,11 +8275,13 @@
 "job": "EDH261121-trial1",
 "used": [
 "enc12a",
+"enc30a",
 "ep43",
 "enc11",
-"enc12"
+"enc12",
+"enc30"
 ],
-"n_used": 4,
+"n_used": 6,
 "usd": 0.001
 },
 {
@@ -8201,11 +8320,12 @@
 "made": "2026-11-21",
 "job": "EDH261121-trial1",
 "used": [
+"L-lf01",
 "enc11a",
 "ep43",
 "enc11"
 ],
-"n_used": 3,
+"n_used": 4,
 "usd": 0.001
 },
 {
@@ -8511,6 +8631,1326 @@
 ],
 "n_used": 1,
 "usd": 0.05
+},
+{
+"file": "lf1_album.png",
+"id": "lf1_album",
+"kind": "image",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "An old photo album open on a table, black-and-white photographs softly out of focus, an elderly hand turning a page, warm lamp. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_archive.png",
+"id": "lf1_archive",
+"kind": "image",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Tall archive shelves full of old cardboard folders and boxes in a dim room, a single desk lamp at the end of the aisle. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_bizcards.png",
+"id": "lf1_bizcards",
+"kind": "image",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "An old leather business card holder overflowing with faded business cards on a wooden table, cards blurred and unreadable, warm lamp light. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_bonsai.png",
+"id": "lf1_bonsai",
+"kind": "image",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "A healthy, neatly pruned small bonsai tree on a dark wooden table, warm side light, peaceful. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_cafe_envelope.png",
+"id": "lf1_cafe_envelope",
+"kind": "image",
+"ar": "16:9",
+"era": "modern_kr",
+"src": null,
+"scene": "Inside a small old-fashioned coffee shop in the evening, two Korean men in their late fifties at a table, a white envelope slid across the table, warm dim lights. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_calendar.png",
+"id": "lf1_calendar",
+"kind": "image",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "A paper wall calendar crowded with many circled dates and scribbled marks, nothing readable, lit by a single lamp in a dark room. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_calllog.png",
+"id": "lf1_calllog",
+"kind": "image",
+"ar": "16:9",
+"era": "modern",
+"src": null,
+"scene": "A smartphone lying face down on a wooden kitchen table beside a cup of tea gone cold, one warm pendant lamp above, the rest of the room in darkness. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_candles.png",
+"id": "lf1_candles",
+"kind": "image",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Five lit candles in a tight circle on a dark table, with more unlit candles arranged in wider rings around them fading into darkness. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_clock.png",
+"id": "lf1_clock",
+"kind": "image",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "An old round wall clock in a dim living room, a single warm lamp below it, quiet evening. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_coat_door.png",
+"id": "lf1_coat_door",
+"kind": "image",
+"ar": "16:9",
+"era": "modern",
+"src": null,
+"scene": "An older man hurriedly putting on his coat at his apartment door at night, phone in hand, restless. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_cracked_cup.png",
+"id": "lf1_cracked_cup",
+"kind": "image",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "A white porcelain cup with a thin crack on a dark wooden table, a single beam of warm light on it. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_crossroads.png",
+"id": "lf1_crossroads",
+"kind": "image",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Two older men in dark coats walking away from each other at a quiet night crossroads, wet asphalt reflecting warm streetlights. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_door.png",
+"id": "lf1_door",
+"kind": "image",
+"ar": "16:9",
+"era": "modern",
+"src": null,
+"scene": "A wooden apartment door left half open, warm light spilling from inside into a dark hallway. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_dye.png",
+"id": "lf1_dye",
+"kind": "image",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "White cloth being slowly dipped into a dark indigo dye vat, the color spreading upward through the fabric, warm side light, close-up. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_elder_walk.png",
+"id": "lf1_elder_walk",
+"kind": "image",
+"ar": "16:9",
+"era": "modern_kr",
+"src": null,
+"scene": "Two Korean men in their eighties walking slowly side by side through an autumn park at golden dusk, one resting a hand on the other's shoulder, seen from behind. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_empty_chair.png",
+"id": "lf1_empty_chair",
+"kind": "image",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "An empty wooden chair at a small coffee shop table, a half-finished cup of coffee in front of it, dim warm light, nobody there. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_emptytable.png",
+"id": "lf1_emptytable",
+"kind": "image",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "A round restaurant table after a gathering, empty chairs pushed back, half-empty glasses and plates, a man in a dark coat leaving through the door in the background, dim warm light. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_envelopes.png",
+"id": "lf1_envelopes",
+"kind": "image",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "A neat stack of plain white envelopes in an open wooden desk drawer, an older man's hand resting on top, lit by a small desk lamp. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_family_photo.png",
+"id": "lf1_family_photo",
+"kind": "image",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "A small framed family photo on a dark wooden shelf, the photo softly out of focus, a reading lamp glowing beside it. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_finger.png",
+"id": "lf1_finger",
+"kind": "image",
+"ar": "16:9",
+"era": "modern",
+"src": null,
+"scene": "Close-up of an older man's finger touching a phone screen, counting, the screen only soft blurred light, dark kitchen. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_five_cups.png",
+"id": "lf1_five_cups",
+"kind": "image",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Five teacups around a small round wooden table under one warm pendant lamp, steam rising, cozy and quiet, no people. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_friend_leaves.png",
+"id": "lf1_friend_leaves",
+"kind": "image",
+"ar": "16:9",
+"era": "modern_kr",
+"src": null,
+"scene": "In a small coffee shop in the evening, a man walks out of the door with his back turned, while a Korean man about 58 years old with grey-streaked short black hair, deep forehead lines and tired kind eyes, clean-shaven, wearing a plain charcoal cardigan over a dark shirt remains seated alone at the table, looking at the empty chair. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_gathering.png",
+"id": "lf1_gathering",
+"kind": "image",
+"ar": "16:9",
+"era": "modern_kr",
+"src": null,
+"scene": "A crowded noisy Korean restaurant gathering of men in their fifties, glasses raised, one older man at the end of the table forcing a tired smile, warm busy light. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_gossip.png",
+"id": "lf1_gossip",
+"kind": "image",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Three men in their fifties at a dim bar table, one leaning in and talking animatedly, another slumped and tired, glasses on the table. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_hall_three.png",
+"id": "lf1_hall_three",
+"kind": "image",
+"ar": "16:9",
+"era": "modern",
+"src": null,
+"scene": "A very long wooden dining table in a dim modern hall with dozens of empty chairs fading into darkness, only three chairs at the near end lit by one warm pendant lamp, three teacups steaming, no people. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_hall_three_close.png",
+"id": "lf1_hall_three_close",
+"kind": "image",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Close view of three chairs at the end of a long dark table lit by one warm pendant lamp, three teacups steaming, the rest of the room in shadow. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_ink.png",
+"id": "lf1_ink",
+"kind": "image",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "A single drop of dark ink spreading slowly in a clear glass of water, backlit by warm golden light, black background. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_library.png",
+"id": "lf1_library",
+"kind": "image",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "An empty university library reading room at night, long wooden desks with green-shaded lamps, rows of books in shadow. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_networking.png",
+"id": "lf1_networking",
+"kind": "image",
+"ar": "16:9",
+"era": "modern_kr",
+"src": null,
+"scene": "A busy evening networking party of young Korean professionals in their late twenties, exchanging business cards and laughing, warm bokeh lights. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_notebook.png",
+"id": "lf1_notebook",
+"kind": "image",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "An older man's hands opening a small dark leather notebook on a wooden table under a warm lamp, a pen beside it. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_older_couple.png",
+"id": "lf1_older_couple",
+"kind": "image",
+"ar": "16:9",
+"era": "modern_kr",
+"src": null,
+"scene": "An older Korean couple in their sixties laughing quietly at a small table in a warm tea house at night, cups of tea between them. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_phone_cups.png",
+"id": "lf1_phone_cups",
+"kind": "image",
+"ar": "16:9",
+"era": "modern",
+"src": null,
+"scene": "A smartphone lying on a wooden table next to five small teacups arranged in a semicircle, warm lamp light, dark background. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_phone_down.png",
+"id": "lf1_phone_down",
+"kind": "image",
+"ar": "16:9",
+"era": "modern_kr",
+"src": null,
+"scene": "a Korean man about 58 years old with grey-streaked short black hair, deep forehead lines and tired kind eyes, clean-shaven, wearing a plain charcoal cardigan over a dark shirt gently setting his phone down on a table after a call in the evening, a calm settled expression. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_phone_glow.png",
+"id": "lf1_phone_glow",
+"kind": "image",
+"ar": "16:9",
+"era": "modern",
+"src": null,
+"scene": "Close-up of an older man's hand holding a smartphone in a dark room at night, his thumb scrolling a very long list, the screen glow lighting his fingers, the list is only soft blurred lines. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_phone_list.png",
+"id": "lf1_phone_list",
+"kind": "image",
+"ar": "16:9",
+"era": "modern",
+"src": null,
+"scene": "Extreme close-up of a smartphone screen in the dark showing a long scrolling list of contacts as blurred unreadable lines, warm reflections, shallow focus. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_pruning.png",
+"id": "lf1_pruning",
+"kind": "image",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "An older man's hands carefully pruning a small bonsai tree with tiny shears on a wooden table, cut leaves falling, warm lamp. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_reading_chair.png",
+"id": "lf1_reading_chair",
+"kind": "image",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "An empty reading armchair with a folded blanket, a small lamp and an open book on a side table, a quiet dark room at night. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_ridge.png",
+"id": "lf1_ridge",
+"kind": "image",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Silhouette of an older man standing alone on a mountain ridge at sunrise, layers of misty mountains glowing gold behind him. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_ripples.png",
+"id": "lf1_ripples",
+"kind": "image",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Top view of dark still water in a stone basin, a single drop creating concentric rings of warm golden reflected light. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_river_talk.png",
+"id": "lf1_river_talk",
+"kind": "image",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Two older people walking slowly along a riverside path at dusk talking quietly, warm streetlights coming on, seen from behind. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_scroll_face.png",
+"id": "lf1_scroll_face",
+"kind": "image",
+"ar": "16:9",
+"era": "modern_kr",
+"src": null,
+"scene": "Close-up of a Korean man about 58 years old with grey-streaked short black hair, deep forehead lines and tired kind eyes, clean-shaven, wearing a plain charcoal cardigan over a dark shirt, his face lit only by the cold glow of a phone screen held below, late at night, eyes reading. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_son_phone.png",
+"id": "lf1_son_phone",
+"kind": "image",
+"ar": "16:9",
+"era": "modern_kr",
+"src": null,
+"scene": "A Korean holiday dinner table at night with many dishes, a grown son in his thirties looking down at his phone, a Korean man about 58 years old with grey-streaked short black hair, deep forehead lines and tired kind eyes, clean-shaven, wearing a plain charcoal cardigan over a dark shirt beside him speaking to him, warm low light. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_summit.png",
+"id": "lf1_summit",
+"kind": "image",
+"ar": "16:9",
+"era": "modern_kr",
+"src": null,
+"scene": "A mountain summit rest area at sunrise, four Korean hikers in their sixties sharing tea from a thermos and laughing, golden light, mist below. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_taxi.png",
+"id": "lf1_taxi",
+"kind": "image",
+"ar": "16:9",
+"era": "modern_kr",
+"src": null,
+"scene": "An older Korean man in a suit sitting in the back seat of a taxi late at night, head resting against the window, exhausted, city lights streaking past. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_two_cups.png",
+"id": "lf1_two_cups",
+"kind": "image",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "Two teacups on a small wooden table by a window at night, one warm lamp, quiet and intimate. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_two_friends.png",
+"id": "lf1_two_friends",
+"kind": "image",
+"ar": "16:9",
+"era": "modern_kr",
+"src": null,
+"scene": "Two old Korean friends in their sixties laughing together at a small table in a warm street tea house at night, cups of tea. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_two_paths.png",
+"id": "lf1_two_paths",
+"kind": "image",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "A lone man in a dark coat standing where a quiet park path splits in two at dusk, one path toward a warm lit house, the other into darkness, seen from behind. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_umbrella.png",
+"id": "lf1_umbrella",
+"kind": "image",
+"ar": "16:9",
+"era": "roman",
+"src": null,
+"scene": "An older man in a dark coat holding a black umbrella, standing calmly on a rainy street at night, warm shop light behind him. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_window_man.png",
+"id": "lf1_window_man",
+"kind": "image",
+"ar": "16:9",
+"era": "modern_kr",
+"src": null,
+"scene": "a Korean man about 58 years old with grey-streaked short black hair, deep forehead lines and tired kind eyes, clean-shaven, wearing a plain charcoal cardigan over a dark shirt standing by a dark apartment window at night looking out at distant city lights, calm face, one warm lamp behind him. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_windows.png",
+"id": "lf1_windows",
+"kind": "image",
+"ar": "16:9",
+"era": "modern",
+"src": null,
+"scene": "A large apartment building at night seen from across the street, only a few windows lit with warm light, in some of them a lone figure sitting at a table. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_yearend.png",
+"id": "lf1_yearend",
+"kind": "image",
+"ar": "16:9",
+"era": "modern_kr",
+"src": null,
+"scene": "A Korean year-end company dinner in a large banquet room, rows of men in suits raising glasses, noisy, warm golden light. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_ys_cafe_alone.png",
+"id": "lf1_ys_cafe_alone",
+"kind": "image",
+"ar": "16:9",
+"era": "modern_kr",
+"src": null,
+"scene": "a Korean man about 58 years old with grey-streaked short black hair, deep forehead lines and tired kind eyes, clean-shaven, wearing a plain charcoal cardigan over a dark shirt sitting alone at a small coffee shop table in the evening, looking at the empty chair across from him and a half-finished cup. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_ys_city.png",
+"id": "lf1_ys_city",
+"kind": "image",
+"ar": "16:9",
+"era": "modern_kr",
+"src": null,
+"scene": "a Korean man about 58 years old with grey-streaked short black hair, deep forehead lines and tired kind eyes, clean-shaven, wearing a plain charcoal cardigan over a dark shirt standing at a tall window in a dark living room at night, his reflection faint in the glass, the city lights below. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_ys_dark.png",
+"id": "lf1_ys_dark",
+"kind": "image",
+"ar": "16:9",
+"era": "modern_kr",
+"src": null,
+"scene": "a Korean man about 58 years old with grey-streaked short black hair, deep forehead lines and tired kind eyes, clean-shaven, wearing a plain charcoal cardigan over a dark shirt sitting alone in a dark living room late at night, only a small floor lamp on, his face half in shadow, quiet. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_ys_dawn.png",
+"id": "lf1_ys_dawn",
+"kind": "image",
+"ar": "16:9",
+"era": "modern_kr",
+"src": null,
+"scene": "a Korean man about 58 years old with grey-streaked short black hair, deep forehead lines and tired kind eyes, clean-shaven, wearing a plain charcoal cardigan over a dark shirt standing at a window at dawn, warm golden light falling on his calm face, eyes closed for a moment. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_ys_facedown.png",
+"id": "lf1_ys_facedown",
+"kind": "image",
+"ar": "16:9",
+"era": "modern_kr",
+"src": null,
+"scene": "a Korean man about 58 years old with grey-streaked short black hair, deep forehead lines and tired kind eyes, clean-shaven, wearing a plain charcoal cardigan over a dark shirt with his hands folded on a wooden table at night, a smartphone placed face down in front of him, he sits very still, one pendant lamp. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_ys_home_late.png",
+"id": "lf1_ys_home_late",
+"kind": "image",
+"ar": "16:9",
+"era": "modern_kr",
+"src": null,
+"scene": "a Korean man about 58 years old with grey-streaked short black hair, deep forehead lines and tired kind eyes, clean-shaven, wearing a plain charcoal cardigan over a dark shirt loosening his tie at the entrance of his dark apartment late at night, shoes still on, tired face, one hallway light. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_ys_listen.png",
+"id": "lf1_ys_listen",
+"kind": "image",
+"ar": "16:9",
+"era": "modern_kr",
+"src": null,
+"scene": "a Korean man about 58 years old with grey-streaked short black hair, deep forehead lines and tired kind eyes, clean-shaven, wearing a plain charcoal cardigan over a dark shirt sitting across a table from another man in the evening, listening calmly with a slight nod, warm low light. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_ys_morning.png",
+"id": "lf1_ys_morning",
+"kind": "image",
+"ar": "16:9",
+"era": "modern_kr",
+"src": null,
+"scene": "a Korean man about 58 years old with grey-streaked short black hair, deep forehead lines and tired kind eyes, clean-shaven, wearing a plain charcoal cardigan over a dark shirt by a kitchen window in the early morning, holding a mug with both hands, soft first light on his calm face, the room still dim. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_ys_office.png",
+"id": "lf1_ys_office",
+"kind": "image",
+"ar": "16:9",
+"era": "modern_kr",
+"src": null,
+"scene": "a Korean man about 58 years old with grey-streaked short black hair, deep forehead lines and tired kind eyes, clean-shaven, wearing a plain charcoal cardigan over a dark shirt sitting at his desk in an emptying office in the evening, most desks dark, a framed photo and a small plant on his desk, warm desk lamp. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_ys_pen.png",
+"id": "lf1_ys_pen",
+"kind": "image",
+"ar": "16:9",
+"era": "modern_kr",
+"src": null,
+"scene": "a Korean man about 58 years old with grey-streaked short black hair, deep forehead lines and tired kind eyes, clean-shaven, wearing a plain charcoal cardigan over a dark shirt at a kitchen table at night holding a pen above an open notebook, the phone pushed aside, thinking. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_ys_sleep.png",
+"id": "lf1_ys_sleep",
+"kind": "image",
+"ar": "16:9",
+"era": "modern_kr",
+"src": null,
+"scene": "a Korean man about 58 years old with grey-streaked short black hair, deep forehead lines and tired kind eyes, clean-shaven, wearing a plain charcoal cardigan over a dark shirt sitting at a kitchen table at night scrolling his phone, behind him a bedroom door left slightly open into darkness, quiet apartment. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_ys_table.png",
+"id": "lf1_ys_table",
+"kind": "image",
+"ar": "16:9",
+"era": "modern_kr",
+"src": null,
+"scene": "a Korean man about 58 years old with grey-streaked short black hair, deep forehead lines and tired kind eyes, clean-shaven, wearing a plain charcoal cardigan over a dark shirt sitting alone at a wooden kitchen table late at night, hands clasped, looking down, a smartphone face down beside an open notebook and a cup of tea, one warm pendant lamp above. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_ys_trail.png",
+"id": "lf1_ys_trail",
+"kind": "image",
+"ar": "16:9",
+"era": "modern_kr",
+"src": null,
+"scene": "a Korean man about 58 years old with grey-streaked short black hair, deep forehead lines and tired kind eyes, clean-shaven, wearing a plain charcoal cardigan over a dark shirt in a dark hiking jacket climbing a forest mountain trail near Seoul at early dawn, mist between the trees, walking stick. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_ys_wonder.png",
+"id": "lf1_ys_wonder",
+"kind": "image",
+"ar": "16:9",
+"era": "modern_kr",
+"src": null,
+"scene": "Close-up of a Korean man about 58 years old with grey-streaked short black hair, deep forehead lines and tired kind eyes, clean-shaven, wearing a plain charcoal cardigan over a dark shirt at night, phone light on his face, he pauses and stares into space, thoughtful. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
+},
+{
+"file": "lf1_ys_writes.png",
+"id": "lf1_ys_writes",
+"kind": "image",
+"ar": "16:9",
+"era": "modern_kr",
+"src": null,
+"scene": "a Korean man about 58 years old with grey-streaked short black hair, deep forehead lines and tired kind eyes, clean-shaven, wearing a plain charcoal cardigan over a dark shirt writing slowly in a small notebook at a kitchen table at night under one warm pendant lamp, his phone face down aside, a calm settled face. Dark low-key",
+"scene_ko": "",
+"use_ko": "",
+"cx": null,
+"ok": true,
+"made": "2026-11-28",
+"job": "EDL261128-lf01",
+"used": [
+"L-lf01"
+],
+"n_used": 1,
+"usd": 0.015
 },
 {
 "file": "lg3_cameo_oval.jpeg",
@@ -9445,8 +10885,8 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib5",
 "used": [
-"enc05a",
 "ep29",
+"enc05a",
 "ep14",
 "L-ep04",
 "ep18",
@@ -9476,8 +10916,8 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib6",
 "used": [
-"en30",
 "enc14a",
+"en30",
 "ep15",
 "ep23",
 "en01",
@@ -9547,6 +10987,7 @@
 "made": "",
 "job": "",
 "used": [
+"L-lf01",
 "ep11",
 "ep15",
 "ep20",
@@ -9564,9 +11005,10 @@
 "ep35",
 "en23",
 "en22",
-"ep50"
+"ep50",
+"ep52"
 ],
-"n_used": 18,
+"n_used": 20,
 "usd": null
 },
 {
@@ -9585,6 +11027,7 @@
 "job": "EDL261105-lib1",
 "used": [
 "L-ep03v",
+"L-lf01",
 "L-ep04p",
 "ep11",
 "L-ep03",
@@ -9602,9 +11045,10 @@
 "ep34",
 "ep36",
 "en22",
-"en33"
+"en33",
+"ep56"
 ],
-"n_used": 19,
+"n_used": 21,
 "usd": 0.75
 },
 {
@@ -9623,6 +11067,7 @@
 "job": "EDL261105-lib2",
 "used": [
 "L-ep03v",
+"L-lf01",
 "ep12",
 "L-ep03",
 "ep17",
@@ -9639,7 +11084,7 @@
 "en21",
 "ep49"
 ],
-"n_used": 16,
+"n_used": 17,
 "usd": 0.75
 },
 {
@@ -9658,6 +11103,7 @@
 "job": "EDL261105-lib2",
 "used": [
 "L-ep03v",
+"enc28a",
 "ep13",
 "L-ep03",
 "L-ep04",
@@ -9667,9 +11113,11 @@
 "en19",
 "ep32",
 "en16",
-"en13"
+"en13",
+"ep54",
+"enc28"
 ],
-"n_used": 11,
+"n_used": 14,
 "usd": 0.75
 },
 {
@@ -9687,6 +11135,7 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib5",
 "used": [
+"L-lf01",
 "ep13",
 "ep18",
 "ep21",
@@ -9698,7 +11147,7 @@
 "en21",
 "ep48"
 ],
-"n_used": 10,
+"n_used": 11,
 "usd": 0.1
 },
 {
@@ -9716,8 +11165,8 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib6",
 "used": [
-"enc21a",
 "en34",
+"enc21a",
 "ep12",
 "ep17",
 "ep20",
@@ -9747,8 +11196,8 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib6",
 "used": [
-"en30",
 "enc25a",
+"en30",
 "ep13",
 "L-ep04",
 "ep19",
@@ -9757,9 +11206,10 @@
 "en03",
 "ep33",
 "en16",
+"ep56",
 "enc25"
 ],
-"n_used": 11,
+"n_used": 12,
 "usd": 0.1
 },
 {
@@ -9787,10 +11237,11 @@
 "en02",
 "en03",
 "ep33",
+"ep53",
 "enc23",
 "enc26"
 ],
-"n_used": 12,
+"n_used": 13,
 "usd": 0.1
 },
 {
@@ -9819,9 +11270,10 @@
 "ep35",
 "ep37",
 "en22",
+"ep53",
 "enc10"
 ],
-"n_used": 12,
+"n_used": 13,
 "usd": 0.1
 },
 {
@@ -9839,8 +11291,8 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib6",
 "used": [
-"enc02a",
 "ep29",
+"enc02a",
 "enc19a",
 "ep14",
 "ep21",
@@ -9872,8 +11324,9 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib5",
 "used": [
-"enc24a",
 "en34",
+"L-lf01",
+"enc24a",
 "ep15",
 "ep18",
 "en05b",
@@ -9886,7 +11339,7 @@
 "ep42",
 "enc24"
 ],
-"n_used": 13,
+"n_used": 14,
 "usd": 0.1
 },
 {
@@ -9913,9 +11366,10 @@
 "en26",
 "ep34",
 "ep36",
-"en21"
+"en21",
+"ep54"
 ],
-"n_used": 10,
+"n_used": 11,
 "usd": 0.1
 },
 {
@@ -9933,8 +11387,8 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib6",
 "used": [
-"ep29",
 "enc13a",
+"ep29",
 "ep13",
 "ep17",
 "L-ep04",
@@ -9945,9 +11399,10 @@
 "en11",
 "ep33",
 "en13",
+"ep52",
 "enc13"
 ],
-"n_used": 13,
+"n_used": 14,
 "usd": 0.1
 },
 {
@@ -10003,9 +11458,10 @@
 "en24",
 "ep35",
 "en21",
-"en22"
+"en22",
+"ep53"
 ],
-"n_used": 9,
+"n_used": 10,
 "usd": 0.1
 },
 {
@@ -10023,6 +11479,7 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib6",
 "used": [
+"enc31a",
 "ep14",
 "ep18",
 "ep21",
@@ -10034,9 +11491,10 @@
 "en23",
 "en21",
 "ep39",
-"en33"
+"en33",
+"enc31"
 ],
-"n_used": 12,
+"n_used": 14,
 "usd": 0.1
 },
 {
@@ -10159,8 +11617,8 @@
 "job": "EDL261105-lib3",
 "used": [
 "L-ep03v",
-"en28",
 "en34",
+"en28",
 "L-ep03",
 "L-ep04",
 "ep27",
@@ -10188,6 +11646,7 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib5",
 "used": [
+"L-lf01",
 "ep13",
 "ep19",
 "ep22",
@@ -10200,7 +11659,7 @@
 "en13",
 "ep51"
 ],
-"n_used": 11,
+"n_used": 12,
 "usd": 0.1
 },
 {
@@ -10250,10 +11709,10 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib3",
 "used": [
-"enc21a",
 "L-ep03v",
 "enc15a",
 "en28",
+"enc21a",
 "L-ep03",
 "ep27",
 "en09",
@@ -10313,8 +11772,8 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib5",
 "used": [
-"enc20a",
 "en34",
+"enc20a",
 "ep15",
 "ep20",
 "en06",
@@ -10371,6 +11830,7 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib5",
 "used": [
+"enc29a",
 "ep12",
 "ep19",
 "ep23",
@@ -10379,9 +11839,10 @@
 "en17",
 "ep35",
 "en12",
-"ep50"
+"ep50",
+"enc29"
 ],
-"n_used": 9,
+"n_used": 11,
 "usd": 0.1
 },
 {
@@ -10399,6 +11860,7 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib5",
 "used": [
+"enc32a",
 "ep14",
 "L-ep04",
 "ep18",
@@ -10411,9 +11873,10 @@
 "en27",
 "enc01",
 "ep39",
-"ep46"
+"ep46",
+"enc32"
 ],
-"n_used": 13,
+"n_used": 15,
 "usd": 0.1
 },
 {
@@ -10431,9 +11894,9 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib1",
 "used": [
+"enc27a",
 "enc23a",
 "L-ep03v",
-"enc27a",
 "ep29",
 "enc19a",
 "L-ep03",
@@ -10469,8 +11932,9 @@
 "made": "2026-11-05",
 "job": "EDL261105-lib6",
 "used": [
-"ep29",
 "enc13a",
+"ep29",
+"enc32a",
 "ep13",
 "ep18",
 "ep21",
@@ -10482,9 +11946,10 @@
 "en23",
 "en13",
 "ep46",
-"enc13"
+"enc13",
+"enc32"
 ],
-"n_used": 14,
+"n_used": 16,
 "usd": 0.1
 },
 {
@@ -10503,8 +11968,9 @@
 "job": "EDL261105-lib2",
 "used": [
 "L-ep03v",
-"enc22a",
 "en34",
+"L-lf01",
+"enc22a",
 "ep11",
 "L-ep03",
 "ep17",
@@ -10519,7 +11985,7 @@
 "ep51",
 "enc22"
 ],
-"n_used": 16,
+"n_used": 17,
 "usd": 0.75
 },
 {
@@ -10645,10 +12111,10 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
+"L-ep01v",
 "L-ep01_intro",
 "L-pilot",
 "L-ep02v",
-"L-ep01v",
 "L-ep01",
 "L-ep02"
 ],
@@ -10706,9 +12172,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
+"L-ep01v",
 "L-ep01_intro",
 "L-pilot",
-"L-ep01v",
 "L-ep01"
 ],
 "n_used": 4,
@@ -10729,12 +12195,13 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
+"L-ep01v",
+"L-lf01",
 "L-ep01_intro",
 "L-pilot",
-"L-ep01v",
 "L-ep01"
 ],
-"n_used": 4,
+"n_used": 5,
 "usd": 0.05
 },
 {
@@ -10752,12 +12219,13 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
+"L-ep01v",
+"L-lf01",
 "L-ep01_intro",
 "L-pilot",
-"L-ep01v",
 "L-ep01"
 ],
-"n_used": 4,
+"n_used": 5,
 "usd": 0.05
 },
 {
@@ -10811,9 +12279,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
+"L-ep01v",
 "L-ep01_intro",
 "L-ep02v",
-"L-ep01v",
 "L-ep01",
 "L-ep02"
 ],
@@ -10835,9 +12303,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
+"L-ep01v",
 "L-ep01_intro",
 "L-pilot",
-"L-ep01v",
 "L-ep01"
 ],
 "n_used": 4,
@@ -10858,9 +12326,9 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot",
 "used": [
+"L-ep01v",
 "L-ep01_intro",
 "L-pilot",
-"L-ep01v",
 "L-ep01",
 "L-ep04"
 ],
@@ -10918,9 +12386,9 @@
 "made": "",
 "job": "",
 "used": [
+"L-ep01v",
 "L-ep01_intro",
 "L-pilot",
-"L-ep01v",
 "L-ep01"
 ],
 "n_used": 4,
@@ -10981,8 +12449,8 @@
 "made": "2026-11-03",
 "job": "EDL261103-pilot2",
 "used": [
-"L-ep01_intro",
-"L-ep01v"
+"L-ep01v",
+"L-ep01_intro"
 ],
 "n_used": 2,
 "usd": 0.05
@@ -11858,24 +13326,6 @@
 "usd": 0.06
 },
 {
-"file": "st4_book_v.mp4",
-"id": "st4_book_v",
-"kind": "video",
-"ar": "9:16",
-"era": "modern_kr",
-"src": "st4_book",
-"scene": "a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan sitting alone at her kitchen table late at night under a small lamp, opening an old thick book with a plain dark cover, tea cup beside her. | 움직임: She opens the old book and turns the first page slowly. The motion happens once in the first second and a half, then everything holds almost still.",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-18",
-"job": "EDS261118-st4",
-"used": [],
-"n_used": 0,
-"usd": 0.18
-},
-{
 "file": "st4_car.png",
 "id": "st4_car",
 "kind": "image",
@@ -11892,24 +13342,6 @@
 "used": [],
 "n_used": 0,
 "usd": 0.015
-},
-{
-"file": "st4_car_v.mp4",
-"id": "st4_car_v",
-"kind": "video",
-"ar": "9:16",
-"era": "modern_kr",
-"src": "st4_car",
-"scene": "a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan in the passenger seat of a car at night, staring out of the window at passing city lights, jaw tight, lips pressed together. | 움직임: City lights slide past the window; she keeps staring ahead, jaw tight. The motion happens once in the first second and a half, then everything holds almost stil",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-18",
-"job": "EDS261118-st4",
-"used": [],
-"n_used": 0,
-"usd": 0.18
 },
 {
 "file": "st4_chairs.png",
@@ -12020,24 +13452,6 @@
 "usd": 0.06
 },
 {
-"file": "st4_smile_v.mp4",
-"id": "st4_smile_v",
-"kind": "video",
-"ar": "9:16",
-"era": "modern_kr",
-"src": "st4_smile",
-"scene": "At the next family gathering, a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan laughs warmly while passing a plate of cut fruit, several relatives lean toward her smiling, bright afternoon light. | 움직임: She passes the fruit plate and laughs; the relatives lean in toward her. The motion happens once in the first second and a half, then everything holds almost st",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-18",
-"job": "EDS261118-st4",
-"used": [],
-"n_used": 0,
-"usd": 0.18
-},
-{
 "file": "st4_soup.png",
 "id": "st4_soup",
 "kind": "image",
@@ -12054,24 +13468,6 @@
 "used": [],
 "n_used": 0,
 "usd": 0.015
-},
-{
-"file": "st4_soup_v.mp4",
-"id": "st4_soup_v",
-"kind": "video",
-"ar": "9:16",
-"era": "modern_kr",
-"src": "st4_soup",
-"scene": "a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan calmly ladling soup into a bowl and handing it across the holiday table with a gentle smile, warm lamp light. | 움직임: She smiles and sets the bowl of soup down in front of him. The motion happens once in the first second and a half, then everything holds almost still.",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-18",
-"job": "EDS261118-st4",
-"used": [],
-"n_used": 0,
-"usd": 0.18
 },
 {
 "file": "st4_table.jpeg",
@@ -12092,24 +13488,6 @@
 "usd": 0.06
 },
 {
-"file": "st4_table_v.mp4",
-"id": "st4_table_v",
-"kind": "video",
-"ar": "9:16",
-"era": "modern_kr",
-"src": "st4_table",
-"scene": "At a Korean family holiday dinner table full of dishes, an older Korean relative in his sixties points his chopsticks and smirks while speaking loudly; a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan sits across from him, everyone else at the table falls silent and looks at her. | 움직임: The older relative smirks and points with his chopsticks; the others freeze and turn toward her. The motion happens once in the first second and a half, then ev",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-18",
-"job": "EDS261118-st4",
-"used": [],
-"n_used": 0,
-"usd": 0.18
-},
-{
 "file": "st4_walk.jpeg",
 "id": "st4_walk",
 "kind": "image",
@@ -12126,24 +13504,6 @@
 "used": [],
 "n_used": 0,
 "usd": 0.06
-},
-{
-"file": "st4_walk_v.mp4",
-"id": "st4_walk_v",
-"kind": "video",
-"ar": "9:16",
-"era": "modern_kr",
-"src": "st4_walk",
-"scene": "a Korean woman in her early fifties, short permed dark hair with a few grey strands, round kind face, wearing a soft burgundy knit cardigan walking upright along a tree-lined apartment path in bright morning sun, autumn leaves, a light confident smile, seen from the front. | 움직임: She walks calmly toward the",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-18",
-"job": "EDS261118-st4",
-"used": [],
-"n_used": 0,
-"usd": 0.18
 },
 {
 "file": "st4_window.png",
@@ -12542,24 +13902,6 @@
 "usd": 0.06
 },
 {
-"file": "sw4_book_v.mp4",
-"id": "sw4_book_v",
-"kind": "video",
-"ar": "9:16",
-"era": "modern_west",
-"src": "sw4_book",
-"scene": "an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan sitting alone at her kitchen table late at night under a small lamp, opening an old thick book with a plain dark cover, tea cup beside her. | 움직임: She opens the old book and turns the first page slowly. The motion happens once in the first second and a half, then everything holds almost still.",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-18",
-"job": "EDS261118-sw4",
-"used": [],
-"n_used": 0,
-"usd": 0.18
-},
-{
 "file": "sw4_car.png",
 "id": "sw4_car",
 "kind": "image",
@@ -12576,24 +13918,6 @@
 "used": [],
 "n_used": 0,
 "usd": 0.015
-},
-{
-"file": "sw4_car_v.mp4",
-"id": "sw4_car_v",
-"kind": "video",
-"ar": "9:16",
-"era": "modern_west",
-"src": "sw4_car",
-"scene": "an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan in the passenger seat of a car at night, staring out of the window at passing city lights, jaw tight, lips pressed together. | 움직임: City lights slide past the window; she keeps staring ahead, jaw tight. The motion happens once in the first second and a half, then everything holds almost stil",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-18",
-"job": "EDS261118-sw4",
-"used": [],
-"n_used": 0,
-"usd": 0.18
 },
 {
 "file": "sw4_night.png",
@@ -12650,24 +13974,6 @@
 "usd": 0.06
 },
 {
-"file": "sw4_smile_v.mp4",
-"id": "sw4_smile_v",
-"kind": "video",
-"ar": "9:16",
-"era": "modern_west",
-"src": "sw4_smile",
-"scene": "At the next family gathering, an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan laughs warmly while passing a plate of cut fruit, several relatives lean toward her smiling, bright afternoon light. | 움직임: She passes the fruit plate and laughs; the relatives lean in toward her. The motion happens once in the first second and a half, then everything holds almost st",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-18",
-"job": "EDS261118-sw4",
-"used": [],
-"n_used": 0,
-"usd": 0.18
-},
-{
 "file": "sw4_soup.png",
 "id": "sw4_soup",
 "kind": "image",
@@ -12684,24 +13990,6 @@
 "used": [],
 "n_used": 0,
 "usd": 0.015
-},
-{
-"file": "sw4_soup_v.mp4",
-"id": "sw4_soup_v",
-"kind": "video",
-"ar": "9:16",
-"era": "modern_west",
-"src": "sw4_soup",
-"scene": "an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan calmly ladling soup into a bowl and handing it across the holiday table with a gentle smile, warm lamp light. | 움직임: She smiles and sets the bowl of soup down in front of him. The motion happens once in the first second and a half, then everything holds almost still.",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-18",
-"job": "EDS261118-sw4",
-"used": [],
-"n_used": 0,
-"usd": 0.18
 },
 {
 "file": "sw4_table.jpeg",
@@ -12722,24 +14010,6 @@
 "usd": 0.06
 },
 {
-"file": "sw4_table_v.mp4",
-"id": "sw4_table_v",
-"kind": "video",
-"ar": "9:16",
-"era": "modern_west",
-"src": "sw4_table",
-"scene": "At an American family holiday dinner table full of dishes, an older American relative in his sixties points his fork and smirks while speaking loudly; an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan sits across from him, everyone else at the table falls silent and looks at her. | 움직임: The older relative smirks and points with his chopsticks; the others freeze and turn toward her. The motion happens once in the first second and a half, then ev",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-18",
-"job": "EDS261118-sw4",
-"used": [],
-"n_used": 0,
-"usd": 0.18
-},
-{
 "file": "sw4_walk.png",
 "id": "sw4_walk",
 "kind": "image",
@@ -12756,24 +14026,6 @@
 "used": [],
 "n_used": 0,
 "usd": 0.015
-},
-{
-"file": "sw4_walk_v.mp4",
-"id": "sw4_walk_v",
-"kind": "video",
-"ar": "9:16",
-"era": "modern_west",
-"src": "sw4_walk",
-"scene": "an American woman in her early fifties, short wavy brown hair with a few grey strands, kind face, wearing a soft burgundy knit cardigan walking upright along a tree-lined apartment path in bright morning sun, autumn leaves, a light confident smile, seen from the front. | 움직임: She walks calmly toward the",
-"scene_ko": "",
-"use_ko": "",
-"cx": null,
-"ok": true,
-"made": "2026-11-18",
-"job": "EDS261118-sw4",
-"used": [],
-"n_used": 0,
-"usd": 0.18
 },
 {
 "file": "sw4_window.png",
