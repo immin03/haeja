@@ -1,0 +1,34 @@
+{
+ "id": "vn_pres8_shirt_a",
+ "endpoint": "bytedance/seedance-2.5/image-to-video",
+ "body": {
+  "prompt": "Locked-off tripod camera, no zoom or pan. He is talking calmly to the microphone: gentle natural breathing, his torso leans in very slightly, and once in the middle he makes one small unhurried open-hand gesture with his right hand holding the pen, then lets the hand settle back on the desk. His left hand stays resting on the desk. Keep the exact same man, dark suit jacket, white open-collar shirt without tie, white pocket square, watch, microphone and library background as the reference image. Black and white, soft film grain, warm light from above. The framing never shows the chin, jaw, mouth or face. Natural, relaxed, human movement at real-life speed, never frozen, never exaggerated. No text, no logos.",
+  "duration": 5,
+  "resolution": "720p",
+  "aspect_ratio": "16:9",
+  "generate_audio": false,
+  "image_url": "https://raw.githubusercontent.com/immin03/haeja/main/scripts/higgsfield/in/vn_presenter_ref.png"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a21f70-9bba-720d-b144-819d69314c1b",
+  "status_url": "https://api.higgsfield.ai/requests/01a21f70-9bba-720d-b144-819d69314c1b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a21f70-9bba-720d-b144-819d69314c1b/cancel",
+  "expires_after": 604800
+ },
+ "at": "2026-11-27T23:56:43Z",
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a21f70-9bba-720d-b144-819d69314c1b",
+  "status_url": "https://api.higgsfield.ai/requests/01a21f70-9bba-720d-b144-819d69314c1b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a21f70-9bba-720d-b144-819d69314c1b/cancel",
+  "expires_at": "2026-12-04T23:59:36.093849+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a21f70-9bba-720d-b144-819d69314c1b/40480cd6-3365-40e8-bdbc-e2be2a3cbcf2.mp4"
+  }
+ },
+ "seconds": 183,
+ "file": "scripts/higgsfield/out/vn_pres8_shirt_a.mp4"
+}

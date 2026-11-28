@@ -1,0 +1,34 @@
+{
+ "id": "vn_pres8_shirt_b",
+ "endpoint": "bytedance/seedance-2.5/image-to-video",
+ "body": {
+  "prompt": "Almost static camera with an extremely slow, barely noticeable push-in. He is explaining something calmly: he lightly taps the pen once on the open notebook, turns his right wrist a little as if making a point, and gives a slight nod with his shoulders. Subtle breathing throughout, movements small and relaxed, with natural pauses between them. Keep the exact same man, dark suit jacket, white open-collar shirt without tie, white pocket square, watch, microphone and library background as the reference image. Black and white, soft film grain, warm light from above. The framing never shows the chin, jaw, mouth or face. Natural, relaxed, human movement at real-life speed, never frozen, never exaggerated. No text, no logos.",
+  "duration": 5,
+  "resolution": "720p",
+  "aspect_ratio": "16:9",
+  "generate_audio": false,
+  "image_url": "https://raw.githubusercontent.com/immin03/haeja/main/scripts/higgsfield/in/vn_presenter_ref.png"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a21f73-6b30-77b9-b562-d495bc8b087f",
+  "status_url": "https://api.higgsfield.ai/requests/01a21f73-6b30-77b9-b562-d495bc8b087f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a21f73-6b30-77b9-b562-d495bc8b087f/cancel",
+  "expires_after": 604800
+ },
+ "at": "2026-11-27T23:59:47Z",
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a21f73-6b30-77b9-b562-d495bc8b087f",
+  "status_url": "https://api.higgsfield.ai/requests/01a21f73-6b30-77b9-b562-d495bc8b087f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a21f73-6b30-77b9-b562-d495bc8b087f/cancel",
+  "expires_at": "2026-12-05T00:02:08.648840+00:00",
+  "video": {
+   "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a21f73-6b30-77b9-b562-d495bc8b087f/d272d18f-a5fb-4796-bff9-c6766817213d.mp4"
+  }
+ },
+ "seconds": 142,
+ "file": "scripts/higgsfield/out/vn_pres8_shirt_b.mp4"
+}
