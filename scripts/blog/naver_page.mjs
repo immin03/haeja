@@ -217,7 +217,7 @@ fs.writeFileSync(path.join(root, 'index.html'), `<!doctype html><html lang="ko">
 .ck{font:inherit;font-size:14px;font-weight:800;border:1px solid #E7E2D8;background:#fff;color:#6B7584;border-radius:10px;padding:8px 10px;cursor:pointer;white-space:nowrap;flex-shrink:0}.ck:hover{border-color:#C9AF7A;color:#0E1A2B}
 .it.done{background:#F1EEE6}.it.done img{opacity:.45}.it.done b{color:#6B7584}.it.done .ck{background:#2E8B62;border-color:#2E8B62;color:#fff}
 .emb .top{display:none}h3{font-size:15px;color:#6B7584;margin:26px 0 4px}.n{color:#6B7584;font-size:14px}#who{font-size:13px;color:#6B7584}</style><script>if(self!==top)document.documentElement.classList.add('emb')</script></head><body><div class="top"><a class="bk" href="/admin">‹ 관리자</a><b>Value<span>Note</span> · 네이버 블로그 글</b></div><main>
-<p class="n">매일 아침 점심용·저녁용 2편이 추가됩니다. 글을 눌러 제목·본문·태그를 복사해 블로그에 붙여 넣으세요. (PC 권장)<br>블로그에 올린 글은 글 페이지 맨 아래 또는 오른쪽 <b>올렸어요</b>를 누르면 아래 '올린 글'로 내려갑니다.</p>
+<p class="n">매일 아침 1편이 추가됩니다. 글을 눌러 제목·본문·태그를 복사해 블로그에 붙여 넣으세요. (PC 권장)<br>블로그에 올린 글은 글 페이지 맨 아래 또는 오른쪽 <b>올렸어요</b>를 누르면 아래 '올린 글'로 내려갑니다.</p>
 <p id="who"></p>
 <h3>올릴 글</h3><div id="todo"></div><h3>올린 글</h3><div id="done"></div>
 <div id="src" hidden>${list.map((x) => `<div class="it" data-id="${x.d}"><a href="/naver/${x.d}"><img src="/naver/${x.d}/01.png" alt=""><span><small>${x.cat ? `<em class="cat">${esc(x.cat)}</em> ` : ''}${esc(L(x))}${x.slot ? ' · <b style="display:inline;color:#2E8B62">' + esc(x.slot) + ' 게시</b>' : ''} · 사진 ${x.n}장${x.hist ? ' · <b style="display:inline;color:#7A6947;white-space:nowrap">' + esc(x.hist) + '</b>' : ''}</small><b>${esc(x.title)}</b></span></a><button class="ck" type="button">올렸어요</button></div>`).join('')}</div>
