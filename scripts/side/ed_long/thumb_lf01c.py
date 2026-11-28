@@ -62,3 +62,20 @@ s.save(O + 'lf01_thumbs3_sheet.jpg', quality=90)
 m = Image.new('RGB', (len(outs) * 256 + 10, 160), (15, 15, 15))
 for i, n in enumerate(outs): m.paste(Image.open(O + n).resize((246, 138), Image.LANCZOS), (10 + i * 256, 11))
 m.save(O + 'lf01_thumbs3_phone.jpg', quality=90); print(outs)
+
+# 11/28 15:36 대표: 흰 줄 두 개 글자 크기 통일, 앞말은 최대한 짧게(「~할수록」)
+V = [('나이 들수록', 'lf1_ys_wonder.png', (0, .3, 1.3, 280)), ('현명할수록', 'lf1_ys_writes.png', (.12, .3, 1.25, 0)),
+     ('품격 있을수록', 'lf1_ys_side.png', (0, .3, 1.2, 240)), ('지혜로울수록', 'lf1_ys_city.png', (.15, .3, 1.25, 0)),
+     ('단단할수록', 'lf1_ys_pen.png', (0, .3, 1.2, 260)), ('행복할수록', 'lf1_ys_morning.png', (0, .3, 1.2, 260))]
+WF = SU(120)
+outs2 = []
+for i, (pre, img, fa) in enumerate(V, 1):
+    b = grade(fit(img, *fa), 1.14)
+    outs2.append(compose(b, [(pre, WF, IVO), ('사람을 줄이는', WF, IVO), ('4가지 이유', SU(160), GOLD)], f'lf01_d{i}.jpg'))
+s = Image.new('RGB', (2 * 640 + 30, 3 * 370 + 10), (22, 22, 22)); d = ImageDraw.Draw(s)
+for i, n in enumerate(outs2):
+    x = 10 + (i % 2) * 650; y = 10 + (i // 2) * 370; s.paste(Image.open(O + n).resize((640, 360), Image.LANCZOS), (x, y)); d.text((x + 8, y + 8), n[5:-4], font=SU(26), fill=(255, 255, 0))
+s.save(O + 'lf01_thumbs4_sheet.jpg', quality=90)
+m = Image.new('RGB', (len(outs2) * 256 + 10, 160), (15, 15, 15))
+for i, n in enumerate(outs2): m.paste(Image.open(O + n).resize((246, 138), Image.LANCZOS), (10 + i * 256, 11))
+m.save(O + 'lf01_thumbs4_phone.jpg', quality=90); print(outs2)
