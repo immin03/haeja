@@ -39,8 +39,8 @@ def S(cuts, lines, src='', note='', sketch=None, **kw):
         if q.get('heart'):
             tt = .2   # 하락이 깊어질수록 점점 빠르고 크게 (11/28 대표)
             for j in range(9): E(tt, 'heart' if j < 4 else 'heart2'); tt += max(.5, .95 - j * .07)
-        elif k == 'choice' and not q.get('hi'):
-            for j in range(4): E(.3 + j * .28, 'pop')
+        elif k == 'choice':
+            for j, at in (q.get('at') or {}).items(): E(at, 'pop')   # 11/28 11:12 대표: 버튼은 말에 맞춰 하나씩 → 나올 때마다 한 번
         elif k == 'table':
             fr = q.get('fresh', q.get('vis', list(range(len(q['rows'])))))
             for j in range(len(fr)): E(.25 + j * q.get('gap', .12), 'tick')
@@ -49,8 +49,8 @@ def S(cuts, lines, src='', note='', sketch=None, **kw):
                 for j in range(len(q['sig'])): E(.3 + j * q.get('gap', .5), 'tick')
             if q.get('on'): E(q.get('ont', 1.4), 'ping')
         elif k == 'redact' and q.get('mode') == 'reveal':
-            for j in (0, 1, 2, 3, 6, 7, 10, 11): E(1.0 + j * .22, 'tick')
-            E(3.5, 'chime')
+            for j in range(6): E(1.0 + j * .35, 'tick')
+            E(3.3, 'chime')
     if fx: d["sfx"] = fx
     return d
 
@@ -84,7 +84,7 @@ sc.append(S([c('cal', k='big', pre='다음 금리 결정까지', l1='앞으로',
      c('question', k='big', l1='당신이라면', l2='[오늘], 어떻게 하시겠습니까?', s2=70, clock='오전 6:45', **D1)],
     ["26일 뒤에는 금리 결정이 기다리고 있습니다.", "당신이라면 오늘, 어떻게 하시겠습니까?"], SRC0, "[훅] 질문"))
 # 2026-11-28 대표: 날짜는 화면 구석에 자연스럽게 가려만 두고 말하지 않는다 → 3분 뒤 공개
-sc.append(S([c('choice0', k='choice', q='이 영상이 끝날 때쯤', recon=1)],
+sc.append(S([c('choice0', k='choice', q='이 영상이 끝날 때쯤', recon=1, at={0: 1.3, 1: 1.9, 2: 2.5, 3: 3.1})],
     ["이 영상이 끝날 때쯤, 손절과 물타기, 그리고 기다리기 중 무엇이 어떤 결과였는지 숫자로 확인하시게 됩니다."], '', "[훅] [약속]"))
 sc.append({"v": {"type": "media", "full": True, "wash": "none", "cuts": [{"lib": "il_L261116p_wallst_red.png"}], "wash_amt": 0.85, "cine": True, "ident": True},
            "lines": ["현명한 투자를 위한 경제 채널, 밸류노트 지금 시작합니다."], "sketch_add": [], "asof": False, "src": "", "sketch": [], "dur": 6.0, "note": "[로고 인트로] 시그니처"})
@@ -96,7 +96,7 @@ sc.append(CH(S(['il_L261207p_desk_night2.jpeg', c('speech', k='mon', head='연�
 sc.append(S([c('drop17', k='acct', label='오늘 하루', **{'from': -3.0}, to=-17.3, ref='어제 종가', clock='오전 6:42', **D1),
      c('quarter', k='acct', label='고점 대비', **{'from': -73.5}, to=-78.1, sub='남은 돈은 22%', ref='고점', clock='오전 6:43', **D1)],
     ["반도체 3배 상품은 그날 하루에만 17% 빠집니다.", "고점 대비로는 마이너스 78%. 계좌에는 이미 4분의 1도 남지 않았습니다."], SRC0, "[1일째] 계좌"))
-sc.append(S([c('choice1', k='choice', **D1), c('choice2', k='choice', hi=[0, 1], **D1), c('choice3', k='choice', hi=[2, 3], **D1)],
+sc.append(S([c('choice1', k='choice', at={}, **D1), c('choice2', k='choice', at={0: .3, 1: 1.9}, **D1), c('choice3', k='choice', show=[0, 1], at={2: .3, 3: 2.0}, **D1)],
     ["여기서 당신이 고를 수 있는 길은 네 가지입니다.", "지금이라도 손절한다. 아니면 가진 돈을 한 번에 넣어 물을 탄다.",
      "여러 번에 나눠서 산다. 아니면 더 떨어질 때까지 현금을 들고 기다린다."], '', "[1일째] 선택 버튼 넷"))
 sc.append(S([c('chat1', k='chat', title=ROOM, msgs=[dict(who='박 대리', text='여기가 바닥입니다. 저는 더 삽니다'), dict(who='이 차장', text='반도체는 끝났어요. 저는 정리합니다'), dict(me=1, text='…')], **D1),
@@ -191,21 +191,28 @@ sc.append(S([c('x10_a', k='bars', title='원금으로 돌아오려면', items=[[
 sc.append(S([c('y2000_a', k='bars', title='고점 회복까지', sub='필라델피아 반도체 지수', items=[['2000년 고점', 17, '17년'], ['2021년 고점', 2, '약 2년']], hi=[0], gap=1.8),
      c('y2000_b', k='big', style='vn', l1='2년 만의 회복은', l2='[당연한 일]이 아니다')],
     ["2000년 닷컴 버블 고점의 반도체 지수는, 그 가격을 되찾는 데 17년이 걸렸습니다.", "2022년처럼 2년 만에 돌아온 것이 당연한 일은 아니라는 뜻입니다."], SRC + ' · 블룸버그 2017-11-21', "[지금] 2000년 반례"))
-sc.append(S([c('now_a', k='path', title='SOXL, 지금', sub='2026.6.22 → 11.25', pts=[['2026.6', 300.77, '$300'], ['2026.11', 32.02, '$32', 'b']], hi=[1]),
-     c('now_b', k='bars', title='고점 대비 하락 폭', items=[['2022년', 90.5, '-90.5%'], ['2026년 지금', 89.4, '-89%']], hi=[1], gap=1.2)],
-    ["그리고 지금입니다. SOXL은 6월 고점 300달러에서 32달러로, 89% 떨어졌습니다.", "2022년의 90%와 거의 같은 깊이입니다."], SRC, "[지금] 같은 깊이"))
+# 11/28 11:12 대표 "현시점 분석할 때 가장 많이 빠진 곳과 반등도 — 20달러대까지 갔잖아": 장중 최저 24.61달러(11/25)와 같은 날 종가 32.02달러
+NOWP = [['6.22 고점', 302.0, '$302'], ['11.20', 30.88, '$30.9'], ['11.25 장중', 24.61, '$24.61', 'b'], ['11.25 종가', 32.02, '$32']]
+NSRC = SRC + ' · 피델리티·CNBC 52주 최저 24.61달러(2026-11-25 장중)'
+sc.append(S([c('now_a', k='path', title='SOXL, 지금', sub='2026년 6월 → 11월', pts=NOWP[:2], hi=[1]),
+     c('now_l', k='path', title='SOXL, 지금', sub='2026년 6월 → 11월', pts=NOWP[:3], hi=[2]),
+     c('now_r', k='path', title='SOXL, 11월 25일', sub='하루 안에', pts=NOWP, hi=[3]),
+     c('now_b', k='bars', title='고점 대비 하락 폭', sub='종가 기준', items=[['2022년', 90.5, '-90.5%'], ['2026년 지금', 89.7, '-89.7%']], hi=[1], gap=1.2)],
+    ["그리고 지금입니다. SOXL은 6월 고점 302달러에서 계속 미끄러졌습니다.", "11월 25일 장중에는 24달러 61센트, 고점 대비 마이너스 92%까지 떨어졌습니다.",
+     "그런데 같은 날 32달러로 장을 마쳤습니다. 하루 안에 저점에서 30% 올라온 셈입니다.",
+     "종가로 비교하면 2022년의 마이너스 90%와 거의 같은 깊이입니다."], NSRC, "[지금] 가장 깊은 곳과 반등"))
 sc.append(S([c('same', k='big', style='vn', l1='같은 점', l2='[금리]가 오르는 시기'), c('diff', k='big', style='vn', l1='다른 점', l2='재고 과잉 → [AI 과열 우려]', s2=58), c('unk', k='big', style='vn', l1='이번의 변수는', l2='[아무도 모른다]')],
     ["같은 점은 금리입니다. 그때도 지금도 금리가 오르는 시기입니다.", "다른 점은 원인입니다. 그때는 반도체 재고, 지금은 AI 투자 과열 우려입니다.",
      "그때의 챗GPT 같은 변수가 이번에도 나타날지는 누구도 알 수 없습니다."], SRC, "[지금] 같은 점·다른 점"))
-sc.append(S(['pres6_breath.mp4', c('what', k='big', style='vn', l1='그러면 지금은', l2='[무엇을 보고] 움직일까', s2=76)],
+sc.append(S(['il_L261105h_archive.jpeg', c('what', k='big', style='vn', l1='그러면 지금은', l2='[무엇을 보고] 움직일까', s2=76)],
     ["그래서 이 기록은 정답이 아니라 참고 자료입니다.", "그러면 지금은 무엇을 보고 움직여야 할까요?"], '', "[가짜 결말] [지금] 참고 자료 + [R4]"))
 
 # ───────── 4막: 바닥 신호 (2026-11-28 대표: 신호 소개 → 과거 저점 때 켜진 개수 → 나눠 사고 나눠 판 결과 → 계기판 보는 법) ─────────
 GSRC = '밸류노트 반도체 바닥 계기판 과거 대입 2026-11-24 · 계기판 2026-11-27'
 SIG = [['실적', '악재에도<br>안 빠질 때'], ['가격', '예상 PER<br>12배 이하'], ['기간', '고점 뒤<br>253일'], ['공포', '공포 지수<br>30 넘긴 뒤 진정'], ['금리', '10년물 금리<br>정점 뒤 하락']]
 BT = [['2011년 저점', '1개'], ['2016년 저점', '2개'], ['2018년 저점', '1개'], ['2022년 저점', '1개']]
-sc.append(CH(S([c('g_intro', k='gauge', title='반도체 바닥 신호', sub='5가지 · 매일 자동 갱신', sig=SIG, gap=.55),
-     c('g_intro2', k='gauge', title='반도체 바닥 신호', sub='5가지 · 매일 자동 갱신', sig=SIG, still=1, scan=1)],
+sc.append(CH(S([c('g_intro', k='gauge', title='반도체 바닥 신호', sub='매일 자동 갱신', sig=SIG, gap=.55, intro=1),
+     c('g_intro2', k='gauge', title='반도체 바닥 신호', sub='매일 자동 갱신', sig=SIG, still=1, scan=1, intro=1)],
     ["밸류노트는 반도체 바닥 신호 다섯 가지를 매일 확인합니다.", "실적, 가격, 기간, 공포, 금리입니다. 조건이 맞으면 하나씩 켜집니다."], GSRC, "[신호] 계기판 소개"), "바닥 신호"))
 sc.append(S([c('bt_a', k='table', plain=1, title='저점 당일 켜진 신호', sub='5개 중', rows=BT, gap=1.0),
      c('bt_b', k='big', style='vn', l1='다섯 개가 다 켜진 적은', l2='[한 번도 없었다]'),
