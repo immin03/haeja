@@ -38,7 +38,7 @@ def compose(img, lines, out, x=64, bot=64, kicker='명상록 · 에세이'):
     im.paste((0, 0, 0), (0, 0), m.filter(ImageFilter.GaussianBlur(26)).point(lambda v: int(v * .9)))
     for (t, f, c), yy in zip(lines, ys): d.text((x, yy), t, font=f, fill=c)
     top = ys[0] + d.textbbox((0, 0), lines[0][0], font=lines[0][1])[1]
-    kf = SU(30, 'Bold'); d.text((x + 2, top - 62), kicker, font=kf, fill=GOLD); d.line((x + 2, top - 18, x + 92, top - 18), fill=GOLD2, width=3)
+    kf = SU(40, 'Bold'); d.text((x + 2, top - 76), kicker, font=kf, fill=GOLD); d.line((x + 2, top - 20, x + 112, top - 20), fill=GOLD2, width=3)
     im.paste(LOGO, (W - 40 - LOGO.width, 34), LOGO); im.save(O + out, quality=94); return out
 
 
