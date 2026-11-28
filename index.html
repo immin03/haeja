@@ -5372,7 +5372,7 @@ async function videoPop(){
     if(store.isGuest || store.isDemo || !store.client || pushPrefs().vpop === false || document.querySelector('.ch-gate, .vpop, .gz-pop, .gate, .intro, .qz, [role="dialog"], .modal, .ob')) return;
     const born = Date.parse(store.user?.created_at || ''); if(born && Date.now() - born < 20 * 3600e3) return;
     const { data: v } = await store.client.rpc('latest_video'); if(!v || !v.id) return;
-    const seenKey = 'vn-vpop-' + v.id; try{ if(localStorage.getItem(seenKey)) return; }catch(_){}
+    const seenKey = 'vn-vpop-' + v.id; try{ if(localStorage.getItem(seenKey) || sessionStorage.getItem('vn-vpop-s-' + v.id)) return; }catch(_){}
     if(document.querySelector('.ch-gate, .vpop, .gz-pop, .gate, .intro, .qz, [role="dialog"], .modal, .ob')) return;
     const thumb = v.thumb ? (String(v.thumb).startsWith('http') ? v.thumb : String(v.thumb)) : `https://i.ytimg.com/vi/${encodeURIComponent(v.id)}/hqdefault.jpg`;
     const hrs = (Date.now() - Date.parse(v.at)) / 3600e3, when = hrs < 1 ? '방금 공개' : hrs < 12 ? `${Math.floor(hrs)}시간 전 공개` : (new Date(Date.parse(v.at) + 9 * 3600e3).toISOString().slice(0, 10) === new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10) ? '오늘 공개' : '어제 공개');
@@ -5383,16 +5383,17 @@ async function videoPop(){
       <a class="vpop-thumb" href="${esc(url)}" target="_blank" rel="noopener" data-vp="go"><img src="${esc(thumb)}" alt="" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/${esc(v.id)}/hqdefault.jpg'"><span class="vpop-play"></span></a>
       <div class="vpop-t">${esc(v.title)}</div><div class="vpop-sub">${when} · 밸류노트 유튜브</div>
       <a class="vpop-go" href="${esc(url)}" target="_blank" rel="noopener" data-vp="go">영상 보기</a>
-      <div class="vpop-row"><button type="button" data-vp="close">닫기</button><button type="button" class="u" data-vp="off">새 영상 팝업 그만 보기</button></div>
+      <div class="vpop-row"><button type="button" data-vp="close">닫기</button><button type="button" class="u" data-vp="off">다시 보지 않기</button></div>
     </div></div>`);
-    try{ localStorage.setItem(seenKey, String(Date.now())); sessionStorage.setItem('vn-pop-shown', '1'); }catch(_){}   /* 한 번 접속에 팝업 하나: 만족도 팝업이 이어서 뜨지 않게 (2026-11-28) */
+    /* 2026-11-28 11:56 대표 "다시 보지 않기를 누르지 않으면 계속 떠야": 공개 후 24시간 동안 앱을 열 때마다 뜬다(한 접속에 한 번). '다시 보지 않기'나 '영상 보기'를 누른 영상만 다시 안 뜬다 */
+    try{ sessionStorage.setItem('vn-pop-shown', '1'); sessionStorage.setItem('vn-vpop-s-' + v.id, '1'); }catch(_){}
     store.track('view', 'vpop-show');
     const g = document.querySelector('.vpop');
     g.addEventListener('click', e => {
       const b = e.target.closest('[data-vp]'); if(!b) return;
       const k = b.dataset.vp;
-      if(k === 'go'){ store.track('view', 'vpop-go'); setTimeout(() => g.remove(), 300); return; }
-      if(k === 'off'){ const P = { ...pushPrefs(), vpop: false }; delete P.id; S.pushPrefs = [{ id: 'main', ...P }]; store.set('push_prefs', 'main', P).catch(() => {}); store.track('view', 'vpop-off'); toastMsg('새 영상 팝업을 껐어요. 마이 메뉴 › 받을 알림에서 다시 켤 수 있어요.'); }
+      if(k === 'go'){ try{ localStorage.setItem(seenKey, String(Date.now())); }catch(_){} store.track('view', 'vpop-go'); setTimeout(() => g.remove(), 300); return; }
+      if(k === 'off'){ try{ localStorage.setItem(seenKey, String(Date.now())); }catch(_){} store.track('view', 'vpop-off'); toastMsg('이 영상은 다시 띄우지 않을게요. 새 영상 팝업은 마이 메뉴 › 받을 알림에서 끌 수 있어요.'); }
       else store.track('view', 'vpop-close');
       g.remove();
     });
