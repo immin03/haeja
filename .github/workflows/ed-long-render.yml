@@ -92,7 +92,9 @@ jobs:
         env: { GH_TOKEN: '${{ github.token }}' }
         run: |
           gh release view ed-long-renders >/dev/null 2>&1 || gh release create ed-long-renders --title "황제의 일기 롱폼 렌더" --notes "1080p 완성본 보관" --latest=false
-          gh release upload ed-long-renders "_long/${ID}.mp4" --clobber
+          # 11/28: 릴리스 파일 한도 2GB — 넘으면 같은 화질에 가깝게(crf 18) 다시 압축해서 올린다. 실패해도 검수본 커밋은 계속
+          if [ $(stat -c %s "_long/${ID}.mp4") -gt 2000000000 ]; then ffmpeg -v error -y -i "_long/${ID}.mp4" -c:v libx264 -preset medium -crf 18 -c:a copy -movflags +faststart "_long/${ID}_c.mp4" && mv "_long/${ID}_c.mp4" "_long/${ID}.mp4"; ls -la "_long/${ID}.mp4"; fi
+          gh release upload ed-long-renders "_long/${ID}.mp4" --clobber || echo "경고: 1080p 릴리스 업로드 실패 — 검수본은 계속 올린다"
           git config user.name "valuenote-bot"; git config user.email "bot@valuenote.co.kr"
           mkdir -p /tmp/rv && cp "_long/${ID}_review720.mp4" /tmp/rv/
           for i in 1 2 3 4 5; do
