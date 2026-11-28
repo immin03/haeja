@@ -1,0 +1,33 @@
+{
+ "id": "lf1_coat_door",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "An older man hurriedly putting on his coat at his apartment door at night, phone in hand, restless. Dark low-key cinematic film still, Rembrandt lighting, warm amber and champagne-gold highlights, deep blacks, the background falls into near-black shadow, subtle film grain, shallow depth of field, 35mm, horizontal 16:9, main subject in the middle band of the frame, contemporary Korea. No text, no letters, no readable screens, no logos.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a22007-56e6-747b-a8eb-d8a58651a363",
+  "status_url": "https://api.higgsfield.ai/requests/01a22007-56e6-747b-a8eb-d8a58651a363/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a22007-56e6-747b-a8eb-d8a58651a363/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a22007-56e6-747b-a8eb-d8a58651a363",
+  "status_url": "https://api.higgsfield.ai/requests/01a22007-56e6-747b-a8eb-d8a58651a363/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a22007-56e6-747b-a8eb-d8a58651a363/cancel",
+  "expires_at": "2026-12-05T02:41:30.407351+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a22007-56e6-747b-a8eb-d8a58651a363/ff7df655-22ee-4eba-8279-0d4ba1ade3e3.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "social/side/gen/lf1_coat_door.png"
+}

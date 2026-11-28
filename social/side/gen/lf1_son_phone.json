@@ -1,0 +1,33 @@
+{
+ "id": "lf1_son_phone",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "A Korean holiday dinner table at night with many dishes, a grown son in his thirties looking down at his phone, a Korean man about 58 years old with grey-streaked short black hair, deep forehead lines and tired kind eyes, clean-shaven, wearing a plain charcoal cardigan over a dark shirt beside him speaking to him, warm low light. Dark low-key cinematic film still, Rembrandt lighting, warm amber and champagne-gold highlights, deep blacks, the background falls into near-black shadow, subtle film grain, shallow depth of field, 35mm, horizontal 16:9, main subject in the middle band of the frame, contemporary Korea. No text, no letters, no readable screens, no logos.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a22005-5194-7edf-a1bf-db01d84b0e42",
+  "status_url": "https://api.higgsfield.ai/requests/01a22005-5194-7edf-a1bf-db01d84b0e42/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a22005-5194-7edf-a1bf-db01d84b0e42/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a22005-5194-7edf-a1bf-db01d84b0e42",
+  "status_url": "https://api.higgsfield.ai/requests/01a22005-5194-7edf-a1bf-db01d84b0e42/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a22005-5194-7edf-a1bf-db01d84b0e42/cancel",
+  "expires_at": "2026-12-05T02:39:17.629756+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a22005-5194-7edf-a1bf-db01d84b0e42/c4250836-fa6c-4037-94db-a5959534c287.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "social/side/gen/lf1_son_phone.png"
+}

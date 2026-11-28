@@ -1,0 +1,33 @@
+{
+ "id": "lf1_hall_three",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "A very long wooden dining table in a dim modern hall with dozens of empty chairs fading into darkness, only three chairs at the near end lit by one warm pendant lamp, three teacups steaming, no people. Dark low-key cinematic film still, Rembrandt lighting, warm amber and champagne-gold highlights, deep blacks, the background falls into near-black shadow, subtle film grain, shallow depth of field, 35mm, horizontal 16:9, main subject in the middle band of the frame, contemporary Korea. No text, no letters, no readable screens, no logos.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a22004-6e6d-7c37-9860-6926c920c114",
+  "status_url": "https://api.higgsfield.ai/requests/01a22004-6e6d-7c37-9860-6926c920c114/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a22004-6e6d-7c37-9860-6926c920c114/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a22004-6e6d-7c37-9860-6926c920c114",
+  "status_url": "https://api.higgsfield.ai/requests/01a22004-6e6d-7c37-9860-6926c920c114/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a22004-6e6d-7c37-9860-6926c920c114/cancel",
+  "expires_at": "2026-12-05T02:38:22.077894+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a22004-6e6d-7c37-9860-6926c920c114/ec5e5a1e-1141-4b04-a84c-380464e7789a.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "social/side/gen/lf1_hall_three.png"
+}

@@ -1,0 +1,33 @@
+{
+ "id": "lf1_clock",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "An old round wall clock in a dim living room, a single warm lamp below it, quiet evening. Dark low-key cinematic film still, Rembrandt lighting, warm amber and champagne-gold highlights, deep blacks, the background falls into near-black shadow, subtle film grain, shallow depth of field, 35mm, horizontal 16:9, main subject in the middle band of the frame, contemporary Korea. No text, no letters, no readable screens, no logos.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a22005-c4b8-7c08-96ad-5e0ea2d64349",
+  "status_url": "https://api.higgsfield.ai/requests/01a22005-c4b8-7c08-96ad-5e0ea2d64349/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a22005-c4b8-7c08-96ad-5e0ea2d64349/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a22005-c4b8-7c08-96ad-5e0ea2d64349",
+  "status_url": "https://api.higgsfield.ai/requests/01a22005-c4b8-7c08-96ad-5e0ea2d64349/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a22005-c4b8-7c08-96ad-5e0ea2d64349/cancel",
+  "expires_at": "2026-12-05T02:39:45.711430+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a22005-c4b8-7c08-96ad-5e0ea2d64349/204fdcd4-c4f6-4314-a03f-72ea4bf5b974.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "social/side/gen/lf1_clock.png"
+}

@@ -1,0 +1,33 @@
+{
+ "id": "lf1_candles",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Five lit candles in a tight circle on a dark table, with more unlit candles arranged in wider rings around them fading into darkness. Dark low-key cinematic film still, Rembrandt lighting, warm amber and champagne-gold highlights, deep blacks, the background falls into near-black shadow, subtle film grain, shallow depth of field, 35mm, horizontal 16:9, main subject in the middle band of the frame, contemporary Korea. No text, no letters, no readable screens, no logos.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a22005-fd56-76a9-b12f-6ca781d1b128",
+  "status_url": "https://api.higgsfield.ai/requests/01a22005-fd56-76a9-b12f-6ca781d1b128/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a22005-fd56-76a9-b12f-6ca781d1b128/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a22005-fd56-76a9-b12f-6ca781d1b128",
+  "status_url": "https://api.higgsfield.ai/requests/01a22005-fd56-76a9-b12f-6ca781d1b128/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a22005-fd56-76a9-b12f-6ca781d1b128/cancel",
+  "expires_at": "2026-12-05T02:40:01.245852+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a22005-fd56-76a9-b12f-6ca781d1b128/641ab050-005c-47e0-b77a-3a5747f2bebd.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "social/side/gen/lf1_candles.png"
+}

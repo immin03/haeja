@@ -1,0 +1,33 @@
+{
+ "id": "lf1_friend_leaves",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "In a small coffee shop in the evening, a man walks out of the door with his back turned, while a Korean man about 58 years old with grey-streaked short black hair, deep forehead lines and tired kind eyes, clean-shaven, wearing a plain charcoal cardigan over a dark shirt remains seated alone at the table, looking at the empty chair. Dark low-key cinematic film still, Rembrandt lighting, warm amber and champagne-gold highlights, deep blacks, the background falls into near-black shadow, subtle film grain, shallow depth of field, 35mm, horizontal 16:9, main subject in the middle band of the frame, contemporary Korea. No text, no letters, no readable screens, no logos.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a22005-1a56-751e-83a9-b0965ec951f1",
+  "status_url": "https://api.higgsfield.ai/requests/01a22005-1a56-751e-83a9-b0965ec951f1/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a22005-1a56-751e-83a9-b0965ec951f1/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a22005-1a56-751e-83a9-b0965ec951f1",
+  "status_url": "https://api.higgsfield.ai/requests/01a22005-1a56-751e-83a9-b0965ec951f1/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a22005-1a56-751e-83a9-b0965ec951f1/cancel",
+  "expires_at": "2026-12-05T02:39:02.884917+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a22005-1a56-751e-83a9-b0965ec951f1/ca0e067f-6289-4da4-ad51-27b1d5d22ea0.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "social/side/gen/lf1_friend_leaves.png"
+}

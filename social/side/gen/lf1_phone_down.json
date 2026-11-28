@@ -1,0 +1,33 @@
+{
+ "id": "lf1_phone_down",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "a Korean man about 58 years old with grey-streaked short black hair, deep forehead lines and tired kind eyes, clean-shaven, wearing a plain charcoal cardigan over a dark shirt gently setting his phone down on a table after a call in the evening, a calm settled expression. Dark low-key cinematic film still, Rembrandt lighting, warm amber and champagne-gold highlights, deep blacks, the background falls into near-black shadow, subtle film grain, shallow depth of field, 35mm, horizontal 16:9, main subject in the middle band of the frame, contemporary Korea. No text, no letters, no readable screens, no logos.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a22006-e3aa-736e-a312-85e9ee458204",
+  "status_url": "https://api.higgsfield.ai/requests/01a22006-e3aa-736e-a312-85e9ee458204/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a22006-e3aa-736e-a312-85e9ee458204/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a22006-e3aa-736e-a312-85e9ee458204",
+  "status_url": "https://api.higgsfield.ai/requests/01a22006-e3aa-736e-a312-85e9ee458204/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a22006-e3aa-736e-a312-85e9ee458204/cancel",
+  "expires_at": "2026-12-05T02:41:02.276243+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a22006-e3aa-736e-a312-85e9ee458204/43f32874-e977-4a48-8955-15e2d8386091.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "social/side/gen/lf1_phone_down.png"
+}

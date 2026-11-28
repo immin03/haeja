@@ -1,0 +1,33 @@
+{
+ "id": "lf1_ys_cafe_alone",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "a Korean man about 58 years old with grey-streaked short black hair, deep forehead lines and tired kind eyes, clean-shaven, wearing a plain charcoal cardigan over a dark shirt sitting alone at a small coffee shop table in the evening, looking at the empty chair across from him and a half-finished cup. Dark low-key cinematic film still, Rembrandt lighting, warm amber and champagne-gold highlights, deep blacks, the background falls into near-black shadow, subtle film grain, shallow depth of field, 35mm, horizontal 16:9, main subject in the middle band of the frame, contemporary Korea. No text, no letters, no readable screens, no logos.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a22006-38e6-7adb-96be-f5b4bae7c85c",
+  "status_url": "https://api.higgsfield.ai/requests/01a22006-38e6-7adb-96be-f5b4bae7c85c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a22006-38e6-7adb-96be-f5b4bae7c85c/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a22006-38e6-7adb-96be-f5b4bae7c85c",
+  "status_url": "https://api.higgsfield.ai/requests/01a22006-38e6-7adb-96be-f5b4bae7c85c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a22006-38e6-7adb-96be-f5b4bae7c85c/cancel",
+  "expires_at": "2026-12-05T02:40:15.326675+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a22006-38e6-7adb-96be-f5b4bae7c85c/1fb2a0c0-91ed-4d9a-91ad-150e59e59d81.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "social/side/gen/lf1_ys_cafe_alone.png"
+}
