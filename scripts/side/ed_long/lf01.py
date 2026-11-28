@@ -333,7 +333,7 @@ def spec():
            {"file": "cinematic_4.mp3", "at_shot": i_rc, "offset": 0.5, "start": 0, "until_shot": n, "vol": 0.18, "fin": 3, "fout": 3}]
     S = {"root": "../../..", "gen_dir": "social/side/gen", "sfx_dir": "social/side/ed_long/sfx", "music_dir": "social/side/ed_long/music", "out_dir": "_long",
          "intro": {"logo": "docs/emperor/profile_final.png"},
-         "monologue_fx": "highpass=f=70,aecho=0.9:0.35:35|70:0.09|0.04,", "voice_gain": {"mono": 3.8, "narr": 1.2, "cast": 0.85}, "cap_scale": 1.3, "corner_logo": "docs/emperor/long/corner_logo.png",
+         "monologue_fx": "highpass=f=70,aecho=0.9:0.35:35|70:0.09|0.04,", "voice_gain": {"mono": 3.8, "narr": 1.2, "cast": 0.85}, "cap_scale": 1.3, "corner_logo": "scripts/side/ed_long/corner_logo.png",
          "id": "edl_lf01", "voice_dir": f"social/side/voice_samples/{TAG}", "voice_files": vf, "subs": subs,
          "monologue_voices": [k for k in vf if k.startswith("m")], "music": mus, "shots": shots, "cast_voices": []}
     json.dump(S, open(os.path.join(HERE, "spec_lf01.json"), "w"), ensure_ascii=False, indent=1)

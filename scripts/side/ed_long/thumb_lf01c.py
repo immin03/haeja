@@ -10,7 +10,7 @@ G = 'social/side/gen/'; O = os.environ.get('OUT', '_long/'); W, H = 1280, 720
 SU = lambda s, w='Heavy': ImageFont.truetype(f'/root/fonts/SUIT-{w}.ttf', s)
 HM = lambda s: ImageFont.truetype('/root/fonts/hahmlet-korean-700-normal.ttf', s)
 IVO, GOLD, GOLD2, DIM = (246, 240, 228), (232, 196, 128), (176, 136, 70), (214, 204, 186)
-LOGO = Image.open('docs/emperor/long/corner_logo.png'); LOGO = LOGO.resize((LOGO.width * 2 // 3, LOGO.height * 2 // 3), Image.LANCZOS)
+LOGO = Image.open("scripts/side/ed_long/corner_logo.png"); LOGO = LOGO.resize((LOGO.width * 2 // 3, LOGO.height * 2 // 3), Image.LANCZOS)
 
 
 def fit(p, cx=.5, cy=.4, scale=1.0, push=0):
