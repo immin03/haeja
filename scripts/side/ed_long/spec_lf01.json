@@ -7,14 +7,13 @@
  "intro": {
   "logo": "docs/emperor/profile_final.png"
  },
- "intro_speed": 2.6,
  "monologue_fx": "highpass=f=70,aecho=0.9:0.35:35|70:0.09|0.04,",
  "voice_gain": {
   "mono": 3.8,
   "narr": 1.2,
   "cast": 0.85
  },
- "cap_scale": 1.12,
+ "cap_scale": 1.3,
  "id": "edl_lf01",
  "voice_dir": "social/side/voice_samples/lf01",
  "voice_files": {
@@ -903,7 +902,7 @@
   },
   {
    "type": "still",
-   "src": "lf1_phone_list",
+   "src": "lf1_phone_list2",
    "voice": [
     "y04"
    ],
@@ -993,7 +992,7 @@
   },
   {
    "type": "still",
-   "src": "lp05_phone",
+   "src": "lf1_ys_side",
    "voice": [
     "y10"
    ],
@@ -1237,7 +1236,7 @@
   },
   {
    "type": "still",
-   "src": "e5c_friends",
+   "src": "lf1_friends_three",
    "voice": [
     "r05"
    ],
@@ -1259,7 +1258,7 @@
      "en": "Socioemotional Selectivity Theory",
      "at_voice": "r05",
      "offset": 0.4,
-     "len": 5.0
+     "len": "shot"
     }
    ]
   },
@@ -1317,7 +1316,7 @@
      "en": "Dunbar's circles of friendship",
      "at_voice": "r08",
      "offset": 0.4,
-     "len": 5.0
+     "len": "shot"
     }
    ]
   },
@@ -1390,7 +1389,7 @@
      "en": "Harvard Study of Adult Development",
      "at_voice": "r12",
      "offset": 0.4,
-     "len": 5.0
+     "len": "shot"
     }
    ]
   },
@@ -1514,7 +1513,7 @@
   },
   {
    "type": "video",
-   "src": "libv_candle_diary_txt",
+   "src": "cep1_stop",
    "voice": [
     "e06"
    ],
@@ -1837,7 +1836,7 @@
   },
   {
    "type": "still",
-   "src": "lp06_walk",
+   "src": "lf1_ys_street",
    "voice": [
     "a09"
    ],
@@ -2272,7 +2271,7 @@
   },
   {
    "type": "still",
-   "src": "lf1_coat_door",
+   "src": "lf1_coat_door2",
    "voice": [
     "d02"
    ],
@@ -2287,7 +2286,7 @@
   },
   {
    "type": "video",
-   "src": "hfr_mountain_mist",
+   "src": "hfr_milkyway_camp_wide",
    "voice": [
     "d03"
    ],
@@ -2488,12 +2487,8 @@
     "t04"
    ],
    "pre": 0.6,
-   "post": 1.6,
-   "gap": 0.6,
-   "cascade": [
-    3.2,
-    6.0
-   ],
+   "post": 2.0,
+   "gap": 0.7,
    "nocap": true,
    "head": "오늘 밤, 이 세 가지만",
    "head_en": "THREE THINGS FOR TONIGHT",

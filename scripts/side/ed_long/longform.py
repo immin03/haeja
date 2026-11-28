@@ -753,6 +753,7 @@ def overlay(img, ov, t, dur, cache, key):
                           text_layer([ov.get("en", "")], "it", 42, (205, 192, 168), shadow=False, height=64))
         kk, body, en = cache[key]
         L = ov.get("len", 4.0)
+        if L == "shot": L = max(2.0, dur - ov["at"] - 0.9)   # 11/28 대표: 개념 카드는 설명하는 동안 계속
         a = ease((t - ov["at"]) / 0.8) * (1 - ease((t - ov["at"] - L) / 0.8))
         ad = ease((t - ov["at"] + 0.3) / 1.6) * (1 - ease((t - ov["at"] - L + 0.2) / 1.8))   # 11/4 대표: 더 천천히 어두워지고 밝아지게
         if a <= 0 and ad <= 0: return img

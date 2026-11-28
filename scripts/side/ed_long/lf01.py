@@ -90,6 +90,11 @@ IMAGES = {
  "lf1_five_cups": "Five teacups around a small round wooden table under one warm pendant lamp, steam rising, cozy and quiet, no people.",
  "lf1_ys_writes": f"{YS} writing slowly in a small notebook at a kitchen table at night under one warm pendant lamp, his phone face down aside, a calm settled face.",
  "lf1_two_cups": "Two teacups on a small wooden table by a window at night, one warm lamp, quiet and intimate.",
+ "lf1_ys_side": f"Side profile of {YS} sitting by a dark apartment window at night, city lights blurred outside, his face quiet and unreadable, one warm lamp behind.",
+ "lf1_friends_three": "Three Korean friends in their sixties, two women and one man, talking calmly over cups of tea at a small wooden table in a quiet tea house at night, warm pendant light.",
+ "lf1_ys_street": f"{YS} walking home alone along a narrow quiet residential street at night, seen from behind, wet pavement reflecting warm streetlights.",
+ "lf1_coat_door2": "Seen from behind, an older Korean man in a dark coat standing at his apartment front door at night about to go out, the door half open into a dim corridor, restless posture.",
+ "lf1_phone_list2": "A smartphone lying on a dark wooden table at night, its screen glowing softly but completely out of focus, only warm bokeh light, no interface visible.",
 }
 
 # (화면, 녹음 키, 대본). 화면: 'n:<키>' = 새 그림, 'i:<키>' = 기존 그림, 'v:<키>' = 기존 로마 영상. 키가 m 으로 시작하면 황제(명일) 목소리.
@@ -112,13 +117,13 @@ SEQ = [
  ("n:lf1_ys_table", "y01", "영수 씨의 이야기부터 하겠습니다. 여러 사람의 이야기를 모아 다시 꾸민, 한 사람의 이야기입니다."),
  ("n:lf1_ys_office", "y02", "영수 씨는 올해 쉰여덟입니다. 한 회사에서 스물여덟 해를 일했고, 석 달 뒤면 정년입니다."),
  ("n:lf1_ys_sleep", "y03", "어느 토요일 밤, 아내가 먼저 잠든 뒤, 영수 씨는 식탁에 앉아 휴대폰 연락처를 처음부터 끝까지 넘겨 보았습니다."),
- ("n:lf1_phone_list", "y04", "천이백 명이 조금 넘었습니다."),
+ ("n:lf1_phone_list2", "y04", "천이백 명이 조금 넘었습니다."),
  ("n:lf1_bizcards", "y05", "거래처 부장, 이십 년 전 같은 부서 후배, 이름만 보고는 얼굴이 떠오르지 않는 사람들."),
  ("n:lf1_ys_wonder", "y06", "그는 문득 궁금해졌습니다. 이 중에 지난 한 달 동안 통화한 사람은 몇 명일까."),
  ("n:lf1_finger", "y07", "통화 기록을 열어 세어 보니, 여섯 명이었습니다. 그중 넷은 일 때문이었습니다."),
  ("n:lf1_family_photo", "y08", "남은 두 사람은, 아내와 딸이었습니다."),
  ("n:lf1_ys_facedown", "y09", "영수 씨는 휴대폰을 엎어 놓고 한참 앉아 있었습니다."),
- ("i:lp05_phone", "y10", "서운함도 아니고, 억울함도 아닌, 이상한 기분이었습니다."),
+ ("n:lf1_ys_side", "y10", "서운함도 아니고, 억울함도 아닌, 이상한 기분이었습니다."),
  ("n:lf1_ys_city", "y11", "스물여덟 해 동안 쌓은 사람이 천이백 명인데, 정년이 지나면 이 중 몇 명이 남을까."),
  ("n:lf1_cafe_envelope", "y12", "지난달, 오랜 친구 하나가 영수 씨에게 돈을 빌려 갔습니다."),
  ("n:lf1_friend_leaves", "y13", "봉투를 받아 든 친구는 고맙다는 말도 없이 일어섰습니다."),
@@ -135,7 +140,7 @@ SEQ = [
  ("n:lf1_library", "r02", "미국 스탠퍼드대학교의 심리학자 로라 카스텐슨은 이것을 오래 연구했습니다."),
  ("n:lf1_networking", "r03", "사람은 남은 시간이 넉넉하다고 느낄 때, 새로운 사람을 많이 만나려 합니다. 언젠가 도움이 될지 모르니까요."),
  ("v:libv_hourglass", "r04", "그런데 남은 시간이 유한하다고 느끼기 시작하면, 고르기 시작합니다. 넓은 관계보다, 마음이 편한 소수를 택합니다."),
- ("i:e5c_friends", "r05", "이것을 사회정서적 선택 이론이라고 부릅니다."),
+ ("n:lf1_friends_three", "r05", "이것을 사회정서적 선택 이론이라고 부릅니다."),
  ("n:lf1_older_couple", "r06", "중요한 것은, 이 변화가 나이 든 사람들을 더 불행하게 만들지 않았다는 점입니다. 관계의 수는 줄었지만, 감정의 만족도는 오히려 높아졌습니다."),
  ("n:lf1_ripples", "r07", "영국의 인류학자 로빈 던바도 비슷한 이야기를 합니다."),
  ("n:lf1_candles", "r08", "사람이 진짜로 가깝게 지낼 수 있는 사람은, 가장 안쪽에 다섯 명 남짓입니다. 그 바깥에 열다섯, 그 바깥에 쉰, 그리고 얼굴과 이름을 아는 정도가 백오십 명입니다."),
@@ -150,7 +155,7 @@ SEQ = [
  ("v:hfr_senate_whisper_wide", "e03", "그는 하루에도 수백 명을 만났습니다. 원로원 의원, 장군, 청원하러 온 사람, 아첨하러 온 사람, 그를 미워하는 사람."),
  ("v:hfr_petition_point", "e04", "세상에서 가장 많은 사람을 상대해야 했던 남자였습니다."),
  ("v:hfr_tent_write_blue", "e05", "그 남자가 전쟁터를 오가며 밤마다 써 내려간 일기가 있습니다. 훗날 『명상록』이라고 불리게 된 글입니다."),
- ("v:libv_candle_diary_txt", "e06", "그런데 그 일기의 첫 권을 펼쳐 보면, 이상한 점이 있습니다. 전쟁 이야기도, 정치 이야기도 없습니다."),
+ ("v:cep1_stop", "e06", "그런데 그 일기의 첫 권을 펼쳐 보면, 이상한 점이 있습니다. 전쟁 이야기도, 정치 이야기도 없습니다."),
  ("v:cep1_diary2", "e07", "그 첫 권은 사람의 이름으로 채워져 있습니다."),
  ("v:hfr_garden_read", "m0", "할아버지에게서는 온화함을 배웠다. 어머니에게서는 검소함을 배웠다. 스승 루스티쿠스에게서는, 내 성품을 고치고 다듬어야 한다는 것을 배웠다."),
  ("v:hfr_elder_nod", "e08", "열 명이 훌쩍 넘는 사람들의 이름과, 그들에게서 배운 것들."),
@@ -168,7 +173,7 @@ SEQ = [
  ("n:lf1_umbrella", "a06", "미리 알고 만나면, 같은 일을 겪어도 덜 다칩니다."),
  ("n:lf1_ys_listen", "a07", "사람을 줄이는 사람들은 차가운 사람이 아닙니다. 기대를 사람마다 다르게 거는 사람들입니다."),
  ("n:lf1_door", "a08", "아무에게나 마음을 다 주지 않으니, 아무에게나 다치지도 않습니다."),
- ("i:lp06_walk", "a09", "영수 씨가 봉투를 건넨 그 친구를 미워할 필요는 없습니다. 다만 그 친구에게는, 다음부터 그만큼만 기대하면 됩니다."),
+ ("n:lf1_ys_street", "a09", "영수 씨가 봉투를 건넨 그 친구를 미워할 필요는 없습니다. 다만 그 친구에게는, 다음부터 그만큼만 기대하면 됩니다."),
  # 이유 2
  ("CARD:II", None, None),
  ("n:lf1_calendar", "b01", "두 번째. 그들은 약속을 줄이는 게 아니라, 필요 없는 것을 덜어 냅니다."),
@@ -195,8 +200,8 @@ SEQ = [
  # 이유 4
  ("CARD:IV", None, None),
  ("n:lf1_reading_chair", "d01", "네 번째. 그들은 혼자 있는 시간을 빈자리가 아니라 쉼터로 씁니다."),
- ("n:lf1_coat_door", "d02", "사람을 줄이면 가장 먼저 찾아오는 것이 혼자 있는 시간입니다. 많은 사람이 이 시간을 견디지 못해 다시 아무 모임에나 나갑니다."),
- ("v:hfr_mountain_mist", "d03", "마르쿠스는 이 문제를 정확하게 알고 있었습니다. 사람들은 쉬고 싶을 때 시골로, 바닷가로, 산으로 떠나려 한다. 그러나 언제든 자기 안으로 물러날 수 있다."),
+ ("n:lf1_coat_door2", "d02", "사람을 줄이면 가장 먼저 찾아오는 것이 혼자 있는 시간입니다. 많은 사람이 이 시간을 견디지 못해 다시 아무 모임에나 나갑니다."),
+ ("v:hfr_milkyway_camp_wide", "d03", "마르쿠스는 이 문제를 정확하게 알고 있었습니다. 사람들은 쉬고 싶을 때 시골로, 바닷가로, 산으로 떠나려 한다. 그러나 언제든 자기 안으로 물러날 수 있다."),
  ("v:hfr_alone_breath", "m4", "사람이 물러날 수 있는 곳 중에, 자기 마음보다 고요하고 편안한 곳은 없다."),
  ("n:lf1_ys_trail", "d04", "영수 씨는 요즘 토요일 아침마다 혼자 산에 오릅니다. 처음 몇 주는 어색했습니다."),
  ("n:lf1_summit", "d05", "그런데 어느 날 정상에서, 처음 보는 또래 사람들과 보온병 차를 나눠 마시며 한참을 웃었습니다."),
@@ -212,6 +217,7 @@ SEQ = [
  ("n:lf1_two_cups", "q01", "여러분에게 끝까지 남은 한 사람은 누구입니까. 이름은 적지 않으셔도 됩니다. 어떤 사람인지만, 댓글로 들려주세요."),
  ("FINALE", None, None),
 ]
+RETAKE = {"p04", "r08", "r09", "e03", "e07", "b02", "d02"}   # 11/28 음성 관문 불통과(소리 끌림·끝소리 끌기)
 RECAP_V = [("t01", "오늘 밤, 이 세 가지만 해 보십시오."),
            ("t02", "첫째, 지난 한 달 동안 내가 먼저 연락한 사람의 이름을 적어 보십시오."),
            ("t03", "둘째, 끝까지 곁에 두고 싶은 다섯 사람을 적고, 그중 한 사람에게 오늘 고맙다고 말해 보십시오."),
@@ -254,8 +260,8 @@ def gen():
     json.dump(jobs, open(os.path.join(ROOT, "scripts/side/gen/EDL261128-lf01.json"), "w"), ensure_ascii=False, indent=1)
     V = []
     for k, vid, txt in lines():
-        V.append({"name": k, "id": vid, "line": txt, "emotion": "tonedown", "tempo": 0.9 if vid == M else 1.0})
-    json.dump({"requested": "2026-11-28T11:40", "note": "황제의 일기 에세이 롱폼 1편(lf01) 전편 녹음 — 해설 건석, 명상록 인용 명일", "tag": TAG, "keep": True,
+        V.append({"name": k, "id": vid, "line": txt, "emotion": "tonedown", "tempo": 0.86 if vid == M else 0.92, **({"take": 2} if k in RETAKE else {})})
+    json.dump({"requested": "2026-11-28T12:30", "note": "lf01 수정 녹음 — 대표 11/28 '말 속도 살짝 느리게'(해설 0.92·황제 0.86, 속도는 후처리라 0원), 음성 관문 불통과 7줄은 새 테이크", "tag": TAG, "keep": True,
                "lang": "kor", "model": "ssfm-v30", "emotion": "tonedown", "tempo": 1.0, "voices": V},
               open(os.path.join(ROOT, "scripts/side/voices_req.json"), "w"), ensure_ascii=False, indent=1)
     print(f"그림 {len(jobs)}장 · 녹음 {len(V)}줄 · 글자 {sum(len(v['line']) for v in V)}")
@@ -291,7 +297,7 @@ def spec():
             shots.append({"type": "card", "label": lab, "num": n, "title": ttl, "en": en, "dur": 4.0, "fixed": True, "sfx": [["paper_3.mp3", 0.25, 0.4]], "amb": ["wind_2.mp3", 0.25]})
             continue
         if scr == "RECAP":
-            shots.append({"type": "recap", "items": RECAP_ITEMS, "voice": [k for k, _ in RECAP_V], "pre": 0.6, "post": 1.6, "gap": 0.6, "cascade": [3.2, 6.0], "nocap": True,
+            shots.append({"type": "recap", "items": RECAP_ITEMS, "voice": [k for k, _ in RECAP_V], "pre": 0.6, "post": 2.0, "gap": 0.7, "nocap": True,
                           "head": "오늘 밤, 이 세 가지만", "head_en": "THREE THINGS FOR TONIGHT", "sfx": [["paper_3.mp3", 0.2, 0.45]], "tin": "dissolve", "fin": 0.8})
             continue
         if scr == "FINALE":
@@ -306,7 +312,7 @@ def spec():
             s.update({"pre": 0.6, "post": 1.2, "particles": "dust", "move": {"zoom": [1.0, 1.1]}})
             ln, srcv = VERSE[k]; s["overlays"] = [{"kind": "verse", "lines": ln, "src": srcv, "at_voice": k}]
         if k in CONCEPT:
-            kk, ln, en = CONCEPT[k]; s["overlays"] = [{"kind": "concept", "kicker": kk, "lines": ln, "en": en, "at_voice": k, "offset": 0.4, "len": 5.0}]
+            kk, ln, en = CONCEPT[k]; s["overlays"] = [{"kind": "concept", "kicker": kk, "lines": ln, "en": en, "at_voice": k, "offset": 0.4, "len": "shot"}]
         if k in CAPTION:
             s.setdefault("overlays", []).append({"kind": "caption", "text": CAPTION[k], "at": 0.3, "pos": "top"})
         if k in ("z02", "z03"): s["post"] = 1.2
@@ -320,8 +326,8 @@ def spec():
            {"file": "sad_1.mp3", "at_shot": 62, "offset": 1.0, "start": 0, "until_shot": 96, "vol": 0.16, "fin": 3, "fout": 3},
            {"file": "cinematic_4.mp3", "at_shot": 96, "offset": 1.0, "start": 0, "until_shot": n, "vol": 0.18, "fin": 3, "fout": 3}]
     S = {"root": "../../..", "gen_dir": "social/side/gen", "sfx_dir": "social/side/ed_long/sfx", "music_dir": "social/side/ed_long/music", "out_dir": "_long",
-         "intro": {"logo": "docs/emperor/profile_final.png"}, "intro_speed": 2.6,
-         "monologue_fx": "highpass=f=70,aecho=0.9:0.35:35|70:0.09|0.04,", "voice_gain": {"mono": 3.8, "narr": 1.2, "cast": 0.85}, "cap_scale": 1.12,
+         "intro": {"logo": "docs/emperor/profile_final.png"},
+         "monologue_fx": "highpass=f=70,aecho=0.9:0.35:35|70:0.09|0.04,", "voice_gain": {"mono": 3.8, "narr": 1.2, "cast": 0.85}, "cap_scale": 1.3,
          "id": "edl_lf01", "voice_dir": f"social/side/voice_samples/{TAG}", "voice_files": vf, "subs": subs,
          "monologue_voices": [k for k in vf if k.startswith("m")], "music": mus, "shots": shots, "cast_voices": []}
     json.dump(S, open(os.path.join(HERE, "spec_lf01.json"), "w"), ensure_ascii=False, indent=1)
