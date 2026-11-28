@@ -103,7 +103,7 @@ for (const dir of dirs) {
     const tot = body.reduce((a, x) => a + v6nums(x), 0), chars = body.join(' ').length, dens = tot * 1000 / Math.max(1, chars);
     const v9 = /^v9/.test(p.style || '') || (/^b(\d{6})/.test(id) && Number(id.slice(1, 7)) >= 261115); // ★ v9 (2026-11-16 운영자: 블로그는 주가 전망·기업 분석이 아니라 세상 이야기)
     if (v9) {
-      if (/주가 전망|목표가|이 3가지만|고점 뒤|반 토막 난 이유/.test(p.title || '')) E.push('v9 제목이 주가 전망·종목 리포트 꼴입니다 — 사물·역사·세상 이야기로 (STYLE v9 32 · 제1 원칙 175)');
+      if (/목표가|이 3가지만|고점 뒤|반 토막 난 이유/.test(p.title || '') || (/주가 전망/.test(p.title || '') && !/^.{2,14}(주가|전망|주가 전망), .{12,}/.test(p.title || ''))) /* 2026-11-28 운영자: 제목 맨 앞 '이름 + 주가/전망, ' 검색어는 허용(뒤는 이야기) — 제1 원칙 209 ⑧ */ E.push('v9 제목이 주가 전망·종목 리포트 꼴입니다 — 사물·역사·세상 이야기로 (STYLE v9 32 · 제1 원칙 175)');
       if (p.blocks.some((x) => /자주 묻는 질문/.test(x.h || '') || /^같이 읽으면 좋은 글/.test(x.p || ''))) E.push('v9 자주 묻는 질문·같이 읽으면 좋은 글은 넣지 않습니다 (STYLE v9 36)');
       if (p.meta && p.meta.from_long) E.push('v9 롱폼 짝 글은 블로그에서 폐지 — meta.from_long 을 지우고 블로그가 따로 기획 (STYLE v9 31)');
     }
