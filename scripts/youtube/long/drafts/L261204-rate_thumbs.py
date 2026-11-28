@@ -117,11 +117,11 @@ def render(t, out):
 # 벤치마킹(금리·돈 원리 상위 40편): 밝은 사진, '금리' 두 글자가 가장 큼, "이거 하나로 끝·N분 만에·모든 것" 약속형, 2줄
 SETS2 = [   # 18:57 대표 확정: 금리의 모든 것 · 금리가 지배하는 세상 · 금리 모르면 투자하지 마세요 — 글씨는 기존 크기
     dict(file="thumb_a.jpg", photo="il_L261113g_fed_dusk.jpeg", face=(.5, .45), zoom=1.0, dark=.42, lit=1.25,
-         top="12월 9일 전 반드시 봐야 할", l1=[("11분 만에 끝내는", "w")], l2=[("금리", "pink"), ("의 모든 것", "w")]),
+         top="12월 9일 전 반드시 봐야 할", top_hi="12월 9일", chip="D-11", l1=[("11분 만에 끝내는", "w")], l2=[("금리", "pink"), ("의 모든 것", "w")]),
     dict(file="thumb_b.jpg", photo="il_R1204_trading_screens.png", face=(.5, .45), zoom=1.0, dark=.42, lit=1.25,
-         top="집값·주식·금값·내 대출까지", l1=[("금리", "pink"), ("가", "w")], l2=[("지배하는 세상", "w")]),
+         top="집값·주식·금값·내 대출까지", top_hi="", chip="총정리", l1=[("금리", "pink"), ("가", "w")], l2=[("지배하는 세상", "w")]),
     dict(file="thumb_c.jpg", photo="il_R1204b_fomc_room.png", face=(.5, .45), zoom=1.0, dark=.42, lit=1.25,
-         top="12월 9일 전 필수 시청", l1=[("금리", "pink"), (" 모르면", "w")], l2=[("투자하지 마세요", "w")]),
+         top="12월 9일 전 필수 시청", top_hi="12월 9일", chip="필수", l1=[("금리", "pink"), (" 모르면", "w")], l2=[("투자하지 마세요", "w")]),
 ]
 def render2(t, out):
     th = grade(t)
@@ -134,12 +134,37 @@ def render2(t, out):
     z2 = fit(t["l2"], 160, MAXW); z1 = fit(t["l1"], 150, MAXW)
     if abs(z1 - z2) < 50: z1 = z2 = min(z1, z2)
     y2 = TH - 56 - z2; y1 = y2 - 6 - z1
-    # 왼쪽 위 배너: 핑크 바탕 + 흰 글씨(11/20 규칙)
-    fz = 62
-    while D.textlength(t["top"], font=F("Heavy", fz)) > TW * .62: fz -= 2
-    fw = D.textlength(t["top"], font=F("Heavy", fz)); by = min(56, y1 - fz - 70)
-    bx = Image.new("RGBA", th.size, (0, 0, 0, 0)); ImageDraw.Draw(bx).rounded_rectangle([LX, by, LX + fw + 56, by + fz + 34], 16, fill=(*PINK, 255)); th.alpha_composite(bx)
-    ImageDraw.Draw(th).text((LX + 28, by + 13), t["top"], font=F("Heavy", fz), fill=(255, 255, 255, 255))
+    # 왼쪽 위 배너 — 2026-11-28 대표 "더 세련되게": BANNER 환경변수로 모양 선택 (pill: 검은 유리 + 핑크 점 / bar: 핑크 세로선 / chip: 핑크 칩 + 유리 띠)
+    import os as _os; BS = _os.environ.get("BANNER", "bar"); top = t["top"]; hi = t.get("top_hi", "")
+    fz = 56 if BS == "bar" else 50   # 11/28 09:43 대표 확정: 세로선(bar), 글씨 조금 더 크게
+    while D.textlength(top, font=F("Bold", fz)) > TW * .64: fz -= 2
+    fB = F("Bold", fz); fw = D.textlength(top, font=fB); by = min(52, y1 - fz - 74)
+    lay = Image.new("RGBA", th.size, (0, 0, 0, 0)); L = ImageDraw.Draw(lay)
+    def words(x0, y0, col_hi):
+        x = x0
+        if hi and top.startswith(hi):
+            L.text((x, y0), hi, font=fB, fill=col_hi); x += L.textlength(hi, font=fB); rest = top[len(hi):]
+        else: rest = top
+        L.text((x, y0), rest, font=fB, fill=(255, 255, 255, 255))
+    if BS == "pill":
+        h = fz + 30; w = fw + 30 + 26 + 34
+        L.rounded_rectangle([LX, by, LX + w, by + h], h // 2, fill=(14, 14, 18, 190), outline=(255, 255, 255, 70), width=2)
+        cy = by + h // 2; L.ellipse([LX + 26 - 9, cy - 9, LX + 26 + 9, cy + 9], fill=(*PINK, 255))
+        glow = Image.new("RGBA", th.size, (0, 0, 0, 0)); ImageDraw.Draw(glow).ellipse([LX + 26 - 22, cy - 22, LX + 26 + 22, cy + 22], fill=(*PINK, 120))
+        th.alpha_composite(glow.filter(ImageFilter.GaussianBlur(10)))
+        words(LX + 50, by + 11, (*PINK, 255))
+    elif BS == "bar":
+        L.rounded_rectangle([LX, by + 2, LX + 9, by + fz + 18], 4, fill=(*PINK, 255))
+        words(LX + 26, by + 2, (*PINK, 255))
+        L.rectangle([LX + 26, by + fz + 22, LX + 26 + fw, by + fz + 24], fill=(255, 255, 255, 90))
+    else:   # chip
+        cw = L.textlength(t.get("chip", "D-11"), font=fB) + 36; h = fz + 30
+        L.rounded_rectangle([LX, by, LX + cw + fw + 40, by + h], 14, fill=(14, 14, 18, 200), outline=(255, 255, 255, 60), width=2)
+        L.rounded_rectangle([LX + 6, by + 6, LX + cw, by + h - 6], 10, fill=(*PINK, 255))
+        L.text((LX + 6 + (cw - 6 - L.textlength(t.get("chip", "D-11"), font=fB)) / 2, by + 11), t.get("chip", "D-11"), font=fB, fill=(255, 255, 255, 255))
+        L.text((LX + cw + 20, by + 11), top, font=fB, fill=(255, 255, 255, 255))
+    sh = lay.split()[3].filter(ImageFilter.GaussianBlur(12)); shl = Image.new("RGBA", th.size, (0, 0, 0, 0)); shl.putalpha(sh.point(lambda v: int(v * .55)))
+    th.alpha_composite(shl); th.alpha_composite(lay)
     for parts, y, z in ((t["l1"], y1, z1), (t["l2"], y2, z2)):
         x = LX; f = F("Heavy", z)
         for txt, c in parts:
