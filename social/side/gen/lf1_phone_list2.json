@@ -1,0 +1,33 @@
+{
+ "id": "lf1_phone_list2",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "A smartphone lying on a dark wooden table at night, its screen glowing softly but completely out of focus, only warm bokeh light, no interface visible. Dark low-key cinematic film still, Rembrandt lighting, warm amber and champagne-gold highlights, deep blacks, the background falls into near-black shadow, subtle film grain, shallow depth of field, 35mm, horizontal 16:9, main subject in the middle band of the frame, contemporary Korea. No text, no letters, no readable screens, no logos.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a22035-14af-7210-b8fc-e3935007d9b1",
+  "status_url": "https://api.higgsfield.ai/requests/01a22035-14af-7210-b8fc-e3935007d9b1/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a22035-14af-7210-b8fc-e3935007d9b1/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a22035-14af-7210-b8fc-e3935007d9b1",
+  "status_url": "https://api.higgsfield.ai/requests/01a22035-14af-7210-b8fc-e3935007d9b1/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a22035-14af-7210-b8fc-e3935007d9b1/cancel",
+  "expires_at": "2026-12-05T03:31:27.061743+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a22035-14af-7210-b8fc-e3935007d9b1/ba779c6a-bb9b-406f-875a-cf2ecf9bdfd8.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "social/side/gen/lf1_phone_list2.png"
+}

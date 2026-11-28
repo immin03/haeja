@@ -1,0 +1,33 @@
+{
+ "id": "lf1_friends_three",
+ "endpoint": "z-image/turbo",
+ "body": {
+  "prompt": "Three Korean friends in their sixties, two women and one man, talking calmly over cups of tea at a small wooden table in a quiet tea house at night, warm pendant light. Dark low-key cinematic film still, Rembrandt lighting, warm amber and champagne-gold highlights, deep blacks, the background falls into near-black shadow, subtle film grain, shallow depth of field, 35mm, horizontal 16:9, main subject in the middle band of the frame, contemporary Korea. No text, no letters, no readable screens, no logos.",
+  "aspect_ratio": "16:9"
+ },
+ "submit_http": 200,
+ "submit": {
+  "status": "queued",
+  "request_id": "01a22034-d9a3-74ab-bd2e-bd790a5be6de",
+  "status_url": "https://api.higgsfield.ai/requests/01a22034-d9a3-74ab-bd2e-bd790a5be6de/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a22034-d9a3-74ab-bd2e-bd790a5be6de/cancel",
+  "expires_after": 604800
+ },
+ "est_usd": 0.015,
+ "usd_hf": 0.015,
+ "status": "completed",
+ "result": {
+  "status": "completed",
+  "request_id": "01a22034-d9a3-74ab-bd2e-bd790a5be6de",
+  "status_url": "https://api.higgsfield.ai/requests/01a22034-d9a3-74ab-bd2e-bd790a5be6de/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/01a22034-d9a3-74ab-bd2e-bd790a5be6de/cancel",
+  "expires_at": "2026-12-05T03:31:13.190513+00:00",
+  "images": [
+   {
+    "url": "https://d3u0tzju9qaucj.cloudfront.net/4b576bc8-097f-447e-b568-d47d21676f5c/01a22034-d9a3-74ab-bd2e-bd790a5be6de/f2b6e6d2-bef1-4a2a-8863-25675da6d86a.png"
+   }
+  ]
+ },
+ "seconds": 13,
+ "file": "social/side/gen/lf1_friends_three.png"
+}
