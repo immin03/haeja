@@ -2236,7 +2236,14 @@ def sfx_alert(level=.04):
     return (out * level).astype(np.float32)
 
 
-SFXK = {"ping": lambda: sfx_ping(), "buzz": lambda: sfx_buzz(), "pop": lambda: sfx_pop(), "alert": lambda: sfx_alert(),
+def sfx_heart(level=.09):
+    """심장 박동: 낮은 쿵-쿵 (2026-11-28 대표 "1인칭 생동감")"""
+    n = int(SR * .7); t = np.arange(n) / SR
+    b = np.sin(2 * np.pi * (58 * np.exp(-t * 9) + 42) * t) * _env(n, .004, .11); k = int(SR * .2); out = b.copy(); out[k:] += .7 * b[: n - k]
+    return (out * level).astype(np.float32)
+
+
+SFXK = {"heart": lambda: sfx_heart(), "heart2": lambda: sfx_heart(.14), "ping": lambda: sfx_ping(), "buzz": lambda: sfx_buzz(), "pop": lambda: sfx_pop(), "alert": lambda: sfx_alert(),
         "thud": lambda: sfx_hit(.045), "tick": lambda: sfx_tick(.035), "chime": lambda: sfx_chime(.04)}
 
 
